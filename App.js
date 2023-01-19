@@ -1,22 +1,16 @@
-import { StatusBar } from 'expo-status-bar'
-import { Button, Text, View } from 'react-native'
-import tw from 'twrnc'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { GenerateWorkoutScreen } from './src/screens';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={tw`flex-col items-center`}>
-      <Text>Simple & Sinister</Text>
-      <Button title="Start" />
-      <View style={tw`flex-row`}>
-        <Text>Swings</Text>
-        <Button title="+" />
-      </View>
-      <View style={tw`flex-row`}>
-        <Text>Getups</Text>
-        <Button title="+" />
-      </View>
-      <Button title="Done" />
-      <StatusBar style="auto" />
-    </View>
-  )
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Generate">
+        <Stack.Screen name="Generate" component={GenerateWorkoutScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
