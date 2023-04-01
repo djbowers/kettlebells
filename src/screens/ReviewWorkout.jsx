@@ -3,15 +3,17 @@ import { View } from 'react-native';
 import { Button, Divider, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
+import { LEVELS_MAP } from '../constants';
 import { ExercisesContext } from '../contexts';
 
 export const ReviewWorkout = ({ route }) => {
   const exercises = useContext(ExercisesContext);
 
   const { level } = route.params;
+  const levels = LEVELS_MAP[level];
 
-  const workoutExercises = exercises.filter(
-    (exercise) => exercise.level === level
+  const workoutExercises = exercises.filter((exercise) =>
+    levels.includes(exercise.level)
   );
 
   return (

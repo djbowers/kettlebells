@@ -16,10 +16,10 @@ export default function App() {
   const [exercises, setExercises] = useState([]);
 
   const base = Airtable.base(BASE_ID);
-  const table = base('Table 1');
+  const table = base('Kettlebell Exercises');
 
   const fetchExercises = () => {
-    table.select({ maxRecords: 250 }).eachPage(
+    table.select({ maxRecords: 150 }).eachPage(
       (records, fetchNextPage) => {
         records.forEach(function (record) {
           const exercise = {
