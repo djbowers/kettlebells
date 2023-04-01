@@ -1,10 +1,9 @@
 import { BASE_ID } from '@env';
 import Airtable from 'airtable';
 import { useEffect, useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Button, Divider, Text } from 'react-native-paper';
 import tw from 'twrnc';
-
-import { HorizontalRule } from '../components';
 
 export const ReviewWorkout = ({ navigation }) => {
   const base = Airtable.base(BASE_ID);
@@ -36,19 +35,23 @@ export const ReviewWorkout = ({ navigation }) => {
 
   return (
     <View style={tw`h-full bg-gray-700 py-4 flex justify-between items-center`}>
-      <Text style={tw`text-white`}>Workout</Text>
+      <Text style={tw`text-white`} variant="titleLarge">
+        Workout
+      </Text>
       <View style={tw`w-full flex-grow`}>
-        <Text style={tw`text-white`}>{exercises.length} Exercises</Text>
-        <HorizontalRule />
+        <Text style={tw`text-white`} variant="titleMedium">
+          {exercises.length} Exercises
+        </Text>
+        <Divider />
         <View>
           {exercises.map((exercise, i) => (
-            <Text style={tw`text-white`} key={i}>
+            <Text style={tw`text-white`} key={i} variant="bodyMedium">
               {exercise}
             </Text>
           ))}
         </View>
       </View>
-      <Button title="Start Workout" color="darkorange" />
+      <Button mode="contained">Start Workout</Button>
     </View>
   );
 };
