@@ -1,3 +1,4 @@
+import { Slider } from '@miblanchard/react-native-slider';
 import { useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -7,31 +8,47 @@ import tw from 'twrnc';
 import { LEVEL_OPTIONS, routes } from '../constants';
 
 export const GenerateWorkout = ({ navigation }) => {
+  const [duration, setDuration] = useState(30);
+
+  const [level, setLevel] = useState(null);
   const [levelOpen, setLevelOpen] = useState(false);
-  const [levelValue, setLevelValue] = useState(null);
   const [levelOptions, setLevelOptions] = useState(LEVEL_OPTIONS);
 
   const handlePressGenerate = () => {
-    navigation.navigate(routes.Review, { level: levelValue });
+    navigation.navigate(routes.Review, { level, duration });
   };
 
+  const disabled = level === null;
+
   return (
-    <View style={tw`h-full bg-gray-700 py-7 flex justify-between items-center`}>
-      <Text style={tw`text-white mb-3`} variant="headlineSmall">
+    <View style={tw`h-full py-7 flex justify-between items-center`}>
+      <Text style={tw`mb-3`} variant="headlineSmall">
         Let's get started!
       </Text>
       <View style={tw`flex-grow p-5`}>
+        <Slider
+          value={duration}
+          onValueChange={setDuration}
+          minimumValue={15}
+          maximumValue={90}
+          step={5}
+          renderAboveThumbComponent={() => <Text>{duration}</Text>}
+        />
         <DropDownPicker
           aria-label="Choose your Level"
           open={levelOpen}
-          value={levelValue}
+          value={level}
           items={levelOptions}
           setOpen={setLevelOpen}
-          setValue={setLevelValue}
+          setValue={setLevel}
           setItems={setLevelOptions}
         />
       </View>
-      <Button mode="contained" onPress={handlePressGenerate}>
+      <Button
+        mode="contained"
+        onPress={handlePressGenerate}
+        disabled={disabled}
+      >
         Generate
       </Button>
     </View>
