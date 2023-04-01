@@ -14,7 +14,7 @@ import { shuffleArray } from '../utils';
 export const ReviewWorkout = ({ route }) => {
   const exercises = useContext(ExercisesContext);
 
-  const { level, duration } = route.params;
+  const { level, duration, sets } = route.params;
   const levels = LEVELS_MAP[level];
 
   const filteredExercises = exercises.filter((exercise) =>
@@ -27,7 +27,7 @@ export const ReviewWorkout = ({ route }) => {
 
   const workoutExercises = filteredExercises.reduce((acc, exercise) => {
     if (remainingRef.current > 0) {
-      remainingRef.current -= SINGLE_EXERCISE_DURATION;
+      remainingRef.current -= SINGLE_EXERCISE_DURATION * sets;
       return [...acc, exercise];
     }
     return acc;
@@ -38,11 +38,13 @@ export const ReviewWorkout = ({ route }) => {
       <Text style={tw`mb-3`} variant="titleMedium">
         {workoutExercises.length} Exercises
       </Text>
+
       <Divider />
+
       <ScrollView>
         {workoutExercises.map((exercise, i) => (
           <Text key={i} style={tw`text-center`} variant="bodyMedium">
-            {exercise.name}
+            {exercise.name} x {sets}
           </Text>
         ))}
       </ScrollView>
