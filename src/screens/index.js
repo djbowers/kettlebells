@@ -1,2 +1,2 @@
-export * from './GenerateWorkoutScreen';
-export * from './ReviewWorkoutScreen';
+export * from './GenerateWorkout';
+export * from './ReviewWorkout';
