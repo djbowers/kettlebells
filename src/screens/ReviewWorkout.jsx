@@ -1,37 +1,12 @@
-import { BASE_ID } from '@env';
-import Airtable from 'airtable';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { View } from 'react-native';
 import { Button, Divider, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
+import { ExercisesContext } from '../contexts';
+
 export const ReviewWorkout = ({ navigation }) => {
-  const base = Airtable.base(BASE_ID);
-  const table = base('Table 1');
-
-  const [exercises, setExercises] = useState([]);
-
-  const fetchExercises = () => {
-    table.select({ maxRecords: 3 }).eachPage(
-      (records, fetchNextPage) => {
-        records.forEach(function (record) {
-          const name = record.get('Name');
-          setExercises((prev) => [...prev, name]);
-        });
-        fetchNextPage();
-      },
-      (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      }
-    );
-  };
-
-  useEffect(() => {
-    fetchExercises();
-  }, []);
+  const exercises = useContext(ExercisesContext);
 
   return (
     <View style={tw`h-full bg-gray-700 py-4 flex justify-between items-center`}>
