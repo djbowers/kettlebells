@@ -5,8 +5,14 @@ import tw from 'twrnc';
 
 import { ExercisesContext } from '../contexts';
 
-export const ReviewWorkout = ({ navigation }) => {
+export const ReviewWorkout = ({ route }) => {
   const exercises = useContext(ExercisesContext);
+
+  const { level } = route.params;
+
+  const workoutExercises = exercises.filter(
+    (exercise) => exercise.level === level
+  );
 
   return (
     <View style={tw`h-full bg-gray-700 py-4 flex justify-between items-center`}>
@@ -15,13 +21,13 @@ export const ReviewWorkout = ({ navigation }) => {
       </Text>
       <View style={tw`w-full flex-grow`}>
         <Text style={tw`text-white`} variant="titleMedium">
-          {exercises.length} Exercises
+          {workoutExercises.length} Exercises
         </Text>
         <Divider />
         <View>
-          {exercises.map((exercise, i) => (
+          {workoutExercises.map((exercise, i) => (
             <Text style={tw`text-white`} key={i} variant="bodyMedium">
-              {exercise}
+              {exercise.name}
             </Text>
           ))}
         </View>

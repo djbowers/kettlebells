@@ -4,19 +4,15 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Button, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
-import { routes } from '../constants';
+import { LEVEL_OPTIONS, routes } from '../constants';
 
 export const GenerateWorkout = ({ navigation }) => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: 'Beginner', value: 'Beginner' },
-    { label: 'Intermediate', value: 'Intermediate' },
-    { label: 'Advanced', value: 'Advanced' },
-  ]);
+  const [levelOpen, setLevelOpen] = useState(false);
+  const [levelValue, setLevelValue] = useState(null);
+  const [levelOptions, setLevelOptions] = useState(LEVEL_OPTIONS);
 
   const handlePressGenerate = () => {
-    navigation.navigate(routes.Review);
+    navigation.navigate(routes.Review, { level: levelValue });
   };
 
   return (
@@ -26,12 +22,13 @@ export const GenerateWorkout = ({ navigation }) => {
       </Text>
       <View style={tw`flex-grow p-5`}>
         <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
+          aria-label="Choose your Level"
+          open={levelOpen}
+          value={levelValue}
+          items={levelOptions}
+          setOpen={setLevelOpen}
+          setValue={setLevelValue}
+          setItems={setLevelOptions}
         />
       </View>
       <Button mode="contained" onPress={handlePressGenerate}>

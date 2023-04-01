@@ -22,8 +22,13 @@ export default function App() {
     table.select({ maxRecords: 250 }).eachPage(
       (records, fetchNextPage) => {
         records.forEach(function (record) {
-          const name = record.get('Name');
-          setExercises((prev) => [...prev, name]);
+          const exercise = {
+            id: record.id,
+            name: record.get('Name'),
+            focus: record.get('Focus'),
+            level: record.get('Level'),
+          };
+          setExercises((prev) => [...prev, exercise]);
         });
         fetchNextPage();
       },
