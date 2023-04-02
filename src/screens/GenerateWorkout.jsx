@@ -43,7 +43,7 @@ export const GenerateWorkout = ({ navigation }) => {
   };
 
   const handlePressGenerate = () => {
-    navigation.navigate(ROUTES.Review, {
+    navigation.navigate(ROUTES.review, {
       duration,
       focus: focusValue,
       level: levelValue,

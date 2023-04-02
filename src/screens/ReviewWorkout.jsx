@@ -3,7 +3,7 @@ import { ScrollView, View } from 'react-native';
 import { Button, Divider, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
-import { LEVELS_MAP } from '../constants';
+import { LEVELS_MAP, ROUTES } from '../constants';
 import {
   SINGLE_EXERCISE_DURATION,
   WARMUP_DURATION,
@@ -11,8 +11,8 @@ import {
 import { ExercisesContext } from '../contexts';
 import { shuffleArray } from '../utils';
 
-export const ReviewWorkout = ({ route }) => {
-  const exercises = useContext(ExercisesContext);
+export const ReviewWorkout = ({ navigation, route }) => {
+  const { exercises, setActiveWorkout } = useContext(ExercisesContext);
 
   const { duration, focus, level, sets } = route.params;
   const levels = LEVELS_MAP[level];
@@ -33,6 +33,11 @@ export const ReviewWorkout = ({ route }) => {
     return acc;
   }, []);
 
+  const handlePressStart = () => {
+    setActiveWorkout(workoutExercises);
+    navigation.navigate(ROUTES.active, { duration, sets });
+  };
+
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
       <Text style={tw`mb-3`} variant="titleMedium">
@@ -49,7 +54,9 @@ export const ReviewWorkout = ({ route }) => {
         ))}
       </ScrollView>
 
-      <Button mode="contained">Start Workout</Button>
+      <Button mode="contained" onPress={handlePressStart}>
+        Start Workout
+      </Button>
     </View>
   );
 };

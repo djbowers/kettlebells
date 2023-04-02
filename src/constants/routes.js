@@ -1,4 +1,6 @@
 export const ROUTES = {
-  Generate: 'Generate',
-  Review: 'Review',
+  active: 'Active',
+  finished: 'Finished',
+  generate: 'Generate',
+  review: 'Review',
 };

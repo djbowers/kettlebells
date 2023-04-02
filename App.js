@@ -5,8 +5,14 @@ import Airtable from 'airtable';
 import { useEffect, useState } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 
+import { ROUTES } from './src/constants';
 import { ExercisesContext } from './src/contexts';
-import { GenerateWorkout, ReviewWorkout } from './src/screens';
+import {
+  ActiveWorkout,
+  FinishedWorkout,
+  GenerateWorkout,
+  ReviewWorkout,
+} from './src/screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +20,7 @@ Airtable.configure({ apiKey: PERSONAL_ACCESS_TOKEN });
 
 export default function App() {
   const [exercises, setExercises] = useState([]);
+  const [activeWorkout, setActiveWorkout] = useState(null);
 
   const base = Airtable.base(BASE_ID);
   const table = base('Kettlebell Exercises');
@@ -46,12 +53,16 @@ export default function App() {
   }, []);
 
   return (
-    <ExercisesContext.Provider value={exercises}>
+    <ExercisesContext.Provider
+      value={{ exercises, activeWorkout, setActiveWorkout }}
+    >
       <PaperProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Generate">
-            <Stack.Screen name="Generate" component={GenerateWorkout} />
-            <Stack.Screen name="Review" component={ReviewWorkout} />
+          <Stack.Navigator initialRouteName={ROUTES.generate}>
+            <Stack.Screen name={ROUTES.generate} component={GenerateWorkout} />
+            <Stack.Screen name={ROUTES.review} component={ReviewWorkout} />
+            <Stack.Screen name={ROUTES.active} component={ActiveWorkout} />
+            <Stack.Screen name={ROUTES.finished} component={FinishedWorkout} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
