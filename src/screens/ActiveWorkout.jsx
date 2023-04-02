@@ -21,6 +21,16 @@ export const ActiveWorkout = ({ navigation, route }) => {
     else navigation.navigate(ROUTES.finished);
   };
 
+  const rounds = activeWorkout.reduce((acc, exercise) => {
+    const round = [];
+    for (let i = 0; i < sets; i++) {
+      round.push(exercise);
+    }
+    return [...acc, ...round];
+  }, []);
+
+  const currentExercise = rounds[currentRound - 1];
+
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
       <View style={tw`w-full items-center`}>
@@ -28,9 +38,7 @@ export const ActiveWorkout = ({ navigation, route }) => {
         <Text>Exercises: {numExercises}</Text>
         <Text>Total Rounds: {totalRounds}</Text>
         <Text>Current Round: {currentRound}</Text>
-        {activeWorkout.map((exercise) => (
-          <Text key={exercise.id}>{exercise.name}</Text>
-        ))}
+        <Text>Current Exercise: {currentExercise.name}</Text>
       </View>
       <Button mode="contained" onPress={handlePressNext}>
         Next Round
