@@ -5,7 +5,12 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Button, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
-import { LEVEL_OPTIONS, SETS_OPTIONS, routes } from '../constants';
+import {
+  FOCUS_OPTIONS,
+  LEVEL_OPTIONS,
+  ROUTES,
+  SETS_OPTIONS,
+} from '../constants';
 
 export const GenerateWorkout = ({ navigation }) => {
   const [duration, setDuration] = useState(30);
@@ -14,27 +19,40 @@ export const GenerateWorkout = ({ navigation }) => {
   const [levelOpen, setLevelOpen] = useState(false);
   const [levelOptions, setLevelOptions] = useState(LEVEL_OPTIONS);
 
+  const [focusValue, setFocusValue] = useState(null);
+  const [focusOpen, setFocusOpen] = useState(false);
+  const [focusOptions, setFocusOptions] = useState(FOCUS_OPTIONS);
+
   const [setsValue, setSetsValue] = useState(null);
   const [setsOpen, setSetsOpen] = useState(false);
   const [setsOptions, setSetsOptions] = useState(SETS_OPTIONS);
 
   const handleLevelOpen = () => {
+    setFocusOpen(false);
+    setSetsOpen(false);
+  };
+
+  const handleFocusOpen = () => {
+    setLevelOpen(false);
     setSetsOpen(false);
   };
 
   const handleSetsOpen = () => {
     setLevelOpen(false);
+    setFocusOpen(false);
   };
 
   const handlePressGenerate = () => {
-    navigation.navigate(routes.Review, {
+    navigation.navigate(ROUTES.Review, {
       duration,
+      focus: focusValue,
       level: levelValue,
       sets: setsValue,
     });
   };
 
-  const disabled = levelValue === null || setsValue === null;
+  const disabled =
+    levelValue === null || focusValue === null || setsValue === null;
 
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
@@ -55,6 +73,7 @@ export const GenerateWorkout = ({ navigation }) => {
 
         {/* Level */}
         <DropDownPicker
+          placeholder="Level"
           style={tw`mt-3`}
           open={levelOpen}
           value={levelValue}
@@ -62,15 +81,29 @@ export const GenerateWorkout = ({ navigation }) => {
           setOpen={setLevelOpen}
           setValue={setLevelValue}
           setItems={setLevelOptions}
-          placeholder="Level"
+          zIndex={3000}
+          zIndexInverse={1000}
+          onOpen={handleLevelOpen}
+        />
+
+        {/* Focus */}
+        <DropDownPicker
+          placeholder="Focus"
+          style={tw`mt-3`}
+          open={focusOpen}
+          value={focusValue}
+          items={focusOptions}
+          setOpen={setFocusOpen}
+          setValue={setFocusValue}
+          setItems={setFocusOptions}
           zIndex={2000}
           zIndexInverse={2000}
-          onOpen={handleLevelOpen}
+          onOpen={handleFocusOpen}
         />
 
         {/* Sets */}
         <DropDownPicker
-          placeholder="Sets per exercise"
+          placeholder="Sets per Exercise"
           style={tw`mt-3`}
           open={setsOpen}
           value={setsValue}

@@ -14,11 +14,11 @@ import { shuffleArray } from '../utils';
 export const ReviewWorkout = ({ route }) => {
   const exercises = useContext(ExercisesContext);
 
-  const { level, duration, sets } = route.params;
+  const { duration, focus, level, sets } = route.params;
   const levels = LEVELS_MAP[level];
 
-  const filteredExercises = exercises.filter((exercise) =>
-    levels.includes(exercise.level)
+  const filteredExercises = exercises.filter(
+    (exercise) => levels.includes(exercise.level) && exercise.focus === focus
   );
 
   shuffleArray(filteredExercises);
@@ -36,15 +36,15 @@ export const ReviewWorkout = ({ route }) => {
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
       <Text style={tw`mb-3`} variant="titleMedium">
-        {workoutExercises.length} Exercises
+        {workoutExercises.length} Exercises - {focus} Focus
       </Text>
 
       <Divider />
 
       <ScrollView>
-        {workoutExercises.map((exercise, i) => (
-          <Text key={i} style={tw`text-center`} variant="bodyMedium">
-            {exercise.name} x {sets}
+        {workoutExercises.map(({ id, name }) => (
+          <Text key={id} style={tw`text-center`} variant="bodyMedium">
+            {name} x {sets}
           </Text>
         ))}
       </ScrollView>

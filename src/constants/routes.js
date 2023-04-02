@@ -1,4 +1,4 @@
-export const routes = {
+export const ROUTES = {
   Generate: 'Generate',
   Review: 'Review',
 };
