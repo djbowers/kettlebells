@@ -1,12 +1,11 @@
-import { BASE_ID, PERSONAL_ACCESS_TOKEN } from '@env';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Airtable from 'airtable';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import { ROUTES } from './src/constants';
 import { ExercisesContext } from './src/contexts';
+import { useAirtableExercises } from './src/hooks';
 import {
   ActiveWorkout,
   FinishedWorkout,
@@ -16,41 +15,9 @@ import {
 
 const Stack = createNativeStackNavigator();
 
-Airtable.configure({ apiKey: PERSONAL_ACCESS_TOKEN });
-
 export default function App() {
-  const [exercises, setExercises] = useState([]);
   const [activeWorkout, setActiveWorkout] = useState(null);
-
-  const base = Airtable.base(BASE_ID);
-  const table = base('Kettlebell Exercises');
-
-  const fetchExercises = () => {
-    table.select({ maxRecords: 150 }).eachPage(
-      (records, fetchNextPage) => {
-        records.forEach(function (record) {
-          const exercise = {
-            id: record.id,
-            name: record.get('Name'),
-            focus: record.get('Focus'),
-            level: record.get('Level'),
-          };
-          setExercises((prev) => [...prev, exercise]);
-        });
-        fetchNextPage();
-      },
-      (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      }
-    );
-  };
-
-  useEffect(() => {
-    if (exercises.length === 0) fetchExercises();
-  }, []);
+  const exercises = useAirtableExercises();
 
   return (
     <ExercisesContext.Provider
