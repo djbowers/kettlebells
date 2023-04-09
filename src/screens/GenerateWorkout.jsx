@@ -1,4 +1,4 @@
-import { Slider } from '@miblanchard/react-native-slider';
+import Slider from '@react-native-community/slider';
 import { useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
