@@ -10,6 +10,7 @@ import {
   LEVEL_OPTIONS,
   ROUTES,
   SETS_OPTIONS,
+  SET_LENGTH_OPTIONS,
 } from '../constants';
 
 export const GenerateWorkout = ({ navigation }) => {
@@ -27,19 +28,32 @@ export const GenerateWorkout = ({ navigation }) => {
   const [setsOpen, setSetsOpen] = useState(false);
   const [setsOptions, setSetsOptions] = useState(SETS_OPTIONS);
 
+  const [setLengthValue, setSetLengthValue] = useState(null);
+  const [setLengthOpen, setSetLengthOpen] = useState(false);
+  const [setLengthOptions, setSetLengthOptions] = useState(SET_LENGTH_OPTIONS);
+
   const handleLevelOpen = () => {
     setFocusOpen(false);
     setSetsOpen(false);
+    setSetLengthOpen(false);
   };
 
   const handleFocusOpen = () => {
     setLevelOpen(false);
     setSetsOpen(false);
+    setSetLengthOpen(false);
   };
 
   const handleSetsOpen = () => {
     setLevelOpen(false);
     setFocusOpen(false);
+    setSetLengthOpen(false);
+  };
+
+  const handleSetLengthOpen = () => {
+    setFocusOpen(false);
+    setLevelOpen(false);
+    setSetsOpen(false);
   };
 
   const handlePressGenerate = () => {
@@ -48,11 +62,15 @@ export const GenerateWorkout = ({ navigation }) => {
       focus: focusValue,
       level: levelValue,
       sets: setsValue,
+      setLength: setLengthValue,
     });
   };
 
   const disabled =
-    levelValue === null || focusValue === null || setsValue === null;
+    levelValue === null ||
+    focusValue === null ||
+    setsValue === null ||
+    setLengthValue === null;
 
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
@@ -64,11 +82,11 @@ export const GenerateWorkout = ({ navigation }) => {
           {duration} minutes
         </Text>
         <Slider
-          value={duration}
-          onValueChange={setDuration}
           minimumValue={15}
           maximumValue={90}
+          onValueChange={setDuration}
           step={5}
+          value={duration}
         />
 
         {/* Level */}
@@ -81,7 +99,7 @@ export const GenerateWorkout = ({ navigation }) => {
           setOpen={setLevelOpen}
           setValue={setLevelValue}
           setItems={setLevelOptions}
-          zIndex={3000}
+          zIndex={4000}
           zIndexInverse={1000}
           onOpen={handleLevelOpen}
         />
@@ -96,12 +114,12 @@ export const GenerateWorkout = ({ navigation }) => {
           setOpen={setFocusOpen}
           setValue={setFocusValue}
           setItems={setFocusOptions}
-          zIndex={2000}
+          zIndex={3000}
           zIndexInverse={2000}
           onOpen={handleFocusOpen}
         />
 
-        {/* Sets */}
+        {/* Sets per Exercise */}
         <DropDownPicker
           placeholder="Sets per Exercise"
           style={tw`mt-3`}
@@ -111,9 +129,24 @@ export const GenerateWorkout = ({ navigation }) => {
           setOpen={setSetsOpen}
           setValue={setSetsValue}
           setItems={setSetsOptions}
-          zIndex={1000}
+          zIndex={2000}
           zIndexInverse={3000}
           onOpen={handleSetsOpen}
+        />
+
+        {/* Set Length */}
+        <DropDownPicker
+          placeholder="Set Length"
+          style={tw`mt-3`}
+          open={setLengthOpen}
+          value={setLengthValue}
+          items={setLengthOptions}
+          setOpen={setSetLengthOpen}
+          setValue={setSetLengthValue}
+          setItems={setSetLengthOptions}
+          zIndex={1000}
+          zIndexInverse={4000}
+          onOpen={handleSetLengthOpen}
         />
       </View>
       <Button

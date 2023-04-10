@@ -4,17 +4,15 @@ import { Button, Divider, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
 import { LEVELS_MAP, ROUTES } from '../constants';
-import {
-  SINGLE_EXERCISE_DURATION,
-  WARMUP_DURATION,
-} from '../constants/duration';
+import { WARMUP_DURATION } from '../constants/duration';
 import { ExercisesContext } from '../contexts';
 import { shuffleArray } from '../utils';
 
 export const ReviewWorkout = ({ navigation, route }) => {
   const { exercises, setActiveWorkout } = useContext(ExercisesContext);
 
-  const { duration, focus, level, sets } = route.params;
+  const { duration, focus, level, sets, setLength } = route.params;
+
   const levels = LEVELS_MAP[level];
 
   const filteredExercises = exercises.filter(
@@ -27,7 +25,7 @@ export const ReviewWorkout = ({ navigation, route }) => {
 
   const workoutExercises = filteredExercises.reduce((acc, exercise) => {
     if (remainingRef.current > 0) {
-      remainingRef.current -= SINGLE_EXERCISE_DURATION * sets;
+      remainingRef.current -= setLength * sets;
       return [...acc, exercise];
     }
     return acc;
