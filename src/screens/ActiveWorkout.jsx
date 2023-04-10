@@ -10,18 +10,23 @@ import { useTimer } from '../hooks';
 export const ActiveWorkout = ({ navigation, route }) => {
   const { activeWorkout } = useContext(ExercisesContext);
 
-  const { duration, sets } = route.params;
+  const { duration, sets, setLength } = route.params;
 
   const numExercises = activeWorkout.length;
   const totalRounds = numExercises * sets;
 
-  const seconds = useTimer();
+  const [workoutDuration] = useTimer();
+  const [setDuration, { resetTimer }] = useTimer();
 
   const [currentRound, setCurrentRound] = useState(1);
 
   const handlePressNext = () => {
-    if (currentRound < totalRounds) setCurrentRound((prev) => prev + 1);
-    else navigation.navigate(ROUTES.finished, { duration: seconds });
+    if (currentRound < totalRounds) {
+      resetTimer();
+      setCurrentRound((prev) => prev + 1);
+    } else {
+      navigation.navigate(ROUTES.finished, { duration: workoutDuration });
+    }
   };
 
   const rounds = activeWorkout.reduce((acc, exercise) => {
@@ -33,16 +38,20 @@ export const ActiveWorkout = ({ navigation, route }) => {
   }, []);
 
   const currentExercise = rounds[currentRound - 1];
+  const remaining = setLength * 60 - setDuration;
 
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
       <View style={tw`w-full items-center`}>
-        <Text>Active Workout ({duration} minutes)</Text>
-        <Text>Exercises: {numExercises}</Text>
-        <Text>Total Rounds: {totalRounds}</Text>
-        <Text>Current Round: {currentRound}</Text>
+        <Text>Workout Duration: {workoutDuration}</Text>
+        <Text>
+          {numExercises} movements in {duration} min
+        </Text>
+        <Text>
+          Round {currentRound} of {totalRounds}
+        </Text>
         <Text>Current Exercise: {currentExercise.name}</Text>
-        <Text>Workout Duration: {seconds}</Text>
+        <Text>Remaining in Set: {remaining}</Text>
       </View>
       <Button mode="contained" onPress={handlePressNext}>
         Next Round

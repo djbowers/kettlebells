@@ -23,17 +23,17 @@ export const ReviewWorkout = ({ navigation, route }) => {
 
   const remainingRef = useRef(duration - WARMUP_DURATION);
 
-  const workoutExercises = filteredExercises.reduce((acc, exercise) => {
+  const workoutExercises = filteredExercises.reduce((exercises, exercise) => {
     if (remainingRef.current > 0) {
       remainingRef.current -= setLength * sets;
-      return [...acc, exercise];
+      return [...exercises, exercise];
     }
-    return acc;
+    return exercises;
   }, []);
 
   const handlePressStart = () => {
     setActiveWorkout(workoutExercises);
-    navigation.navigate(ROUTES.active, { duration, sets });
+    navigation.navigate(ROUTES.active, { duration, sets, setLength });
   };
 
   return (
