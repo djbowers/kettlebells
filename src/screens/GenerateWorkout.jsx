@@ -1,8 +1,8 @@
 import Slider from '@react-native-community/slider';
+import { Button, Text } from 'native-base';
 import { useState } from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Button, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
 import {
@@ -74,11 +74,11 @@ export const GenerateWorkout = ({ navigation }) => {
 
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
-      <Text style={tw`mb-3`} variant="headlineSmall">
+      <Text style={tw`mb-3`} fontSize="xl">
         Let's get started!
       </Text>
       <View style={tw`flex-grow p-5`}>
-        <Text style={tw`text-center`} variant="labelLarge">
+        <Text style={tw`text-center`} fontSize="sm">
           {duration} minutes
         </Text>
         <Slider
@@ -149,11 +149,7 @@ export const GenerateWorkout = ({ navigation }) => {
           onOpen={handleSetLengthOpen}
         />
       </View>
-      <Button
-        mode="contained"
-        onPress={handlePressGenerate}
-        disabled={disabled}
-      >
+      <Button onPress={handlePressGenerate} isDisabled={disabled}>
         Generate
       </Button>
     </View>

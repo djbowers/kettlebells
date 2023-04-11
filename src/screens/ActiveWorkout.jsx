@@ -1,6 +1,6 @@
+import { Button, Text } from 'native-base';
 import { useContext, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
 import { ROUTES } from '../constants';
@@ -53,9 +53,7 @@ export const ActiveWorkout = ({ navigation, route }) => {
         <Text>Current Exercise: {currentExercise.name}</Text>
         <Text>Remaining in Set: {remaining}</Text>
       </View>
-      <Button mode="contained" onPress={handlePressNext}>
-        Next Round
-      </Button>
+      <Button onPress={handlePressNext}>Next Round</Button>
     </View>
   );
 };

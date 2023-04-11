@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeBaseProvider } from 'native-base';
 import { useState } from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
 
 import { ROUTES } from './src/constants';
 import { ExercisesContext } from './src/contexts';
@@ -23,7 +23,7 @@ export default function App() {
     <ExercisesContext.Provider
       value={{ exercises, activeWorkout, setActiveWorkout }}
     >
-      <PaperProvider>
+      <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={ROUTES.generate}>
             <Stack.Screen name={ROUTES.generate} component={GenerateWorkout} />
@@ -32,7 +32,7 @@ export default function App() {
             <Stack.Screen name={ROUTES.finished} component={FinishedWorkout} />
           </Stack.Navigator>
         </NavigationContainer>
-      </PaperProvider>
+      </NativeBaseProvider>
     </ExercisesContext.Provider>
   );
 }

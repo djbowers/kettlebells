@@ -1,6 +1,6 @@
+import { Button, Divider, Text } from 'native-base';
 import { useContext, useRef } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Button, Divider, Text } from 'react-native-paper';
 import tw from 'twrnc';
 
 import { LEVELS_MAP, ROUTES } from '../constants';
@@ -38,23 +38,21 @@ export const ReviewWorkout = ({ navigation, route }) => {
 
   return (
     <View style={tw`h-full py-7 flex justify-between items-center`}>
-      <Text style={tw`mb-3`} variant="titleMedium">
+      <Text style={tw`mb-3`} fontSize="lg">
         {workoutExercises.length} Exercises - {focus} Focus
       </Text>
 
-      <Divider />
+      <Divider my={3} />
 
       <ScrollView>
         {workoutExercises.map(({ id, name }) => (
-          <Text key={id} style={tw`text-center`} variant="bodyMedium">
+          <Text key={id} style={tw`text-center`} fontSize="sm">
             {name} x {sets}
           </Text>
         ))}
       </ScrollView>
 
-      <Button mode="contained" onPress={handlePressStart}>
-        Start Workout
-      </Button>
+      <Button onPress={handlePressStart}>Start Workout</Button>
     </View>
   );
 };
