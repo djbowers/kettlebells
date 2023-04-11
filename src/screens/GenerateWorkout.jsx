@@ -1,9 +1,7 @@
 import Slider from '@react-native-community/slider';
-import { Button, Text } from 'native-base';
+import { Button, Select, Text } from 'native-base';
 import { useState } from 'react';
 import { View } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import tw from 'twrnc';
 
 import {
   FOCUS_OPTIONS,
@@ -15,72 +13,29 @@ import {
 
 export const GenerateWorkout = ({ navigation }) => {
   const [duration, setDuration] = useState(30);
-
-  const [levelValue, setLevelValue] = useState(null);
-  const [levelOpen, setLevelOpen] = useState(false);
-  const [levelOptions, setLevelOptions] = useState(LEVEL_OPTIONS);
-
-  const [focusValue, setFocusValue] = useState(null);
-  const [focusOpen, setFocusOpen] = useState(false);
-  const [focusOptions, setFocusOptions] = useState(FOCUS_OPTIONS);
-
-  const [setsValue, setSetsValue] = useState(null);
-  const [setsOpen, setSetsOpen] = useState(false);
-  const [setsOptions, setSetsOptions] = useState(SETS_OPTIONS);
-
-  const [setLengthValue, setSetLengthValue] = useState(null);
-  const [setLengthOpen, setSetLengthOpen] = useState(false);
-  const [setLengthOptions, setSetLengthOptions] = useState(SET_LENGTH_OPTIONS);
-
-  const handleLevelOpen = () => {
-    setFocusOpen(false);
-    setSetsOpen(false);
-    setSetLengthOpen(false);
-  };
-
-  const handleFocusOpen = () => {
-    setLevelOpen(false);
-    setSetsOpen(false);
-    setSetLengthOpen(false);
-  };
-
-  const handleSetsOpen = () => {
-    setLevelOpen(false);
-    setFocusOpen(false);
-    setSetLengthOpen(false);
-  };
-
-  const handleSetLengthOpen = () => {
-    setFocusOpen(false);
-    setLevelOpen(false);
-    setSetsOpen(false);
-  };
+  const [level, setLevel] = useState(null);
+  const [focus, setFocus] = useState(null);
+  const [sets, setSets] = useState(null);
+  const [setLength, setSetLength] = useState(null);
 
   const handlePressGenerate = () => {
     navigation.navigate(ROUTES.review, {
       duration,
-      focus: focusValue,
-      level: levelValue,
-      sets: setsValue,
-      setLength: setLengthValue,
+      focus,
+      level,
+      sets,
+      setLength,
     });
   };
 
   const disabled =
-    levelValue === null ||
-    focusValue === null ||
-    setsValue === null ||
-    setLengthValue === null;
+    level === null || focus === null || sets === null || setLength === null;
 
   return (
-    <View style={tw`h-full py-7 flex justify-between items-center`}>
-      <Text style={tw`mb-3`} fontSize="xl">
-        Let's get started!
-      </Text>
-      <View style={tw`flex-grow p-5`}>
-        <Text style={tw`text-center`} fontSize="sm">
-          {duration} minutes
-        </Text>
+    <View>
+      <Text fontSize="xl">Let's get started!</Text>
+      <View>
+        <Text fontSize="sm">{duration} minutes</Text>
         <Slider
           minimumValue={15}
           maximumValue={90}
@@ -89,65 +44,49 @@ export const GenerateWorkout = ({ navigation }) => {
           value={duration}
         />
 
-        {/* Level */}
-        <DropDownPicker
+        <Select
+          selectedValue={level}
           placeholder="Level"
-          style={tw`mt-3`}
-          open={levelOpen}
-          value={levelValue}
-          items={levelOptions}
-          setOpen={setLevelOpen}
-          setValue={setLevelValue}
-          setItems={setLevelOptions}
-          zIndex={4000}
-          zIndexInverse={1000}
-          onOpen={handleLevelOpen}
-        />
+          mt={1}
+          onValueChange={setLevel}
+        >
+          {LEVEL_OPTIONS.map(({ label, value }) => {
+            return <Select.Item key={label} label={label} value={value} />;
+          })}
+        </Select>
 
-        {/* Focus */}
-        <DropDownPicker
+        <Select
+          selectedValue={focus}
           placeholder="Focus"
-          style={tw`mt-3`}
-          open={focusOpen}
-          value={focusValue}
-          items={focusOptions}
-          setOpen={setFocusOpen}
-          setValue={setFocusValue}
-          setItems={setFocusOptions}
-          zIndex={3000}
-          zIndexInverse={2000}
-          onOpen={handleFocusOpen}
-        />
+          mt={1}
+          onValueChange={setFocus}
+        >
+          {FOCUS_OPTIONS.map(({ label, value }) => {
+            return <Select.Item key={label} label={label} value={value} />;
+          })}
+        </Select>
 
-        {/* Sets per Exercise */}
-        <DropDownPicker
+        <Select
+          selectedValue={sets}
           placeholder="Sets per Exercise"
-          style={tw`mt-3`}
-          open={setsOpen}
-          value={setsValue}
-          items={setsOptions}
-          setOpen={setSetsOpen}
-          setValue={setSetsValue}
-          setItems={setSetsOptions}
-          zIndex={2000}
-          zIndexInverse={3000}
-          onOpen={handleSetsOpen}
-        />
+          mt={1}
+          onValueChange={setSets}
+        >
+          {SETS_OPTIONS.map(({ label, value }) => {
+            return <Select.Item key={label} label={label} value={value} />;
+          })}
+        </Select>
 
-        {/* Set Length */}
-        <DropDownPicker
+        <Select
+          selectedValue={setLength}
           placeholder="Set Length"
-          style={tw`mt-3`}
-          open={setLengthOpen}
-          value={setLengthValue}
-          items={setLengthOptions}
-          setOpen={setSetLengthOpen}
-          setValue={setSetLengthValue}
-          setItems={setSetLengthOptions}
-          zIndex={1000}
-          zIndexInverse={4000}
-          onOpen={handleSetLengthOpen}
-        />
+          mt={1}
+          onValueChange={setSetLength}
+        >
+          {SET_LENGTH_OPTIONS.map(({ label, value }) => {
+            return <Select.Item key={label} label={label} value={value} />;
+          })}
+        </Select>
       </View>
       <Button onPress={handlePressGenerate} isDisabled={disabled}>
         Generate
