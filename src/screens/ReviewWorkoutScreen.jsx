@@ -3,33 +3,22 @@ import { useContext, useRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import tw from 'twrnc';
 
-import { LEVELS_MAP, WORKOUT_ROUTES } from '../constants';
-import { WARMUP_DURATION } from '../constants/duration';
+import { WARMUP_DURATION, WORKOUT_ROUTES } from '../constants';
 import { ExercisesContext } from '../contexts';
-import { shuffleArray } from '../utils';
+import { generateWorkout } from '../utils';
 
 export const ReviewWorkoutScreen = ({ navigation, route }) => {
   const { exercises, setActiveWorkout } = useContext(ExercisesContext);
 
   const { duration, focus, level, sets, setLength } = route.params;
 
-  const levels = LEVELS_MAP[level];
-
-  const filteredExercises = exercises.filter(
-    (exercise) => levels.includes(exercise.level) && exercise.focus === focus
-  );
-
-  shuffleArray(filteredExercises);
-
   const remainingRef = useRef(duration - WARMUP_DURATION);
 
-  const workoutExercises = filteredExercises.reduce((exercises, exercise) => {
-    if (remainingRef.current > 0) {
-      remainingRef.current -= setLength * sets;
-      return [...exercises, exercise];
-    }
-    return exercises;
-  }, []);
+  const workoutExercises = generateWorkout(
+    exercises,
+    { level, focus, setLength, sets },
+    remainingRef.current
+  );
 
   const handlePressStart = () => {
     setActiveWorkout(workoutExercises);
