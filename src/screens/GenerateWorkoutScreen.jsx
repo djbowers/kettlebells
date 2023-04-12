@@ -1,8 +1,8 @@
 import Slider from '@react-native-community/slider';
-import { Button, Select, Text } from 'native-base';
+import { Box, Button, Flex, Text } from 'native-base';
 import { useState } from 'react';
-import { View } from 'react-native';
 
+import { SelectOption } from '../components';
 import {
   FOCUS_OPTIONS,
   LEVEL_OPTIONS,
@@ -32,10 +32,14 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     level === null || focus === null || sets === null || setLength === null;
 
   return (
-    <View>
-      <Text fontSize="xl">Let's get started!</Text>
-      <View>
-        <Text fontSize="sm">{duration} minutes</Text>
+    <Box py={3} px={5}>
+      <Text textAlign="center" fontSize="xl">
+        Let's get started!
+      </Text>
+      <Box>
+        <Text fontSize="sm" textAlign="center" mt={3}>
+          {duration} minutes
+        </Text>
         <Slider
           minimumValue={15}
           maximumValue={90}
@@ -44,53 +48,43 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           value={duration}
         />
 
-        <Select
-          selectedValue={level}
-          placeholder="Level"
-          mt={1}
-          onValueChange={setLevel}
+        <Flex
+          flexDirection="row"
+          flexWrap={true}
+          justifyContent="space-between"
         >
-          {LEVEL_OPTIONS.map(({ label, value }) => {
-            return <Select.Item key={label} label={label} value={value} />;
-          })}
-        </Select>
+          <SelectOption
+            selectedValue={level}
+            placeholder="Level"
+            onValueChange={setLevel}
+            options={LEVEL_OPTIONS}
+          />
 
-        <Select
-          selectedValue={focus}
-          placeholder="Focus"
-          mt={1}
-          onValueChange={setFocus}
-        >
-          {FOCUS_OPTIONS.map(({ label, value }) => {
-            return <Select.Item key={label} label={label} value={value} />;
-          })}
-        </Select>
+          <SelectOption
+            selectedValue={focus}
+            placeholder="Focus"
+            onValueChange={setFocus}
+            options={FOCUS_OPTIONS}
+          />
 
-        <Select
-          selectedValue={sets}
-          placeholder="Sets per Exercise"
-          mt={1}
-          onValueChange={setSets}
-        >
-          {SETS_OPTIONS.map(({ label, value }) => {
-            return <Select.Item key={label} label={label} value={value} />;
-          })}
-        </Select>
+          <SelectOption
+            selectedValue={sets}
+            placeholder="Sets per Exercise"
+            onValueChange={setSets}
+            options={SETS_OPTIONS}
+          />
 
-        <Select
-          selectedValue={setLength}
-          placeholder="Set Length"
-          mt={1}
-          onValueChange={setSetLength}
-        >
-          {SET_LENGTH_OPTIONS.map(({ label, value }) => {
-            return <Select.Item key={label} label={label} value={value} />;
-          })}
-        </Select>
-      </View>
-      <Button onPress={handlePressGenerate} isDisabled={disabled}>
+          <SelectOption
+            selectedValue={setLength}
+            placeholder="Set Length"
+            onValueChange={setSetLength}
+            options={SET_LENGTH_OPTIONS}
+          />
+        </Flex>
+      </Box>
+      <Button mt={3} onPress={handlePressGenerate} isDisabled={disabled}>
         Generate
       </Button>
-    </View>
+    </Box>
   );
 };
