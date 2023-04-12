@@ -1,19 +1,14 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NativeBaseProvider } from 'native-base';
 import { useState } from 'react';
 
-import { ROUTES } from './src/constants';
 import { ExercisesContext } from './src/contexts';
 import { useAirtableExercises } from './src/hooks';
-import {
-  ActiveWorkoutScreen,
-  FinishedWorkoutScreen,
-  GenerateWorkoutScreen,
-  ReviewWorkoutScreen,
-} from './src/screens';
+import { HomeScreen, SettingsScreen } from './src/screens';
+import { WorkoutStack } from './src/stacks';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [activeWorkout, setActiveWorkout] = useState(null);
@@ -25,24 +20,11 @@ export default function App() {
     >
       <NativeBaseProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={ROUTES.generate}>
-            <Stack.Screen
-              name={ROUTES.generate}
-              component={GenerateWorkoutScreen}
-            />
-            <Stack.Screen
-              name={ROUTES.review}
-              component={ReviewWorkoutScreen}
-            />
-            <Stack.Screen
-              name={ROUTES.active}
-              component={ActiveWorkoutScreen}
-            />
-            <Stack.Screen
-              name={ROUTES.finished}
-              component={FinishedWorkoutScreen}
-            />
-          </Stack.Navigator>
+          <Tab.Navigator screenOptions={{ headerShown: false }}>
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Workout" component={WorkoutStack} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
+          </Tab.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
     </ExercisesContext.Provider>
