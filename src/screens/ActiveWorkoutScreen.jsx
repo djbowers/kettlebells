@@ -7,7 +7,7 @@ import { ROUTES } from '../constants';
 import { ExercisesContext } from '../contexts';
 import { useTimer } from '../hooks';
 
-export const ActiveWorkout = ({ navigation, route }) => {
+export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const { activeWorkout } = useContext(ExercisesContext);
 
   const { duration, sets, setLength } = route.params;

@@ -4,7 +4,7 @@ import tw from 'twrnc';
 
 import { ROUTES } from '../constants';
 
-export const FinishedWorkout = ({ navigation, route }) => {
+export const FinishedWorkoutScreen = ({ navigation, route }) => {
   const { duration } = route.params;
 
   const handlePressHome = () => {

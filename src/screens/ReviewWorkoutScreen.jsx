@@ -8,7 +8,7 @@ import { WARMUP_DURATION } from '../constants/duration';
 import { ExercisesContext } from '../contexts';
 import { shuffleArray } from '../utils';
 
-export const ReviewWorkout = ({ navigation, route }) => {
+export const ReviewWorkoutScreen = ({ navigation, route }) => {
   const { exercises, setActiveWorkout } = useContext(ExercisesContext);
 
   const { duration, focus, level, sets, setLength } = route.params;

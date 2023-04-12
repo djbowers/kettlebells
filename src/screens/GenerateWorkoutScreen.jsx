@@ -11,7 +11,7 @@ import {
   SET_LENGTH_OPTIONS,
 } from '../constants';
 
-export const GenerateWorkout = ({ navigation }) => {
+export const GenerateWorkoutScreen = ({ navigation }) => {
   const [duration, setDuration] = useState(30);
   const [level, setLevel] = useState(null);
   const [focus, setFocus] = useState(null);

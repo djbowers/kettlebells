@@ -7,10 +7,10 @@ import { ROUTES } from './src/constants';
 import { ExercisesContext } from './src/contexts';
 import { useAirtableExercises } from './src/hooks';
 import {
-  ActiveWorkout,
-  FinishedWorkout,
-  GenerateWorkout,
-  ReviewWorkout,
+  ActiveWorkoutScreen,
+  FinishedWorkoutScreen,
+  GenerateWorkoutScreen,
+  ReviewWorkoutScreen,
 } from './src/screens';
 
 const Stack = createNativeStackNavigator();
@@ -26,10 +26,22 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={ROUTES.generate}>
-            <Stack.Screen name={ROUTES.generate} component={GenerateWorkout} />
-            <Stack.Screen name={ROUTES.review} component={ReviewWorkout} />
-            <Stack.Screen name={ROUTES.active} component={ActiveWorkout} />
-            <Stack.Screen name={ROUTES.finished} component={FinishedWorkout} />
+            <Stack.Screen
+              name={ROUTES.generate}
+              component={GenerateWorkoutScreen}
+            />
+            <Stack.Screen
+              name={ROUTES.review}
+              component={ReviewWorkoutScreen}
+            />
+            <Stack.Screen
+              name={ROUTES.active}
+              component={ActiveWorkoutScreen}
+            />
+            <Stack.Screen
+              name={ROUTES.finished}
+              component={FinishedWorkoutScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
