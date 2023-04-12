@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
 
-import { ROUTES } from '../constants';
+import { WORKOUT_ROUTES } from '../constants';
 import { ExercisesContext } from '../contexts';
 import { useTimer } from '../hooks';
 
@@ -25,7 +25,9 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
       resetTimer();
       setCurrentRound((prev) => prev + 1);
     } else {
-      navigation.navigate(ROUTES.finished, { duration: workoutDuration });
+      navigation.navigate(WORKOUT_ROUTES.finished, {
+        duration: workoutDuration,
+      });
     }
   };
 

@@ -6,9 +6,9 @@ import { View } from 'react-native';
 import {
   FOCUS_OPTIONS,
   LEVEL_OPTIONS,
-  ROUTES,
   SETS_OPTIONS,
   SET_LENGTH_OPTIONS,
+  WORKOUT_ROUTES,
 } from '../constants';
 
 export const GenerateWorkoutScreen = ({ navigation }) => {
@@ -19,7 +19,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
   const [setLength, setSetLength] = useState(null);
 
   const handlePressGenerate = () => {
-    navigation.navigate(ROUTES.review, {
+    navigation.navigate(WORKOUT_ROUTES.review, {
       duration,
       focus,
       level,

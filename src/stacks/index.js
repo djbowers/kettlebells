@@ -1,1 +1,1 @@
-export * from './WorkoutStack';
+export * from './TabNavigator';

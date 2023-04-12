@@ -3,7 +3,7 @@ import { useContext, useRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import tw from 'twrnc';
 
-import { LEVELS_MAP, ROUTES } from '../constants';
+import { LEVELS_MAP, WORKOUT_ROUTES } from '../constants';
 import { WARMUP_DURATION } from '../constants/duration';
 import { ExercisesContext } from '../contexts';
 import { shuffleArray } from '../utils';
@@ -33,7 +33,7 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
 
   const handlePressStart = () => {
     setActiveWorkout(workoutExercises);
-    navigation.navigate(ROUTES.active, { duration, sets, setLength });
+    navigation.navigate(WORKOUT_ROUTES.active, { duration, sets, setLength });
   };
 
   return (

@@ -2,13 +2,13 @@ import { Button, Text } from 'native-base';
 import { View } from 'react-native';
 import tw from 'twrnc';
 
-import { ROUTES } from '../constants';
+import { WORKOUT_ROUTES } from '../constants';
 
 export const FinishedWorkoutScreen = ({ navigation, route }) => {
   const { duration } = route.params;
 
   const handlePressHome = () => {
-    navigation.navigate(ROUTES.generate);
+    navigation.navigate(WORKOUT_ROUTES.generate);
   };
 
   return (
