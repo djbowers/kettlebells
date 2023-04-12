@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { NativeBaseProvider } from 'native-base';
@@ -20,9 +21,20 @@ export default function App() {
     >
       <NativeBaseProvider>
         <NavigationContainer>
-          <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Navigator
+            initialRouteName="Workout"
+            screenOptions={{ headerShown: false }}
+          >
+            <Tab.Screen
+              name="Workout"
+              component={WorkoutStack}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="barbell" size={size} color={color} />
+                ),
+              }}
+            />
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Workout" component={WorkoutStack} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>
         </NavigationContainer>
