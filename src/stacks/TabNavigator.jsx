@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { TAB_ROUTES } from '../constants';
@@ -20,7 +20,11 @@ export const TabNavigator = () => {
         component={WorkoutStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="barbell" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="kettlebell"
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
