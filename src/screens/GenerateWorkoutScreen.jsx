@@ -7,7 +7,7 @@ import { SelectOption } from '../components';
 import {
   FOCUS_OPTIONS,
   LEVEL_OPTIONS,
-  SETS_OPTIONS,
+  SET_COUNT_OPTIONS,
   SET_LENGTH_OPTIONS,
   WORKOUT_ROUTES,
 } from '../constants';
@@ -17,7 +17,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     duration: 30,
     level: LEVEL_OPTIONS[0].value,
     focus: FOCUS_OPTIONS[0].value,
-    sets: SETS_OPTIONS[2].value,
+    sets: SET_COUNT_OPTIONS[2].value,
     setLength: SET_LENGTH_OPTIONS[2].value,
   });
   const { duration, level, focus, sets, setLength } = options;
@@ -56,13 +56,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     writeOptionsToStorage({ ...options, setLength });
 
   const handlePressGenerate = () => {
-    navigation.navigate(WORKOUT_ROUTES.review, {
-      duration,
-      focus,
-      level,
-      sets,
-      setLength,
-    });
+    navigation.navigate(WORKOUT_ROUTES.review, { options });
   };
 
   const disabled =
@@ -110,7 +104,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           />
           <SelectOption
             onValueChange={handleChangeSets}
-            options={SETS_OPTIONS}
+            options={SET_COUNT_OPTIONS}
             placeholder="Sets per Exercise"
             selectedValue={sets}
           />
