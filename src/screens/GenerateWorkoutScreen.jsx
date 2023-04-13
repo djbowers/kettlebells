@@ -15,10 +15,10 @@ import {
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [options, setOptions] = useState({
     duration: 30,
-    level: null,
-    focus: null,
-    sets: null,
-    setLength: null,
+    level: LEVEL_OPTIONS[0].value,
+    focus: FOCUS_OPTIONS[0].value,
+    sets: SETS_OPTIONS[2].value,
+    setLength: SET_LENGTH_OPTIONS[2].value,
   });
   const { duration, level, focus, sets, setLength } = options;
 

@@ -1,10 +1,10 @@
 export const FOCUS_OPTIONS = [
-  'Arms',
+  'Full Body',
+  'Cardio',
   'Legs',
   'Back',
-  'Chest',
-  'Cardio',
-  'Shoulders',
   'Core',
-  'Full Body',
+  'Chest',
+  'Arms',
+  'Shoulders',
 ].map((option) => ({ label: option, value: option }));
