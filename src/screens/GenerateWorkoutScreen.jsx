@@ -32,11 +32,17 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     level === null || focus === null || sets === null || setLength === null;
 
   return (
-    <Box py={3} px={5}>
+    <Flex
+      bgColor="layout.background"
+      height="full"
+      justifyContent="space-between"
+      px={5}
+      py={3}
+    >
       <Text textAlign="center" fontSize="xl">
         Let's get started!
       </Text>
-      <Box>
+      <Box flexGrow>
         <Text fontSize="sm" textAlign="center" mt={3}>
           {duration} minutes
         </Text>
@@ -54,37 +60,34 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           justifyContent="space-between"
         >
           <SelectOption
-            selectedValue={level}
-            placeholder="Level"
             onValueChange={setLevel}
             options={LEVEL_OPTIONS}
+            placeholder="Level"
+            selectedValue={level}
           />
-
           <SelectOption
-            selectedValue={focus}
-            placeholder="Focus"
             onValueChange={setFocus}
             options={FOCUS_OPTIONS}
+            placeholder="Focus"
+            selectedValue={focus}
           />
-
           <SelectOption
-            selectedValue={sets}
-            placeholder="Sets per Exercise"
             onValueChange={setSets}
             options={SETS_OPTIONS}
+            placeholder="Sets per Exercise"
+            selectedValue={sets}
           />
-
           <SelectOption
-            selectedValue={setLength}
-            placeholder="Set Length"
             onValueChange={setSetLength}
             options={SET_LENGTH_OPTIONS}
+            placeholder="Set Length"
+            selectedValue={setLength}
           />
         </Flex>
       </Box>
       <Button mt={3} onPress={handlePressGenerate} isDisabled={disabled}>
         Generate
       </Button>
-    </Box>
+    </Flex>
   );
 };
