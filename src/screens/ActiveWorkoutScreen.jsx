@@ -1,4 +1,4 @@
-import { Button, Text } from 'native-base';
+import { Box, Button, Center, Progress, Text } from 'native-base';
 import { useContext, useState } from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -52,6 +52,11 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
         <Text>
           Round {currentRound} of {totalRounds}
         </Text>
+        <Center w="100%">
+          <Box w="90%" maxW="400">
+            <Progress value={currentRound} max={totalRounds} mx="4" />
+          </Box>
+        </Center>
         <Text>Current Exercise: {currentExercise.name}</Text>
         <Text>Remaining in Set: {remaining}</Text>
       </View>
