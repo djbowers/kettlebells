@@ -21,39 +21,44 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     setLength: SET_LENGTH_OPTIONS[2].value,
   });
   const { duration, level, focus, sets, setLength } = options;
+  console.log(duration, level, focus, sets, setLength);
 
   const { getItem, setItem } = useAsyncStorage('@options');
 
   const readOptionsFromStorage = async () => {
     const item = await getItem();
-    const options = JSON.parse(item);
-    if (options) setOptions(options);
+    return JSON.parse(item);
   };
 
   const writeOptionsToStorage = async (options) => {
     const item = JSON.stringify(options);
     await setItem(item);
-    setOptions(options);
   };
 
   useEffect(() => {
-    readOptionsFromStorage();
+    readOptionsFromStorage().then((storedOptions) => {
+      if (storedOptions) setOptions({ ...options, ...storedOptions });
+    });
   }, []);
 
+  const handleChangeOptions = (options) => {
+    setOptions(options);
+    writeOptionsToStorage(options);
+  };
+
   const handleChangeDuration = (duration) =>
-    writeOptionsToStorage({ ...options, duration });
+    handleChangeOptions({ ...options, duration });
 
   const handleChangeLevel = (level) =>
-    writeOptionsToStorage({ ...options, level });
+    handleChangeOptions({ ...options, level });
 
   const handleChangeFocus = (focus) =>
-    writeOptionsToStorage({ ...options, focus });
+    handleChangeOptions({ ...options, focus });
 
-  const handleChangeSets = (sets) =>
-    writeOptionsToStorage({ ...options, sets });
+  const handleChangeSets = (sets) => handleChangeOptions({ ...options, sets });
 
   const handleChangeSetLength = (setLength) =>
-    writeOptionsToStorage({ ...options, setLength });
+    handleChangeOptions({ ...options, setLength });
 
   const handlePressGenerate = () => {
     navigation.navigate(WORKOUT_ROUTES.review, { options });
