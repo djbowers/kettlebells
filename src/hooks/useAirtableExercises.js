@@ -7,6 +7,8 @@ Airtable.configure({ apiKey: PERSONAL_ACCESS_TOKEN });
 export const useAirtableExercises = () => {
   const [exercises, setExercises] = useState([]);
 
+  if (process.env.NODE_ENV === 'test') return exercises;
+
   const base = Airtable.base(BASE_ID);
   const table = base('Kettlebell Exercises');
 

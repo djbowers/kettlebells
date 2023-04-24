@@ -21,7 +21,6 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     setLength: SET_LENGTH_OPTIONS[2].value,
   });
   const { duration, level, focus, sets, setLength } = options;
-  console.log(duration, level, focus, sets, setLength);
 
   const { getItem, setItem } = useAsyncStorage('@options');
 
