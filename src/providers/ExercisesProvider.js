@@ -4,7 +4,7 @@ import { ExercisesContext } from '../contexts';
 import { useAirtableExercises } from '../hooks';
 
 export const ExercisesProvider = ({ children }) => {
-  const [activeWorkout, setActiveWorkout] = useState(null);
+  const [activeWorkout, setActiveWorkout] = useState([]);
   const exercises = useAirtableExercises();
 
   return (

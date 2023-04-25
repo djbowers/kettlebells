@@ -1,12 +1,9 @@
+import { BASE_ID, PERSONAL_ACCESS_TOKEN } from '@env';
 import Airtable from 'airtable';
 import { useEffect, useState } from 'react';
 
-import { BASE_ID, PERSONAL_ACCESS_TOKEN } from '../../env';
-
 export const useAirtableExercises = () => {
   const [exercises, setExercises] = useState([]);
-
-  if (process.env.NODE_ENV === 'test') return exercises;
 
   Airtable.configure({ apiKey: PERSONAL_ACCESS_TOKEN });
   const base = Airtable.base(BASE_ID);
