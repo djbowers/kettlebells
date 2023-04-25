@@ -43,10 +43,10 @@ try {
 
 const getStories = () => {
   return {
-    "./src/screens/ActiveWorkoutScreen.stories.jsx": require("../src/screens/ActiveWorkoutScreen.stories.jsx"),
-    "./src/screens/FinishedWorkoutScreen.stories.jsx": require("../src/screens/FinishedWorkoutScreen.stories.jsx"),
-    "./src/screens/GenerateWorkoutScreen.stories.jsx": require("../src/screens/GenerateWorkoutScreen.stories.jsx"),
-    "./src/screens/ReviewWorkoutScreen.stories.jsx": require("../src/screens/ReviewWorkoutScreen.stories.jsx"),
+    "./src/screens/ActiveWorkoutScreen/ActiveWorkoutScreen.stories.jsx": require("../src/screens/ActiveWorkoutScreen/ActiveWorkoutScreen.stories.jsx"),
+    "./src/screens/FinishedWorkoutScreen/FinishedWorkoutScreen.stories.jsx": require("../src/screens/FinishedWorkoutScreen/FinishedWorkoutScreen.stories.jsx"),
+    "./src/screens/GenerateWorkoutScreen/GenerateWorkoutScreen.stories.jsx": require("../src/screens/GenerateWorkoutScreen/GenerateWorkoutScreen.stories.jsx"),
+    "./src/screens/ReviewWorkoutScreen/ReviewWorkoutScreen.stories.jsx": require("../src/screens/ReviewWorkoutScreen/ReviewWorkoutScreen.stories.jsx"),
   };
 };
 

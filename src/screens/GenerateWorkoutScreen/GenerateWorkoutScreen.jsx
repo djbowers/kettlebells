@@ -3,14 +3,14 @@ import Slider from '@react-native-community/slider';
 import { Box, Button, Flex, Text } from 'native-base';
 import { useEffect, useState } from 'react';
 
-import { SelectOption } from '../components';
+import { SelectOption } from '~/components';
 import {
   FOCUS_OPTIONS,
   LEVEL_OPTIONS,
   SET_COUNT_OPTIONS,
   SET_LENGTH_OPTIONS,
   WORKOUT_ROUTES,
-} from '../constants';
+} from '~/constants';
 
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [options, setOptions] = useState({

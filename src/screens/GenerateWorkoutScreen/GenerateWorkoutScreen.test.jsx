@@ -1,6 +1,7 @@
 import { composeStories } from '@storybook/testing-react';
 
-import { render, screen } from '../testing';
+import { render, screen } from '~/testing';
+
 import * as stories from './GenerateWorkoutScreen.stories';
 
 const { Screen } = composeStories(stories);

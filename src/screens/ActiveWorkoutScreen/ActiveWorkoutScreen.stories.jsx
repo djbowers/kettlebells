@@ -1,5 +1,6 @@
-import { ExercisesContext } from '../contexts';
-import { EXAMPLE_EXERCISES } from '../examples';
+import { ExercisesContext } from '~/contexts';
+import { EXAMPLE_EXERCISES } from '~/examples';
+
 import { ActiveWorkoutScreen } from './ActiveWorkoutScreen';
 
 export default {
@@ -20,7 +21,7 @@ export const Screen = {
     (Story) => (
       <ExercisesContext.Provider
         value={{
-          activeWorkout: EXAMPLE_EXERCISES,
+          activeWorkout: EXAMPLE_EXERCISES.slice(0, 7),
         }}
       >
         <Story />

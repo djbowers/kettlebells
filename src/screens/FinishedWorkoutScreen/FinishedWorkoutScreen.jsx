@@ -2,7 +2,7 @@ import { Button, Text } from 'native-base';
 import { View } from 'react-native';
 import tw from 'twrnc';
 
-import { WORKOUT_ROUTES } from '../constants';
+import { WORKOUT_ROUTES } from '~/constants';
 
 export const FinishedWorkoutScreen = ({ navigation, route }) => {
   const { duration } = route.params;

@@ -1,6 +1,7 @@
-import { FOCUSES, LEVELS } from '../constants';
-import { ExercisesContext } from '../contexts';
-import { EXAMPLE_EXERCISES } from '../examples';
+import { FOCUSES, LEVELS } from '~/constants';
+import { ExercisesContext } from '~/contexts';
+import { EXAMPLE_EXERCISES } from '~/examples';
+
 import { ReviewWorkoutScreen } from './ReviewWorkoutScreen';
 
 export default {

@@ -10,7 +10,8 @@
     "web": "npm start -- --web",
     "test": "jest --watchAll",
     "coverage": "npm test -- --coverage",
-    "storybook": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo start -- -p 19001"
+    "storybook": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo start -- -p 19001",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",

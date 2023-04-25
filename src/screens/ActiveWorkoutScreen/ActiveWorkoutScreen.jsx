@@ -3,9 +3,9 @@ import { useContext, useState } from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
 
-import { WORKOUT_ROUTES } from '../constants';
-import { ExercisesContext } from '../contexts';
-import { useTimer } from '../hooks';
+import { WORKOUT_ROUTES } from '~/constants';
+import { ExercisesContext } from '~/contexts';
+import { useTimer } from '~/hooks';
 
 export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const { activeWorkout } = useContext(ExercisesContext);

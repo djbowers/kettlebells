@@ -3,9 +3,9 @@ import { useContext, useRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import tw from 'twrnc';
 
-import { WARMUP_DURATION, WORKOUT_ROUTES } from '../constants';
-import { ExercisesContext } from '../contexts';
-import { generateWorkout } from '../utils';
+import { WARMUP_DURATION, WORKOUT_ROUTES } from '~/constants';
+import { ExercisesContext } from '~/contexts';
+import { generateWorkout } from '~/utils';
 
 export const ReviewWorkoutScreen = ({ navigation, route }) => {
   const { exercises, setActiveWorkout } = useContext(ExercisesContext);
