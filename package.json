@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start --tunnel",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "test": "jest --watchAll"
+    "start": "expo start",
+    "tunnel": "npm start -- --tunnel",
+    "android": "npm start -- --android",
+    "ios": "npm start -- --ios",
+    "web": "npm start -- --web",
+    "test": "jest --watchAll",
+    "coverage": "npm test -- --coverage"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
