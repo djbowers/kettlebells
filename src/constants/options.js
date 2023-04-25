@@ -1,13 +1,13 @@
 export const WARMUP_DURATION = 5; // minutes
 
-const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
+export const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
 export const LEVEL_OPTIONS = LEVELS.map((level) => ({
   label: level,
   value: level,
 }));
 
-const FOCUSES = [
+export const FOCUSES = [
   'Full Body',
   'Cardio',
   'Legs',

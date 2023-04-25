@@ -1,10 +1,12 @@
+import { ExercisesContext } from '../contexts';
+import { EXAMPLE_EXERCISES } from '../examples';
 import { ActiveWorkoutScreen } from './ActiveWorkoutScreen';
 
 export default {
   component: ActiveWorkoutScreen,
 };
 
-export const Default = {
+export const Screen = {
   args: {
     route: {
       params: {
@@ -14,4 +16,15 @@ export const Default = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <ExercisesContext.Provider
+        value={{
+          activeWorkout: EXAMPLE_EXERCISES,
+        }}
+      >
+        <Story />
+      </ExercisesContext.Provider>
+    ),
+  ],
 };

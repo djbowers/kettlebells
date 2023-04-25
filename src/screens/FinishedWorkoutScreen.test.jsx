@@ -1,11 +1,11 @@
 import { composeStories } from '@storybook/testing-react';
 
 import { render, screen } from '../testing';
-import * as stories from './GenerateWorkoutScreen.stories';
+import * as stories from './FinishedWorkoutScreen.stories';
 
 const { Screen } = composeStories(stories);
 
-test('renders text', async () => {
+test('renders congratulations text', async () => {
   render(<Screen />);
-  await screen.findByText("Let's get started!");
+  await screen.findByText('Congratulations!');
 });

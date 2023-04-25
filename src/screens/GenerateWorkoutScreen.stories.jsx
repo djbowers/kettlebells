@@ -4,4 +4,4 @@ export default {
   component: GenerateWorkoutScreen,
 };
 
-export const Default = {};
+export const Screen = {};

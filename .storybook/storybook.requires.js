@@ -44,7 +44,9 @@ try {
 const getStories = () => {
   return {
     "./src/screens/ActiveWorkoutScreen.stories.jsx": require("../src/screens/ActiveWorkoutScreen.stories.jsx"),
+    "./src/screens/FinishedWorkoutScreen.stories.jsx": require("../src/screens/FinishedWorkoutScreen.stories.jsx"),
     "./src/screens/GenerateWorkoutScreen.stories.jsx": require("../src/screens/GenerateWorkoutScreen.stories.jsx"),
+    "./src/screens/ReviewWorkoutScreen.stories.jsx": require("../src/screens/ReviewWorkoutScreen.stories.jsx"),
   };
 };
 
