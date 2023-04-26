@@ -1,6 +1,4 @@
 import { FOCUSES, LEVELS } from '~/constants';
-import { ExercisesContext } from '~/contexts';
-import { EXAMPLE_EXERCISES } from '~/examples';
 
 import { ReviewWorkoutScreen } from './ReviewWorkoutScreen';
 
@@ -22,16 +20,4 @@ export const Screen = {
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <ExercisesContext.Provider
-        value={{
-          exercises: EXAMPLE_EXERCISES,
-          setActiveWorkout: () => {},
-        }}
-      >
-        <Story />
-      </ExercisesContext.Provider>
-    ),
-  ],
 };

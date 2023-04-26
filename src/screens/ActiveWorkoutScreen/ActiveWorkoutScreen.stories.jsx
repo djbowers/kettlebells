@@ -5,6 +5,17 @@ import { ActiveWorkoutScreen } from './ActiveWorkoutScreen';
 
 export default {
   component: ActiveWorkoutScreen,
+  decorators: [
+    (Story) => (
+      <ExercisesContext.Provider
+        value={{
+          activeWorkout: EXAMPLE_EXERCISES.slice(0, 7),
+        }}
+      >
+        <Story />
+      </ExercisesContext.Provider>
+    ),
+  ],
 };
 
 export const Screen = {
@@ -17,15 +28,4 @@ export const Screen = {
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <ExercisesContext.Provider
-        value={{
-          activeWorkout: EXAMPLE_EXERCISES.slice(0, 7),
-        }}
-      >
-        <Story />
-      </ExercisesContext.Provider>
-    ),
-  ],
 };
