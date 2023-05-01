@@ -5,11 +5,8 @@ import { useEffect, useState } from 'react';
 
 import { SelectOption } from '~/components';
 import {
-  FOCUSES,
   FOCUS_OPTIONS,
-  GRIPS,
   GRIP_OPTIONS,
-  LEVELS,
   LEVEL_OPTIONS,
   SET_COUNT_OPTIONS,
   SET_LENGTH_OPTIONS,
@@ -19,13 +16,23 @@ import {
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [options, setOptions] = useState({
     duration: 30,
-    level: LEVELS[0],
-    focus: FOCUSES[0],
-    sets: 3,
-    setLength: 3,
-    grip: GRIPS[0],
+    level: null,
+    primaryFocus: null,
+    secondaryFocus: null,
+    sets: null,
+    setLength: null,
+    grip: null,
   });
-  const { duration, level, focus, sets, setLength, grip } = options;
+
+  const {
+    duration,
+    level,
+    primaryFocus,
+    secondaryFocus,
+    sets,
+    setLength,
+    grip,
+  } = options;
 
   const { getItem, setItem } = useAsyncStorage('@options');
 
@@ -58,8 +65,12 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     handleChangeOptions({ ...options, level });
   };
 
-  const handleChangeFocus = (focus) => {
-    handleChangeOptions({ ...options, focus });
+  const handleChangePrimaryFocus = (focus) => {
+    handleChangeOptions({ ...options, primaryFocus: focus });
+  };
+
+  const handleChangeSecondaryFocus = (focus) => {
+    handleChangeOptions({ ...options, secondaryFocus: focus });
   };
 
   const handleChangeSets = (sets) => {
@@ -80,10 +91,14 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
 
   const disabled =
     level === null ||
-    focus === null ||
+    primaryFocus === null ||
     sets === null ||
     setLength === null ||
     grip === null;
+
+  const secondaryFocusOptions = FOCUS_OPTIONS.filter(
+    (focus) => focus.value !== primaryFocus
+  );
 
   return (
     <Flex
@@ -121,10 +136,22 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             disabled={true}
           />
           <SelectOption
-            onValueChange={handleChangeFocus}
+            onValueChange={handleChangeGrip}
+            options={GRIP_OPTIONS}
+            placeholder="Grip"
+            selectedValue={grip}
+          />
+          <SelectOption
+            onValueChange={handleChangePrimaryFocus}
             options={FOCUS_OPTIONS}
-            placeholder="Focus"
-            selectedValue={focus}
+            placeholder="Primary Focus"
+            selectedValue={primaryFocus}
+          />
+          <SelectOption
+            onValueChange={handleChangeSecondaryFocus}
+            options={secondaryFocusOptions}
+            placeholder="Secondary Focus"
+            selectedValue={secondaryFocus}
           />
           <SelectOption
             onValueChange={handleChangeSets}
@@ -137,12 +164,6 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             options={SET_LENGTH_OPTIONS}
             placeholder="Set Length"
             selectedValue={setLength}
-          />
-          <SelectOption
-            onValueChange={handleChangeGrip}
-            options={GRIP_OPTIONS}
-            placeholder="Grip"
-            selectedValue={grip}
           />
         </Flex>
       </Box>

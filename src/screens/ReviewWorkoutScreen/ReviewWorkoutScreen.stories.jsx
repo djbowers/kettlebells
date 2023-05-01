@@ -13,7 +13,7 @@ export const Screen = {
         options: {
           duration: 60,
           level: LEVELS[0],
-          focus: FOCUSES[0],
+          primaryFocus: FOCUSES[0],
           sets: 3,
           setLength: 3,
         },
