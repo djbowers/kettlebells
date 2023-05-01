@@ -1,4 +1,4 @@
-import { Box, Button, Center, Progress, Text } from 'native-base';
+import { Box, Button, Center, Flex, Progress, Text } from 'native-base';
 import { useContext, useState } from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -43,7 +43,13 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const remaining = setLength * 60 - setDuration;
 
   return (
-    <View style={tw`h-full py-7 flex justify-between items-center`}>
+    <Flex
+      justifyContent="space-between"
+      alignItems="center"
+      py={7}
+      height="full"
+      safeAreaTop
+    >
       <View style={tw`w-full items-center`}>
         <Text>Workout Duration: {workoutDuration}</Text>
         <Text>
@@ -61,6 +67,6 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
         <Text>Remaining in Set: {remaining}</Text>
       </View>
       <Button onPress={handlePressNext}>Next Round</Button>
-    </View>
+    </Flex>
   );
 };

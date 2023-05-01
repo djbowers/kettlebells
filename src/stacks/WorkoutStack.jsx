@@ -14,7 +14,10 @@ const { generate, review, active, finished } = WORKOUT_ROUTES;
 
 export const WorkoutStack = () => {
   return (
-    <Stack.Navigator initialRouteName={generate}>
+    <Stack.Navigator
+      initialRouteName={generate}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name={generate} component={GenerateWorkoutScreen} />
       <Stack.Screen name={review} component={ReviewWorkoutScreen} />
       <Stack.Screen name={active} component={ActiveWorkoutScreen} />

@@ -1,6 +1,6 @@
-import { Button, Divider, Text } from 'native-base';
+import { Button, Divider, Flex, Text } from 'native-base';
 import { useContext } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import tw from 'twrnc';
 
 import { WORKOUT_ROUTES } from '~/constants';
@@ -22,7 +22,13 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={tw`h-full py-7 flex justify-between items-center`}>
+    <Flex
+      justifyContent="space-between"
+      alignItems="center"
+      py={7}
+      height="full"
+      safeAreaTop
+    >
       <Text style={tw`mb-3`} fontSize="lg">
         {activeWorkout.length} Exercises
       </Text>
@@ -41,6 +47,6 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
       </ScrollView>
 
       <Button onPress={handlePressStart}>Start Workout</Button>
-    </View>
+    </Flex>
   );
 };

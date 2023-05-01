@@ -1,4 +1,4 @@
-import { Button, Text } from 'native-base';
+import { Button, Flex, Text } from 'native-base';
 import { View } from 'react-native';
 import tw from 'twrnc';
 
@@ -12,12 +12,18 @@ export const FinishedWorkoutScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={tw`h-full p-7 flex justify-between items-center`}>
+    <Flex
+      justifyContent="space-between"
+      alignItems="center"
+      py={7}
+      height="full"
+      safeAreaTop
+    >
       <View style={tw`w-full flex items-center`}>
         <Text>Congratulations!</Text>
         <Text style={tw`mt-3`}>Completed workout in: {duration} seconds</Text>
       </View>
       <Button onPress={handlePressHome}>Go Home</Button>
-    </View>
+    </Flex>
   );
 };

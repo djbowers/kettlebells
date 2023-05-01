@@ -107,6 +107,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
       justifyContent="space-between"
       px={5}
       py={3}
+      safeAreaTop
     >
       <Text textAlign="center" fontSize="xl">
         Let's get started!
