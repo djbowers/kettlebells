@@ -4,23 +4,26 @@ export const generateWorkout = (
   exercises,
   variations,
   movementPatterns,
-  configurations,
+  grips,
   options,
   remainingRef
 ) => {
-  const { focus, setLength, sets } = options;
+  const { focus, setLength, sets, grip } = options;
 
-  const movementPatternFocus = movementPatterns.find(
+  const selectedFocus = movementPatterns.find(
     (movementPattern) => movementPattern.name === focus
   );
 
-  const filteredVariations = variations.filter((variation) => {
-    const focusMatch =
-      movementPatternFocus &&
-      variation.movementPatterns.includes(movementPatternFocus.id);
+  const selectedGrip = grips.find(({ name }) => name === grip);
 
-    return focusMatch;
-  });
+  const filteredVariations = variations.filter(
+    ({ movementPatterns, grips }) => {
+      const includesFocus = movementPatterns.includes(selectedFocus.id);
+      const includesGrip = grips.includes(selectedGrip.id);
+
+      return includesFocus && includesGrip;
+    }
+  );
 
   shuffleArray(filteredVariations);
 

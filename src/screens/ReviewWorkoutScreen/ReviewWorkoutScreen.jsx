@@ -11,7 +11,7 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
   const { setActiveWorkout } = useContext(ExercisesContext);
 
   const { options } = route.params;
-  const { duration, focus, setLength, sets } = options;
+  const { duration, focus, setLength, sets, grip } = options;
 
   const activeWorkout = useGenerateWorkout(options);
 
@@ -25,6 +25,7 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
       <Text style={tw`mb-3`} fontSize="lg">
         {activeWorkout.length} Exercises - {focus} Focus
       </Text>
+      <Text>{grip}</Text>
 
       <Divider my={3} />
 

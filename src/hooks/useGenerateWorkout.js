@@ -5,7 +5,7 @@ import { ExercisesContext } from '~/contexts';
 import { generateWorkout } from '~/utils';
 
 export const useGenerateWorkout = (options) => {
-  const { exercises, variations, movementPatterns, configurations } =
+  const { exercises, variations, movementPatterns, grips } =
     useContext(ExercisesContext);
 
   const { duration } = options;
@@ -16,7 +16,7 @@ export const useGenerateWorkout = (options) => {
     exercises,
     variations,
     movementPatterns,
-    configurations,
+    grips,
     options,
     remainingRef
   );

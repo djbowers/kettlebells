@@ -11,12 +11,12 @@ export const useAirtableData = () => {
   const exercisesTable = base('Exercises');
   const variationsTable = base('Variations');
   const movementPatternsTable = base('Movement Patterns');
-  const configurationsTable = base('Configurations');
+  const gripsTable = base('Grips');
 
   const [exercises, setExercises] = useState([]);
   const [variations, setVariations] = useState([]);
   const [movementPatterns, setMovementPatterns] = useState([]);
-  const [configurations, setConfigurations] = useState([]);
+  const [grips, setGrips] = useState([]);
 
   const fetchExercises = () => {
     const exercises = [];
@@ -53,7 +53,7 @@ export const useAirtableData = () => {
             aka: record.get('Aka'),
             exercise: record.get('Exercise'),
             movementPatterns: record.get('Movement Patterns'),
-            configurations: record.get('Configurations'),
+            grips: record.get('Grips'),
           };
           variations.push(variation);
         });
@@ -93,9 +93,9 @@ export const useAirtableData = () => {
     );
   };
 
-  const fetchConfigurations = () => {
-    const configurations = [];
-    configurationsTable.select({ maxRecords: MAX_RECORDS }).eachPage(
+  const fetchGrips = () => {
+    const grips = [];
+    gripsTable.select({ maxRecords: MAX_RECORDS }).eachPage(
       (records, fetchNextPage) => {
         records.forEach(function (record) {
           const configuration = {
@@ -105,7 +105,7 @@ export const useAirtableData = () => {
             kettlebells: record.get('Kettlebells'),
             variations: record.get('Variations'),
           };
-          configurations.push(configuration);
+          grips.push(configuration);
         });
         fetchNextPage();
       },
@@ -114,7 +114,7 @@ export const useAirtableData = () => {
           console.error(err);
           return;
         }
-        setConfigurations(configurations);
+        setGrips(grips);
       }
     );
   };
@@ -123,8 +123,8 @@ export const useAirtableData = () => {
     if (exercises.length === 0) fetchExercises();
     if (variations.length === 0) fetchVariations();
     if (movementPatterns.length === 0) fetchMovementPatterns();
-    if (configurations.length === 0) fetchConfigurations();
+    if (grips.length === 0) fetchGrips();
   }, []);
 
-  return { exercises, variations, movementPatterns, configurations };
+  return { exercises, variations, movementPatterns, grips };
 };

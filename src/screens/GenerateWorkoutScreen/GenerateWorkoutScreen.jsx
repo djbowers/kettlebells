@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
 
 import { SelectOption } from '~/components';
 import {
+  FOCUSES,
   FOCUS_OPTIONS,
+  GRIPS,
+  GRIP_OPTIONS,
+  LEVELS,
   LEVEL_OPTIONS,
   SET_COUNT_OPTIONS,
   SET_LENGTH_OPTIONS,
@@ -15,12 +19,13 @@ import {
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [options, setOptions] = useState({
     duration: 30,
-    level: LEVEL_OPTIONS[0].value,
-    focus: FOCUS_OPTIONS[0].value,
-    sets: SET_COUNT_OPTIONS[2].value,
-    setLength: SET_LENGTH_OPTIONS[2].value,
+    level: LEVELS[0],
+    focus: FOCUSES[0],
+    sets: 3,
+    setLength: 3,
+    grip: GRIPS[0],
   });
-  const { duration, level, focus, sets, setLength } = options;
+  const { duration, level, focus, sets, setLength, grip } = options;
 
   const { getItem, setItem } = useAsyncStorage('@options');
 
@@ -45,26 +50,40 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
     writeOptionsToStorage(options);
   };
 
-  const handleChangeDuration = (duration) =>
+  const handleChangeDuration = (duration) => {
     handleChangeOptions({ ...options, duration });
+  };
 
-  const handleChangeLevel = (level) =>
+  const handleChangeLevel = (level) => {
     handleChangeOptions({ ...options, level });
+  };
 
-  const handleChangeFocus = (focus) =>
+  const handleChangeFocus = (focus) => {
     handleChangeOptions({ ...options, focus });
+  };
 
-  const handleChangeSets = (sets) => handleChangeOptions({ ...options, sets });
+  const handleChangeSets = (sets) => {
+    handleChangeOptions({ ...options, sets });
+  };
 
-  const handleChangeSetLength = (setLength) =>
+  const handleChangeSetLength = (setLength) => {
     handleChangeOptions({ ...options, setLength });
+  };
+
+  const handleChangeGrip = (grip) => {
+    handleChangeOptions({ ...options, grip });
+  };
 
   const handlePressGenerate = () => {
     navigation.navigate(WORKOUT_ROUTES.review, { options });
   };
 
   const disabled =
-    level === null || focus === null || sets === null || setLength === null;
+    level === null ||
+    focus === null ||
+    sets === null ||
+    setLength === null ||
+    grip === null;
 
   return (
     <Flex
@@ -118,6 +137,12 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             options={SET_LENGTH_OPTIONS}
             placeholder="Set Length"
             selectedValue={setLength}
+          />
+          <SelectOption
+            onValueChange={handleChangeGrip}
+            options={GRIP_OPTIONS}
+            placeholder="Grip"
+            selectedValue={grip}
           />
         </Flex>
       </Box>

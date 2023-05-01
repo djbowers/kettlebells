@@ -1,21 +1,11 @@
-export const WARMUP_DURATION = 5; // minutes
-
-export const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
+import { FOCUSES } from './focuses';
+import { GRIPS } from './grips';
+import { LEVELS } from './levels';
 
 export const LEVEL_OPTIONS = LEVELS.map((level) => ({
   label: level,
   value: level,
 }));
-
-export const FOCUSES = [
-  'Push',
-  'Pull',
-  'Carry',
-  'Squat',
-  'Hinge',
-  'Lunge',
-  'Rotation',
-];
 
 export const FOCUS_OPTIONS = FOCUSES.map((option) => ({
   label: option,
@@ -34,4 +24,9 @@ const SET_LENGTHS = [1, 2, 3, 4, 5];
 export const SET_LENGTH_OPTIONS = SET_LENGTHS.map((setLength) => ({
   label: `${setLength} min / set`,
   value: setLength,
+}));
+
+export const GRIP_OPTIONS = GRIPS.map((grip) => ({
+  label: grip,
+  value: grip,
 }));
