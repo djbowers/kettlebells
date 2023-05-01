@@ -8,14 +8,13 @@ export const LEVEL_OPTIONS = LEVELS.map((level) => ({
 }));
 
 export const FOCUSES = [
-  'Full Body',
-  'Cardio',
-  'Legs',
-  'Back',
-  'Core',
-  'Chest',
-  'Arms',
-  'Shoulders',
+  'Push',
+  'Pull',
+  'Carry',
+  'Squat',
+  'Hinge',
+  'Lunge',
+  'Rotation',
 ];
 
 export const FOCUS_OPTIONS = FOCUSES.map((option) => ({

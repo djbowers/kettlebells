@@ -1,15 +1,24 @@
 import { useState } from 'react';
 
 import { ExercisesContext } from '../contexts';
-import { useAirtableExercises } from '../hooks';
+import { useAirtableData } from '../hooks';
 
 export const ExercisesProvider = ({ children }) => {
   const [activeWorkout, setActiveWorkout] = useState([]);
-  const exercises = useAirtableExercises();
+
+  const { exercises, variations, movementPatterns, configurations } =
+    useAirtableData();
 
   return (
     <ExercisesContext.Provider
-      value={{ exercises, activeWorkout, setActiveWorkout }}
+      value={{
+        exercises,
+        variations,
+        movementPatterns,
+        configurations,
+        activeWorkout,
+        setActiveWorkout,
+      }}
     >
       {children}
     </ExercisesContext.Provider>

@@ -1,19 +1,36 @@
 import { shuffleArray } from './shuffle';
 
-export const generateWorkout = (exercises, options, remainingRef) => {
-  const { level, focus, setLength, sets } = options;
+export const generateWorkout = (
+  exercises,
+  variations,
+  movementPatterns,
+  configurations,
+  options,
+  remainingRef
+) => {
+  const { focus, setLength, sets } = options;
 
-  const filteredExercises = exercises.filter(
-    (exercise) => exercise.level === level && exercise.focus === focus
+  const movementPatternFocus = movementPatterns.find(
+    (movementPattern) => movementPattern.name === focus
   );
 
-  shuffleArray(filteredExercises);
+  const filteredVariations = variations.filter((variation) => {
+    const focusMatch =
+      movementPatternFocus &&
+      variation.movementPatterns.includes(movementPatternFocus.id);
 
-  return filteredExercises.reduce((exercises, exercise) => {
+    return focusMatch;
+  });
+
+  shuffleArray(filteredVariations);
+
+  const activeWorkout = filteredVariations.reduce((variations, variation) => {
     if (remainingRef.current > 0) {
       remainingRef.current -= setLength * sets;
-      return [...exercises, exercise];
+      return [...variations, variation];
     }
-    return exercises;
+    return variations;
   }, []);
+
+  return activeWorkout;
 };

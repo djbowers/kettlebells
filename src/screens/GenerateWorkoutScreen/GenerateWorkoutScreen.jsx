@@ -99,6 +99,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             options={LEVEL_OPTIONS}
             placeholder="Level"
             selectedValue={level}
+            disabled={true}
           />
           <SelectOption
             onValueChange={handleChangeFocus}

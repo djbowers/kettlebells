@@ -1,21 +1,19 @@
 import { Button, Divider, Text } from 'native-base';
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { ScrollView, View } from 'react-native';
 import tw from 'twrnc';
 
-import { WARMUP_DURATION, WORKOUT_ROUTES } from '~/constants';
+import { WORKOUT_ROUTES } from '~/constants';
 import { ExercisesContext } from '~/contexts';
-import { generateWorkout } from '~/utils';
+import { useGenerateWorkout } from '~/hooks';
 
 export const ReviewWorkoutScreen = ({ navigation, route }) => {
-  const { exercises, setActiveWorkout } = useContext(ExercisesContext);
+  const { setActiveWorkout } = useContext(ExercisesContext);
 
   const { options } = route.params;
   const { duration, focus, setLength, sets } = options;
 
-  const remainingRef = useRef(duration - WARMUP_DURATION);
-
-  const activeWorkout = generateWorkout(exercises, options, remainingRef);
+  const activeWorkout = useGenerateWorkout(options);
 
   const handlePressStart = () => {
     setActiveWorkout(activeWorkout);
