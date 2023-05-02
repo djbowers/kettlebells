@@ -14,9 +14,17 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const totalRounds = numExercises * sets;
 
   const [elapsedTime] = useTimer();
-  const [elapsedInSet, { resetTimer }] = useTimer();
+  const [elapsedInSet, { resetTimer, seconds: elapsedSecondsInSet }] =
+    useTimer();
 
   const [currentRound, setCurrentRound] = useState(0);
+
+  const handlePressPrev = () => {
+    if (currentRound > 0) {
+      resetTimer();
+      setCurrentRound((prev) => prev - 1);
+    }
+  };
 
   const handlePressNext = () => {
     if (currentRound < totalRounds) {
@@ -57,7 +65,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
 
   return (
     <Flex alignItems="center" height="full" width="full" px={8} safeAreaTop>
-      <Box w="full" my={2}>
+      <Box w="full" my={2} aria-label="Screen Header">
         <Progress value={currentRound} max={totalRounds} size="2xl" />
         <Flex direction="row" py={2}>
           <Text fontSize="md">
@@ -72,7 +80,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
         </Flex>
       </Box>
 
-      <Flex w="full" mb={2}>
+      <Flex w="full" my={2} aria-label="Current Set Info">
         <Flex direction="row">
           <Text fontSize="lg" fontWeight="semibold">
             {currentExercise.name}
@@ -94,7 +102,45 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
         )}
       </Flex>
 
-      <Button onPress={handlePressNext}>Next Round</Button>
+      <Flex w="full" my={2} aria-label="Workout Controls">
+        <Text mb={2} textAlign="center">
+          Set 1 / 4
+        </Text>
+        <Progress
+          value={elapsedSecondsInSet}
+          max={setLength * 60}
+          size="2xl"
+          colorScheme="secondary"
+        />
+        <Flex direction="row" my={2}>
+          <Text fontSize="md">{elapsedInSet}</Text>
+          <Spacer />
+          <Text fontSize="md">{setLength}m</Text>
+        </Flex>
+        <Flex direction="row" my={2}>
+          <Spacer />
+          <Button
+            onPress={handlePressPrev}
+            size="md"
+            variant="ghost"
+            colorScheme="muted"
+          >
+            <Text fontWeight="medium">PREV</Text>
+          </Button>
+          <Spacer />
+          <Button
+            size="md"
+            variant="solid"
+            colorScheme="primary"
+            onPress={handlePressNext}
+          >
+            <Text fontWeight="medium" color="white">
+              NEXT
+            </Text>
+          </Button>
+          <Spacer />
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

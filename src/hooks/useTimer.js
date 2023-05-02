@@ -14,7 +14,7 @@ export const useTimer = () => {
 
   const resetTimer = useCallback(() => setSeconds(0), []);
 
-  const elapsedTime = Duration.fromObject({ seconds }).toFormat('m:s');
+  const elapsedTime = Duration.fromObject({ seconds }).toFormat('m:ss');
 
-  return [elapsedTime, { resetTimer }];
+  return [elapsedTime, { resetTimer, seconds }];
 };
