@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
 
-import { WORKOUT_ROUTES } from '~/constants';
+import { WARMUP, WARMUP_DURATION, WORKOUT_ROUTES } from '~/constants';
 import { ExercisesContext } from '~/contexts';
 import { useTimer } from '~/hooks';
 
@@ -18,7 +18,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const [workoutDuration] = useTimer();
   const [setDuration, { resetTimer }] = useTimer();
 
-  const [currentRound, setCurrentRound] = useState(1);
+  const [currentRound, setCurrentRound] = useState(0);
 
   const handlePressNext = () => {
     if (currentRound < totalRounds) {
@@ -31,16 +31,23 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
     }
   };
 
-  const rounds = activeWorkout.reduce((acc, exercise) => {
-    const round = [];
-    for (let i = 0; i < sets; i++) {
-      round.push(exercise);
-    }
-    return [...acc, ...round];
-  }, []);
+  const rounds = activeWorkout.reduce(
+    (rounds, exercise) => {
+      const round = [];
+      for (let i = 0; i < sets; i++) {
+        round.push(exercise);
+      }
+      return [...rounds, ...round];
+    },
+    [WARMUP]
+  );
 
-  const currentExercise = rounds[currentRound - 1];
-  const remaining = setLength * 60 - setDuration;
+  const currentExercise = rounds[currentRound];
+
+  const roundLength =
+    currentExercise.id === 'warmup' ? WARMUP_DURATION : setLength;
+
+  const remaining = roundLength * 60 - setDuration;
 
   return (
     <Flex
