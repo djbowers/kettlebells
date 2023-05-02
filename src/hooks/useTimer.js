@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+import { Duration } from '~/utils';
 
 export const useTimer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -14,5 +14,7 @@ export const useTimer = () => {
 
   const resetTimer = useCallback(() => setSeconds(0), []);
 
-  return [seconds, { resetTimer }];
+  const elapsedTime = Duration.fromObject({ seconds }).toFormat('m:s');
+
+  return [elapsedTime, { resetTimer }];
 };

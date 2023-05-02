@@ -1,7 +1,5 @@
-import { Box, Button, Center, Flex, Progress, Text } from 'native-base';
+import { Box, Button, Flex, Progress, Spacer, Text } from 'native-base';
 import { useContext, useState } from 'react';
-import { View } from 'react-native';
-import tw from 'twrnc';
 
 import { WARMUP, WARMUP_DURATION, WORKOUT_ROUTES } from '~/constants';
 import { ExercisesContext } from '~/contexts';
@@ -15,8 +13,8 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const numExercises = activeWorkout.length;
   const totalRounds = numExercises * sets;
 
-  const [workoutDuration] = useTimer();
-  const [setDuration, { resetTimer }] = useTimer();
+  const [elapsedTime] = useTimer();
+  const [elapsedInSet, { resetTimer }] = useTimer();
 
   const [currentRound, setCurrentRound] = useState(0);
 
@@ -26,7 +24,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
       setCurrentRound((prev) => prev + 1);
     } else {
       navigation.navigate(WORKOUT_ROUTES.finished, {
-        duration: workoutDuration,
+        duration: elapsedTime,
       });
     }
   };
@@ -43,36 +41,40 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
   );
 
   const currentExercise = rounds[currentRound];
+  const currentExerciseNumber = activeWorkout.indexOf(currentExercise) + 1;
 
-  const roundLength =
-    currentExercise.id === 'warmup' ? WARMUP_DURATION : setLength;
+  const isWarmup = currentExercise.id === 'warmup';
 
-  const remaining = roundLength * 60 - setDuration;
+  const roundLength = isWarmup ? WARMUP_DURATION : setLength;
+
+  const remaining = roundLength * 60 - elapsedInSet;
 
   return (
-    <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      py={7}
-      height="full"
-      safeAreaTop
-    >
-      <View style={tw`w-full items-center`}>
-        <Text>Workout Duration: {workoutDuration}</Text>
-        <Text>
-          {numExercises} movements in {duration} min
+    <Flex alignItems="center" height="full" width="full" px={8} safeAreaTop>
+      <Box w="100%">
+        <Progress value={currentRound} max={totalRounds} size="2xl" />
+      </Box>
+      <Flex flexDir="row" py={2}>
+        <Text fontSize="md">
+          {elapsedTime} / {duration}m
         </Text>
-        <Text>
-          Round {currentRound} of {totalRounds}
+        <Spacer />
+        <Text fontSize="md">
+          {isWarmup
+            ? 'Warmup'
+            : `Exercise ${currentExerciseNumber} / ${numExercises}`}
         </Text>
-        <Center w="100%">
-          <Box w="90%" maxW="400">
-            <Progress value={currentRound} max={totalRounds} mx="4" />
-          </Box>
-        </Center>
-        <Text>Current Exercise: {currentExercise.name}</Text>
-        <Text>Remaining in Set: {remaining}</Text>
-      </View>
+      </Flex>
+
+      <Text>
+        {numExercises} movements in {duration} min
+      </Text>
+      <Text>
+        Round {currentRound} of {totalRounds}
+      </Text>
+      <Text>Current Exercise: {currentExercise.name}</Text>
+      <Text>Remaining in Set: {remaining}</Text>
+
       <Button onPress={handlePressNext}>Next Round</Button>
     </Flex>
   );
