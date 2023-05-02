@@ -6,9 +6,9 @@ import { ExercisesContext } from '~/contexts';
 import { useTimer } from '~/hooks';
 
 export const ActiveWorkoutScreen = ({ navigation, route }) => {
-  const { activeWorkout } = useContext(ExercisesContext);
+  const { activeWorkout, movementPatterns } = useContext(ExercisesContext);
 
-  const { duration, sets, setLength } = route.params;
+  const { duration, sets, setLength, grip } = route.params;
 
   const numExercises = activeWorkout.length;
   const totalRounds = numExercises * sets;
@@ -42,38 +42,57 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
 
   const currentExercise = rounds[currentRound];
   const currentExerciseNumber = activeWorkout.indexOf(currentExercise) + 1;
+  const currentMovementPatternIds = currentExercise.movementPatterns || [];
+  const currentMovementPatterns = movementPatterns
+    .filter(({ id }) => currentMovementPatternIds.includes(id))
+    .map(({ name }) => name);
+  const currentMovementPatternsText =
+    currentMovementPatterns.length > 1
+      ? currentMovementPatterns.join(' + ')
+      : currentMovementPatterns[0];
 
   const isWarmup = currentExercise.id === 'warmup';
-
   const roundLength = isWarmup ? WARMUP_DURATION : setLength;
-
   const remaining = roundLength * 60 - elapsedInSet;
 
   return (
     <Flex alignItems="center" height="full" width="full" px={8} safeAreaTop>
-      <Box w="100%">
+      <Box w="full" my={2}>
         <Progress value={currentRound} max={totalRounds} size="2xl" />
+        <Flex direction="row" py={2}>
+          <Text fontSize="md">
+            {elapsedTime} / {duration}m
+          </Text>
+          <Spacer />
+          <Text fontSize="md">
+            {isWarmup
+              ? 'Warmup'
+              : `Exercise ${currentExerciseNumber} / ${numExercises}`}
+          </Text>
+        </Flex>
       </Box>
-      <Flex flexDir="row" py={2}>
-        <Text fontSize="md">
-          {elapsedTime} / {duration}m
-        </Text>
-        <Spacer />
-        <Text fontSize="md">
-          {isWarmup
-            ? 'Warmup'
-            : `Exercise ${currentExerciseNumber} / ${numExercises}`}
-        </Text>
-      </Flex>
 
-      <Text>
-        {numExercises} movements in {duration} min
-      </Text>
-      <Text>
-        Round {currentRound} of {totalRounds}
-      </Text>
-      <Text>Current Exercise: {currentExercise.name}</Text>
-      <Text>Remaining in Set: {remaining}</Text>
+      <Flex w="full" mb={2}>
+        <Flex direction="row">
+          <Text fontSize="lg" fontWeight="semibold">
+            {currentExercise.name}
+          </Text>
+          <Spacer />
+          <Text fontSize="md">{currentMovementPatternsText}</Text>
+        </Flex>
+        {!isWarmup && (
+          <Flex direction="row">
+            {currentExercise.aka && (
+              <Text fontSize="sm">aka {currentExercise.aka}</Text>
+            )}
+            <Spacer />
+            <Flex>
+              <Text fontSize="sm">{grip}</Text>
+              <Text>Aim for 8 - 12 reps per arm</Text>
+            </Flex>
+          </Flex>
+        )}
+      </Flex>
 
       <Button onPress={handlePressNext}>Next Round</Button>
     </Flex>
