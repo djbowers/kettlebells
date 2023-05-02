@@ -1,4 +1,4 @@
-import { FOCUSES, LEVELS } from '~/constants';
+import { FOCUSES, GRIPS } from '~/constants';
 
 import { ReviewWorkoutScreen } from './ReviewWorkoutScreen';
 
@@ -12,10 +12,11 @@ export const Screen = {
       params: {
         options: {
           duration: 60,
-          level: LEVELS[0],
-          primaryFocus: FOCUSES[0],
+          primaryFocus: FOCUSES[2],
+          secondaryFocus: null,
           sets: 3,
           setLength: 3,
+          grip: GRIPS[0],
         },
       },
     },

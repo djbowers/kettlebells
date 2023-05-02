@@ -1,6 +1,6 @@
-import { FOCUSES } from './focuses';
-import { GRIPS } from './grips';
-import { LEVELS } from './levels';
+import { FOCUSES } from './focuses.constants';
+import { GRIPS } from './grips.constants';
+import { LEVELS } from './levels.constants';
 
 export const LEVEL_OPTIONS = LEVELS.map((level) => ({
   label: level,

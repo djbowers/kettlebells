@@ -1,5 +1,5 @@
 // mock airtable exercises
-jest.mock('~/hooks/useAirtableExercises.js');
+jest.mock('~/hooks/useAirtableData.js');
 
 // mock async storage
 jest.mock('@react-native-async-storage/async-storage', () =>
