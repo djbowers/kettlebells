@@ -50,6 +50,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
 
   const currentExercise = rounds[currentRound];
   const currentExerciseNumber = activeWorkout.indexOf(currentExercise) + 1;
+
   const currentMovementPatternIds = currentExercise.movementPatterns || [];
   const currentMovementPatterns = movementPatterns
     .filter(({ id }) => currentMovementPatternIds.includes(id))
@@ -61,7 +62,6 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
 
   const isWarmup = currentExercise.id === 'warmup';
   const roundLength = isWarmup ? WARMUP_DURATION : setLength;
-  const remaining = roundLength * 60 - elapsedInSet;
 
   return (
     <Flex alignItems="center" height="full" width="full" px={8} safeAreaTop>
@@ -73,9 +73,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
           </Text>
           <Spacer />
           <Text fontSize="md">
-            {isWarmup
-              ? 'Warmup'
-              : `Exercise ${currentExerciseNumber} / ${numExercises}`}
+            {!isWarmup && `Exercise ${currentExerciseNumber} / ${numExercises}`}
           </Text>
         </Flex>
       </Box>
@@ -108,14 +106,14 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
         </Text>
         <Progress
           value={elapsedSecondsInSet}
-          max={setLength * 60}
+          max={roundLength * 60}
           size="2xl"
           colorScheme="secondary"
         />
         <Flex direction="row" my={2}>
           <Text fontSize="md">{elapsedInSet}</Text>
           <Spacer />
-          <Text fontSize="md">{setLength}m</Text>
+          <Text fontSize="md">{roundLength}m</Text>
         </Flex>
         <Flex direction="row" my={2}>
           <Spacer />
