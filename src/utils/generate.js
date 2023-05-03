@@ -47,9 +47,18 @@ export const generateWorkout = (
 
   shuffleArray(filteredVariations);
 
+  const exerciseCounts = {};
+  exercises.forEach(({ name }) => {
+    exerciseCounts[name] = 0;
+  });
+
   const activeWorkout = filteredVariations.reduce((variations, variation) => {
-    if (remainingRef.current > 0) {
+    const [exerciseId] = variation.exercise;
+    const exercise = exercises.find((exercise) => exercise.id === exerciseId);
+
+    if (remainingRef.current > 0 && exerciseCounts[exercise.name] < 1) {
       remainingRef.current -= setLength * sets;
+      exerciseCounts[exercise.name] += 1;
       return [...variations, variation];
     }
     return variations;

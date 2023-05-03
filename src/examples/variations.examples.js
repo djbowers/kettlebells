@@ -1,7 +1,7 @@
 export const EXAMPLE_VARIATIONS = [
   {
     id: 'recVjzFsvuLJRZACs',
-    movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
+    movementPatterns: ['recaDRDMFGtPRY4Iy'],
     name: 'Conventional Swing',
     aka: 'Russian Swing',
     exercise: ['recdZZwRFsUagMXFg'],
@@ -14,7 +14,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     id: 'recqDPczn9n0AHVc2',
-    movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
+    movementPatterns: ['recF9M8MET7ObjERj'],
     name: 'Squat Swing',
     exercise: ['recdZZwRFsUagMXFg'],
     grips: [
