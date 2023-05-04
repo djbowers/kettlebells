@@ -28,7 +28,7 @@ export const generateWorkout = (
   const selectedGrip = grips.find(({ name }) => grip && name === grip);
 
   const filteredVariations = variations.filter(
-    ({ movementPatterns, grips }) => {
+    ({ movementPatterns = [], grips = [] }) => {
       const includesPrimaryFocus =
         selectedPrimaryFocus?.id &&
         movementPatterns.includes(selectedPrimaryFocus.id);

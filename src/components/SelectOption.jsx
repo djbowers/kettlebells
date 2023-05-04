@@ -1,20 +1,30 @@
 import { Select } from 'native-base';
 
+import { useAsyncStorage } from '~/hooks';
+
 export const SelectOption = ({
-  onValueChange,
+  onChangeOption,
   options,
   placeholder,
-  selectedValue,
+  selectedOption,
+  storageKey,
 }) => {
+  const [writeOptionToStorage] = useAsyncStorage(storageKey, onChangeOption);
+
+  const handleChangeOption = (option) => {
+    onChangeOption(option);
+    writeOptionToStorage(option);
+  };
+
   return (
     <Select
       dropdownIcon={() => null}
       flexBasis="48%"
-      onValueChange={onValueChange}
+      onValueChange={handleChangeOption}
       placeholder={placeholder}
       py={5}
       mt={3}
-      selectedValue={selectedValue}
+      selectedValue={selectedOption}
       variant="filled"
     >
       {options.map(({ label, value }) => (

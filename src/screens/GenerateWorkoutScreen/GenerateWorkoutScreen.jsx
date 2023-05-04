@@ -1,7 +1,6 @@
-import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import Slider from '@react-native-community/slider';
 import { Box, Button, Flex, Text } from 'native-base';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { SelectOption } from '~/components';
 import {
@@ -14,89 +13,32 @@ import {
 } from '~/constants';
 
 export const GenerateWorkoutScreen = ({ navigation }) => {
-  const [options, setOptions] = useState({
-    duration: 30,
-    level: undefined,
-    primaryFocus: undefined,
-    secondaryFocus: undefined,
-    sets: undefined,
-    setLength: undefined,
-    grip: undefined,
-  });
-
-  const {
-    duration,
-    level,
-    primaryFocus,
-    secondaryFocus,
-    sets,
-    setLength,
-    grip,
-  } = options;
-
-  const { getItem, setItem } = useAsyncStorage('@options');
-
-  const readOptionsFromStorage = async () => {
-    const item = await getItem();
-    return JSON.parse(item);
-  };
-
-  const writeOptionsToStorage = async (options) => {
-    const item = JSON.stringify(options);
-    await setItem(item);
-  };
-
-  useEffect(() => {
-    const loadStoredOptions = async () => {
-      const storedOptions = await readOptionsFromStorage();
-      if (storedOptions) setOptions({ ...options, ...storedOptions });
-    };
-    loadStoredOptions();
-  }, []);
-
-  const handleChangeOptions = (options) => {
-    setOptions(options);
-    writeOptionsToStorage(options);
-  };
-
-  const handleChangeDuration = (duration) => {
-    handleChangeOptions({ ...options, duration });
-  };
-
-  const handleChangeLevel = (level) => {
-    handleChangeOptions({ ...options, level });
-  };
-
-  const handleChangePrimaryFocus = (focus) => {
-    handleChangeOptions({ ...options, primaryFocus: focus });
-  };
-
-  const handleChangeSecondaryFocus = (focus) => {
-    handleChangeOptions({ ...options, secondaryFocus: focus });
-  };
-
-  const handleChangeSets = (sets) => {
-    handleChangeOptions({ ...options, sets });
-  };
-
-  const handleChangeSetLength = (setLength) => {
-    handleChangeOptions({ ...options, setLength });
-  };
-
-  const handleChangeGrip = (grip) => {
-    handleChangeOptions({ ...options, grip });
-  };
+  const [duration, changeDuration] = useState(30);
+  const [level, changeLevel] = useState();
+  const [primaryFocus, changePrimaryFocus] = useState();
+  const [secondaryFocus, changeSecondaryFocus] = useState();
+  const [sets, changeSets] = useState();
+  const [setLength, changeSetLength] = useState();
+  const [grip, changeGrip] = useState();
 
   const handlePressGenerate = () => {
-    navigation.navigate(WORKOUT_ROUTES.review, { options });
+    navigation.navigate(WORKOUT_ROUTES.review, {
+      options: {
+        duration,
+        level,
+        primaryFocus,
+        secondaryFocus,
+        sets,
+        setLength,
+        grip,
+      },
+    });
   };
 
-  const disabled =
-    level === null ||
-    primaryFocus === null ||
-    sets === null ||
-    setLength === null ||
-    grip === null;
+  const disableGenerate =
+    level === undefined || sets === undefined || setLength === undefined;
+
+  const hideSecondaryFocus = primaryFocus === 'None' || !primaryFocus;
 
   const secondaryFocusOptions = FOCUS_OPTIONS.filter(
     (focus) => focus.value !== primaryFocus
@@ -118,8 +60,10 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
         <Text fontSize="sm" textAlign="center" mt={3}>
           {duration} minutes
         </Text>
+
+        {/* todo: create a custom Slider that stores its value in async storage */}
         <Slider
-          onValueChange={handleChangeDuration}
+          onValueChange={changeDuration}
           maximumValue={90}
           minimumValue={15}
           step={5}
@@ -132,47 +76,52 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           justifyContent="space-between"
         >
           <SelectOption
-            onValueChange={handleChangeLevel}
+            onChangeOption={changeLevel}
             options={LEVEL_OPTIONS}
             placeholder="Level"
-            selectedValue={level}
-            disabled={true}
+            selectedOption={level}
+            storageKey="level"
           />
           <SelectOption
-            onValueChange={handleChangeGrip}
+            onChangeOption={changeGrip}
             options={GRIP_OPTIONS}
             placeholder="Grip"
-            selectedValue={grip}
+            selectedOption={grip}
+            storageKey="grip"
           />
           <SelectOption
-            onValueChange={handleChangePrimaryFocus}
+            onChangeOption={changePrimaryFocus}
             options={FOCUS_OPTIONS}
             placeholder="Primary Focus"
-            selectedValue={primaryFocus}
+            selectedOption={primaryFocus}
+            storageKey="primaryFocus"
           />
-          {primaryFocus !== 'None' && (
+          {!hideSecondaryFocus && (
             <SelectOption
-              onValueChange={handleChangeSecondaryFocus}
+              onChangeOption={changeSecondaryFocus}
               options={secondaryFocusOptions}
               placeholder="Secondary Focus"
-              selectedValue={secondaryFocus}
+              selectedOption={secondaryFocus}
+              storageKey="secondaryFocus"
             />
           )}
           <SelectOption
-            onValueChange={handleChangeSets}
+            onChangeOption={changeSets}
             options={SET_COUNT_OPTIONS}
             placeholder="Sets per Exercise"
-            selectedValue={sets}
+            selectedOption={sets}
+            storageKey="sets"
           />
           <SelectOption
-            onValueChange={handleChangeSetLength}
+            onChangeOption={changeSetLength}
             options={SET_LENGTH_OPTIONS}
             placeholder="Set Length"
-            selectedValue={setLength}
+            selectedOption={setLength}
+            storageKey="setLength"
           />
         </Flex>
       </Box>
-      <Button mt={3} onPress={handlePressGenerate} isDisabled={disabled}>
+      <Button mt={3} onPress={handlePressGenerate} isDisabled={disableGenerate}>
         Generate
       </Button>
     </Flex>
