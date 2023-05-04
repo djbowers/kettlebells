@@ -16,12 +16,12 @@ import {
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [options, setOptions] = useState({
     duration: 30,
-    level: null,
-    primaryFocus: null,
-    secondaryFocus: null,
-    sets: null,
-    setLength: null,
-    grip: null,
+    level: undefined,
+    primaryFocus: undefined,
+    secondaryFocus: undefined,
+    sets: undefined,
+    setLength: undefined,
+    grip: undefined,
   });
 
   const {
@@ -47,9 +47,11 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    readOptionsFromStorage().then((storedOptions) => {
+    const loadStoredOptions = async () => {
+      const storedOptions = await readOptionsFromStorage();
       if (storedOptions) setOptions({ ...options, ...storedOptions });
-    });
+    };
+    loadStoredOptions();
   }, []);
 
   const handleChangeOptions = (options) => {
@@ -148,12 +150,14 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             placeholder="Primary Focus"
             selectedValue={primaryFocus}
           />
-          <SelectOption
-            onValueChange={handleChangeSecondaryFocus}
-            options={secondaryFocusOptions}
-            placeholder="Secondary Focus"
-            selectedValue={secondaryFocus}
-          />
+          {primaryFocus !== 'None' && (
+            <SelectOption
+              onValueChange={handleChangeSecondaryFocus}
+              options={secondaryFocusOptions}
+              placeholder="Secondary Focus"
+              selectedValue={secondaryFocus}
+            />
+          )}
           <SelectOption
             onValueChange={handleChangeSets}
             options={SET_COUNT_OPTIONS}

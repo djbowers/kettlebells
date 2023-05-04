@@ -1,9 +1,10 @@
 export const FOCUSES = [
+  'None',
   'Push',
   'Pull',
   'Hinge',
   'Squat',
   'Lunge',
-  'Carry',
-  // 'Rotation',
+  'Twist',
+  'Gait',
 ];
