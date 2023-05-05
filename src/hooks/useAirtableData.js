@@ -12,11 +12,13 @@ export const useAirtableData = () => {
   const variationsTable = base('Variations');
   const movementPatternsTable = base('Movement Patterns');
   const gripsTable = base('Grips');
+  const levelsTable = base('Levels');
 
   const [exercises, setExercises] = useState([]);
   const [variations, setVariations] = useState([]);
   const [movementPatterns, setMovementPatterns] = useState([]);
   const [grips, setGrips] = useState([]);
+  const [levels, setLevels] = useState([]);
 
   const fetchExercises = () => {
     const exercises = [];
@@ -54,6 +56,7 @@ export const useAirtableData = () => {
             exercise: record.get('Exercise'),
             movementPatterns: record.get('Movement Patterns'),
             grips: record.get('Grips'),
+            level: record.get('Level'),
           };
           variations.push(variation);
         });
@@ -119,12 +122,37 @@ export const useAirtableData = () => {
     );
   };
 
+  const fetchLevels = () => {
+    const levels = [];
+    levelsTable.select({ maxRecords: MAX_RECORDS }).eachPage(
+      (records, fetchNextPage) => {
+        records.forEach(function (record) {
+          const level = {
+            id: record.id,
+            name: record.get('Name'),
+            variations: record.get('Variations'),
+          };
+          levels.push(level);
+        });
+        fetchNextPage();
+      },
+      function done(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        setLevels(levels);
+      }
+    );
+  };
+
   useEffect(() => {
     if (exercises.length === 0) fetchExercises();
     if (variations.length === 0) fetchVariations();
     if (movementPatterns.length === 0) fetchMovementPatterns();
     if (grips.length === 0) fetchGrips();
+    if (levels.length === 0) fetchLevels();
   }, []);
 
-  return { exercises, variations, movementPatterns, grips };
+  return { exercises, variations, movementPatterns, grips, levels };
 };

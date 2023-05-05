@@ -6,7 +6,8 @@ import { useAirtableData } from '../hooks';
 export const ExercisesProvider = ({ children }) => {
   const [activeWorkout, setActiveWorkout] = useState([]);
 
-  const { exercises, variations, movementPatterns, grips } = useAirtableData();
+  const { exercises, variations, movementPatterns, grips, levels } =
+    useAirtableData();
 
   return (
     <ExercisesContext.Provider
@@ -15,6 +16,7 @@ export const ExercisesProvider = ({ children }) => {
         variations,
         movementPatterns,
         grips,
+        levels,
         activeWorkout,
         setActiveWorkout,
       }}

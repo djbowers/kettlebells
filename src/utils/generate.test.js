@@ -1,6 +1,7 @@
 import {
   EXAMPLE_EXERCISES,
   EXAMPLE_GRIPS,
+  EXAMPLE_LEVELS,
   EXAMPLE_MOVEMENT_PATTERNS,
   EXAMPLE_VARIATIONS,
 } from '~/examples';
@@ -10,10 +11,11 @@ import { generateWorkout } from './generate';
 describe('workout generation', () => {
   test('returns a list of exercises', () => {
     const options = {
-      primaryFocus: 'Hinge',
+      level: 'Beginner',
+      grip: 'Double Arm (one kettlebell)',
       setLength: 1,
       sets: 1,
-      grip: 'Double Arm (one kettlebell)',
+      primaryFocus: 'Hinge',
     };
     const remainingRef = { current: 30 };
     const activeWorkout = generateWorkout(
@@ -21,6 +23,7 @@ describe('workout generation', () => {
       EXAMPLE_VARIATIONS,
       EXAMPLE_MOVEMENT_PATTERNS,
       EXAMPLE_GRIPS,
+      EXAMPLE_LEVELS,
       options,
       remainingRef
     );

@@ -11,6 +11,7 @@ export const EXAMPLE_VARIATIONS = [
       'recvi88OZDgtx66gx',
       'recq3cYnZHFFdbR2j',
     ],
+    level: ['recIPFBovXQf6Ii77'],
   },
   {
     id: 'recqDPczn9n0AHVc2',
@@ -23,6 +24,7 @@ export const EXAMPLE_VARIATIONS = [
       'recvi88OZDgtx66gx',
       'recq3cYnZHFFdbR2j',
     ],
+    level: ['recIPFBovXQf6Ii77'],
   },
   {
     id: 'recSjR1BpA1i7OnxU',
@@ -30,5 +32,6 @@ export const EXAMPLE_VARIATIONS = [
     name: 'American Swing',
     exercise: ['recdZZwRFsUagMXFg'],
     grips: ['recvi88OZDgtx66gx'],
+    level: ['recgpTY0oX3J8SsmB'],
   },
 ];

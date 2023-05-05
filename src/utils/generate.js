@@ -5,16 +5,22 @@ export const generateWorkout = (
   variations = [],
   movementPatterns = [],
   grips = [],
+  levels = [],
   options = {},
   remainingRef
 ) => {
   const {
+    level = null,
     primaryFocus = null,
     secondaryFocus = null,
     setLength = null,
     sets = null,
     grip = null,
   } = options;
+
+  const selectedLevel = levels.find(({ name }) => level && name === level);
+
+  const selectedGrip = grips.find(({ name }) => grip && name === grip);
 
   const selectedPrimaryFocus = movementPatterns.find(
     (movementPattern) => primaryFocus && movementPattern.name === primaryFocus
@@ -25,25 +31,33 @@ export const generateWorkout = (
       secondaryFocus && movementPattern.name === secondaryFocus
   );
 
-  const selectedGrip = grips.find(({ name }) => grip && name === grip);
+  const filteredVariations = variations
+    // filter by level
+    .filter(({ level = [] }) => {
+      const [levelId] = level;
+      return selectedLevel?.id && levelId === selectedLevel.id;
+    })
+    // filter by grip
+    .filter(({ grips = [] }) => {
+      return selectedGrip?.id && grips.includes(selectedGrip.id);
+    })
+    // filter by focus
+    .filter(({ movementPatterns = [] }) => {
+      if (!primaryFocus || primaryFocus === 'None') return true;
 
-  const filteredVariations = variations.filter(
-    ({ movementPatterns = [], grips = [] }) => {
       const includesPrimaryFocus =
         selectedPrimaryFocus?.id &&
         movementPatterns.includes(selectedPrimaryFocus.id);
+
+      if (!secondaryFocus || secondaryFocus === 'None')
+        return includesPrimaryFocus;
 
       const includesSecondaryFocus =
         selectedSecondaryFocus?.id &&
         movementPatterns.includes(selectedSecondaryFocus.id);
 
-      const includesFocus = includesPrimaryFocus || includesSecondaryFocus;
-
-      const includesGrip = selectedGrip?.id && grips.includes(selectedGrip.id);
-
-      return includesFocus && includesGrip;
-    }
-  );
+      return includesPrimaryFocus || includesSecondaryFocus;
+    });
 
   shuffleArray(filteredVariations);
 
