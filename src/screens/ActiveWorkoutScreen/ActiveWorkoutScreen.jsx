@@ -1,42 +1,20 @@
-import { Box, Button, Flex, Progress, Spacer, Text } from 'native-base';
+import { Flex } from 'native-base';
 import { useContext, useState } from 'react';
 
-import { WARMUP, WARMUP_DURATION, WORKOUT_ROUTES } from '~/constants';
+import { CurrentSetInfo, WorkoutControls, WorkoutProgress } from '~/components';
+import { WARMUP, WORKOUT_ROUTES } from '~/constants';
 import { ExercisesContext } from '~/contexts';
 import { useTimer } from '~/hooks';
 
 export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const { activeWorkout, movementPatterns } = useContext(ExercisesContext);
 
-  const { options } = route.params;
-  const { duration, sets, setLength, grip } = options;
-
-  const numExercises = activeWorkout.length;
-  const totalRounds = numExercises * sets;
-
-  const [elapsedTime] = useTimer();
-  const [elapsedInSet, { resetTimer, seconds: elapsedSecondsInSet }] =
-    useTimer();
-
   const [currentRound, setCurrentRound] = useState(0);
 
-  const handlePressPrev = () => {
-    if (currentRound > 0) {
-      resetTimer();
-      setCurrentRound((prev) => prev - 1);
-    }
-  };
+  const [elapsedTime] = useTimer();
 
-  const handlePressNext = () => {
-    if (currentRound < totalRounds) {
-      resetTimer();
-      setCurrentRound((prev) => prev + 1);
-    } else {
-      navigation.navigate(WORKOUT_ROUTES.finished, {
-        duration: elapsedTime,
-      });
-    }
-  };
+  const { options } = route.params;
+  const { duration, sets, setLength, grip } = options;
 
   const rounds = activeWorkout.reduce(
     (rounds, exercise) => {
@@ -49,101 +27,45 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
     [WARMUP]
   );
 
+  const numExercises = activeWorkout.length;
+  const totalRounds = numExercises * sets;
   const currentExercise = rounds[currentRound];
-  const currentExerciseNumber = activeWorkout.indexOf(currentExercise) + 1;
-  const currentSetNumber = currentRound % sets || sets;
-
-  const currentMovementPatternIds = currentExercise.movementPatterns || [];
-  const currentMovementPatterns = movementPatterns
-    .filter(({ id }) => currentMovementPatternIds.includes(id))
-    .map(({ name }) => name);
-  const currentMovementPatternsText =
-    currentMovementPatterns.length > 1
-      ? currentMovementPatterns.join(' + ')
-      : currentMovementPatterns[0];
-
   const isWarmup = currentExercise.id === 'warmup';
-  const roundLength = isWarmup ? WARMUP_DURATION : setLength;
+
+  const handleFinishWorkout = () =>
+    navigation.navigate(WORKOUT_ROUTES.finished, {
+      duration: elapsedTime,
+    });
 
   return (
     <Flex alignItems="center" height="full" width="full" px={8} safeAreaTop>
-      <Box w="full" my={2} aria-label="Screen Header">
-        <Progress value={currentRound} max={totalRounds} size="2xl" />
-        <Flex direction="row" py={2}>
-          <Text fontSize="md">
-            {elapsedTime} / {duration}m
-          </Text>
-          <Spacer />
-          <Text fontSize="md">
-            {!isWarmup && `Exercise ${currentExerciseNumber} / ${numExercises}`}
-          </Text>
-        </Flex>
-      </Box>
+      <WorkoutProgress
+        activeWorkout={activeWorkout}
+        duration={duration}
+        elapsedTime={elapsedTime}
+        currentExercise={currentExercise}
+        currentRound={currentRound}
+        isWarmup={isWarmup}
+        numExercises={numExercises}
+        totalRounds={totalRounds}
+      />
 
-      <Flex w="full" my={2} aria-label="Current Set Info">
-        <Flex direction="row">
-          <Text fontSize="lg" fontWeight="semibold">
-            {currentExercise.name}
-          </Text>
-          <Spacer />
-          <Text fontSize="md">{currentMovementPatternsText}</Text>
-        </Flex>
-        {!isWarmup && (
-          <Flex direction="row">
-            {currentExercise.aka && (
-              <Text fontSize="sm">aka {currentExercise.aka}</Text>
-            )}
-            <Spacer />
-            <Flex>
-              <Text fontSize="sm">{grip}</Text>
-              <Text>Aim for 8 - 12 reps per arm</Text>
-            </Flex>
-          </Flex>
-        )}
-      </Flex>
+      <CurrentSetInfo
+        currentExercise={currentExercise}
+        grip={grip}
+        isWarmup={isWarmup}
+        movementPatterns={movementPatterns}
+      />
 
-      <Flex w="full" my={2} aria-label="Workout Controls">
-        {!isWarmup && (
-          <Text mb={2} textAlign="center">
-            Set {currentSetNumber} / {sets}
-          </Text>
-        )}
-        <Progress
-          value={elapsedSecondsInSet}
-          max={roundLength * 60}
-          size="2xl"
-          colorScheme="secondary"
-        />
-        <Flex direction="row" alignItems="center" my={2}>
-          <Spacer />
-          <Text fontSize="4xl">{elapsedInSet}</Text>
-          <Spacer />
-          <Text fontSize="md">{roundLength}m</Text>
-        </Flex>
-        <Flex direction="row" my={2}>
-          <Spacer />
-          <Button
-            onPress={handlePressPrev}
-            size="md"
-            variant="ghost"
-            colorScheme="muted"
-          >
-            <Text fontWeight="medium">PREV</Text>
-          </Button>
-          <Spacer />
-          <Button
-            size="md"
-            variant="solid"
-            colorScheme="primary"
-            onPress={handlePressNext}
-          >
-            <Text fontWeight="medium" color="white">
-              NEXT
-            </Text>
-          </Button>
-          <Spacer />
-        </Flex>
-      </Flex>
+      <WorkoutControls
+        currentRound={currentRound}
+        isWarmup={isWarmup}
+        onFinishWorkout={handleFinishWorkout}
+        setCurrentRound={setCurrentRound}
+        sets={sets}
+        setLength={setLength}
+        totalRounds={totalRounds}
+      />
     </Flex>
   );
 };
