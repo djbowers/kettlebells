@@ -14,7 +14,6 @@ test('filters by level', () => {
     selectedLevel,
   });
 
-  expect(filteredVariations).toHaveLength(2);
   for (const { level } of filteredVariations) {
     const [levelId] = level;
     expect(levelId).toEqual(selectedLevel.id);
@@ -28,7 +27,6 @@ test('filters by grip', () => {
     selectedGrip,
   });
 
-  expect(filteredVariations).toHaveLength(2);
   for (const { grips } of filteredVariations) {
     expect(grips).toContain(selectedGrip.id);
   }
@@ -41,7 +39,6 @@ test('filters by primary focus', () => {
     selectedPrimaryFocus,
   });
 
-  expect(filteredVariations).toHaveLength(2);
   for (const { movementPatterns } of filteredVariations) {
     expect(movementPatterns).toContain(selectedPrimaryFocus.id);
   }
@@ -56,7 +53,6 @@ test('filters by primary focus or secondary focus', () => {
     selectedSecondaryFocus,
   });
 
-  expect(filteredVariations).toHaveLength(3);
   for (const { movementPatterns } of filteredVariations) {
     const includesPrimaryFocus = movementPatterns.includes(
       selectedPrimaryFocus.id

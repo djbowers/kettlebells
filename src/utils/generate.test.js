@@ -13,10 +13,11 @@ describe('workout generation', () => {
     const options = {
       duration: 30,
       level: 'Beginner',
-      grip: 'Double Arm (one kettlebell)',
+      grip: 'Single Arm (one kettlebell)',
       setLength: 1,
       sets: 1,
       primaryFocus: 'Hinge',
+      secondaryFocus: 'Pull',
     };
 
     const activeWorkout = generateWorkout(
@@ -28,6 +29,6 @@ describe('workout generation', () => {
       options
     );
 
-    expect(activeWorkout).toHaveLength(1);
+    expect(activeWorkout).toHaveLength(4);
   });
 });

@@ -1,4 +1,4 @@
-import { SETS, SET_LENGTHS } from '~/constants';
+import { SETS, SET_LENGTHS, WARMUP_DURATION } from '~/constants';
 
 import { sampleRandomValue } from './random';
 
@@ -13,14 +13,16 @@ export const reduceVariations = (variations, exercises, options) => {
     exerciseCounts[name] = 0;
   });
 
-  let remaining = duration;
+  let remaining = duration - WARMUP_DURATION;
 
   return variations.reduce((variations, variation) => {
     const [exerciseId] = variation.exercise;
     const exercise = exercises.find((exercise) => exercise.id === exerciseId);
 
-    if (remaining > 0 && exerciseCounts[exercise.name] < 1) {
-      remaining -= setLength * sets;
+    const allSetsLength = setLength * sets;
+
+    if (remaining >= allSetsLength && exerciseCounts[exercise.name] < 1) {
+      remaining -= allSetsLength;
       exerciseCounts[exercise.name] += 1;
       return [...variations, variation];
     }
