@@ -114,8 +114,9 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
           size="2xl"
           colorScheme="secondary"
         />
-        <Flex direction="row" my={2}>
-          <Text fontSize="md">{elapsedInSet}</Text>
+        <Flex direction="row" alignItems="center" my={2}>
+          <Spacer />
+          <Text fontSize="4xl">{elapsedInSet}</Text>
           <Spacer />
           <Text fontSize="md">{roundLength}m</Text>
         </Flex>
