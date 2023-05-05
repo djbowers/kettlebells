@@ -5,15 +5,29 @@ import tw from 'twrnc';
 
 import { WORKOUT_ROUTES } from '~/constants';
 import { ExercisesContext } from '~/contexts';
-import { useGenerateWorkout } from '~/hooks';
+import { generateWorkout } from '~/utils';
 
 export const ReviewWorkoutScreen = ({ navigation, route }) => {
-  const { setActiveWorkout } = useContext(ExercisesContext);
+  const {
+    setActiveWorkout,
+    exercises,
+    variations,
+    movementPatterns,
+    grips,
+    levels,
+  } = useContext(ExercisesContext);
 
   const { options } = route.params;
   const { primaryFocus, secondaryFocus, sets, grip } = options;
 
-  const activeWorkout = useGenerateWorkout(options);
+  const activeWorkout = generateWorkout(
+    exercises,
+    variations,
+    movementPatterns,
+    grips,
+    levels,
+    options
+  );
 
   const handlePressStart = () => {
     setActiveWorkout(activeWorkout);

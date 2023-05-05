@@ -7,7 +7,7 @@ import {
   FOCUS_OPTIONS,
   GRIP_OPTIONS,
   LEVEL_OPTIONS,
-  SET_COUNT_OPTIONS,
+  SETS_OPTIONS,
   SET_LENGTH_OPTIONS,
   WORKOUT_ROUTES,
 } from '~/constants';
@@ -107,7 +107,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           )}
           <SelectOption
             onChangeOption={changeSets}
-            options={SET_COUNT_OPTIONS}
+            options={SETS_OPTIONS}
             placeholder="Sets per Exercise"
             selectedOption={sets}
             storageKey="sets"

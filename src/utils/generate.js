@@ -1,4 +1,5 @@
 import { filterVariations } from './filter';
+import { reduceVariations } from './reduce';
 import { shuffleArray } from './shuffle';
 
 export const generateWorkout = (
@@ -7,28 +8,22 @@ export const generateWorkout = (
   movementPatterns = [],
   grips = [],
   levels = [],
-  options = {},
-  remainingRef
+  options = {}
 ) => {
   const {
     level = null,
     primaryFocus = null,
     secondaryFocus = null,
-    setLength = null,
-    sets = null,
     grip = null,
   } = options;
 
   const selectedLevel = levels.find(({ name }) => level && name === level);
-
   const selectedGrip = grips.find(({ name }) => grip && name === grip);
-
   const selectedPrimaryFocus = movementPatterns.find(
-    (movementPattern) => movementPattern.name === primaryFocus
+    ({ name }) => name === primaryFocus
   );
-
   const selectedSecondaryFocus = movementPatterns.find(
-    (movementPattern) => movementPattern.name === secondaryFocus
+    ({ name }) => name === secondaryFocus
   );
 
   const filteredVariations = filterVariations(variations, {
@@ -40,22 +35,5 @@ export const generateWorkout = (
 
   shuffleArray(filteredVariations);
 
-  const exerciseCounts = {};
-  exercises.forEach(({ name }) => {
-    exerciseCounts[name] = 0;
-  });
-
-  const activeWorkout = filteredVariations.reduce((variations, variation) => {
-    const [exerciseId] = variation.exercise;
-    const exercise = exercises.find((exercise) => exercise.id === exerciseId);
-
-    if (remainingRef.current > 0 && exerciseCounts[exercise.name] < 1) {
-      remainingRef.current -= setLength * sets;
-      exerciseCounts[exercise.name] += 1;
-      return [...variations, variation];
-    }
-    return variations;
-  }, []);
-
-  return activeWorkout;
+  return reduceVariations(filteredVariations, exercises, options);
 };

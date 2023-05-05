@@ -1,6 +1,8 @@
 import { FOCUSES } from './focuses.constants';
 import { GRIPS } from './grips.constants';
 import { LEVELS } from './levels.constants';
+import { SET_LENGTHS } from './setLengths.constants';
+import { SETS } from './sets.constants';
 
 export const LEVEL_OPTIONS = LEVELS.map((level) => ({
   label: level,
@@ -12,14 +14,10 @@ export const FOCUS_OPTIONS = FOCUSES.map((option) => ({
   value: option,
 }));
 
-const SET_COUNTS = [1, 2, 3, 4, 5];
-
-export const SET_COUNT_OPTIONS = SET_COUNTS.map((sets) => ({
+export const SETS_OPTIONS = SETS.map((sets) => ({
   label: `${sets} set${sets > 1 ? 's' : ''} / exercise`,
   value: sets,
 }));
-
-const SET_LENGTHS = [1, 2, 3, 4, 5];
 
 export const SET_LENGTH_OPTIONS = SET_LENGTHS.map((setLength) => ({
   label: `${setLength} min / set`,
