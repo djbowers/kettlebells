@@ -1,3 +1,4 @@
+import { filterVariations } from './filter';
 import { shuffleArray } from './shuffle';
 
 export const generateWorkout = (
@@ -23,41 +24,19 @@ export const generateWorkout = (
   const selectedGrip = grips.find(({ name }) => grip && name === grip);
 
   const selectedPrimaryFocus = movementPatterns.find(
-    (movementPattern) => primaryFocus && movementPattern.name === primaryFocus
+    (movementPattern) => movementPattern.name === primaryFocus
   );
 
   const selectedSecondaryFocus = movementPatterns.find(
-    (movementPattern) =>
-      secondaryFocus && movementPattern.name === secondaryFocus
+    (movementPattern) => movementPattern.name === secondaryFocus
   );
 
-  const filteredVariations = variations
-    // filter by level
-    .filter(({ level = [] }) => {
-      const [levelId] = level;
-      return selectedLevel?.id && levelId === selectedLevel.id;
-    })
-    // filter by grip
-    .filter(({ grips = [] }) => {
-      return selectedGrip?.id && grips.includes(selectedGrip.id);
-    })
-    // filter by focus
-    .filter(({ movementPatterns = [] }) => {
-      if (!primaryFocus || primaryFocus === 'None') return true;
-
-      const includesPrimaryFocus =
-        selectedPrimaryFocus?.id &&
-        movementPatterns.includes(selectedPrimaryFocus.id);
-
-      if (!secondaryFocus || secondaryFocus === 'None')
-        return includesPrimaryFocus;
-
-      const includesSecondaryFocus =
-        selectedSecondaryFocus?.id &&
-        movementPatterns.includes(selectedSecondaryFocus.id);
-
-      return includesPrimaryFocus || includesSecondaryFocus;
-    });
+  const filteredVariations = filterVariations(variations, {
+    selectedLevel,
+    selectedGrip,
+    selectedPrimaryFocus,
+    selectedSecondaryFocus,
+  });
 
   shuffleArray(filteredVariations);
 
