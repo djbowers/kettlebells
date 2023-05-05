@@ -1,4 +1,9 @@
-import { SETS, SET_LENGTHS, WARMUP_DURATION } from '~/constants';
+import {
+  LIMIT_PER_EXERCISE,
+  SETS,
+  SET_LENGTHS,
+  WARMUP_DURATION,
+} from '~/constants';
 import { EXAMPLE_EXERCISES, EXAMPLE_VARIATIONS } from '~/examples';
 
 import { reduceVariations } from './reduce';
@@ -13,10 +18,13 @@ test('correctly balances each of the base exercises', () => {
   const exerciseIds = [];
   for (const { exercise } of reducedVariations) {
     const [exerciseId] = exercise;
-    expect(exerciseIds).not.toContain(exerciseId);
+    const foundIds = exerciseIds.filter((id) => id === exerciseId);
+    expect(foundIds.length).not.toBeGreaterThan(LIMIT_PER_EXERCISE);
     exerciseIds.push(exerciseId);
   }
-  expect(exerciseIds).toHaveLength(EXAMPLE_EXERCISES.length);
+  expect(exerciseIds.length).not.toBeGreaterThan(
+    EXAMPLE_EXERCISES.length * LIMIT_PER_EXERCISE
+  );
 });
 
 describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
@@ -34,9 +42,8 @@ describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
       const eachVariation = sets * setLength;
       const withoutWarmup = duration - WARMUP_DURATION;
       const expected = Math.floor(withoutWarmup / eachVariation);
-      const maxExpected = EXAMPLE_EXERCISES.length;
 
-      expect(reducedVariations).toHaveLength(Math.min(expected, maxExpected));
+      expect(reducedVariations).toHaveLength(expected);
     }
   );
 });

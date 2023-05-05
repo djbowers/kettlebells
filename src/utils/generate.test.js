@@ -29,6 +29,6 @@ describe('workout generation', () => {
       options
     );
 
-    expect(activeWorkout).toHaveLength(4);
+    expect(activeWorkout).toHaveLength(6);
   });
 });

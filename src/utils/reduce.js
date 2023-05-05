@@ -1,4 +1,9 @@
-import { SETS, SET_LENGTHS, WARMUP_DURATION } from '~/constants';
+import {
+  LIMIT_PER_EXERCISE,
+  SETS,
+  SET_LENGTHS,
+  WARMUP_DURATION,
+} from '~/constants';
 
 import { sampleRandomValue } from './random';
 
@@ -21,7 +26,10 @@ export const reduceVariations = (variations, exercises, options) => {
 
     const allSetsLength = setLength * sets;
 
-    if (remaining >= allSetsLength && exerciseCounts[exercise.name] < 1) {
+    if (
+      remaining >= allSetsLength &&
+      exerciseCounts[exercise.name] < LIMIT_PER_EXERCISE
+    ) {
       remaining -= allSetsLength;
       exerciseCounts[exercise.name] += 1;
       return [...variations, variation];
