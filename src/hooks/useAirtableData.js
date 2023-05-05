@@ -29,6 +29,7 @@ export const useAirtableData = () => {
             id: record.id,
             name: record.get('Name'),
             variations: record.get('Variations'),
+            type: record.get('Type'),
           };
           exercises.push(exercise);
         });
@@ -49,6 +50,7 @@ export const useAirtableData = () => {
     variationsTable.select({ maxRecords: MAX_RECORDS }).eachPage(
       (records, fetchNextPage) => {
         records.forEach(function (record) {
+          const [exerciseType] = record.get('Exercise Type');
           const variation = {
             id: record.id,
             name: record.get('Name'),
@@ -57,6 +59,7 @@ export const useAirtableData = () => {
             movementPatterns: record.get('Movement Patterns'),
             grips: record.get('Grips'),
             level: record.get('Level'),
+            type: record.get('Variation Type') || exerciseType,
           };
           variations.push(variation);
         });

@@ -7,6 +7,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Plank Row',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -16,6 +17,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recF9M8MET7ObjERj'],
     name: 'Racked Front Squat',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -25,6 +27,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recpS2S27OT2oakQ9', 'rec7VZnObDVEGpo1A'],
     name: 'Walking Suitcase Lunge',
+    type: 'Accessory',
   },
   {
     aka: 'Power Clean',
@@ -34,6 +37,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Clean',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -43,6 +47,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
     name: 'Hang Squat Lift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -52,6 +57,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recF9M8MET7ObjERj'],
     name: 'Goblet Squat',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -61,6 +67,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Reverse Racked Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -70,6 +77,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rec7VZnObDVEGpo1A'],
     name: 'Racked Carry',
+    type: 'Accessory',
   },
   {
     aka: 'Single Leg RDL',
@@ -79,6 +87,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Single Stiff Leg Lift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -88,6 +97,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
     name: 'Racked Deadlift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -97,6 +107,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recF9M8MET7ObjERj'],
     name: 'Pistol Squat',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -111,6 +122,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Sumo Hip Hinge Lift',
+    type: 'Grind',
   },
   {
     aka: 'Romanian Deadlift',
@@ -125,6 +137,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Stiff-Legged Lift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -134,6 +147,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recF9M8MET7ObjERj'],
     name: 'Overhead Squat',
+    type: 'Grind',
   },
   {
     aka: 'Swing Clean',
@@ -148,6 +162,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Clean',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -157,6 +172,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rec77WOlS6dFLDGzQ'],
     name: 'Thruster Squat',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -170,6 +186,7 @@ export const EXAMPLE_VARIATIONS = [
       'rec77WOlS6dFLDGzQ',
     ],
     name: 'Half Snatch',
+    type: 'Ballistic',
   },
   {
     aka: 'Half Squat Snatch',
@@ -183,6 +200,7 @@ export const EXAMPLE_VARIATIONS = [
       'rec77WOlS6dFLDGzQ',
     ],
     name: 'Hang Half Snatch',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -192,6 +210,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Chest Press',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -201,6 +220,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'High Pull',
+    type: 'Ballistic',
   },
   {
     aka: 'Full Squat Snatch',
@@ -214,6 +234,7 @@ export const EXAMPLE_VARIATIONS = [
       'rec77WOlS6dFLDGzQ',
     ],
     name: 'Hang Full Snatch',
+    type: 'Ballistic',
   },
   {
     aka: 'Squat Clean',
@@ -223,6 +244,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
     name: 'Hang Clean',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -232,6 +254,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Bottoms Up Press',
+    type: 'Grind',
   },
   {
     aka: 'Half Power Snatch',
@@ -245,6 +268,7 @@ export const EXAMPLE_VARIATIONS = [
       'rec77WOlS6dFLDGzQ',
     ],
     name: 'Dead Half Snatch',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -259,6 +283,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Hip Hinge Lift',
+    type: 'Grind',
   },
   {
     aka: 'Russian Swing',
@@ -273,6 +298,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recaDRDMFGtPRY4Iy'],
     name: 'Swing',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -282,6 +308,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rec77WOlS6dFLDGzQ', 'recpS2S27OT2oakQ9'],
     name: 'Turkish Getup',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -291,6 +318,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rec77WOlS6dFLDGzQ', 'recF9M8MET7ObjERj'],
     name: 'Jerk',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -300,6 +328,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Bent Over Hang Row',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -309,6 +338,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Overhead Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -318,6 +348,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Bent Over Dead Row',
+    type: 'Accessory',
   },
   {
     aka: 'Woodchop',
@@ -327,6 +358,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'recblcl241Uy9trFg'],
     name: 'Chop and Lift',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -336,6 +368,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recblcl241Uy9trFg'],
     name: 'Halo',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -345,6 +378,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Squat Dead Curl',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -354,6 +388,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recaDRDMFGtPRY4Iy', 'rech8ekF1c4VNrUoH'],
     name: 'Hang Hip Hinge Lift',
+    type: 'Grind',
   },
   {
     aka: 'Military Press',
@@ -363,6 +398,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Strict Press',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -372,6 +408,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Straight Arm Sit',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -381,6 +418,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Racked Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -390,6 +428,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Reverse Suitcase Lunge',
+    type: 'Accessory',
   },
   {
     aka: 'Full Power Snatch',
@@ -403,6 +442,7 @@ export const EXAMPLE_VARIATIONS = [
       'rec77WOlS6dFLDGzQ',
     ],
     name: 'Dead Full Snatch',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -412,6 +452,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Curl',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -421,6 +462,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rec7VZnObDVEGpo1A'],
     name: 'Overhead Carry',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -430,6 +472,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recpS2S27OT2oakQ9', 'rec7VZnObDVEGpo1A'],
     name: 'Walking Racked Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -439,6 +482,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Reverse Overhead Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -448,6 +492,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Side Curl',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -457,6 +502,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recblcl241Uy9trFg'],
     name: 'Ribbons Halo',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -466,6 +512,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rec77WOlS6dFLDGzQ', 'recF9M8MET7ObjERj'],
     name: 'Squat Jerk',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -475,6 +522,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Bent Press',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -484,6 +532,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Kneeling Press',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -493,6 +542,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Suitcase Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -502,6 +552,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recpS2S27OT2oakQ9', 'rec7VZnObDVEGpo1A'],
     name: 'Walking Overhead Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -511,6 +562,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rec77WOlS6dFLDGzQ'],
     name: 'Lunge Press',
+    type: 'Grind',
   },
   {
     aka: "Farmer's Walk",
@@ -520,6 +572,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rec7VZnObDVEGpo1A'],
     name: 'Suitcase Carry',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -529,6 +582,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Suitcase Lift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -538,6 +592,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rec77WOlS6dFLDGzQ', 'recF9M8MET7ObjERj'],
     name: 'Split Jerk',
+    type: 'Ballistic',
   },
   {
     aka: 'Staggered Swing',
@@ -552,6 +607,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recaDRDMFGtPRY4Iy'],
     name: '1.5 Stance Swing',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -561,6 +617,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Bent Over Lunge Row',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -575,6 +632,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Sumo Squat Lift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -588,6 +646,7 @@ export const EXAMPLE_VARIATIONS = [
       'rec77WOlS6dFLDGzQ',
     ],
     name: 'Full Snatch',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -597,6 +656,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['recpS2S27OT2oakQ9', 'recblcl241Uy9trFg'],
     name: 'Rotating Racked Lunge',
+    type: 'Accessory',
   },
   {
     aka: undefined,
@@ -606,6 +666,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rec77WOlS6dFLDGzQ'],
     name: 'Push Press',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
@@ -620,6 +681,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rech8ekF1c4VNrUoH'],
     name: 'Dead Squat Lift',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -629,6 +691,7 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Hammer Curl',
+    type: 'Grind',
   },
   {
     aka: undefined,
@@ -638,5 +701,6 @@ export const EXAMPLE_VARIATIONS = [
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recpS2S27OT2oakQ9'],
     name: 'Lateral Racked Lunge',
+    type: 'Accessory',
   },
 ];
