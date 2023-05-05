@@ -11,14 +11,15 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
   const { setActiveWorkout } = useContext(ExercisesContext);
 
   const { options } = route.params;
-  const { duration, primaryFocus, secondaryFocus, setLength, sets, grip } =
-    options;
+  const { primaryFocus, secondaryFocus, sets, grip } = options;
 
   const activeWorkout = useGenerateWorkout(options);
 
   const handlePressStart = () => {
     setActiveWorkout(activeWorkout);
-    navigation.navigate(WORKOUT_ROUTES.active, { duration, sets, setLength });
+    navigation.navigate(WORKOUT_ROUTES.active, {
+      options,
+    });
   };
 
   return (

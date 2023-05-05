@@ -24,10 +24,12 @@ export const Screen = {
   args: {
     route: {
       params: {
-        duration: 30,
-        sets: 3,
-        setLength: 3,
-        grip: GRIPS[0],
+        options: {
+          duration: 30,
+          sets: 3,
+          setLength: 3,
+          grip: GRIPS[0],
+        },
       },
     },
   },

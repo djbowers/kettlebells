@@ -1,5 +1,6 @@
 import { composeStories } from '@storybook/testing-react';
 
+import { GRIPS } from '~/constants';
 import { EXAMPLE_VARIATIONS } from '~/examples';
 import { fireEvent, render, screen } from '~/testing';
 
@@ -19,7 +20,7 @@ test('renders info about the current exercise', () => {
   fireEvent.press(nextButton);
 
   const exercise = EXAMPLE_VARIATIONS[0];
-  const { grip } = Screen.args.route.params;
+  const grip = GRIPS[0];
 
   screen.getByText(exercise.name);
   screen.getByText(exercise.aka, { exact: false });

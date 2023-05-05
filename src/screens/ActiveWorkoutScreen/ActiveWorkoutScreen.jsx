@@ -8,7 +8,8 @@ import { useTimer } from '~/hooks';
 export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const { activeWorkout, movementPatterns } = useContext(ExercisesContext);
 
-  const { duration, sets, setLength, grip } = route.params;
+  const { options } = route.params;
+  const { duration, sets, setLength, grip } = options;
 
   const numExercises = activeWorkout.length;
   const totalRounds = numExercises * sets;
@@ -50,6 +51,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
 
   const currentExercise = rounds[currentRound];
   const currentExerciseNumber = activeWorkout.indexOf(currentExercise) + 1;
+  const currentSetNumber = currentRound % sets || sets;
 
   const currentMovementPatternIds = currentExercise.movementPatterns || [];
   const currentMovementPatterns = movementPatterns
@@ -101,9 +103,11 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
       </Flex>
 
       <Flex w="full" my={2} aria-label="Workout Controls">
-        <Text mb={2} textAlign="center">
-          Set 1 / 4
-        </Text>
+        {!isWarmup && (
+          <Text mb={2} textAlign="center">
+            Set {currentSetNumber} / {sets}
+          </Text>
+        )}
         <Progress
           value={elapsedSecondsInSet}
           max={roundLength * 60}
