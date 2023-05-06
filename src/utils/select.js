@@ -7,7 +7,7 @@ import {
 
 import { sampleRandomValue } from './random';
 
-export const reduceVariations = (variations, exercises, options) => {
+export const selectVariations = (variations, exercises, options) => {
   const { duration } = options;
 
   const sets = options.sets || sampleRandomValue(SETS);

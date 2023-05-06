@@ -1,6 +1,6 @@
 import { filterVariations } from './filter';
 import { orderByType } from './order';
-import { reduceVariations } from './reduce';
+import { selectVariations } from './select';
 import { shuffleArray } from './shuffle';
 
 export const generateWorkout = (
@@ -36,7 +36,7 @@ export const generateWorkout = (
 
   shuffleArray(filteredVariations);
 
-  const selectedVariations = reduceVariations(
+  const selectedVariations = selectVariations(
     filteredVariations,
     exercises,
     options

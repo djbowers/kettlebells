@@ -6,10 +6,10 @@ import {
 } from '~/constants';
 import { EXAMPLE_EXERCISES, EXAMPLE_VARIATIONS } from '~/examples';
 
-import { reduceVariations } from './reduce';
+import { selectVariations } from './select';
 
 test('correctly balances each of the base exercises', () => {
-  const reducedVariations = reduceVariations(
+  const reducedVariations = selectVariations(
     EXAMPLE_VARIATIONS,
     EXAMPLE_EXERCISES,
     { duration: 30, sets: 1, setLength: 1 }
@@ -33,7 +33,7 @@ describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
     (sets) => {
       const duration = 30;
 
-      const reducedVariations = reduceVariations(
+      const reducedVariations = selectVariations(
         EXAMPLE_VARIATIONS,
         EXAMPLE_EXERCISES,
         { duration, sets, setLength }
