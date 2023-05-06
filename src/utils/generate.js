@@ -23,21 +23,26 @@ export const generateWorkout = (
   const selectedPrimaryFocus = movementPatterns.find(
     ({ name }) => name === primaryFocus
   );
-  const selectedSecondaryFocus = movementPatterns.find(
-    ({ name }) => name === secondaryFocus
+  const selectedSecondaryFocus =
+    selectedPrimaryFocus &&
+    movementPatterns.find(({ name }) => name === secondaryFocus);
+
+  const [primaryVariations, secondaryVariations] = filterVariations(
+    variations,
+    {
+      selectedLevel,
+      selectedGrip,
+      selectedPrimaryFocus,
+      selectedSecondaryFocus,
+    }
   );
 
-  const filteredVariations = filterVariations(variations, {
-    selectedLevel,
-    selectedGrip,
-    selectedPrimaryFocus,
-    selectedSecondaryFocus,
-  });
-
-  shuffleArray(filteredVariations);
+  shuffleArray(primaryVariations);
+  shuffleArray(secondaryVariations);
 
   const selectedVariations = selectVariations(
-    filteredVariations,
+    primaryVariations,
+    secondaryVariations,
     exercises,
     options
   );

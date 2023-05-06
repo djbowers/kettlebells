@@ -1,17 +1,17 @@
 export const EXAMPLE_VARIATIONS = [
   {
     aka: 'Renegade Row',
-    exercise: ['recNRMaK9Qg5gGrnj'],
+    exercise: 'recNRMaK9Qg5gGrnj',
     grips: ['recrwMK0T5ZCg1Rnj', 'recTebFbliBXlTbm3', 'recq3cYnZHFFdbR2j'],
     id: 'rec0iBPfewA8MgNcF',
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Plank Row',
-    type: 'Accessory',
+    type: 'Grind',
   },
   {
     aka: undefined,
-    exercise: ['recR5vukgSq6b3IQs'],
+    exercise: 'recR5vukgSq6b3IQs',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rec2PUlT698fX4CWF',
     level: ['recgpTY0oX3J8SsmB'],
@@ -21,7 +21,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rec2UwpPEllg1pLyC',
     level: ['recIPFBovXQf6Ii77'],
@@ -31,7 +31,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Power Clean',
-    exercise: ['recHF1t55WbCGUcuE'],
+    exercise: 'recHF1t55WbCGUcuE',
     grips: ['recrwMK0T5ZCg1Rnj', 'recTebFbliBXlTbm3', 'recq3cYnZHFFdbR2j'],
     id: 'rec32GIMmx1i2yoYu',
     level: ['recgpTY0oX3J8SsmB'],
@@ -41,7 +41,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: ['recvi88OZDgtx66gx', 'recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rec34CjO3ZUX5DOUx',
     level: ['recIPFBovXQf6Ii77'],
@@ -51,7 +51,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recR5vukgSq6b3IQs'],
+    exercise: 'recR5vukgSq6b3IQs',
     grips: ['recvi88OZDgtx66gx'],
     id: 'rec448X9JTYUg5ESk',
     level: ['recIPFBovXQf6Ii77'],
@@ -61,7 +61,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recvi88OZDgtx66gx', 'recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rec59v0t6sb3LyKk8',
     level: ['recgpTY0oX3J8SsmB'],
@@ -71,7 +71,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['reciC3A1f4cx0fUgG'],
+    exercise: 'reciC3A1f4cx0fUgG',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j', 'recvi88OZDgtx66gx'],
     id: 'rec5EVrClNVYH8LVD',
     level: ['recgpTY0oX3J8SsmB'],
@@ -81,7 +81,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Single Leg RDL',
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: ['recvi88OZDgtx66gx', 'recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rec5KZFmCrXjqA1IR',
     level: ['recgpTY0oX3J8SsmB'],
@@ -91,7 +91,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: ['recq3cYnZHFFdbR2j'],
     id: 'rec96FuVNUUqf6vm1',
     level: ['recTyAA53wNE9ql5r'],
@@ -101,7 +101,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recR5vukgSq6b3IQs'],
+    exercise: 'recR5vukgSq6b3IQs',
     grips: ['recvi88OZDgtx66gx'],
     id: 'recC7ZOUaC1FrPh9T',
     level: ['recTyAA53wNE9ql5r'],
@@ -111,7 +111,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: [
       'recvi88OZDgtx66gx',
       'recrwMK0T5ZCg1Rnj',
@@ -126,7 +126,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Romanian Deadlift',
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: [
       'recvi88OZDgtx66gx',
       'recrwMK0T5ZCg1Rnj',
@@ -141,7 +141,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recR5vukgSq6b3IQs'],
+    exercise: 'recR5vukgSq6b3IQs',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recIUjZ2r8W9vnwXr',
     level: ['recTyAA53wNE9ql5r'],
@@ -151,7 +151,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Swing Clean',
-    exercise: ['recHF1t55WbCGUcuE'],
+    exercise: 'recHF1t55WbCGUcuE',
     grips: [
       'recrwMK0T5ZCg1Rnj',
       'recTebFbliBXlTbm3',
@@ -166,17 +166,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recR5vukgSq6b3IQs'],
+    exercise: 'recR5vukgSq6b3IQs',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j', 'recvi88OZDgtx66gx'],
     id: 'recKazXDhgNioQ6ji',
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['recF9M8MET7ObjERj', 'rec77WOlS6dFLDGzQ'],
     name: 'Thruster Squat',
-    type: 'Grind',
+    type: 'Ballistic',
   },
   {
     aka: undefined,
-    exercise: ['recn33fRHzXOKd50w'],
+    exercise: 'recn33fRHzXOKd50w',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recLMgwyGZeTOOy0C',
     level: ['recTyAA53wNE9ql5r'],
@@ -190,7 +190,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Half Squat Snatch',
-    exercise: ['recn33fRHzXOKd50w'],
+    exercise: 'recn33fRHzXOKd50w',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recMCfLHcL5GTlbfx',
     level: ['recTyAA53wNE9ql5r'],
@@ -204,7 +204,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj', 'recvi88OZDgtx66gx', 'recq3cYnZHFFdbR2j'],
     id: 'recOSVmlHwXc1G0Sb',
     level: ['recIPFBovXQf6Ii77'],
@@ -214,7 +214,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recdZZwRFsUagMXFg'],
+    exercise: 'recdZZwRFsUagMXFg',
     grips: ['recrwMK0T5ZCg1Rnj', 'recvi88OZDgtx66gx', 'recq3cYnZHFFdbR2j'],
     id: 'recOjgEKQ7oVpLPWZ',
     level: ['recgpTY0oX3J8SsmB'],
@@ -224,7 +224,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Full Squat Snatch',
-    exercise: ['recn33fRHzXOKd50w'],
+    exercise: 'recn33fRHzXOKd50w',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recPF86Jo4xl4y6x2',
     level: ['recTyAA53wNE9ql5r'],
@@ -238,7 +238,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Squat Clean',
-    exercise: ['recHF1t55WbCGUcuE'],
+    exercise: 'recHF1t55WbCGUcuE',
     grips: ['recrwMK0T5ZCg1Rnj', 'recTebFbliBXlTbm3', 'recq3cYnZHFFdbR2j'],
     id: 'recQG022jyRa8IbIG',
     level: ['recgpTY0oX3J8SsmB'],
@@ -248,7 +248,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recU4yupxtoYsozY5',
     level: ['recgpTY0oX3J8SsmB'],
@@ -258,7 +258,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Half Power Snatch',
-    exercise: ['recn33fRHzXOKd50w'],
+    exercise: 'recn33fRHzXOKd50w',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recUkDrsTcjk11snc',
     level: ['recTyAA53wNE9ql5r'],
@@ -272,7 +272,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: [
       'recvi88OZDgtx66gx',
       'recrwMK0T5ZCg1Rnj',
@@ -287,7 +287,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Russian Swing',
-    exercise: ['recdZZwRFsUagMXFg'],
+    exercise: 'recdZZwRFsUagMXFg',
     grips: [
       'recrwMK0T5ZCg1Rnj',
       'recTebFbliBXlTbm3',
@@ -302,7 +302,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recwBwGzfe81zYM7T'],
+    exercise: 'recwBwGzfe81zYM7T',
     grips: ['recrwMK0T5ZCg1Rnj'],
     id: 'recVqgbNlRmHbc971',
     level: ['recIPFBovXQf6Ii77'],
@@ -312,7 +312,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recrA6IQvTfPe2qiv'],
+    exercise: 'recrA6IQvTfPe2qiv',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recWwNmiBfbwBzG9z',
     level: ['recTyAA53wNE9ql5r'],
@@ -322,17 +322,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recNRMaK9Qg5gGrnj'],
+    exercise: 'recNRMaK9Qg5gGrnj',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recWydYGNa0zaYrrK',
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Bent Over Hang Row',
-    type: 'Accessory',
+    type: 'Grind',
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recXmvgMgdBMQWXo2',
     level: ['recTyAA53wNE9ql5r'],
@@ -342,17 +342,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recNRMaK9Qg5gGrnj'],
+    exercise: 'recNRMaK9Qg5gGrnj',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recYZyhCOihMpCtaj',
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Bent Over Dead Row',
-    type: 'Accessory',
+    type: 'Grind',
   },
   {
     aka: 'Woodchop',
-    exercise: ['recdZZwRFsUagMXFg'],
+    exercise: 'recdZZwRFsUagMXFg',
     grips: ['recvi88OZDgtx66gx'],
     id: 'recacKXwr1LeWurT0',
     level: ['recgpTY0oX3J8SsmB'],
@@ -362,7 +362,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2OETXViNU1ObJf'],
+    exercise: 'rec2OETXViNU1ObJf',
     grips: ['recvi88OZDgtx66gx'],
     id: 'recafF1DckgalSsZB',
     level: ['recIPFBovXQf6Ii77'],
@@ -372,17 +372,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recileTOk7MgAzVu1'],
+    exercise: 'recileTOk7MgAzVu1',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'reccE0LHHshLW1PtN',
     level: ['recTyAA53wNE9ql5r'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Squat Dead Curl',
-    type: 'Grind',
+    type: 'Accessory',
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: ['recvi88OZDgtx66gx', 'recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recdaWSboonNG2tCO',
     level: ['recIPFBovXQf6Ii77'],
@@ -392,7 +392,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Military Press',
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j', 'recvi88OZDgtx66gx'],
     id: 'recgGtdgbbhV5POY2',
     level: ['recIPFBovXQf6Ii77'],
@@ -402,7 +402,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recwBwGzfe81zYM7T'],
+    exercise: 'recwBwGzfe81zYM7T',
     grips: ['recrwMK0T5ZCg1Rnj'],
     id: 'rechOxx5BtMpcODNY',
     level: ['recgpTY0oX3J8SsmB'],
@@ -412,7 +412,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recvi88OZDgtx66gx', 'recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rechRMGwyd17236Pb',
     level: ['recgpTY0oX3J8SsmB'],
@@ -422,7 +422,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rechrzDpeqO4hxPnP',
     level: ['recIPFBovXQf6Ii77'],
@@ -432,7 +432,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Full Power Snatch',
-    exercise: ['recn33fRHzXOKd50w'],
+    exercise: 'recn33fRHzXOKd50w',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recimvdFhuqcX2fBV',
     level: ['recTyAA53wNE9ql5r'],
@@ -446,17 +446,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recileTOk7MgAzVu1'],
+    exercise: 'recileTOk7MgAzVu1',
     grips: ['recrwMK0T5ZCg1Rnj', 'recvi88OZDgtx66gx', 'recq3cYnZHFFdbR2j'],
     id: 'recizejtt0h1X53uU',
     level: ['recIPFBovXQf6Ii77'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Curl',
-    type: 'Grind',
+    type: 'Accessory',
   },
   {
     aka: undefined,
-    exercise: ['reciC3A1f4cx0fUgG'],
+    exercise: 'reciC3A1f4cx0fUgG',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'reck2QgBzp7XUQ1TH',
     level: ['recTyAA53wNE9ql5r'],
@@ -466,7 +466,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recvi88OZDgtx66gx', 'recq3cYnZHFFdbR2j'],
     id: 'reckNelefyr6vvTCb',
     level: ['recgpTY0oX3J8SsmB'],
@@ -476,7 +476,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'reckYmbVuBHv49DoD',
     level: ['recTyAA53wNE9ql5r'],
@@ -486,17 +486,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recileTOk7MgAzVu1'],
+    exercise: 'recileTOk7MgAzVu1',
     grips: ['recrwMK0T5ZCg1Rnj'],
     id: 'recl94jRExk9IeZKH',
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Side Curl',
-    type: 'Grind',
+    type: 'Accessory',
   },
   {
     aka: undefined,
-    exercise: ['rec2OETXViNU1ObJf'],
+    exercise: 'rec2OETXViNU1ObJf',
     grips: ['recvi88OZDgtx66gx'],
     id: 'reclf84TE2aOEYcUS',
     level: ['recIPFBovXQf6Ii77'],
@@ -506,7 +506,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recrA6IQvTfPe2qiv'],
+    exercise: 'recrA6IQvTfPe2qiv',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recn0eC3C9M487p6a',
     level: ['recTyAA53wNE9ql5r'],
@@ -516,7 +516,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj'],
     id: 'recpBY1WquxtPS7z6',
     level: ['recTyAA53wNE9ql5r'],
@@ -526,7 +526,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recqzXHMy1nPgem8h',
     level: ['recgpTY0oX3J8SsmB'],
@@ -536,7 +536,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recraVvBxdXyo8Sd3',
     level: ['recIPFBovXQf6Ii77'],
@@ -546,7 +546,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recsUVODnTbSVsZeF',
     level: ['recTyAA53wNE9ql5r'],
@@ -556,7 +556,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rect0WZZifV0lHEUy',
     level: ['recTyAA53wNE9ql5r'],
@@ -566,7 +566,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: "Farmer's Walk",
-    exercise: ['reciC3A1f4cx0fUgG'],
+    exercise: 'reciC3A1f4cx0fUgG',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rect7fZ31xZH9RBtQ',
     level: ['recIPFBovXQf6Ii77'],
@@ -576,7 +576,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j', 'recTebFbliBXlTbm3'],
     id: 'rectqJStVGs4jucwF',
     level: ['recgpTY0oX3J8SsmB'],
@@ -586,7 +586,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recrA6IQvTfPe2qiv'],
+    exercise: 'recrA6IQvTfPe2qiv',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'rectr4f0dnA4C27Pu',
     level: ['recTyAA53wNE9ql5r'],
@@ -596,7 +596,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: 'Staggered Swing',
-    exercise: ['recdZZwRFsUagMXFg'],
+    exercise: 'recdZZwRFsUagMXFg',
     grips: [
       'recrwMK0T5ZCg1Rnj',
       'recTebFbliBXlTbm3',
@@ -611,17 +611,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recNRMaK9Qg5gGrnj'],
+    exercise: 'recNRMaK9Qg5gGrnj',
     grips: ['recrwMK0T5ZCg1Rnj'],
     id: 'recugBxBVg8mCGlNS',
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Bent Over Lunge Row',
-    type: 'Accessory',
+    type: 'Grind',
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: [
       'recvi88OZDgtx66gx',
       'recrwMK0T5ZCg1Rnj',
@@ -636,7 +636,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recn33fRHzXOKd50w'],
+    exercise: 'recn33fRHzXOKd50w',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recuwzCqbnu9DG5rx',
     level: ['recTyAA53wNE9ql5r'],
@@ -650,7 +650,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recvi88OZDgtx66gx', 'recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recwC6LL1lqWSrKUY',
     level: ['recTyAA53wNE9ql5r'],
@@ -660,7 +660,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recAjB9GDFYzQtuLf'],
+    exercise: 'recAjB9GDFYzQtuLf',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recwTnKlKA4kyEe7z',
     level: ['recgpTY0oX3J8SsmB'],
@@ -670,7 +670,7 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['rec046LV9QZNxyyto'],
+    exercise: 'rec046LV9QZNxyyto',
     grips: [
       'recvi88OZDgtx66gx',
       'recrwMK0T5ZCg1Rnj',
@@ -685,17 +685,17 @@ export const EXAMPLE_VARIATIONS = [
   },
   {
     aka: undefined,
-    exercise: ['recileTOk7MgAzVu1'],
+    exercise: 'recileTOk7MgAzVu1',
     grips: ['recrwMK0T5ZCg1Rnj', 'recq3cYnZHFFdbR2j'],
     id: 'recxs3mBmP8IlNd2b',
     level: ['recgpTY0oX3J8SsmB'],
     movementPatterns: ['rech8ekF1c4VNrUoH'],
     name: 'Hammer Curl',
-    type: 'Grind',
+    type: 'Accessory',
   },
   {
     aka: undefined,
-    exercise: ['rec2pynZxB3vUktHB'],
+    exercise: 'rec2pynZxB3vUktHB',
     grips: ['recrwMK0T5ZCg1Rnj', 'recvi88OZDgtx66gx', 'recq3cYnZHFFdbR2j'],
     id: 'recyx69O0IyOdJqaR',
     level: ['recgpTY0oX3J8SsmB'],

@@ -7,33 +7,70 @@ import {
 
 import { sampleRandomValue } from './random';
 
-export const selectVariations = (variations, exercises, options) => {
+export const selectVariations = (
+  primaryVariations,
+  secondaryVariations,
+  exercises,
+  options
+) => {
   const { duration } = options;
 
   const sets = options.sets || sampleRandomValue(SETS);
   const setLength = options.setLength || sampleRandomValue(SET_LENGTHS);
+
+  const withoutWarmup = duration - WARMUP_DURATION;
+  const eachVariation = setLength * sets;
+
+  const numExercises = Math.floor(withoutWarmup / eachVariation);
+  const primaryLimit = Math.floor(numExercises / 2) + (numExercises % 2);
+  const secondaryLimit = Math.floor(numExercises / 2);
 
   const exerciseCounts = {};
   exercises.forEach(({ name }) => {
     exerciseCounts[name] = 0;
   });
 
-  let remaining = duration - WARMUP_DURATION;
+  const selectedPrimaryVariations = primaryVariations.reduce(
+    (variations, variation) => {
+      const exercise = exercises.find(
+        (exercise) => exercise.id === variation.exercise
+      );
+      const isUnderExerciseLimit =
+        exerciseCounts[exercise.name] < LIMIT_PER_EXERCISE;
 
-  return variations.reduce((variations, variation) => {
-    const [exerciseId] = variation.exercise;
-    const exercise = exercises.find((exercise) => exercise.id === exerciseId);
+      const isUnderPrimaryLimit = variations.length < primaryLimit;
 
-    const allSetsLength = setLength * sets;
+      if (isUnderPrimaryLimit && isUnderExerciseLimit) {
+        exerciseCounts[exercise.name] += 1;
+        return [...variations, variation];
+      }
+      return variations;
+    },
+    []
+  );
 
-    if (
-      remaining >= allSetsLength &&
-      exerciseCounts[exercise.name] < LIMIT_PER_EXERCISE
-    ) {
-      remaining -= allSetsLength;
-      exerciseCounts[exercise.name] += 1;
-      return [...variations, variation];
-    }
-    return variations;
-  }, []);
+  const selectedPrimaryIds = selectedPrimaryVariations.map(({ id }) => id);
+
+  const selectedSecondaryVariations = secondaryVariations.reduce(
+    (variations, variation) => {
+      const exercise = exercises.find(
+        (exercise) => exercise.id === variation.exercise
+      );
+      const isUnderExerciseLimit =
+        exerciseCounts[exercise.name] < LIMIT_PER_EXERCISE;
+
+      const isUnderSecondaryLimit = variations.length < secondaryLimit;
+
+      const includedInPrimary = selectedPrimaryIds.includes(variation.id);
+
+      if (isUnderSecondaryLimit && isUnderExerciseLimit && !includedInPrimary) {
+        exerciseCounts[exercise.name] += 1;
+        return [...variations, variation];
+      }
+      return variations;
+    },
+    []
+  );
+
+  return [...selectedPrimaryVariations, ...selectedSecondaryVariations];
 };

@@ -11,16 +11,16 @@ import { selectVariations } from './select';
 test('correctly balances each of the base exercises', () => {
   const reducedVariations = selectVariations(
     EXAMPLE_VARIATIONS,
+    EXAMPLE_VARIATIONS,
     EXAMPLE_EXERCISES,
     { duration: 30, sets: 1, setLength: 1 }
   );
 
   const exerciseIds = [];
   for (const { exercise } of reducedVariations) {
-    const [exerciseId] = exercise;
-    const foundIds = exerciseIds.filter((id) => id === exerciseId);
+    const foundIds = exerciseIds.filter((id) => id === exercise);
     expect(foundIds.length).not.toBeGreaterThan(LIMIT_PER_EXERCISE);
-    exerciseIds.push(exerciseId);
+    exerciseIds.push(exercise);
   }
   expect(exerciseIds.length).not.toBeGreaterThan(
     EXAMPLE_EXERCISES.length * LIMIT_PER_EXERCISE
@@ -34,6 +34,7 @@ describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
       const duration = 30;
 
       const reducedVariations = selectVariations(
+        EXAMPLE_VARIATIONS,
         EXAMPLE_VARIATIONS,
         EXAMPLE_EXERCISES,
         { duration, sets, setLength }

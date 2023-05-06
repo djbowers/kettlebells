@@ -1,5 +1,5 @@
 export const FOCUSES = [
-  'None',
+  'Any',
   'Push',
   'Pull',
   'Hinge',

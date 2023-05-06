@@ -38,7 +38,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
   const disableGenerate =
     level === undefined || sets === undefined || setLength === undefined;
 
-  const hideSecondaryFocus = primaryFocus === 'None' || !primaryFocus;
+  const hideSecondaryFocus = primaryFocus === 'Any' || !primaryFocus;
 
   const secondaryFocusOptions = FOCUS_OPTIONS.filter(
     (focus) => focus.value !== primaryFocus
