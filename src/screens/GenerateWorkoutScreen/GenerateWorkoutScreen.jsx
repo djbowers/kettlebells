@@ -5,9 +5,12 @@ import { useState } from 'react';
 import { SelectOption } from '~/components';
 import {
   DEFAULT_DURATION,
+  DURATION_STEP,
   FOCUS_OPTIONS,
   GRIP_OPTIONS,
   LEVEL_OPTIONS,
+  MAX_DURATION,
+  MIN_DURATION,
   SETS_OPTIONS,
   SET_LENGTH_OPTIONS,
   WORKOUT_ROUTES,
@@ -65,10 +68,11 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
         {/* todo: create a custom Slider that stores its value in async storage */}
         <Slider
           onValueChange={changeDuration}
-          maximumValue={90}
-          minimumValue={15}
-          step={5}
+          maximumValue={MAX_DURATION}
+          minimumValue={MIN_DURATION}
+          step={DURATION_STEP}
           value={duration}
+          accessibilityLabel="Select Duration"
         />
 
         <Flex

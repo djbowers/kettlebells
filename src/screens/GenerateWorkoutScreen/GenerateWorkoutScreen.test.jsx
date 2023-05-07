@@ -6,7 +6,8 @@ import * as stories from './GenerateWorkoutScreen.stories';
 
 const { Screen } = composeStories(stories);
 
-test('renders text', async () => {
+test('renders components', () => {
   render(<Screen />);
-  await screen.findByText("Let's get started!");
+  screen.getByText("Let's get started!");
+  screen.getByLabelText('Select Duration');
 });
