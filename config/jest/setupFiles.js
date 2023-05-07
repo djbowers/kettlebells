@@ -10,8 +10,5 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 /** Mock Internal Libraries */
 
-// mock airtable exercises
-jest.mock('~/hooks/useAirtableData.js');
-
 // mock timer hook
 jest.mock('~/hooks/useTimer.js');

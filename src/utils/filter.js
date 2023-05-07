@@ -2,10 +2,9 @@ export const filterVariations = (
   variations,
   { selectedLevel, selectedGrip, selectedPrimaryFocus, selectedSecondaryFocus }
 ) => {
-  const filteredByLevel = variations.filter(({ level = [] }) => {
+  const filteredByLevel = variations.filter(({ level }) => {
     if (!selectedLevel) return true;
-    const [levelId] = level;
-    return levelId === selectedLevel.id;
+    return level === selectedLevel;
   });
 
   const filteredByLevelAndGrip = filteredByLevel.filter(({ grips = [] }) => {
@@ -16,24 +15,14 @@ export const filterVariations = (
   const primaryVariations = filteredByLevelAndGrip.filter(
     ({ movementPatterns = [] }) => {
       if (!selectedPrimaryFocus) return true;
-
-      const includesPrimaryFocus =
-        selectedPrimaryFocus.id &&
-        movementPatterns.includes(selectedPrimaryFocus.id);
-
-      return includesPrimaryFocus;
+      return movementPatterns.includes(selectedPrimaryFocus);
     }
   );
 
   const secondaryVariations = filteredByLevelAndGrip.filter(
     ({ movementPatterns = [] }) => {
       if (!selectedSecondaryFocus) return true;
-
-      const includesSecondaryFocus =
-        selectedSecondaryFocus.id &&
-        movementPatterns.includes(selectedSecondaryFocus.id);
-
-      return includesSecondaryFocus;
+      return movementPatterns.includes(selectedSecondaryFocus);
     }
   );
 

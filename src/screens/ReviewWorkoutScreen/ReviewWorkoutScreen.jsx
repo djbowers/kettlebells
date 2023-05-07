@@ -4,30 +4,16 @@ import { ScrollView } from 'react-native';
 import tw from 'twrnc';
 
 import { WORKOUT_ROUTES } from '~/constants';
-import { ExercisesContext } from '~/contexts';
+import { ActiveWorkoutContext } from '~/contexts';
 import { generateWorkout } from '~/utils';
 
 export const ReviewWorkoutScreen = ({ navigation, route }) => {
-  const {
-    setActiveWorkout,
-    exercises,
-    variations,
-    movementPatterns,
-    grips,
-    levels,
-  } = useContext(ExercisesContext);
+  const [, setActiveWorkout] = useContext(ActiveWorkoutContext);
 
   const { options } = route.params;
   const { primaryFocus, secondaryFocus, sets, grip } = options;
 
-  const activeWorkout = generateWorkout(
-    exercises,
-    variations,
-    movementPatterns,
-    grips,
-    levels,
-    options
-  );
+  const activeWorkout = generateWorkout(options);
 
   const handlePressStart = () => {
     setActiveWorkout(activeWorkout);

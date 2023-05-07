@@ -1,7 +1,7 @@
 import { composeStories } from '@storybook/testing-react';
 
 import { GRIPS } from '~/constants';
-import { EXAMPLE_VARIATIONS } from '~/examples';
+import { VARIATIONS } from '~/data';
 import { fireEvent, render, screen } from '~/testing';
 
 import * as stories from './ActiveWorkoutScreen.stories';
@@ -19,7 +19,7 @@ test('renders info about the current exercise', () => {
   const nextButton = screen.getByRole('button', { name: /next/i });
   fireEvent.press(nextButton);
 
-  const exercise = EXAMPLE_VARIATIONS[0];
+  const exercise = VARIATIONS[0];
   const grip = GRIPS[0];
 
   screen.getByText(exercise.name);

@@ -1,16 +1,7 @@
 import { Flex, Spacer, Text } from 'native-base';
 
-export const CurrentSetInfo = ({
-  currentExercise,
-  isWarmup,
-  grip,
-  movementPatterns,
-}) => {
-  const currentMovementPatternIds = currentExercise.movementPatterns || [];
-
-  const currentMovementPatterns = movementPatterns
-    .filter(({ id }) => currentMovementPatternIds.includes(id))
-    .map(({ name }) => name);
+export const CurrentSetInfo = ({ currentExercise, isWarmup, grip }) => {
+  const currentMovementPatterns = currentExercise.movementPatterns || [];
 
   const currentMovementPatternsText =
     currentMovementPatterns.length > 1

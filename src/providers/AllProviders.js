@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { NativeBaseProvider } from 'native-base';
 
 import { theme } from '../theme';
-import { ExercisesProvider } from './ExercisesProvider';
+import { ActiveWorkoutProvider } from './ActiveWorkoutProvider';
 
 export const AllProviders = ({ children }) => {
   const inset = {
@@ -11,10 +11,10 @@ export const AllProviders = ({ children }) => {
   };
 
   return (
-    <ExercisesProvider>
+    <ActiveWorkoutProvider>
       <NativeBaseProvider theme={theme} initialWindowMetrics={inset}>
         <NavigationContainer>{children}</NavigationContainer>
       </NativeBaseProvider>
-    </ExercisesProvider>
+    </ActiveWorkoutProvider>
   );
 };

@@ -1,0 +1,633 @@
+[
+  {
+    "id": "rec0iBPfewA8MgNcF",
+    "name": "Plank Row",
+    "aka": "Renegade Row",
+    "exercise": "recNRMaK9Qg5gGrnj",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recTebFbliBXlTbm3", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "rec2PUlT698fX4CWF",
+    "name": "Racked Front Squat",
+    "exercise": "recR5vukgSq6b3IQs",
+    "movementPatterns": ["Squat"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "rec2UwpPEllg1pLyC",
+    "name": "Walking Suitcase Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge", "Gait"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "rec32GIMmx1i2yoYu",
+    "name": "Dead Clean",
+    "aka": "Power Clean",
+    "exercise": "recHF1t55WbCGUcuE",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recTebFbliBXlTbm3", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "rec34CjO3ZUX5DOUx",
+    "name": "Hang Squat Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Squat", "Pull"],
+    "grips": ["recvi88OZDgtx66gx", "recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "rec448X9JTYUg5ESk",
+    "name": "Goblet Squat",
+    "exercise": "recR5vukgSq6b3IQs",
+    "movementPatterns": ["Squat"],
+    "grips": ["recvi88OZDgtx66gx"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "rec59v0t6sb3LyKk8",
+    "name": "Reverse Racked Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recvi88OZDgtx66gx", "recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "rec5EVrClNVYH8LVD",
+    "name": "Racked Carry",
+    "exercise": "reciC3A1f4cx0fUgG",
+    "movementPatterns": ["Gait"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j", "recvi88OZDgtx66gx"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "rec5KZFmCrXjqA1IR",
+    "name": "Dead Single Stiff Leg Lift",
+    "aka": "Single Leg RDL",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": ["recvi88OZDgtx66gx", "recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "rec96FuVNUUqf6vm1",
+    "name": "Racked Deadlift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Squat", "Pull"],
+    "grips": ["recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "recC7ZOUaC1FrPh9T",
+    "name": "Pistol Squat",
+    "exercise": "recR5vukgSq6b3IQs",
+    "movementPatterns": ["Squat"],
+    "grips": ["recvi88OZDgtx66gx"],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "recDTFHITh5dVadQO",
+    "name": "Dead Sumo Hip Hinge Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": [
+      "recvi88OZDgtx66gx",
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "recHCE6gKEdbDBoy0",
+    "name": "Dead Stiff-Legged Lift",
+    "aka": "Romanian Deadlift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": [
+      "recvi88OZDgtx66gx",
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "recIUjZ2r8W9vnwXr",
+    "name": "Overhead Squat",
+    "exercise": "recR5vukgSq6b3IQs",
+    "movementPatterns": ["Squat"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "recJY8hjIWvhAlha3",
+    "name": "Clean",
+    "aka": "Swing Clean",
+    "exercise": "recHF1t55WbCGUcuE",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": [
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recvi88OZDgtx66gx",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recKazXDhgNioQ6ji",
+    "name": "Thruster Squat",
+    "exercise": "recR5vukgSq6b3IQs",
+    "movementPatterns": ["Squat", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j", "recvi88OZDgtx66gx"],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recLMgwyGZeTOOy0C",
+    "name": "Half Snatch",
+    "exercise": "recn33fRHzXOKd50w",
+    "movementPatterns": ["Hinge", "Pull", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recMCfLHcL5GTlbfx",
+    "name": "Hang Half Snatch",
+    "aka": "Half Squat Snatch",
+    "exercise": "recn33fRHzXOKd50w",
+    "movementPatterns": ["Squat", "Pull", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recOSVmlHwXc1G0Sb",
+    "name": "Chest Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recvi88OZDgtx66gx", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "recOjgEKQ7oVpLPWZ",
+    "name": "High Pull",
+    "exercise": "recdZZwRFsUagMXFg",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recvi88OZDgtx66gx", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recPF86Jo4xl4y6x2",
+    "name": "Hang Full Snatch",
+    "aka": "Full Squat Snatch",
+    "exercise": "recn33fRHzXOKd50w",
+    "movementPatterns": ["Squat", "Pull", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recQG022jyRa8IbIG",
+    "name": "Hang Clean",
+    "aka": "Squat Clean",
+    "exercise": "recHF1t55WbCGUcuE",
+    "movementPatterns": ["Squat", "Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recTebFbliBXlTbm3", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recU4yupxtoYsozY5",
+    "name": "Bottoms Up Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "recUkDrsTcjk11snc",
+    "name": "Dead Half Snatch",
+    "aka": "Half Power Snatch",
+    "exercise": "recn33fRHzXOKd50w",
+    "movementPatterns": ["Hinge", "Pull", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recVa9MhZg09Gf1AI",
+    "name": "Dead Hip Hinge Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": [
+      "recvi88OZDgtx66gx",
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "recVjzFsvuLJRZACs",
+    "name": "Swing",
+    "aka": "Russian Swing",
+    "exercise": "recdZZwRFsUagMXFg",
+    "movementPatterns": ["Hinge"],
+    "grips": [
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recvi88OZDgtx66gx",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Beginner",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recVqgbNlRmHbc971",
+    "name": "Turkish Getup",
+    "exercise": "recwBwGzfe81zYM7T",
+    "movementPatterns": ["Push", "Lunge"],
+    "grips": ["recrwMK0T5ZCg1Rnj"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "recWwNmiBfbwBzG9z",
+    "name": "Jerk",
+    "exercise": "recrA6IQvTfPe2qiv",
+    "movementPatterns": ["Push", "Squat"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recWydYGNa0zaYrrK",
+    "name": "Bent Over Hang Row",
+    "exercise": "recNRMaK9Qg5gGrnj",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "recXmvgMgdBMQWXo2",
+    "name": "Overhead Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Accessory"
+  },
+  {
+    "id": "recYZyhCOihMpCtaj",
+    "name": "Bent Over Dead Row",
+    "exercise": "recNRMaK9Qg5gGrnj",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "recacKXwr1LeWurT0",
+    "name": "Chop and Lift",
+    "aka": "Woodchop",
+    "exercise": "recdZZwRFsUagMXFg",
+    "movementPatterns": ["Hinge", "Twist"],
+    "grips": ["recvi88OZDgtx66gx"],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recafF1DckgalSsZB",
+    "name": "Halo",
+    "exercise": "rec2OETXViNU1ObJf",
+    "movementPatterns": ["Twist"],
+    "grips": ["recvi88OZDgtx66gx"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "reccE0LHHshLW1PtN",
+    "name": "Squat Dead Curl",
+    "exercise": "recileTOk7MgAzVu1",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Accessory"
+  },
+  {
+    "id": "recdaWSboonNG2tCO",
+    "name": "Hang Hip Hinge Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Hinge", "Pull"],
+    "grips": ["recvi88OZDgtx66gx", "recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "recgGtdgbbhV5POY2",
+    "name": "Strict Press",
+    "aka": "Military Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j", "recvi88OZDgtx66gx"],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "rechOxx5BtMpcODNY",
+    "name": "Straight Arm Sit",
+    "exercise": "recwBwGzfe81zYM7T",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "rechRMGwyd17236Pb",
+    "name": "Racked Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recvi88OZDgtx66gx", "recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "rechrzDpeqO4hxPnP",
+    "name": "Reverse Suitcase Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "recimvdFhuqcX2fBV",
+    "name": "Dead Full Snatch",
+    "aka": "Full Power Snatch",
+    "exercise": "recn33fRHzXOKd50w",
+    "movementPatterns": ["Hinge", "Pull", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recizejtt0h1X53uU",
+    "name": "Curl",
+    "exercise": "recileTOk7MgAzVu1",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recvi88OZDgtx66gx", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "reck2QgBzp7XUQ1TH",
+    "name": "Overhead Carry",
+    "exercise": "reciC3A1f4cx0fUgG",
+    "movementPatterns": ["Gait"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Accessory"
+  },
+  {
+    "id": "reckNelefyr6vvTCb",
+    "name": "Walking Racked Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge", "Gait"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recvi88OZDgtx66gx", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "reckYmbVuBHv49DoD",
+    "name": "Reverse Overhead Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Accessory"
+  },
+  {
+    "id": "recl94jRExk9IeZKH",
+    "name": "Side Curl",
+    "exercise": "recileTOk7MgAzVu1",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "reclf84TE2aOEYcUS",
+    "name": "Ribbons Halo",
+    "exercise": "rec2OETXViNU1ObJf",
+    "movementPatterns": ["Twist"],
+    "grips": ["recvi88OZDgtx66gx"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "recn0eC3C9M487p6a",
+    "name": "Squat Jerk",
+    "exercise": "recrA6IQvTfPe2qiv",
+    "movementPatterns": ["Push", "Squat"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recpBY1WquxtPS7z6",
+    "name": "Bent Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj"],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "recqzXHMy1nPgem8h",
+    "name": "Kneeling Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "recraVvBxdXyo8Sd3",
+    "name": "Suitcase Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "recsUVODnTbSVsZeF",
+    "name": "Walking Overhead Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge", "Gait"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Accessory"
+  },
+  {
+    "id": "rect0WZZifV0lHEUy",
+    "name": "Lunge Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "rect7fZ31xZH9RBtQ",
+    "name": "Suitcase Carry",
+    "aka": "Farmer's Walk",
+    "exercise": "reciC3A1f4cx0fUgG",
+    "movementPatterns": ["Gait"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Beginner",
+    "type": "Accessory"
+  },
+  {
+    "id": "rectqJStVGs4jucwF",
+    "name": "Dead Suitcase Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Squat", "Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j", "recTebFbliBXlTbm3"],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "rectr4f0dnA4C27Pu",
+    "name": "Split Jerk",
+    "exercise": "recrA6IQvTfPe2qiv",
+    "movementPatterns": ["Push", "Squat"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recuHQLHLWhND16yE",
+    "name": "1.5 Stance Swing",
+    "aka": "Staggered Swing",
+    "exercise": "recdZZwRFsUagMXFg",
+    "movementPatterns": ["Hinge"],
+    "grips": [
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recvi88OZDgtx66gx",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recugBxBVg8mCGlNS",
+    "name": "Bent Over Lunge Row",
+    "exercise": "recNRMaK9Qg5gGrnj",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj"],
+    "level": "Intermediate",
+    "type": "Grind"
+  },
+  {
+    "id": "recuisCdIvux6aC1Y",
+    "name": "Dead Sumo Squat Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Squat", "Pull"],
+    "grips": [
+      "recvi88OZDgtx66gx",
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Advanced",
+    "type": "Grind"
+  },
+  {
+    "id": "recuwzCqbnu9DG5rx",
+    "name": "Full Snatch",
+    "exercise": "recn33fRHzXOKd50w",
+    "movementPatterns": ["Hinge", "Pull", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recwC6LL1lqWSrKUY",
+    "name": "Rotating Racked Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge", "Twist"],
+    "grips": ["recvi88OZDgtx66gx", "recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Advanced",
+    "type": "Accessory"
+  },
+  {
+    "id": "recwTnKlKA4kyEe7z",
+    "name": "Push Press",
+    "exercise": "recAjB9GDFYzQtuLf",
+    "movementPatterns": ["Squat", "Push"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Ballistic"
+  },
+  {
+    "id": "recxCTDYMd9xUWoXU",
+    "name": "Dead Squat Lift",
+    "exercise": "rec046LV9QZNxyyto",
+    "movementPatterns": ["Squat", "Pull"],
+    "grips": [
+      "recvi88OZDgtx66gx",
+      "recrwMK0T5ZCg1Rnj",
+      "recTebFbliBXlTbm3",
+      "recq3cYnZHFFdbR2j"
+    ],
+    "level": "Beginner",
+    "type": "Grind"
+  },
+  {
+    "id": "recxs3mBmP8IlNd2b",
+    "name": "Hammer Curl",
+    "exercise": "recileTOk7MgAzVu1",
+    "movementPatterns": ["Pull"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  },
+  {
+    "id": "recyx69O0IyOdJqaR",
+    "name": "Lateral Racked Lunge",
+    "exercise": "rec2pynZxB3vUktHB",
+    "movementPatterns": ["Lunge"],
+    "grips": ["recrwMK0T5ZCg1Rnj", "recvi88OZDgtx66gx", "recq3cYnZHFFdbR2j"],
+    "level": "Intermediate",
+    "type": "Accessory"
+  }
+]

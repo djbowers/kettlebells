@@ -1,10 +1,3 @@
-export const FOCUSES = [
-  'Any',
-  'Push',
-  'Pull',
-  'Hinge',
-  'Squat',
-  'Lunge',
-  'Twist',
-  'Gait',
-];
+import { MOVEMENT_PATTERNS } from './movementPatterns.constants';
+
+export const FOCUSES = ['Any', ...MOVEMENT_PATTERNS];

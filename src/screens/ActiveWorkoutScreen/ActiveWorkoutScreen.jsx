@@ -3,11 +3,11 @@ import { useContext, useState } from 'react';
 
 import { CurrentSetInfo, WorkoutControls, WorkoutProgress } from '~/components';
 import { WARMUP, WORKOUT_ROUTES } from '~/constants';
-import { ExercisesContext } from '~/contexts';
+import { ActiveWorkoutContext } from '~/contexts';
 import { useTimer } from '~/hooks';
 
 export const ActiveWorkoutScreen = ({ navigation, route }) => {
-  const { activeWorkout, movementPatterns } = useContext(ExercisesContext);
+  const [activeWorkout] = useContext(ActiveWorkoutContext);
 
   const [currentRound, setCurrentRound] = useState(0);
 
@@ -54,7 +54,6 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
         currentExercise={currentExercise}
         grip={grip}
         isWarmup={isWarmup}
-        movementPatterns={movementPatterns}
       />
 
       <WorkoutControls

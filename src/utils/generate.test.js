@@ -1,11 +1,3 @@
-import {
-  EXAMPLE_EXERCISES,
-  EXAMPLE_GRIPS,
-  EXAMPLE_LEVELS,
-  EXAMPLE_MOVEMENT_PATTERNS,
-  EXAMPLE_VARIATIONS,
-} from '~/examples';
-
 import { generateWorkout } from './generate';
 
 describe('workout generation', () => {
@@ -20,14 +12,7 @@ describe('workout generation', () => {
       secondaryFocus: 'Pull',
     };
 
-    const activeWorkout = generateWorkout(
-      EXAMPLE_EXERCISES,
-      EXAMPLE_VARIATIONS,
-      EXAMPLE_MOVEMENT_PATTERNS,
-      EXAMPLE_GRIPS,
-      EXAMPLE_LEVELS,
-      options
-    );
+    const activeWorkout = generateWorkout(options);
 
     expect(activeWorkout).toHaveLength(6);
   });

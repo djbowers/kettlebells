@@ -1,6 +1,6 @@
 import { GRIPS } from '~/constants';
-import { ExercisesContext } from '~/contexts';
-import { EXAMPLE_MOVEMENT_PATTERNS, EXAMPLE_VARIATIONS } from '~/examples';
+import { ActiveWorkoutContext } from '~/contexts';
+import { VARIATIONS } from '~/data';
 
 import { ActiveWorkoutScreen } from './ActiveWorkoutScreen';
 
@@ -8,14 +8,9 @@ export default {
   component: ActiveWorkoutScreen,
   decorators: [
     (Story) => (
-      <ExercisesContext.Provider
-        value={{
-          activeWorkout: EXAMPLE_VARIATIONS.slice(0, 3),
-          movementPatterns: EXAMPLE_MOVEMENT_PATTERNS,
-        }}
-      >
+      <ActiveWorkoutContext.Provider value={[VARIATIONS.slice(0, 3)]}>
         <Story />
-      </ExercisesContext.Provider>
+      </ActiveWorkoutContext.Provider>
     ),
   ],
 };

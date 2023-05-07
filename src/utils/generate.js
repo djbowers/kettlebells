@@ -1,16 +1,11 @@
+import { EXERCISES, GRIPS, VARIATIONS } from '~/data';
+
 import { filterVariations } from './filter';
 import { orderByType } from './order';
 import { selectVariations } from './select';
 import { shuffleArray } from './shuffle';
 
-export const generateWorkout = (
-  exercises = [],
-  variations = [],
-  movementPatterns = [],
-  grips = [],
-  levels = [],
-  options = {}
-) => {
+export const generateWorkout = (options = {}) => {
   const {
     level = null,
     primaryFocus = null,
@@ -18,22 +13,15 @@ export const generateWorkout = (
     grip = null,
   } = options;
 
-  const selectedLevel = levels.find(({ name }) => level && name === level);
-  const selectedGrip = grips.find(({ name }) => grip && name === grip);
-  const selectedPrimaryFocus = movementPatterns.find(
-    ({ name }) => name === primaryFocus
-  );
-  const selectedSecondaryFocus =
-    selectedPrimaryFocus &&
-    movementPatterns.find(({ name }) => name === secondaryFocus);
+  const selectedGrip = GRIPS.find(({ name }) => grip && name === grip);
 
   const [primaryVariations, secondaryVariations] = filterVariations(
-    variations,
+    VARIATIONS,
     {
-      selectedLevel,
+      selectedLevel: level,
       selectedGrip,
-      selectedPrimaryFocus,
-      selectedSecondaryFocus,
+      selectedPrimaryFocus: primaryFocus,
+      selectedSecondaryFocus: secondaryFocus,
     }
   );
 
@@ -43,7 +31,7 @@ export const generateWorkout = (
   const selectedVariations = selectVariations(
     primaryVariations,
     secondaryVariations,
-    exercises,
+    EXERCISES,
     options
   );
 
