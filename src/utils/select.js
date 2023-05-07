@@ -1,11 +1,6 @@
-import {
-  LIMIT_PER_EXERCISE,
-  SETS,
-  SET_LENGTHS,
-  WARMUP_DURATION,
-} from '~/constants';
+import { LIMIT_PER_EXERCISE } from '~/constants';
 
-import { sampleRandomValue } from './random';
+import { getExerciseCount } from './exercises';
 
 export const selectVariations = (
   primaryVariations,
@@ -13,15 +8,7 @@ export const selectVariations = (
   exercises,
   options
 ) => {
-  const { duration } = options;
-
-  const sets = options.sets || sampleRandomValue(SETS);
-  const setLength = options.setLength || sampleRandomValue(SET_LENGTHS);
-
-  const withoutWarmup = duration - WARMUP_DURATION;
-  const eachVariation = setLength * sets;
-
-  const numExercises = Math.floor(withoutWarmup / eachVariation);
+  const numExercises = getExerciseCount(options);
   const primaryLimit = Math.floor(numExercises / 2) + (numExercises % 2);
   const secondaryLimit = Math.floor(numExercises / 2);
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { SelectOption } from '~/components';
 import {
+  DEFAULT_DURATION,
   FOCUS_OPTIONS,
   GRIP_OPTIONS,
   LEVEL_OPTIONS,
@@ -13,7 +14,7 @@ import {
 } from '~/constants';
 
 export const GenerateWorkoutScreen = ({ navigation }) => {
-  const [duration, changeDuration] = useState(30);
+  const [duration, changeDuration] = useState(DEFAULT_DURATION);
   const [level, changeLevel] = useState();
   const [primaryFocus, changePrimaryFocus] = useState();
   const [secondaryFocus, changeSecondaryFocus] = useState();

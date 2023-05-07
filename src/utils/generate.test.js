@@ -1,3 +1,4 @@
+import { getExerciseCount } from './exercises';
 import { generateWorkout } from './generate';
 
 describe('workout generation', () => {
@@ -6,14 +7,15 @@ describe('workout generation', () => {
       duration: 30,
       level: 'Beginner',
       grip: 'Single Arm (one kettlebell)',
-      setLength: 1,
-      sets: 1,
+      setLength: 2,
+      sets: 3,
       primaryFocus: 'Hinge',
       secondaryFocus: 'Pull',
     };
 
     const activeWorkout = generateWorkout(options);
+    const numExercises = getExerciseCount(options);
 
-    expect(activeWorkout).toHaveLength(6);
+    expect(activeWorkout).toHaveLength(numExercises);
   });
 });

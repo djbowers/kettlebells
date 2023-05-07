@@ -1,3 +1,4 @@
+export * from './duration.constants';
 export * from './exercises.constants';
 export * from './focuses.constants';
 export * from './grips.constants';
