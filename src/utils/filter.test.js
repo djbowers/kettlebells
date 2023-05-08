@@ -4,10 +4,10 @@ import { GRIPS, VARIATIONS } from '~/data';
 
 import { filterVariations } from './filter';
 
-test.each(LEVELS)('filters by %s level', (selectedLevel) => {
+test.each(LEVELS)('filters by %s level', (level) => {
   const [primaryVariations, secondaryVariations] = filterVariations(
     VARIATIONS,
-    { selectedLevel }
+    { level }
   );
 
   expect(primaryVariations).not.toHaveLength(0);
@@ -15,15 +15,15 @@ test.each(LEVELS)('filters by %s level', (selectedLevel) => {
 
   for (const variations of [primaryVariations, secondaryVariations]) {
     for (const { level } of variations) {
-      expect(level).toEqual(selectedLevel);
+      expect(level).toEqual(level);
     }
   }
 });
 
-test.each(GRIPS)('filters by grip $name', (selectedGrip) => {
+test.each(GRIPS)('filters by grip $name', (grip) => {
   const [primaryVariations, secondaryVariations] = filterVariations(
     VARIATIONS,
-    { selectedGrip }
+    { grip: grip.name }
   );
 
   expect(primaryVariations).not.toHaveLength(0);
@@ -31,37 +31,34 @@ test.each(GRIPS)('filters by grip $name', (selectedGrip) => {
 
   for (const variations of [primaryVariations, secondaryVariations]) {
     for (const { grips } of variations) {
-      expect(grips).toContain(selectedGrip.id);
+      expect(grips).toContain(grip.id);
     }
   }
 });
 
-test.each(MOVEMENT_PATTERNS)(
-  'filters by primary focus %s',
-  (selectedPrimaryFocus) => {
-    const [primaryVariations] = filterVariations(VARIATIONS, {
-      selectedPrimaryFocus,
-    });
+test.each(MOVEMENT_PATTERNS)('filters by primary focus %s', (primaryFocus) => {
+  const [primaryVariations] = filterVariations(VARIATIONS, {
+    primaryFocus,
+  });
 
-    expect(primaryVariations).not.toHaveLength(0);
+  expect(primaryVariations).not.toHaveLength(0);
 
-    for (const { movementPatterns } of primaryVariations) {
-      expect(movementPatterns).toContain(selectedPrimaryFocus);
-    }
+  for (const { movementPatterns } of primaryVariations) {
+    expect(movementPatterns).toContain(primaryFocus);
   }
-);
+});
 
 test.each(MOVEMENT_PATTERNS)(
   'filters by secondary focus %s',
-  (selectedSecondaryFocus) => {
+  (secondaryFocus) => {
     const [, secondaryVariations] = filterVariations(VARIATIONS, {
-      selectedSecondaryFocus,
+      secondaryFocus,
     });
 
     expect(secondaryVariations).not.toHaveLength(0);
 
     for (const { movementPatterns } of secondaryVariations) {
-      expect(movementPatterns).toContain(selectedSecondaryFocus);
+      expect(movementPatterns).toContain(secondaryFocus);
     }
   }
 );

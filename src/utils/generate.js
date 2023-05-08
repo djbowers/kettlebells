@@ -6,23 +6,9 @@ import { selectVariations } from './select';
 import { shuffleArray } from './shuffle';
 
 export const generateWorkout = (options = {}) => {
-  const {
-    level = null,
-    primaryFocus = null,
-    secondaryFocus = null,
-    grip = null,
-  } = options;
-
-  const selectedGrip = GRIPS.find(({ name }) => grip && name === grip);
-
   const [primaryVariations, secondaryVariations] = filterVariations(
     VARIATIONS,
-    {
-      selectedLevel: level,
-      selectedGrip,
-      selectedPrimaryFocus: primaryFocus,
-      selectedSecondaryFocus: secondaryFocus,
-    }
+    options
   );
 
   shuffleArray(primaryVariations);
