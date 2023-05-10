@@ -1,1 +1,3 @@
-export * from './ExerciseListItem';
+export * from './ExerciseList';
+export * from './HeaderSection';
+export * from './MovementPatternPoints';
