@@ -13,7 +13,7 @@ export const Screen = {
         options: {
           duration: 60,
           primaryFocus: FOCUSES[2],
-          secondaryFocus: null,
+          secondaryFocus: FOCUSES[3],
           sets: 3,
           setLength: 3,
           grip: GRIPS[0],

@@ -38,7 +38,14 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
     });
 
   return (
-    <Flex alignItems="center" height="full" width="full" px={8} safeAreaTop>
+    <Flex
+      bgColor="layout.background"
+      alignItems="center"
+      height="full"
+      width="full"
+      px={8}
+      safeAreaTop
+    >
       <WorkoutProgress
         activeWorkout={activeWorkout}
         duration={duration}

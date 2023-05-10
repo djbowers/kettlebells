@@ -51,17 +51,17 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
   return (
     <Flex
       bgColor="layout.background"
-      height="full"
-      justifyContent="space-between"
-      px={5}
-      py={3}
+      h="full"
+      w="full"
+      px={2}
+      py={1}
       safeAreaTop
     >
-      <Text textAlign="center" fontSize="xl">
+      <Text textAlign="center" fontSize="xl" mb={1}>
         Let's get started!
       </Text>
       <Box flexGrow>
-        <Text fontSize="sm" textAlign="center" mt={3}>
+        <Text fontSize="sm" textAlign="center" mt={1}>
           {duration} minutes
         </Text>
 
@@ -126,7 +126,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           />
         </Flex>
       </Box>
-      <Button mt={3} onPress={handlePressGenerate} isDisabled={disableGenerate}>
+      <Button onPress={handlePressGenerate} isDisabled={disableGenerate}>
         Generate
       </Button>
     </Flex>

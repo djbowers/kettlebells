@@ -1,8 +1,8 @@
-import { Button, Divider, Flex, Text } from 'native-base';
+import { Badge, Button, Flex, Spacer, Text } from 'native-base';
 import { useContext } from 'react';
 import { ScrollView } from 'react-native';
-import tw from 'twrnc';
 
+import { ExerciseListItem } from '~/components';
 import { WORKOUT_ROUTES } from '~/constants';
 import { ActiveWorkoutContext } from '~/contexts';
 import { generateWorkout } from '~/utils';
@@ -11,7 +11,7 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
   const [, setActiveWorkout] = useContext(ActiveWorkoutContext);
 
   const { options } = route.params;
-  const { primaryFocus, secondaryFocus, sets, grip } = options;
+  const { primaryFocus = '', secondaryFocus = '', sets, grip } = options;
 
   const activeWorkout = generateWorkout(options);
 
@@ -24,30 +24,65 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
 
   return (
     <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      py={7}
+      bgColor="layout.background"
       height="full"
+      width="full"
+      p={2}
       safeAreaTop
     >
-      <Text style={tw`mb-3`} fontSize="lg">
-        {activeWorkout.length} Exercises
-      </Text>
-      <Text>Primary Focus: {primaryFocus}</Text>
-      {secondaryFocus && <Text>Secondary Focus: {secondaryFocus}</Text>}
-      <Text>{grip}</Text>
-
-      <Divider my={3} />
-
-      <ScrollView>
-        {activeWorkout.map(({ id, name }) => (
-          <Text key={id} style={tw`text-center`} fontSize="sm">
-            {name} x {sets}
+      <Flex id="Header Section">
+        <Flex id="Workout Overview">
+          <Text fontSize="2xl" fontWeight="medium" mb={2}>
+            Workout Overview
           </Text>
-        ))}
-      </ScrollView>
+          <Flex id="Workout Info" pl={2} mb={2}>
+            <Flex id="Focus" direction="row">
+              <Text fontWeight="medium" fontSize="md" mr={1}>
+                Focus:
+              </Text>
+              {primaryFocus && (
+                <Badge mr={1} colorScheme="primary">
+                  {primaryFocus.toUpperCase()}
+                </Badge>
+              )}
+              {secondaryFocus && (
+                <Badge mr={1} colorScheme="secondary">
+                  {secondaryFocus.toUpperCase()}
+                </Badge>
+              )}
+            </Flex>
+            <Flex id="Grip" direction="row" align>
+              <Text fontWeight="medium" fontSize="md" mr={1}>
+                Grip:
+              </Text>
+              <Text fontSize="md">{grip}</Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
 
-      <Button onPress={handlePressStart}>Start Workout</Button>
+      <Flex flexGrow>
+        <Text fontSize="xl" fontWeight="medium" mb={2}>
+          {activeWorkout.length} Exercises
+        </Text>
+        <Flex id="Exercise List" px={2}>
+          <ScrollView height={400}>
+            {activeWorkout.map((variation) => (
+              <ExerciseListItem
+                key={variation.id}
+                variation={variation}
+                options={options}
+              />
+            ))}
+          </ScrollView>
+        </Flex>
+      </Flex>
+
+      <Button onPress={handlePressStart} size="xs">
+        <Text fontWeight="medium" fontSize="md" color="white">
+          Start Workout
+        </Text>
+      </Button>
     </Flex>
   );
 };

@@ -1,6 +1,5 @@
-import { Button, Flex, Text } from 'native-base';
+import { Button, Flex, Spacer, Text } from 'native-base';
 import { View } from 'react-native';
-import tw from 'twrnc';
 
 import { WORKOUT_ROUTES } from '~/constants';
 
@@ -13,16 +12,17 @@ export const FinishedWorkoutScreen = ({ navigation, route }) => {
 
   return (
     <Flex
-      justifyContent="space-between"
+      bgColor="layout.background"
+      h="full"
+      w="full"
       alignItems="center"
-      py={7}
-      height="full"
+      py={1}
       safeAreaTop
     >
-      <View style={tw`w-full flex items-center`}>
-        <Text>Congratulations!</Text>
-        <Text style={tw`mt-3`}>Completed workout in: {duration} seconds</Text>
-      </View>
+      <Text>Congratulations!</Text>
+      <Text>Completed workout in: {duration} seconds</Text>
+
+      <Spacer />
       <Button onPress={handlePressHome}>Go Home</Button>
     </Flex>
   );

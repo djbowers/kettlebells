@@ -11,7 +11,8 @@
     "test": "jest --watchAll",
     "coverage": "npm test -- --coverage",
     "storybook": "sb-rn-get-stories && STORYBOOK_ENABLED='true' expo start -- -p 19001",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "download": "node ./scripts/download.js; npm run prettier"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
@@ -21,6 +22,7 @@
     "airtable": "^0.11.6",
     "dotenv": "^16.0.3",
     "expo": "~47.0.8",
+    "expo-dev-client": "~2.0.1",
     "expo-status-bar": "~1.4.2",
     "luxon": "^3.3.0",
     "native-base": "^3.4.28",
@@ -29,8 +31,7 @@
     "react-native": "0.70.8",
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
-    "react-native-web": "~0.18.9",
-    "twrnc": "^3.6.0"
+    "react-native-web": "~0.18.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

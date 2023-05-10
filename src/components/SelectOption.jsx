@@ -22,13 +22,13 @@ export const SelectOption = ({
       flexBasis="48%"
       onValueChange={handleChangeOption}
       placeholder={placeholder}
-      py={5}
-      mt={3}
+      py={3}
+      mt={2}
       selectedValue={selectedOption}
       variant="filled"
     >
       {options.map(({ label, value }) => (
-        <Select.Item key={label} label={label} value={value} />
+        <Select.Item key={label} label={label} value={value} p={1} py={1.5} />
       ))}
     </Select>
   );
