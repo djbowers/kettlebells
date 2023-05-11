@@ -1,6 +1,6 @@
-import { Button, Flex, Spacer, Text } from 'native-base';
-import { View } from 'react-native';
+import { Flex, Spacer, Text } from 'native-base';
 
+import { Button } from '~/components';
 import { WORKOUT_ROUTES } from '~/constants';
 
 export const FinishedWorkoutScreen = ({ navigation, route }) => {

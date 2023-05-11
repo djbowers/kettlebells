@@ -62,20 +62,22 @@ export const WorkoutControls = ({
         <Spacer />
         <Button
           onPress={handlePressPrev}
-          size="md"
+          size="xs"
           variant="ghost"
           colorScheme="muted"
         >
-          <Text fontWeight="medium">PREV</Text>
+          <Text fontWeight="medium" fontSize="md" color="muted.500">
+            PREV
+          </Text>
         </Button>
         <Spacer />
         <Button
-          size="md"
+          size="xs"
           variant="solid"
           colorScheme="primary"
           onPress={handlePressNext}
         >
-          <Text fontWeight="medium" color="white">
+          <Text fontWeight="medium" fontSize="md" color="white">
             NEXT
           </Text>
         </Button>

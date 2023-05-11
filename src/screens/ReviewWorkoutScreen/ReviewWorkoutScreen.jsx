@@ -1,7 +1,7 @@
-import { Button, Flex, Text } from 'native-base';
+import { Flex } from 'native-base';
 import { useContext } from 'react';
-import { ScrollView } from 'react-native';
 
+import { Button } from '~/components';
 import { WORKOUT_ROUTES } from '~/constants';
 import { ActiveWorkoutContext } from '~/contexts';
 import { generateWorkout } from '~/utils';
@@ -37,11 +37,7 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
       <ExerciseList activeWorkout={activeWorkout} options={options} />
       <MovementPatternPoints activeWorkout={activeWorkout} options={options} />
       <Flex alignItems="center">
-        <Button onPress={handlePressStart} size="xs">
-          <Text fontWeight="medium" fontSize="md" color="white">
-            Start Workout
-          </Text>
-        </Button>
+        <Button onPress={handlePressStart}>Start Workout</Button>
       </Flex>
     </Flex>
   );

@@ -1,7 +1,8 @@
 import Slider from '@react-native-community/slider';
-import { Box, Button, Flex, Text } from 'native-base';
+import { Box, Flex, Text } from 'native-base';
 import { useState } from 'react';
 
+import { Button } from '~/components';
 import {
   DEFAULT_DURATION,
   DURATION_STEP,
@@ -127,9 +128,12 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           />
         </Flex>
       </Box>
-      <Button onPress={handlePressGenerate} isDisabled={disableGenerate}>
-        Generate
-      </Button>
+
+      <Flex alignItems="center">
+        <Button onPress={handlePressGenerate} isDisabled={disableGenerate}>
+          Generate
+        </Button>
+      </Flex>
     </Flex>
   );
 };
