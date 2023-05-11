@@ -2,7 +2,6 @@ import Slider from '@react-native-community/slider';
 import { Box, Button, Flex, Text } from 'native-base';
 import { useState } from 'react';
 
-import { SelectOption } from '~/components';
 import {
   DEFAULT_DURATION,
   DURATION_STEP,
@@ -15,6 +14,8 @@ import {
   SET_LENGTH_OPTIONS,
   WORKOUT_ROUTES,
 } from '~/constants';
+
+import { SelectOption } from './components';
 
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [duration, changeDuration] = useState(DEFAULT_DURATION);

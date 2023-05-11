@@ -1,10 +1,11 @@
 import { Flex } from 'native-base';
 import { useContext, useState } from 'react';
 
-import { CurrentSetInfo, WorkoutControls, WorkoutProgress } from '~/components';
 import { WARMUP, WORKOUT_ROUTES } from '~/constants';
 import { ActiveWorkoutContext } from '~/contexts';
 import { useTimer } from '~/hooks';
+
+import { CurrentSetInfo, WorkoutControls, WorkoutProgress } from './components';
 
 export const ActiveWorkoutScreen = ({ navigation, route }) => {
   const [activeWorkout] = useContext(ActiveWorkoutContext);
