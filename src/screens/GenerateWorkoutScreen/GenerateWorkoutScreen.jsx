@@ -59,7 +59,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
       py={1}
       safeAreaTop
     >
-      <Text textAlign="center" fontSize="xl" mb={1}>
+      <Text textAlign="center" fontSize="xl" my={2}>
         Let's get started!
       </Text>
       <Box flexGrow>
@@ -77,12 +77,12 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           accessibilityLabel="Select Duration"
         />
 
-        <Flex
-          flexDirection="row"
-          flexWrap={true}
-          justifyContent="space-between"
-        >
+        <Flex alignItems="center">
+          <Text fontSize="lg" fontWeight="semibold" mt={2}>
+            Practice
+          </Text>
           <SelectOption
+            label="Level"
             onChangeOption={changeLevel}
             options={LEVEL_OPTIONS}
             placeholder="Level"
@@ -90,6 +90,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             storageKey="level"
           />
           <SelectOption
+            label="Grip"
             onChangeOption={changeGrip}
             options={GRIP_OPTIONS}
             placeholder="Grip"
@@ -97,6 +98,27 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
             storageKey="grip"
           />
           <SelectOption
+            label="Sets"
+            onChangeOption={changeSets}
+            options={SETS_OPTIONS}
+            placeholder="Sets per Exercise"
+            selectedOption={sets}
+            storageKey="sets"
+          />
+          <SelectOption
+            label="Length"
+            onChangeOption={changeSetLength}
+            options={SET_LENGTH_OPTIONS}
+            placeholder="Set Length"
+            selectedOption={setLength}
+            storageKey="setLength"
+          />
+
+          <Text fontSize="lg" fontWeight="semibold" mt={2}>
+            Focus
+          </Text>
+          <SelectOption
+            label="Primary"
             onChangeOption={changePrimaryFocus}
             options={FOCUS_OPTIONS}
             placeholder="Primary Focus"
@@ -105,6 +127,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
           />
           {!hideSecondaryFocus && (
             <SelectOption
+              label="Secondary"
               onChangeOption={changeSecondaryFocus}
               options={secondaryFocusOptions}
               placeholder="Secondary Focus"
@@ -112,20 +135,6 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
               storageKey="secondaryFocus"
             />
           )}
-          <SelectOption
-            onChangeOption={changeSets}
-            options={SETS_OPTIONS}
-            placeholder="Sets per Exercise"
-            selectedOption={sets}
-            storageKey="sets"
-          />
-          <SelectOption
-            onChangeOption={changeSetLength}
-            options={SET_LENGTH_OPTIONS}
-            placeholder="Set Length"
-            selectedOption={setLength}
-            storageKey="setLength"
-          />
         </Flex>
       </Box>
 

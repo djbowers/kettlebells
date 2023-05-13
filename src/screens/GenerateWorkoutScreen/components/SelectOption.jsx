@@ -1,8 +1,9 @@
-import { Select } from 'native-base';
+import { Flex, Select, Spacer, Text } from 'native-base';
 
 import { useAsyncStorage } from '~/hooks';
 
 export const SelectOption = ({
+  label,
   onChangeOption,
   options,
   placeholder,
@@ -17,19 +18,27 @@ export const SelectOption = ({
   };
 
   return (
-    <Select
-      dropdownIcon={() => null}
-      flexBasis="48%"
-      onValueChange={handleChangeOption}
-      placeholder={placeholder}
-      py={3}
-      mt={2}
-      selectedValue={selectedOption}
-      variant="filled"
-    >
-      {options.map(({ label, value }) => (
-        <Select.Item key={label} label={label} value={value} p={1} py={1.5} />
-      ))}
-    </Select>
+    <Flex direction="row" alignItems="center" mt={2}>
+      <Text fontSize="sm" fontWeight="medium">
+        {label}:
+      </Text>
+      <Spacer />
+      <Select
+        minWidth="2/3"
+        dropdownIcon={() => null}
+        onValueChange={handleChangeOption}
+        placeholder={placeholder}
+        selectedValue={selectedOption}
+        variant="filled"
+        bgColor="muted.100"
+        fontWeight="medium"
+        shadow="1"
+        fontSize="sm"
+      >
+        {options.map(({ label, value }) => (
+          <Select.Item key={label} label={label} value={value} p={1} py={1.5} />
+        ))}
+      </Select>
+    </Flex>
   );
 };
