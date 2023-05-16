@@ -17,7 +17,7 @@
     "exerciseName": "Squat",
     "movementPatterns": ["Squat"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Grind"
   },
   {
@@ -38,7 +38,7 @@
     "exerciseName": "Clean",
     "movementPatterns": ["Hinge", "Pull"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recTebFbliBXlTbm3", "recq3cYnZHFFdbR2j"],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Ballistic"
   },
   {
@@ -140,7 +140,7 @@
       "recTebFbliBXlTbm3",
       "recq3cYnZHFFdbR2j"
     ],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Grind"
   },
   {
@@ -166,7 +166,7 @@
       "recvi88OZDgtx66gx",
       "recq3cYnZHFFdbR2j"
     ],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Ballistic"
   },
   {
@@ -186,7 +186,7 @@
     "exerciseName": "Snatch",
     "movementPatterns": ["Hinge", "Pull", "Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Advanced",
+    "level": "Intermediate",
     "type": "Ballistic"
   },
   {
@@ -311,7 +311,7 @@
     "exerciseName": "Jerk",
     "movementPatterns": ["Push", "Squat"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Advanced",
+    "level": "Intermediate",
     "type": "Ballistic"
   },
   {
@@ -524,7 +524,7 @@
     "exerciseName": "Press",
     "movementPatterns": ["Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Grind"
   },
   {
@@ -575,7 +575,7 @@
     "exerciseName": "Lift",
     "movementPatterns": ["Squat", "Pull"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j", "recTebFbliBXlTbm3"],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Grind"
   },
   {
@@ -585,7 +585,7 @@
     "exerciseName": "Jerk",
     "movementPatterns": ["Push", "Squat"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Advanced",
+    "level": "Intermediate",
     "type": "Ballistic"
   },
   {
@@ -636,7 +636,7 @@
     "exerciseName": "Snatch",
     "movementPatterns": ["Hinge", "Pull", "Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Advanced",
+    "level": "Intermediate",
     "type": "Ballistic"
   },
   {
@@ -656,7 +656,7 @@
     "exerciseName": "Press",
     "movementPatterns": ["Squat", "Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
-    "level": "Intermediate",
+    "level": "Beginner",
     "type": "Ballistic"
   },
   {

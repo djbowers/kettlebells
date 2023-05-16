@@ -2,8 +2,8 @@
   {
     "id": "recTebFbliBXlTbm3",
     "name": "Single Arm Alternating (one kettlebell)",
-    "arms": "Alternating",
-    "kettlebells": "One Kettlebell",
+    "arms": "Single",
+    "kettlebells": "Single",
     "variations": [
       "recVjzFsvuLJRZACs",
       "rec32GIMmx1i2yoYu",
@@ -23,7 +23,7 @@
     "id": "recq3cYnZHFFdbR2j",
     "name": "Double Arm (two kettlebells)",
     "arms": "Double",
-    "kettlebells": "Two Kettlebells",
+    "kettlebells": "Double",
     "variations": [
       "recVjzFsvuLJRZACs",
       "rec32GIMmx1i2yoYu",
@@ -85,7 +85,7 @@
     "id": "recrwMK0T5ZCg1Rnj",
     "name": "Single Arm (one kettlebell)",
     "arms": "Single",
-    "kettlebells": "One Kettlebell",
+    "kettlebells": "Single",
     "variations": [
       "recVjzFsvuLJRZACs",
       "rec32GIMmx1i2yoYu",
@@ -151,7 +151,7 @@
     "id": "recvi88OZDgtx66gx",
     "name": "Double Arm (one kettlebell)",
     "arms": "Double",
-    "kettlebells": "One Kettlebell",
+    "kettlebells": "Single",
     "variations": [
       "recVjzFsvuLJRZACs",
       "recJY8hjIWvhAlha3",
