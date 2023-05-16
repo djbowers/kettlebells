@@ -19,12 +19,12 @@ export const SelectOption = ({
 
   return (
     <Flex direction="row" alignItems="center" mt={2}>
-      <Text fontSize="sm" fontWeight="medium">
+      <Text fontSize="sm" fontWeight="medium" flexGrow textAlign="right" pr={2}>
         {label}:
       </Text>
-      <Spacer />
+
       <Select
-        minWidth="2/3"
+        flexBasis="75%"
         dropdownIcon={() => null}
         onValueChange={handleChangeOption}
         placeholder={placeholder}

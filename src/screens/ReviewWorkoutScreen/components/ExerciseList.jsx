@@ -12,7 +12,7 @@ export const ExerciseList = ({ activeWorkout, options }) => {
         <Flex id="Exercise List" px={2}>
           {activeWorkout.map((variation) => (
             <ExerciseListItem
-              key={variation.id}
+              key={`${variation.name}-${variation.selectedGrip.name}`}
               variation={variation}
               options={options}
             />

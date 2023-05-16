@@ -1,11 +1,11 @@
 import { LIMIT_PER_EXERCISE } from '~/constants';
+import { EXERCISES } from '~/data';
 
 import { getExerciseCount } from './exercises';
 
 export const selectVariations = (
   primaryVariations,
   secondaryVariations,
-  exercises,
   options
 ) => {
   const numExercises = getExerciseCount(options);
@@ -13,13 +13,13 @@ export const selectVariations = (
   const secondaryLimit = Math.floor(numExercises / 2);
 
   const exerciseCounts = {};
-  exercises.forEach(({ name }) => {
+  EXERCISES.forEach(({ name }) => {
     exerciseCounts[name] = 0;
   });
 
   const selectedPrimaryVariations = primaryVariations.reduce(
     (variations, variation) => {
-      const exercise = exercises.find(
+      const exercise = EXERCISES.find(
         (exercise) => exercise.id === variation.exercise
       );
       const isUnderExerciseLimit =
@@ -40,7 +40,7 @@ export const selectVariations = (
 
   const selectedSecondaryVariations = secondaryVariations.reduce(
     (variations, variation) => {
-      const exercise = exercises.find(
+      const exercise = EXERCISES.find(
         (exercise) => exercise.id === variation.exercise
       );
       const isUnderExerciseLimit =

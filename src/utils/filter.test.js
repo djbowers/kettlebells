@@ -1,6 +1,6 @@
-import { LEVELS } from '~/constants';
+import { ARMS_OPTIONS, KETTLEBELLS_OPTIONS, LEVELS } from '~/constants';
 import { MOVEMENT_PATTERNS } from '~/constants/movementPatterns.constants';
-import { GRIPS, VARIATIONS } from '~/data';
+import { VARIATIONS } from '~/data';
 
 import { filterVariations } from './filter';
 
@@ -20,20 +20,24 @@ test.each(LEVELS)('filters by %s level', (level) => {
   }
 });
 
-test.each(GRIPS)('filters by grip $name', (grip) => {
+test.each(ARMS_OPTIONS)('filters by arms $label', ({ value }) => {
   const [primaryVariations, secondaryVariations] = filterVariations(
     VARIATIONS,
-    { grip: grip.name }
+    { arms: value }
   );
 
   expect(primaryVariations).not.toHaveLength(0);
   expect(secondaryVariations).not.toHaveLength(0);
+});
 
-  for (const variations of [primaryVariations, secondaryVariations]) {
-    for (const { grips } of variations) {
-      expect(grips).toContain(grip.id);
-    }
-  }
+test.each(KETTLEBELLS_OPTIONS)('filters by kettlebells $label', ({ value }) => {
+  const [primaryVariations, secondaryVariations] = filterVariations(
+    VARIATIONS,
+    { kettlebells: value }
+  );
+
+  expect(primaryVariations).not.toHaveLength(0);
+  expect(secondaryVariations).not.toHaveLength(0);
 });
 
 test.each(MOVEMENT_PATTERNS)('filters by primary focus %s', (primaryFocus) => {

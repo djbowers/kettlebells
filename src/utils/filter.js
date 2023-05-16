@@ -1,5 +1,7 @@
 import { GRIPS } from '~/data';
 
+import { shuffleArray } from './shuffle';
+
 export const filterVariations = (variations, options = {}) => {
   const filteredByLevel = variations.filter(({ level }) => {
     const selectedLevel = options.level;
@@ -7,11 +9,41 @@ export const filterVariations = (variations, options = {}) => {
     return level === selectedLevel;
   });
 
-  const filteredByLevelAndGrip = filteredByLevel.filter(({ grips = [] }) => {
-    const selectedGrip = GRIPS.find(({ name }) => name === options.grip);
-    if (!selectedGrip) return true;
-    return grips.includes(selectedGrip.id);
-  });
+  const filteredByLevelAndGrip = filteredByLevel.reduce(
+    (gripVariations, variation) => {
+      const { grips = [] } = variation;
+
+      const armsSelection = options.arms;
+      const filteredByArms = GRIPS.filter(({ arms }) => {
+        return (
+          arms === armsSelection || !armsSelection || armsSelection === 'Any'
+        );
+      });
+
+      const kettlebellsSelection = options.kettlebells;
+      const filteredByKettlebells = GRIPS.filter(({ kettlebells }) => {
+        return (
+          kettlebells === kettlebellsSelection ||
+          !kettlebellsSelection ||
+          kettlebellsSelection === 'Any'
+        );
+      });
+
+      const filteredGrips = filteredByArms.filter((grip) =>
+        filteredByKettlebells.includes(grip)
+      );
+
+      const newGripVariations = [];
+
+      for (const grip of filteredGrips) {
+        if (grips.includes(grip.id))
+          newGripVariations.push({ ...variation, selectedGrip: grip });
+      }
+
+      return [...gripVariations, ...newGripVariations];
+    },
+    []
+  );
 
   const primaryVariations = filteredByLevelAndGrip.filter(
     ({ movementPatterns = [] }) => {

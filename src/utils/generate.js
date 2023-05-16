@@ -1,4 +1,4 @@
-import { EXERCISES, GRIPS, VARIATIONS } from '~/data';
+import { VARIATIONS } from '~/data';
 
 import { filterVariations } from './filter';
 import { orderByType } from './order';
@@ -17,7 +17,6 @@ export const generateWorkout = (options = {}) => {
   const selectedVariations = selectVariations(
     primaryVariations,
     secondaryVariations,
-    EXERCISES,
     options
   );
 

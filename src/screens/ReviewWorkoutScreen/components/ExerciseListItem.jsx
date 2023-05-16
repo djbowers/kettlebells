@@ -10,7 +10,8 @@ const LEVEL_COLORS = {
 };
 
 export const ExerciseListItem = ({ variation, options }) => {
-  const { name, level, exerciseName, movementPatterns } = variation;
+  const { name, level, exerciseName, movementPatterns, selectedGrip } =
+    variation;
   const { sets, setLength, primaryFocus, secondaryFocus } = options;
 
   const levelColor = LEVEL_COLORS[level] || 'muted.500';
@@ -36,6 +37,10 @@ export const ExerciseListItem = ({ variation, options }) => {
           <Text id="Sets and Set Length" color="muted.500" fontSize="sm">
             {sets} sets, {setLength} min each
           </Text>
+        </Flex>
+
+        <Flex id="Grip">
+          <Text>{selectedGrip.name}</Text>
         </Flex>
 
         <Flex id="Secondary Info" direction="row" mt={1}>

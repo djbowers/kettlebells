@@ -24,7 +24,14 @@ export const SET_LENGTH_OPTIONS = SET_LENGTHS.map((setLength) => ({
   value: setLength,
 }));
 
-export const GRIP_OPTIONS = GRIPS.map((grip) => ({
-  label: grip,
-  value: grip,
+export const ARMS_OPTIONS = ['Any', 'Single', 'Double'].map((arms) => ({
+  label: arms,
+  value: arms,
 }));
+
+export const KETTLEBELLS_OPTIONS = ['Any', 'Single', 'Double'].map(
+  (kettlebells) => ({
+    label: kettlebells,
+    value: kettlebells,
+  })
+);
