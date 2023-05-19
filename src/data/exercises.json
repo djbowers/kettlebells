@@ -3,18 +3,16 @@
     "id": "rec046LV9QZNxyyto",
     "name": "Lift",
     "variations": [
-      "rec96FuVNUUqf6vm1",
       "rec34CjO3ZUX5DOUx",
       "recdaWSboonNG2tCO",
       "recxCTDYMd9xUWoXU",
       "recVa9MhZg09Gf1AI",
-      "rectqJStVGs4jucwF",
       "recuisCdIvux6aC1Y",
       "recDTFHITh5dVadQO",
       "recHCE6gKEdbDBoy0",
       "rec5KZFmCrXjqA1IR"
     ],
-    "type": "Grind"
+    "type": "Accessory"
   },
   {
     "id": "rec2OETXViNU1ObJf",
@@ -38,7 +36,7 @@
       "rec2UwpPEllg1pLyC",
       "recsUVODnTbSVsZeF"
     ],
-    "type": "Accessory"
+    "type": "Grind"
   },
   {
     "id": "recAjB9GDFYzQtuLf",
@@ -50,7 +48,8 @@
       "recqzXHMy1nPgem8h",
       "rect0WZZifV0lHEUy",
       "recOSVmlHwXc1G0Sb",
-      "recpBY1WquxtPS7z6"
+      "recpBY1WquxtPS7z6",
+      "recwAAG4ycORKnqKI"
     ],
     "type": "Grind"
   },
@@ -138,7 +137,8 @@
     "variations": [
       "recWwNmiBfbwBzG9z",
       "rectr4f0dnA4C27Pu",
-      "recn0eC3C9M487p6a"
+      "recn0eC3C9M487p6a",
+      "reccO3lOUQQZnvLD4"
     ],
     "type": "Ballistic"
   },
@@ -146,6 +146,6 @@
     "id": "recwBwGzfe81zYM7T",
     "name": "Getup",
     "variations": ["recVqgbNlRmHbc971", "rechOxx5BtMpcODNY"],
-    "type": "Accessory"
+    "type": "Grind"
   }
 ]

@@ -11,7 +11,7 @@ const fetchVariations = () => {
     const [exerciseId] = record.get('Exercise');
     const [exerciseName] = record.get('Exercise Name');
 
-    variations.push({
+    const variation = {
       id: record.id,
       name: record.get('Name'),
       aka: record.get('Aka'),
@@ -21,7 +21,9 @@ const fetchVariations = () => {
       grips: record.get('Grips'),
       level: record.get('Level'),
       type: record.get('Variation Type') || exerciseType,
-    });
+    };
+
+    if (record.get('Active')) variations.push(variation);
   };
 
   fetchRecords(
