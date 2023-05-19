@@ -1,1 +1,1 @@
-export const LIMIT_PER_EXERCISE = 2;
+export const LIMIT_PER_EXERCISE = 1;

@@ -9,7 +9,7 @@ import { EXERCISES, VARIATIONS } from '~/data';
 import { selectVariations } from './select';
 
 test('correctly balances each of the base exercises', () => {
-  const selectedVariations = selectVariations(VARIATIONS, VARIATIONS, {
+  const selectedVariations = selectVariations(VARIATIONS, {
     duration: 30,
     sets: 1,
     setLength: 1,
@@ -32,7 +32,7 @@ describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
     (sets) => {
       const duration = 30;
 
-      const selectedVariations = selectVariations(VARIATIONS, VARIATIONS, {
+      const selectedVariations = selectVariations(VARIATIONS, {
         duration,
         sets,
         setLength,

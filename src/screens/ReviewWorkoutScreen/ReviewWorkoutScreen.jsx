@@ -8,8 +8,8 @@ import { generateWorkout } from '~/utils';
 
 import {
   ExerciseList,
-  HeaderSection,
   MovementPatternPoints,
+  WorkoutOverview,
 } from './components';
 
 export const ReviewWorkoutScreen = ({ navigation, route }) => {
@@ -33,7 +33,7 @@ export const ReviewWorkoutScreen = ({ navigation, route }) => {
       p={2}
       safeAreaTop
     >
-      <HeaderSection options={options} />
+      <WorkoutOverview options={options} />
       <ExerciseList activeWorkout={activeWorkout} options={options} />
       <MovementPatternPoints activeWorkout={activeWorkout} options={options} />
       <Flex alignItems="center">

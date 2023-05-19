@@ -4,7 +4,7 @@ import { ExerciseListItem } from './ExerciseListItem';
 
 export const ExerciseList = ({ activeWorkout, options }) => {
   return (
-    <Flex id="Exercise List" flexGrow>
+    <Flex id="Exercise List" flexGrow shadow="1">
       <Text fontSize="xl" fontWeight="medium" mb={2}>
         {activeWorkout.length} Exercises
       </Text>

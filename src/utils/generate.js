@@ -6,19 +6,11 @@ import { selectVariations } from './select';
 import { shuffleArray } from './shuffle';
 
 export const generateWorkout = (options = {}) => {
-  const [primaryVariations, secondaryVariations] = filterVariations(
-    VARIATIONS,
-    options
-  );
+  const variations = filterVariations(VARIATIONS, options);
 
-  shuffleArray(primaryVariations);
-  shuffleArray(secondaryVariations);
+  shuffleArray(variations);
 
-  const selectedVariations = selectVariations(
-    primaryVariations,
-    secondaryVariations,
-    options
-  );
+  const selectedVariations = selectVariations(variations, options);
 
   return orderByType(selectedVariations);
 };

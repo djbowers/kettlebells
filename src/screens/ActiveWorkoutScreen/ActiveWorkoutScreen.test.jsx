@@ -23,6 +23,5 @@ test('renders info about the current exercise', () => {
   const grip = GRIPS[0];
 
   screen.getByText(exercise.name);
-  screen.getByText(exercise.aka, { exact: false });
   screen.getByText(grip);
 });

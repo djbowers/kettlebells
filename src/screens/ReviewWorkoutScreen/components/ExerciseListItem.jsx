@@ -18,7 +18,7 @@ export const ExerciseListItem = ({ variation, options }) => {
 
   return (
     <Flex id="Exercise List Item" direction="row" mb={1}>
-      <Flex id="Exercise Info" flexGrow={true}>
+      <Flex flexGrow={true}>
         <Flex id="Main Info" direction="row">
           <Text id="Variation Name" fontWeight="medium" fontSize="md">
             {name}
@@ -29,37 +29,28 @@ export const ExerciseListItem = ({ variation, options }) => {
           </Text>
         </Flex>
 
-        <Flex id="Workout Details" direction="row">
-          <Text id="Rep Range" color="muted.500" fontSize="sm">
-            8 - 12 reps per arm
-          </Text>
-          <Spacer />
-          <Text id="Sets and Set Length" color="muted.500" fontSize="sm">
-            {sets} sets, {setLength} min each
-          </Text>
-        </Flex>
-
-        <Flex id="Grip">
+        <Flex id="Grip" color="muted.500" fontSize="sm">
           <Text>{selectedGrip.name}</Text>
+          <Flex direction="row">
+            <Text id="Rep Range">8 - 12 reps per arm</Text>
+            <Spacer />
+            <Text id="Sets and Set Length">
+              {sets} sets, {setLength} min each
+            </Text>
+          </Flex>
         </Flex>
 
-        <Flex id="Secondary Info" direction="row" mt={1}>
-          <Text id="Base Exercise" color="muted.500" fontSize="sm">
-            {exerciseName}
-          </Text>
-          <Spacer />
-          <Flex id="Movement Patterns" direction="row">
-            {movementPatterns.map((movementPattern) => {
-              let colorScheme;
-              if (movementPattern === primaryFocus) colorScheme = 'primary';
-              if (movementPattern === secondaryFocus) colorScheme = 'secondary';
-              return (
-                <Badge key={movementPattern} ml={1} colorScheme={colorScheme}>
-                  {movementPattern}
-                </Badge>
-              );
-            })}
-          </Flex>
+        <Flex id="Movement Patterns" direction="row" mt={1}>
+          {movementPatterns.map((movementPattern) => {
+            let colorScheme;
+            if (movementPattern === primaryFocus) colorScheme = 'primary';
+            if (movementPattern === secondaryFocus) colorScheme = 'secondary';
+            return (
+              <Badge key={movementPattern} mr={1} colorScheme={colorScheme}>
+                {movementPattern}
+              </Badge>
+            );
+          })}
         </Flex>
       </Flex>
 

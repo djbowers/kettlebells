@@ -25,7 +25,7 @@
     "aka": "Swing Clean",
     "exercise": "recHF1t55WbCGUcuE",
     "exerciseName": "Clean",
-    "movementPatterns": ["Hinge", "Vertical Pull"],
+    "movementPatterns": ["Hinge", "V. Pull"],
     "grips": [
       "recrwMK0T5ZCg1Rnj",
       "recTebFbliBXlTbm3",
@@ -40,7 +40,7 @@
     "name": "Half Snatch",
     "exercise": "recn33fRHzXOKd50w",
     "exerciseName": "Snatch",
-    "movementPatterns": ["Hinge", "Vertical Pull", "Vertical Push"],
+    "movementPatterns": ["Hinge", "V. Pull", "V. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
     "level": "Intermediate",
     "type": "Ballistic"
@@ -51,7 +51,7 @@
     "aka": "Floor Press",
     "exercise": "recAjB9GDFYzQtuLf",
     "exerciseName": "Press",
-    "movementPatterns": ["Horizontal Push"],
+    "movementPatterns": ["H. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recvi88OZDgtx66gx", "recq3cYnZHFFdbR2j"],
     "level": "Beginner",
     "type": "Grind"
@@ -92,7 +92,7 @@
     "name": "Turkish Getup",
     "exercise": "recwBwGzfe81zYM7T",
     "exerciseName": "Getup",
-    "movementPatterns": ["Lunge", "Horizontal Push", "Vertical Push"],
+    "movementPatterns": ["Lunge", "H. Push", "V. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj"],
     "level": "Beginner",
     "type": "Grind"
@@ -102,7 +102,7 @@
     "name": "Jerk",
     "exercise": "recrA6IQvTfPe2qiv",
     "exerciseName": "Jerk",
-    "movementPatterns": ["Squat", "Vertical Push"],
+    "movementPatterns": ["Squat", "V. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
     "level": "Intermediate",
     "type": "Ballistic"
@@ -112,7 +112,7 @@
     "name": "Bent Over Hang Row",
     "exercise": "recNRMaK9Qg5gGrnj",
     "exerciseName": "Row",
-    "movementPatterns": ["Horizontal Pull"],
+    "movementPatterns": ["H. Pull"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
     "level": "Beginner",
     "type": "Grind"
@@ -132,7 +132,7 @@
     "name": "Clean & Jerk",
     "exercise": "recrA6IQvTfPe2qiv",
     "exerciseName": "Jerk",
-    "movementPatterns": ["Hinge", "Vertical Pull", "Vertical Push"],
+    "movementPatterns": ["Hinge", "V. Pull", "V. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recTebFbliBXlTbm3", "recq3cYnZHFFdbR2j"],
     "level": "Advanced",
     "type": "Ballistic"
@@ -143,7 +143,7 @@
     "aka": "Strict Press",
     "exercise": "recAjB9GDFYzQtuLf",
     "exerciseName": "Press",
-    "movementPatterns": ["Vertical Push"],
+    "movementPatterns": ["V. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j", "recvi88OZDgtx66gx"],
     "level": "Beginner",
     "type": "Grind"
@@ -185,7 +185,7 @@
     "aka": "Full Snatch",
     "exercise": "recn33fRHzXOKd50w",
     "exerciseName": "Snatch",
-    "movementPatterns": ["Hinge", "Vertical Pull", "Vertical Push"],
+    "movementPatterns": ["Hinge", "V. Pull", "V. Push"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recq3cYnZHFFdbR2j"],
     "level": "Advanced",
     "type": "Ballistic"
@@ -195,7 +195,7 @@
     "name": "Clean & Press",
     "exercise": "recAjB9GDFYzQtuLf",
     "exerciseName": "Press",
-    "movementPatterns": ["Vertical Pull", "Vertical Push", "Hinge"],
+    "movementPatterns": ["V. Pull", "V. Push", "Hinge"],
     "grips": ["recrwMK0T5ZCg1Rnj", "recTebFbliBXlTbm3", "recq3cYnZHFFdbR2j"],
     "level": "Intermediate",
     "type": "Grind"

@@ -3,11 +3,7 @@ import { EXERCISES } from '~/data';
 
 import { getExerciseCount } from './exercises';
 
-export const selectVariations = (
-  primaryVariations,
-  secondaryVariations,
-  options
-) => {
+export const selectVariations = (variations, options) => {
   const numExercises = getExerciseCount(options);
   const primaryLimit = Math.floor(numExercises / 2) + (numExercises % 2);
   const secondaryLimit = Math.floor(numExercises / 2);
@@ -17,7 +13,7 @@ export const selectVariations = (
     exerciseCounts[name] = 0;
   });
 
-  const selectedPrimaryVariations = primaryVariations.reduce(
+  const selectedPrimaryVariations = variations.reduce(
     (variations, variation) => {
       const exercise = EXERCISES.find(
         (exercise) => exercise.id === variation.exercise
@@ -38,7 +34,7 @@ export const selectVariations = (
 
   const selectedPrimaryIds = selectedPrimaryVariations.map(({ id }) => id);
 
-  const selectedSecondaryVariations = secondaryVariations.reduce(
+  const selectedSecondaryVariations = variations.reduce(
     (variations, variation) => {
       const exercise = EXERCISES.find(
         (exercise) => exercise.id === variation.exercise

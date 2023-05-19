@@ -1,9 +1,11 @@
 export const MOVEMENT_PATTERNS = [
-  'Push',
-  'Pull',
   'Hinge',
-  'Squat',
+  'H. Pull',
+  'H. Push',
   'Lunge',
-  'Twist',
-  'Gait',
+  'Squat',
+  'V. Pull',
+  'V. Push',
+  // 'Twist',
+  // 'Gait',
 ];

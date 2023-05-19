@@ -1,4 +1,4 @@
-import { Flex, Select, Spacer, Text } from 'native-base';
+import { Flex, Select, Text } from 'native-base';
 
 import { useAsyncStorage } from '~/hooks';
 

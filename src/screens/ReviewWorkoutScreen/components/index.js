@@ -1,3 +1,3 @@
 export * from './ExerciseList';
-export * from './HeaderSection';
 export * from './MovementPatternPoints';
+export * from './WorkoutOverview';

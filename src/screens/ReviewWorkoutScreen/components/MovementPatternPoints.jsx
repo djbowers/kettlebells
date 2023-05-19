@@ -24,8 +24,7 @@ export const MovementPatternPoints = ({ activeWorkout, options }) => {
       <Text fontWeight="medium" fontSize="md" mb={1}>
         Movement Patterns
       </Text>
-      <Flex direction="row" alignItems="center">
-        <Spacer />
+      <Flex direction="row" alignItems="center" wrap px={1}>
         {Object.entries(movementPatternPoints).map(
           ([movementPattern, points]) => {
             let color;
@@ -33,12 +32,15 @@ export const MovementPatternPoints = ({ activeWorkout, options }) => {
             if (movementPattern === secondaryFocus) color = 'secondary.700';
             return (
               points > 0 && (
-                <Fragment key={movementPattern}>
-                  <Text fontSize="sm" fontWeight="medium" color={color}>
-                    {movementPattern}: {points}
-                  </Text>
-                  <Spacer />
-                </Fragment>
+                <Text
+                  key={movementPattern}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  color={color}
+                  px={1}
+                >
+                  {movementPattern}: {points}
+                </Text>
               )
             );
           }

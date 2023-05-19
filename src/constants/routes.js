@@ -1,6 +1,5 @@
 export const TAB_ROUTES = {
-  home: 'Home',
-  settings: 'Settings',
+  history: 'History',
   workout: 'Workout',
 };
 
