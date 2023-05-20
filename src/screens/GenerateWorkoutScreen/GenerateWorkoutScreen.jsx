@@ -1,4 +1,3 @@
-import Slider from '@react-native-community/slider';
 import { Flex, SectionList, Text } from 'native-base';
 import { useEffect, useState } from 'react';
 
@@ -6,18 +5,15 @@ import { Button } from '~/components';
 import {
   ARMS_OPTIONS,
   DEFAULT_DURATION,
-  DURATION_STEP,
   FOCUS_OPTIONS,
   KETTLEBELLS_OPTIONS,
   LEVEL_OPTIONS,
-  MAX_DURATION,
-  MIN_DURATION,
   SETS_OPTIONS,
   SET_LENGTH_OPTIONS,
   WORKOUT_ROUTES,
 } from '~/constants';
 
-import { SelectOption } from './components';
+import { SelectDuration, SelectOption } from './components';
 
 export const GenerateWorkoutScreen = ({ navigation }) => {
   const [duration, changeDuration] = useState(DEFAULT_DURATION);
@@ -74,14 +70,10 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
         {duration} minutes
       </Text>
 
-      {/* todo: create a custom Slider that stores its value in async storage */}
-      <Slider
-        onValueChange={changeDuration}
-        maximumValue={MAX_DURATION}
-        minimumValue={MIN_DURATION}
-        step={DURATION_STEP}
-        value={duration}
-        accessibilityLabel="Select Duration"
+      <SelectDuration
+        duration={duration}
+        onChangeDuration={changeDuration}
+        storageKey="duration"
       />
 
       <SectionList
