@@ -1,12 +1,8 @@
-import { Flex, Spacer, Text } from 'native-base';
+import { Badge, Flex, Spacer, Text } from 'native-base';
 
-export const CurrentSetInfo = ({ currentExercise, isWarmup, grip }) => {
+export const CurrentSetInfo = ({ currentExercise, isWarmup, options }) => {
+  const { grip, primaryFocus, secondaryFocus } = options;
   const currentMovementPatterns = currentExercise.movementPatterns || [];
-
-  const currentMovementPatternsText =
-    currentMovementPatterns.length > 1
-      ? currentMovementPatterns.join(' + ')
-      : currentMovementPatterns[0];
 
   return (
     <Flex w="full" my={2} aria-label="Current Set Info">
@@ -15,7 +11,19 @@ export const CurrentSetInfo = ({ currentExercise, isWarmup, grip }) => {
           {currentExercise.name}
         </Text>
         <Spacer />
-        <Text fontSize="md">{currentMovementPatternsText}</Text>
+        {/* todo: make this a reusable component */}
+        <Flex id="Movement Patterns" direction="row" mt={1}>
+          {currentMovementPatterns.map((movementPattern) => {
+            let colorScheme;
+            if (movementPattern === primaryFocus) colorScheme = 'primary';
+            if (movementPattern === secondaryFocus) colorScheme = 'secondary';
+            return (
+              <Badge key={movementPattern} mr={1} colorScheme={colorScheme}>
+                {movementPattern}
+              </Badge>
+            );
+          })}
+        </Flex>
       </Flex>
       {!isWarmup && (
         <Flex direction="row">

@@ -60,8 +60,8 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
 
       <CurrentSetInfo
         currentExercise={currentExercise}
-        grip={grip}
         isWarmup={isWarmup}
+        options={options}
       />
 
       <WorkoutControls

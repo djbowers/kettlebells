@@ -10,8 +10,7 @@ const LEVEL_COLORS = {
 };
 
 export const ExerciseListItem = ({ variation, options }) => {
-  const { name, level, exerciseName, movementPatterns, selectedGrip } =
-    variation;
+  const { name, level, movementPatterns, selectedGrip } = variation;
   const { sets, setLength, primaryFocus, secondaryFocus } = options;
 
   const levelColor = LEVEL_COLORS[level] || 'muted.500';
