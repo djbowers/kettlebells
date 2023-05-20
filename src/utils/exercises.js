@@ -17,3 +17,10 @@ export const getExerciseCount = (options = {}) => {
 
   return Math.floor(withoutWarmup / eachVariation);
 };
+
+export const getExerciseLimit = (options = {}) => {
+  const duration = options.duration || DEFAULT_DURATION;
+  if (duration >= 60) return 3;
+  if (duration >= 30) return 2;
+  return 1;
+};

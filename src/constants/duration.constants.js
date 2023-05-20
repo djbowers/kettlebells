@@ -1,7 +1,9 @@
+import { range } from '~/utils/range';
+
 export const DEFAULT_DURATION = 30; // mins
 
-export const DURATIONS = [15, 20, 25, 30, 35, 40, 45];
-
-export const MIN_DURATION = Math.min(...DURATIONS);
-export const MAX_DURATION = Math.max(...DURATIONS);
+export const MIN_DURATION = 10;
+export const MAX_DURATION = 60;
 export const DURATION_STEP = 5;
+
+export const DURATIONS = range(MIN_DURATION, MAX_DURATION, DURATION_STEP);
