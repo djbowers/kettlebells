@@ -5,6 +5,10 @@
     "apps/*"
   ],
   "scripts": {
-    "start": "npm start --workspaces --if-present"
+    "start:mobile": "npm start -w apps/mobile",
+    "start:web": "npm run dev -w apps/web"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
   }
 }
