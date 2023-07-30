@@ -4,14 +4,14 @@ import {
   FormEventHandler,
   ChangeEventHandler,
 } from 'react'
-import { supabase } from './supabaseClient'
+import { supabase } from '../supabaseClient'
 import { Session } from '@supabase/supabase-js'
 
 interface Props {
   session: Session
 }
 
-export default function Account({ session }: Props) {
+export const Account = ({ session }: Props) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [username, setUsername] = useState<string | null>(null)
   const [website, setWebsite] = useState<string | null>(null)
@@ -50,7 +50,7 @@ export default function Account({ session }: Props) {
       id: user.id,
       username,
       website,
-      updated_at: new Date(),
+      updated_at: new Date().toISOString(),
     }
 
     let { error } = await supabase.from('profiles').upsert(updates)

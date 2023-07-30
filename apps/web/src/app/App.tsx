@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient'
-import Auth from './Auth'
-import Account from './Account'
+import { supabase } from '../supabaseClient'
+import UnauthenticatedApp from './UnauthenticatedApp'
+import AuthenticatedApp from './AuthenticatedApp'
 import { Session } from '@supabase/supabase-js'
 
-import './tailwind.css'
+import '../tailwind.css'
 
 function App() {
   const [session, setSession] = useState<Session | null>(null)
@@ -22,9 +22,9 @@ function App() {
   return (
     <div className="w-full min-h-screen p-7">
       {!session ? (
-        <Auth />
+        <UnauthenticatedApp />
       ) : (
-        <Account key={session.user.id} session={session} />
+        <AuthenticatedApp key={session.user.id} session={session} />
       )}
     </div>
   )
