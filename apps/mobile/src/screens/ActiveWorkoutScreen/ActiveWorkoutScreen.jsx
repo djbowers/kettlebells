@@ -25,7 +25,7 @@ export const ActiveWorkoutScreen = ({ navigation, route }) => {
       }
       return [...rounds, ...round];
     },
-    [WARMUP]
+    [WARMUP],
   );
 
   const numExercises = activeWorkout.length;

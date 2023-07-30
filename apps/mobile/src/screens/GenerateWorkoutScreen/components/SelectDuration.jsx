@@ -6,7 +6,7 @@ import { useAsyncStorage } from '~/hooks';
 export const SelectDuration = ({ duration, onChangeDuration, storageKey }) => {
   const [writeDurationToStorage] = useAsyncStorage(
     storageKey,
-    onChangeDuration
+    onChangeDuration,
   );
 
   const handleChangeDuration = (duration) => {

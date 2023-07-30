@@ -17,7 +17,7 @@ export const selectVariations = (variations, options) => {
   const selectedPrimaryVariations = variations.reduce(
     (variations, variation) => {
       const exercise = EXERCISES.find(
-        (exercise) => exercise.id === variation.exercise
+        (exercise) => exercise.id === variation.exercise,
       );
       const isUnderExerciseLimit =
         exerciseCounts[exercise.name] < exerciseLimit;
@@ -30,7 +30,7 @@ export const selectVariations = (variations, options) => {
       }
       return variations;
     },
-    []
+    [],
   );
 
   const selectedPrimaryIds = selectedPrimaryVariations.map(({ id }) => id);
@@ -38,7 +38,7 @@ export const selectVariations = (variations, options) => {
   const selectedSecondaryVariations = variations.reduce(
     (variations, variation) => {
       const exercise = EXERCISES.find(
-        (exercise) => exercise.id === variation.exercise
+        (exercise) => exercise.id === variation.exercise,
       );
       const isUnderExerciseLimit =
         exerciseCounts[exercise.name] < exerciseLimit;
@@ -53,7 +53,7 @@ export const selectVariations = (variations, options) => {
       }
       return variations;
     },
-    []
+    [],
   );
 
   return [...selectedPrimaryVariations, ...selectedSecondaryVariations];

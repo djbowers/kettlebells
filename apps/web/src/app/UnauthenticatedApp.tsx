@@ -1,27 +1,27 @@
-import { ChangeEventHandler, FormEventHandler, useState } from 'react'
-import { supabase } from '../supabaseClient'
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { supabase } from '../supabaseClient';
 
 export default function UnauthenticatedApp() {
-  const [loading, setLoading] = useState(false)
-  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleLogin: FormEventHandler<HTMLFormElement> = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    setLoading(true)
-    const { error } = await supabase.auth.signInWithOtp({ email })
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOtp({ email });
 
     if (error?.message) {
-      alert(error.message)
+      alert(error.message);
     } else {
-      alert('Check your email for the login link!')
+      alert('Check your email for the login link!');
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const handleChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   return (
     <div className="">
@@ -41,5 +41,5 @@ export default function UnauthenticatedApp() {
         </button>
       </form>
     </div>
-  )
+  );
 }

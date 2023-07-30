@@ -30,7 +30,7 @@ const fetchVariations = () => {
     variationsTable,
     variations,
     callbackfn,
-    'src/data/variations.json'
+    'src/data/variations.json',
   );
 };
 

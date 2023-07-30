@@ -20,7 +20,7 @@ describe.each(DURATIONS)(
         const numExercises = getExerciseCount(options);
 
         expect(activeWorkout).toHaveLength(numExercises);
-      }
+      },
     );
-  }
+  },
 );

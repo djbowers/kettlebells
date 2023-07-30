@@ -28,7 +28,7 @@ export const filterVariations = (variations, options = {}) => {
     });
 
     const filteredGrips = filteredByArms.filter((grip) =>
-      filteredByKettlebells.includes(grip)
+      filteredByKettlebells.includes(grip),
     );
 
     const newGripVariations = [];

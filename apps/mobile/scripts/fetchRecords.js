@@ -16,7 +16,7 @@ const fetchRecords = (table, data, callbackfn, filename) => {
         }
         console.log(`${filename} saved`);
       });
-    }
+    },
   );
 };
 

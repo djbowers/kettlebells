@@ -46,7 +46,7 @@ export const GenerateWorkoutScreen = ({ navigation }) => {
   const hideSecondaryFocus = primaryFocus === 'Any' || !primaryFocus;
 
   const secondaryFocusOptions = FOCUS_OPTIONS.filter(
-    (focus) => focus.value !== primaryFocus
+    (focus) => focus.value !== primaryFocus,
   );
 
   useEffect(() => {

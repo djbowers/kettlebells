@@ -43,7 +43,7 @@ export const MovementPatternPoints = ({ activeWorkout, options }) => {
                 </Text>
               )
             );
-          }
+          },
         )}
       </Flex>
     </Flex>

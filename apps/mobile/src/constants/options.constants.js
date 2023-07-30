@@ -33,5 +33,5 @@ export const KETTLEBELLS_OPTIONS = ['Any', 'Single', 'Double'].map(
   (kettlebells) => ({
     label: kettlebells,
     value: kettlebells,
-  })
+  }),
 );

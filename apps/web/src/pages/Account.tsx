@@ -3,73 +3,73 @@ import {
   useEffect,
   FormEventHandler,
   ChangeEventHandler,
-} from 'react'
-import { supabase } from '../supabaseClient'
-import { Session } from '@supabase/supabase-js'
+} from 'react';
+import { supabase } from '../supabaseClient';
+import { Session } from '@supabase/supabase-js';
 
 interface Props {
-  session: Session
+  session: Session;
 }
 
 export const Account = ({ session }: Props) => {
-  const [loading, setLoading] = useState<boolean>(true)
-  const [username, setUsername] = useState<string | null>(null)
-  const [website, setWebsite] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(true);
+  const [username, setUsername] = useState<string | null>(null);
+  const [website, setWebsite] = useState<string | null>(null);
 
   useEffect(() => {
     async function getProfile() {
-      setLoading(true)
-      const { user } = session
+      setLoading(true);
+      const { user } = session;
 
       let { data, error } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
         .eq('id', user.id)
-        .single()
+        .single();
 
       if (error) {
-        console.warn(error)
+        console.warn(error);
       } else if (data) {
-        setUsername(data.username)
-        setWebsite(data.website)
+        setUsername(data.username);
+        setWebsite(data.website);
       }
 
-      setLoading(false)
+      setLoading(false);
     }
 
-    getProfile()
-  }, [session])
+    getProfile();
+  }, [session]);
 
   const updateProfile: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setLoading(true)
-    const { user } = session
+    setLoading(true);
+    const { user } = session;
 
     const updates = {
       id: user.id,
       username,
       website,
       updated_at: new Date().toISOString(),
-    }
+    };
 
-    let { error } = await supabase.from('profiles').upsert(updates)
+    let { error } = await supabase.from('profiles').upsert(updates);
 
     if (error) {
-      alert(error.message)
+      alert(error.message);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const handleChangeUsername: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setUsername(e.target.value)
-  }
+    setUsername(e.target.value);
+  };
 
   const handleChangeWebsite: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setWebsite(e.target.value)
-  }
+    setWebsite(e.target.value);
+  };
 
-  const handleSignout = () => supabase.auth.signOut()
+  const handleSignout = () => supabase.auth.signOut();
 
   return (
     <form onSubmit={updateProfile}>
@@ -118,5 +118,5 @@ export const Account = ({ session }: Props) => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};

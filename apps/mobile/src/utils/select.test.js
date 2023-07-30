@@ -29,9 +29,9 @@ test.each(DURATIONS)(
       exerciseIds.push(exercise);
     }
     expect(exerciseIds.length).not.toBeGreaterThan(
-      EXERCISES.length * exerciseLimit
+      EXERCISES.length * exerciseLimit,
     );
-  }
+  },
 );
 
 describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
@@ -51,6 +51,6 @@ describe.each(SET_LENGTHS)('%s minute sets', (setLength) => {
       const expected = Math.floor(withoutWarmup / eachVariation);
 
       expect(selectedVariations).toHaveLength(expected);
-    }
+    },
   );
 });

@@ -19,7 +19,7 @@ const fetchExercises = () => {
     exercisesTable,
     exercises,
     callbackfn,
-    'src/data/exercises.json'
+    'src/data/exercises.json',
   );
 };
 

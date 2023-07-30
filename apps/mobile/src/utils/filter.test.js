@@ -10,7 +10,7 @@ test.each(LEVELS)('filters by %s level', (selectedLevel) => {
 
   for (const { level } of variations) {
     expect(LEVELS.indexOf(level)).not.toBeGreaterThan(
-      LEVELS.indexOf(selectedLevel)
+      LEVELS.indexOf(selectedLevel),
     );
   }
 });
