@@ -10,6 +10,8 @@
     "gen": "npx supabase gen types typescript --project-id 'ynzzqpajkhqjzftiynfo' --schema public > types/supabase.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.16",
+    "@heroicons/react": "^2.0.18",
     "@supabase/supabase-js": "^2.31.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
