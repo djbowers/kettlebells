@@ -1,13 +1,8 @@
 import { Listbox } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
-import { Session } from '@supabase/supabase-js';
 import { useState } from 'react';
 
-interface Props {
-  session: Session;
-}
-
-export const Start = ({ session }: Props) => {
+export const Start = () => {
   return (
     <div className="w-full text-white">
       <div className="text-xl">Let's get started!</div>
@@ -16,7 +11,6 @@ export const Start = ({ session }: Props) => {
       <Select />
 
       <div>Movements</div>
-      
     </div>
   );
 };

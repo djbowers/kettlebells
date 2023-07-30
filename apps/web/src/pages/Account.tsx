@@ -1,17 +1,18 @@
-import {
-  useState,
-  useEffect,
-  FormEventHandler,
-  ChangeEventHandler,
-} from 'react';
+import { Button, Input } from '../components';
+import { useSession } from '../contexts';
 import { supabase } from '../supabaseClient';
-import { Session } from '@supabase/supabase-js';
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
 
-interface Props {
-  session: Session;
-}
+export const Account = () => {
+  const session = useSession();
+  const navigate = useNavigate();
 
-export const Account = ({ session }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [username, setUsername] = useState<string | null>(null);
   const [website, setWebsite] = useState<string | null>(null);
@@ -23,7 +24,7 @@ export const Account = ({ session }: Props) => {
 
       let { data, error } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`username, website`)
         .eq('id', user.id)
         .single();
 
@@ -69,53 +70,42 @@ export const Account = ({ session }: Props) => {
     setWebsite(e.target.value);
   };
 
+  const handleGoBack = () => navigate('/');
+
   const handleSignout = () => supabase.auth.signOut();
 
   return (
-    <form onSubmit={updateProfile}>
-      <div className="flex gap-1">
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="text"
-          value={session.user.email}
-          disabled
-          className="w-full"
-        />
-      </div>
-      <div className="flex gap-1">
-        <label htmlFor="username">Name</label>
-        <input
-          id="username"
-          type="text"
-          required
-          value={username || ''}
-          onChange={handleChangeUsername}
-          className="w-full"
-        />
-      </div>
-      <div className="flex gap-1">
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ''}
-          onChange={handleChangeWebsite}
-        />
-      </div>
+    <form
+      onSubmit={updateProfile}
+      className="text-white flex flex-col space-y-2"
+    >
+      <Input
+        id="email"
+        label="Email"
+        value={session.user.email}
+        disabled={true}
+      />
+      <Input
+        id="name"
+        label="Name"
+        value={username}
+        onChange={handleChangeUsername}
+      />
+      <Input
+        id="website"
+        label="Website"
+        value={website}
+        onChange={handleChangeWebsite}
+      />
 
       <div className="flex gap-3">
-        <button
-          className="button block primary"
-          type="submit"
-          disabled={loading}
-        >
+        <Button type="submit" disabled={loading}>
           {loading ? 'Loading ...' : 'Update'}
-        </button>
-
-        <button className="button block" type="button" onClick={handleSignout}>
-          Sign Out
-        </button>
+        </Button>
+        <div className="grow flex justify-end gap-3">
+          <Button onClick={handleGoBack}>Go Back</Button>
+          <Button onClick={handleSignout}>Sign Out</Button>
+        </div>
       </div>
     </form>
   );

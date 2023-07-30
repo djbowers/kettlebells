@@ -1,11 +1,5 @@
-import { Session } from '@supabase/supabase-js';
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from 'react';
 import { supabase } from '../supabaseClient';
+import { useEffect, useState } from 'react';
 
 interface TrainingSession {
   completed_at: string | null;
@@ -14,7 +8,7 @@ interface TrainingSession {
   user_id: string;
 }
 
-export const TrainingHistory = ({ session }: { session: Session }) => {
+export const TrainingHistory = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [trainingHistory, setTrainingHistory] = useState<TrainingSession[]>([]);
 
@@ -38,11 +32,15 @@ export const TrainingHistory = ({ session }: { session: Session }) => {
 
   return (
     <div>
-      {trainingHistory.map((trainingSession) => (
-        <div key={trainingSession.id} className="font-bold">
-          {trainingSession.started_at}
-        </div>
-      ))}
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        trainingHistory.map((trainingSession) => (
+          <div key={trainingSession.id} className="font-bold">
+            {trainingSession.started_at}
+          </div>
+        ))
+      )}
     </div>
   );
 };
