@@ -72,12 +72,18 @@ export default function Account({ session }: Props) {
   const handleSignout = () => supabase.auth.signOut()
 
   return (
-    <form onSubmit={updateProfile} className="form-widget">
-      <div>
+    <form onSubmit={updateProfile}>
+      <div className="flex gap-1">
         <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
+        <input
+          id="email"
+          type="text"
+          value={session.user.email}
+          disabled
+          className="w-full"
+        />
       </div>
-      <div>
+      <div className="flex gap-1">
         <label htmlFor="username">Name</label>
         <input
           id="username"
@@ -85,9 +91,10 @@ export default function Account({ session }: Props) {
           required
           value={username || ''}
           onChange={handleChangeUsername}
+          className="w-full"
         />
       </div>
-      <div>
+      <div className="flex gap-1">
         <label htmlFor="website">Website</label>
         <input
           id="website"
@@ -97,7 +104,7 @@ export default function Account({ session }: Props) {
         />
       </div>
 
-      <div>
+      <div className="flex gap-3">
         <button
           className="button block primary"
           type="submit"
@@ -105,9 +112,7 @@ export default function Account({ session }: Props) {
         >
           {loading ? 'Loading ...' : 'Update'}
         </button>
-      </div>
 
-      <div>
         <button className="button block" type="button" onClick={handleSignout}>
           Sign Out
         </button>

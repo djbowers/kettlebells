@@ -2,7 +2,8 @@
   "name": "kettlebells",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "start:mobile": "npm start -w apps/mobile",
