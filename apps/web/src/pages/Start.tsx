@@ -1,47 +1,74 @@
-import { Listbox } from '@headlessui/react';
-import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { Button, Input, Select, SelectOption } from '../components';
+import { MouseEventHandler, ReactNode, useState } from 'react';
 
 export const Start = () => {
+  const [trainingGoal, setTrainingGoal] = useState<SelectOption>(goals[0]);
+
+  const [push, setPush] = useState<boolean>(false);
+  const handleTogglePush = () => setPush((prev) => !prev);
+
+  const [pull, setPull] = useState<boolean>(false);
+  const handleTogglePull = () => setPull((prev) => !prev);
+
+  const [hinge, setHinge] = useState<boolean>(false);
+  const handleToggleHinge = () => setHinge((prev) => !prev);
+
+  const [squat, setSquat] = useState<boolean>(false);
+  const handleToggleSquat = () => setSquat((prev) => !prev);
+
   return (
     <div className="w-full text-white">
-      <div className="text-xl">Let's get started!</div>
+      <Section>
+        <div className="text-xl">Let's get started!</div>
+      </Section>
 
-      <div>Training Goal</div>
-      <Select />
+      <Section>
+        <div>Training Goal</div>
+        <Select
+          value={trainingGoal}
+          onChange={(value) => setTrainingGoal(value)}
+          options={goals}
+        />
+      </Section>
 
-      <div>Movements</div>
+      <Section>
+        <div>Movements</div>
+        <div className="grid grid-cols-2 gap-2">
+          <Movement checked={push} onClick={handleTogglePush} label="Push" />
+          <Movement checked={pull} onClick={handleTogglePull} label="Pull" />
+          <Movement checked={hinge} onClick={handleToggleHinge} label="Hinge" />
+          <Movement checked={squat} onClick={handleToggleSquat} label="Squat" />
+        </div>
+      </Section>
     </div>
   );
 };
 
-const goals = [
+const Section = ({ children }: { children: ReactNode }) => {
+  return <div className="flex flex-col gap-1 mb-2">{children}</div>;
+};
+
+const goals: SelectOption[] = [
   { id: 1, name: 'Max Strength' },
   { id: 2, name: 'Strength-Endurance' },
   { id: 3, name: 'Hypertrophy' },
   { id: 4, name: 'Aerobic Endurance' },
 ];
 
-const Select = () => {
-  const [trainingGoal, setTrainingGoal] = useState(goals[0]);
+interface MovementProps {
+  checked: boolean;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  label: string;
+}
 
+const Movement = ({ checked, onClick, label }: MovementProps) => {
   return (
-    <Listbox value={trainingGoal} onChange={setTrainingGoal}>
-      <Listbox.Button className="flex items-center gap-2 border rounded-md py-0.5 px-1">
-        {trainingGoal.name}
-        <ChevronUpDownIcon className="h-2.5 w-2.5 text-white" />
-      </Listbox.Button>
-      <Listbox.Options className="border rounded-md p-1">
-        {goals.map((person) => (
-          <Listbox.Option
-            key={person.id}
-            value={person}
-            className="rounded hover:bg-gray-500 cursor-pointer px-0.5"
-          >
-            {person.name}
-          </Listbox.Option>
-        ))}
-      </Listbox.Options>
-    </Listbox>
+    <Button
+      className="flex items-center gap-1 border rounded-md px-1 py-0.5 hover:border-yellow-300"
+      onClick={onClick}
+    >
+      <Input type="checkbox" checked={checked} readOnly={true} />
+      <div className="text-center">{label}</div>
+    </Button>
   );
 };

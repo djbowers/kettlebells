@@ -16,23 +16,35 @@ export const Header = () => {
     <div className="border-b h-5 flex items-center px-2 py-1">
       <div
         onClick={handleClickHome}
-        className="cursor-pointer hover:text-gray-300"
+        className="cursor-pointer hover:text-yellow-300"
       >
         Kettlebells
       </div>
       <div className="grow flex justify-end">
         <Dropdown
           trigger={
-            <UserCircleIcon className="h-3 w-3 text-white cursor-pointer hover:text-gray-300" />
+            <UserCircleIcon className="h-3 w-3 text-white cursor-pointer hover:text-yellow-300" />
           }
           options={[
-            <Button key="account" onClick={handleClickAccount}>
+            <Button
+              key="account"
+              onClick={handleClickAccount}
+              className="px-1 py-0.5"
+            >
               Account
             </Button>,
-            <Button key="history" onClick={handleClickHistory}>
+            <Button
+              key="history"
+              onClick={handleClickHistory}
+              className="px-1 py-0.5"
+            >
               Training History
             </Button>,
-            <Button key="signout" onClick={handleSignOut}>
+            <Button
+              key="signout"
+              onClick={handleSignOut}
+              className="px-1 py-0.5"
+            >
               Sign Out
             </Button>,
           ]}

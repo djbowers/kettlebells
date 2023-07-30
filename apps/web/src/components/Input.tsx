@@ -1,38 +1,39 @@
-import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
+import clsx from 'clsx';
+import {
+  ChangeEventHandler,
+  HTMLInputTypeAttribute,
+  InputHTMLAttributes,
+} from 'react';
 
 interface Props {
-  id: string;
+  id?: string;
   label?: string;
-  value?: string | null;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  disabled?: boolean;
+  value?: InputHTMLAttributes<HTMLInputElement>['value'];
   type?: HTMLInputTypeAttribute;
-  placeholder?: string;
-  required?: boolean;
+  className?: string;
+  [key: string]: any;
 }
 
 export const Input = ({
   id,
   label,
   value,
-  onChange,
-  disabled = false,
   type = 'text',
-  placeholder,
-  required = false,
+  className,
+  ...props
 }: Props) => {
   return (
     <div className="flex flex-col">
       {label && <label htmlFor={id}>{label}</label>}
       <input
         id={id}
-        type={type}
         value={value || ''}
-        onChange={onChange}
-        disabled={disabled}
-        className="w-full bg-gray-600 border rounded-sm px-1 py-0.5 mb-0.5"
-        placeholder={placeholder}
-        required={required}
+        type={type}
+        className={clsx(
+          'w-full bg-gray-600 border rounded-sm px-1 py-0.5 accent-yellow-400',
+          className,
+        )}
+        {...props}
       />
     </div>
   );
