@@ -1,7 +1,8 @@
-import { Transition } from './Transition';
 import { Menu } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import { Fragment, ReactNode } from 'react';
+
+import { Transition } from './Transition';
 
 interface Props {
   trigger?: ReactNode;

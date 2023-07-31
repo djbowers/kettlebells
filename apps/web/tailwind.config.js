@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
 import tailwindConfig from '../../packages/tailwind-config';
 
 export default {

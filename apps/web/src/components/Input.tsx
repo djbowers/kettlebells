@@ -8,7 +8,7 @@ import {
 interface Props {
   id?: string;
   label?: string;
-  value?: InputHTMLAttributes<HTMLInputElement>['value'];
+  value?: InputHTMLAttributes<HTMLInputElement>['value'] | null;
   type?: HTMLInputTypeAttribute;
   className?: string;
   [key: string]: any;

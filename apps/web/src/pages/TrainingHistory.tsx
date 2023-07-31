@@ -1,5 +1,7 @@
-import { supabase } from '../supabaseClient';
 import { useEffect, useState } from 'react';
+
+import { Loading } from '../components';
+import { supabase } from '../supabaseClient';
 
 interface TrainingSession {
   completed_at: string | null;
@@ -33,7 +35,7 @@ export const TrainingHistory = () => {
   return (
     <div>
       {loading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         trainingHistory.map((trainingSession) => (
           <div key={trainingSession.id} className="font-bold">

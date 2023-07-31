@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Badge, Flex, Spacer, Text } from 'native-base';
-
 import { LEVELS } from '~/constants';
 
 const LEVEL_COLORS = {

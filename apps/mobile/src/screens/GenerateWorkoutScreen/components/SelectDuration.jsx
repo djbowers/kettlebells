@@ -1,5 +1,4 @@
 import Slider from '@react-native-community/slider';
-
 import { DURATION_STEP, MAX_DURATION, MIN_DURATION } from '~/constants';
 import { useAsyncStorage } from '~/hooks';
 

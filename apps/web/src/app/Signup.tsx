@@ -1,6 +1,7 @@
-import { Button, Input } from '../components';
-import { supabase } from '../supabaseClient';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+
+import { Button, Input, Loading } from '../components';
+import { supabase } from '../supabaseClient';
 
 export default function Signup() {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ export default function Signup() {
 
         <div className="flex justify-end">
           <Button type="submit" disabled={loading}>
-            {loading ? 'Loading' : 'Send magic link'}
+            {loading ? <Loading /> : 'Send magic link'}
           </Button>
         </div>
       </form>

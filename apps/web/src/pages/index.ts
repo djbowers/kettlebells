@@ -1,3 +1,4 @@
 export * from './Account';
-export * from './Start';
+export * from './Exercises';
+export * from './Train';
 export * from './TrainingHistory';

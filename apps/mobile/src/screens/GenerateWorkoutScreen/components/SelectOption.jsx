@@ -1,5 +1,4 @@
 import { Flex, Select, Text } from 'native-base';
-
 import { useAsyncStorage } from '~/hooks';
 
 export const SelectOption = ({

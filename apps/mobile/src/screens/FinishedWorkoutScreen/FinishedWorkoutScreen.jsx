@@ -1,5 +1,4 @@
 import { Flex, Spacer, Text } from 'native-base';
-
 import { Button } from '~/components';
 import { WORKOUT_ROUTES } from '~/constants';
 

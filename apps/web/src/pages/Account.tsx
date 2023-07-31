@@ -1,6 +1,3 @@
-import { Button, Input } from '../components';
-import { useSession } from '../contexts';
-import { supabase } from '../supabaseClient';
 import {
   ChangeEventHandler,
   FormEventHandler,
@@ -8,6 +5,10 @@ import {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { Button, Input, Loading } from '../components';
+import { useSession } from '../contexts';
+import { supabase } from '../supabaseClient';
 
 export const Account = () => {
   const session = useSession();
@@ -100,7 +101,7 @@ export const Account = () => {
 
       <div className="flex gap-3">
         <Button type="submit" disabled={loading}>
-          {loading ? 'Loading ...' : 'Update'}
+          {loading ? <Loading /> : 'Update'}
         </Button>
         <div className="grow flex justify-end gap-3">
           <Button onClick={handleGoBack}>Go Back</Button>

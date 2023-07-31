@@ -1,6 +1,5 @@
 import { Flex, Spacer, Text } from 'native-base';
 import { Fragment } from 'react';
-
 import { MOVEMENT_PATTERNS } from '~/constants';
 
 export const MovementPatternPoints = ({ activeWorkout, options }) => {

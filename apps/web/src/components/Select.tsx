@@ -1,6 +1,7 @@
-import { Transition } from './Transition';
 import { Listbox } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
+
+import { Transition } from './Transition';
 
 export type SelectOption = { id: number; name: string };
 

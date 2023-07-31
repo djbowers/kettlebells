@@ -18,7 +18,7 @@ export const Button = ({
 }: Props) => {
   return (
     <button
-      className={clsx('w-full text-left whitespace-nowrap', className)}
+      className={clsx('text-left whitespace-nowrap', className)}
       type={type}
       onClick={onClick}
       disabled={disabled}

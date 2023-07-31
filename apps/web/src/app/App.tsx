@@ -1,10 +1,11 @@
-import { SessionProvider } from '../contexts/SessionContext';
+import { Session } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+
+import { SessionProvider } from '../contexts';
 import { supabase } from '../supabaseClient';
 import '../tailwind.css';
 import AuthenticatedRoutes from './AuthenticatedRoutes';
 import Signup from './Signup';
-import { Session } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
 
 export function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -20,7 +21,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-700 text-white p-5">
+    <div className="min-h-screen bg-gray-700 text-white flex flex-col items-center p-5">
       {!session ? (
         <Signup />
       ) : (

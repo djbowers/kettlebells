@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-
 import { Duration } from '~/utils';
 
 export const useTimer = () => {
