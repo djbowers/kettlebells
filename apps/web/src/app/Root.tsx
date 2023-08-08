@@ -4,7 +4,7 @@ import { Header } from './Header';
 
 export const Root = () => {
   return (
-    <div className="bg-gray-900 border rounded-lg max-w-2xl w-full">
+    <div className="max-w-2xl w-full">
       <Header />
       <div className="p-2">
         <Outlet />

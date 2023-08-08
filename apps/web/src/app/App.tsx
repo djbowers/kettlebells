@@ -21,7 +21,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-700 text-white flex flex-col items-center p-5">
+    <div className="min-h-screen bg-black text-white flex flex-col items-center p-5">
       {!session ? (
         <Signup />
       ) : (

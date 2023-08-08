@@ -8,8 +8,9 @@ import {
 interface Props {
   id?: string;
   label?: string;
-  value?: InputHTMLAttributes<HTMLInputElement>['value'] | null;
+  value: InputHTMLAttributes<HTMLInputElement>['value'] | null;
   type?: HTMLInputTypeAttribute;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   className?: string;
   [key: string]: any;
 }
@@ -18,6 +19,7 @@ export const Input = ({
   id,
   label,
   value,
+  onChange = () => {},
   type = 'text',
   className,
   ...props
@@ -28,9 +30,10 @@ export const Input = ({
       <input
         id={id}
         value={value || ''}
+        onChange={onChange}
         type={type}
         className={clsx(
-          'w-full bg-gray-600 border rounded-sm px-1 py-0.5 accent-yellow-400',
+          'w-full bg-neutral-900 rounded-sm px-2 py-1',
           className,
         )}
         {...props}

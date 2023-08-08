@@ -18,14 +18,14 @@ export const Header = () => {
     <div className="border-b h-5 flex items-center px-2 py-1">
       <div
         onClick={handleClickHome}
-        className="cursor-pointer hover:text-yellow-300"
+        className="cursor-pointer hover:text-blue-300"
       >
-        Kettlebells by DJ
+        Kettlebell Clock
       </div>
       <div className="grow flex justify-end">
         <Dropdown
           trigger={
-            <UserCircleIcon className="h-3 w-3 text-white cursor-pointer hover:text-yellow-300" />
+            <UserCircleIcon className="h-3 w-3 text-white cursor-pointer hover:text-blue-300" />
           }
           options={[
             <Button

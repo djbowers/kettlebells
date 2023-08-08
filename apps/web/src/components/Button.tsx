@@ -18,7 +18,10 @@ export const Button = ({
 }: Props) => {
   return (
     <button
-      className={clsx('text-left whitespace-nowrap', className)}
+      className={clsx(
+        'text-left whitespace-nowrap hover:text-blue-300',
+        className,
+      )}
       type={type}
       onClick={onClick}
       disabled={disabled}

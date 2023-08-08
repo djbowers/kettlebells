@@ -15,7 +15,7 @@ export const Select = ({ value, onChange, options }: Props) => {
   return (
     <Listbox value={value} onChange={onChange}>
       <div className="relative">
-        <Listbox.Button className="flex justify-between items-center gap-2 border rounded-md py-0.5 px-1 hover:border-yellow-300">
+        <Listbox.Button className="flex justify-between items-center gap-2 border rounded-md py-0.5 px-1 hover:border-blue-300">
           {value.name}
           <ChevronUpDownIcon className="h-2.5 w-2.5 text-white" />
         </Listbox.Button>
