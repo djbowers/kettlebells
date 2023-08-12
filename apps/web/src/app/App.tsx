@@ -1,6 +1,8 @@
 import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
+import { Layout } from '~/components';
+
 import { SessionProvider } from '../contexts';
 import { supabase } from '../supabaseClient';
 import '../tailwind.css';
@@ -21,7 +23,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center p-5">
+    <Layout>
       {!session ? (
         <Signup />
       ) : (
@@ -29,6 +31,6 @@ export function App() {
           <AuthenticatedRoutes key={session.user.id} />
         </SessionProvider>
       )}
-    </div>
+    </Layout>
   );
 }

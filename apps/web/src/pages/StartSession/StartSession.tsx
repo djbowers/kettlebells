@@ -3,7 +3,7 @@ import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
 
 import { Button, Input } from '~/components';
 
-export const Start = () => {
+export const StartSession = () => {
   const [task, setTask] = useState<string>('');
   const [timer, setTimer] = useState<number>(20);
   const [reps, setReps] = useState<number>(5);
