@@ -1,5 +1,6 @@
 import { Flex, SectionList, Text } from 'native-base';
 import { useEffect, useState } from 'react';
+
 import { Button } from '~/components';
 import {
   ARMS_OPTIONS,

@@ -34,6 +34,17 @@ export const Start = () => {
     setNotes(e.target.value);
   };
 
+  const sessionData = {
+    task,
+    timer,
+    reps,
+    notes,
+  };
+
+  const handleClickStart = () => {
+    console.log(sessionData);
+  };
+
   return (
     <div className="flex flex-col space-y-4 mt-2">
       <div className="flex flex-col space-y-1">
@@ -93,7 +104,10 @@ export const Start = () => {
       </div>
 
       <div className="flex justify-center">
-        <Button className="bg-blue-500 w-full rounded h-5">
+        <Button
+          className="bg-blue-500 w-full rounded h-5"
+          onClick={handleClickStart}
+        >
           <div className="text-center text-xl font-medium">START</div>
         </Button>
       </div>

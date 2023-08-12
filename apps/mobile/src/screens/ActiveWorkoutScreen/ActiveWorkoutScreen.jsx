@@ -1,5 +1,6 @@
 import { Flex } from 'native-base';
 import { useContext, useState } from 'react';
+
 import { WARMUP, WORKOUT_ROUTES } from '~/constants';
 import { ActiveWorkoutContext } from '~/contexts';
 import { useTimer } from '~/hooks';
