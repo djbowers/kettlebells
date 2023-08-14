@@ -10,7 +10,6 @@ export const Header = () => {
 
   const handleClickHome = () => navigate('/');
   const handleClickAccount = () => navigate('/account');
-  const handleClickExercises = () => navigate('/exercises');
   const handleClickHistory = () => navigate('/history');
   const handleSignOut = () => supabase.auth.signOut();
 
@@ -20,7 +19,7 @@ export const Header = () => {
         onClick={handleClickHome}
         className="cursor-pointer hover:text-blue-300"
       >
-        Kettlebell Clock
+        Kettlebells
       </div>
       <div className="grow flex justify-end">
         <Dropdown
@@ -29,25 +28,18 @@ export const Header = () => {
           }
           options={[
             <Button
+              key="history"
+              onClick={handleClickHistory}
+              className="px-1 py-0.5 w-full"
+            >
+              History
+            </Button>,
+            <Button
               key="account"
               onClick={handleClickAccount}
               className="px-1 py-0.5 w-full"
             >
               Account
-            </Button>,
-            <Button
-              key="exercises"
-              onClick={handleClickExercises}
-              className="px-1 py-0.5 w-full"
-            >
-              Exercises
-            </Button>,
-            <Button
-              key="history"
-              onClick={handleClickHistory}
-              className="px-1 py-0.5 w-full"
-            >
-              Training History
             </Button>,
             <Button
               key="signout"

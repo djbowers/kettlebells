@@ -64,28 +64,43 @@ export interface Database {
           },
         ];
       };
-      training_history: {
+      workout_history: {
         Row: {
-          completed_at: string | null;
+          completed_at: string;
+          completed_rounds: number;
           id: number;
+          minutes: number;
+          notes: string | null;
+          reps_per_round: number;
           started_at: string;
+          task: string;
           user_id: string;
         };
         Insert: {
-          completed_at?: string | null;
+          completed_at?: string;
+          completed_rounds: number;
           id?: number;
-          started_at?: string;
+          minutes: number;
+          notes?: string | null;
+          reps_per_round: number;
+          started_at: string;
+          task: string;
           user_id: string;
         };
         Update: {
-          completed_at?: string | null;
+          completed_at?: string;
+          completed_rounds?: number;
           id?: number;
+          minutes?: number;
+          notes?: string | null;
+          reps_per_round?: number;
           started_at?: string;
+          task?: string;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'training_history_user_id_fkey';
+            foreignKeyName: 'workout_history_user_id_fkey';
             columns: ['user_id'];
             referencedRelation: 'users';
             referencedColumns: ['id'];

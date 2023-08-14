@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { Account, Exercises, StartSession, TrainingHistory } from '../pages';
+import { Account, History, Workout } from '../pages';
 import { Root } from './Root';
 
 export default function AuthenticatedRoutes() {
@@ -11,19 +11,15 @@ export default function AuthenticatedRoutes() {
       children: [
         {
           path: '',
-          element: <StartSession />,
+          element: <Workout />,
         },
         {
           path: 'account',
           element: <Account />,
         },
         {
-          path: 'exercises',
-          element: <Exercises />,
-        },
-        {
           path: 'history',
-          element: <TrainingHistory />,
+          element: <History />,
         },
       ],
     },

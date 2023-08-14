@@ -3,9 +3,20 @@ import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
 
 import { Button, Input } from '~/components';
 
-export const StartSession = () => {
+interface WorkoutOptions {
+  task: string;
+  minutes: number;
+  reps: number;
+  notes: string;
+}
+
+interface Props {
+  onStart?: (workoutOptions: WorkoutOptions) => void;
+}
+
+export const StartWorkout = ({ onStart }: Props) => {
   const [task, setTask] = useState<string>('');
-  const [timer, setTimer] = useState<number>(20);
+  const [minutes, setMinutes] = useState<number>(20);
   const [reps, setReps] = useState<number>(5);
   const [notes, setNotes] = useState<string>('');
 
@@ -13,10 +24,10 @@ export const StartSession = () => {
     setTask(e.target.value);
   };
   const handleIncrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
-    setTimer((prev) => (prev += 1));
+    setMinutes((prev) => (prev += 1));
   };
   const handleDecrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
-    setTimer((prev) => {
+    setMinutes((prev) => {
       if (prev <= 1) return prev;
       else return (prev -= 1);
     });
@@ -34,19 +45,20 @@ export const StartSession = () => {
     setNotes(e.target.value);
   };
 
-  const sessionData = {
+  const workoutOptions = {
     task,
-    timer,
+    minutes,
     reps,
     notes,
   };
 
   const handleClickStart = () => {
-    console.log(sessionData);
+    console.log(workoutOptions);
+    onStart?.(workoutOptions);
   };
 
   return (
-    <div className="flex flex-col space-y-4 mt-2">
+    <div className="flex flex-col mt-2 space-y-4">
       <div className="flex flex-col space-y-1">
         <div className="text-center font-medium text-2xl">Task</div>
         <Input value={task} onChange={handleChangeTask} />
@@ -63,7 +75,7 @@ export const StartSession = () => {
             <MinusIcon className="h-3 w-3" />
           </Button>
           <div className="grow">
-            <div className="text-5xl text-center">{timer}</div>
+            <div className="text-5xl text-center">{minutes}</div>
             <div className="text-xl text-center">min</div>
           </div>
           <Button
@@ -107,6 +119,7 @@ export const StartSession = () => {
         <Button
           className="bg-blue-500 w-full rounded h-5"
           onClick={handleClickStart}
+          disabled={task === ''}
         >
           <div className="text-center text-xl font-medium">START</div>
         </Button>
