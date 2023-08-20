@@ -51,7 +51,7 @@ export const History = () => {
   }, []);
 
   return (
-    <div className="mt-2 flex flex-col space-y-2">
+    <>
       {loading ? (
         <Loading />
       ) : (
@@ -72,6 +72,6 @@ export const History = () => {
           </div>
         ))
       )}
-    </div>
+    </>
   );
 };

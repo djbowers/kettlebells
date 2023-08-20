@@ -1,9 +1,9 @@
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '../components/Button';
-import { Dropdown } from '../components/Dropdown';
 import { supabase } from '../supabaseClient';
+import { Button } from './Button';
+import { Dropdown } from './Dropdown';
 
 export const Header = () => {
   const navigate = useNavigate();

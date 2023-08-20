@@ -51,7 +51,7 @@ export const ActiveWorkout = ({
   };
 
   return (
-    <div className="flex flex-col mt-2 space-y-4">
+    <>
       <Progress completedPercentage={completedPercentage} />
 
       <div className="flex flex-col space-y-1">
@@ -94,7 +94,7 @@ export const ActiveWorkout = ({
           <div>FINISH WORKOUT</div>
         </Button>
       </div>
-    </div>
+    </>
   );
 };
 

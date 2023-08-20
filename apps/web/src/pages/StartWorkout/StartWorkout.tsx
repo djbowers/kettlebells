@@ -58,7 +58,7 @@ export const StartWorkout = ({ onStart }: Props) => {
   };
 
   return (
-    <div className="flex flex-col mt-2 space-y-4">
+    <>
       <div className="flex flex-col space-y-1">
         <div className="text-center font-medium text-2xl">Task</div>
         <Input value={task} onChange={handleChangeTask} />
@@ -67,7 +67,7 @@ export const StartWorkout = ({ onStart }: Props) => {
       {/* Timer */}
       <div className="flex flex-col space-y-1">
         <div className="text-center font-medium text-2xl">Timer</div>
-        <div className="flex items-center justify-between px-6">
+        <div className="flex items-center justify-between">
           <Button
             onClick={handleDecrementTimer}
             className="bg-blue-500 w-5 h-5 rounded flex items-center justify-center"
@@ -89,7 +89,7 @@ export const StartWorkout = ({ onStart }: Props) => {
 
       {/* Reps */}
       <div className="flex flex-col space-y-1">
-        <div className="flex justify-between px-6">
+        <div className="flex justify-between">
           <Button
             onClick={handleDecrementReps}
             className="bg-blue-500 w-5 h-5 rounded flex items-center justify-center"
@@ -124,6 +124,6 @@ export const StartWorkout = ({ onStart }: Props) => {
           <div className="text-center text-xl font-medium">START</div>
         </Button>
       </div>
-    </div>
+    </>
   );
 };
