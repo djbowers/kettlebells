@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { Layout } from '~/components';
 
 import { SessionProvider } from '../contexts';
+import { Signup } from '../pages';
 import { supabase } from '../supabaseClient';
 import '../tailwind.css';
 import AuthenticatedRoutes from './AuthenticatedRoutes';
-import Signup from './Signup';
 
 export function App() {
   const [session, setSession] = useState<Session | null>(null);

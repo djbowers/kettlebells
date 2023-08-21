@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Dropdown = ({
-  trigger = <EllipsisVerticalIcon className="w-2.5 h-2.5" />,
+  trigger = <EllipsisVerticalIcon className="h-2.5 w-2.5" />,
   options = [],
 }: Props) => {
   return (
@@ -18,10 +18,10 @@ export const Dropdown = ({
       <Menu.Button className="flex items-center">{trigger}</Menu.Button>
 
       <Transition>
-        <Menu.Items className="absolute right-0 mt-1 rounded-md bg-white shadow-lg min-w-[150px] p-1">
+        <Menu.Items className="absolute right-0 mt-1 min-w-[150px] rounded-md bg-white p-1 shadow-lg">
           {options.map((option, index) => (
             <Menu.Item key={index}>
-              <div className="flex w-full items-center rounded-md text-sm text-gray-900 hover:bg-gray-200 cursor-pointer">
+              <div className="flex w-full cursor-pointer items-center rounded-md text-sm text-gray-900 hover:bg-gray-200">
                 {option}
               </div>
             </Menu.Item>

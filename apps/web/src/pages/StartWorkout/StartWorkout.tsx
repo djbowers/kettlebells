@@ -60,27 +60,27 @@ export const StartWorkout = ({ onStart }: Props) => {
   return (
     <>
       <div className="flex flex-col space-y-1">
-        <div className="text-center font-medium text-2xl">Task</div>
+        <div className="text-center text-2xl font-medium">Task</div>
         <Input value={task} onChange={handleChangeTask} />
       </div>
 
       {/* Timer */}
       <div className="flex flex-col space-y-1">
-        <div className="text-center font-medium text-2xl">Timer</div>
+        <div className="text-center text-2xl font-medium">Timer</div>
         <div className="flex items-center justify-between">
           <Button
             onClick={handleDecrementTimer}
-            className="bg-blue-500 w-5 h-5 rounded flex items-center justify-center"
+            className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
           >
             <MinusIcon className="h-3 w-3" />
           </Button>
           <div className="grow">
-            <div className="text-5xl text-center">{minutes}</div>
-            <div className="text-xl text-center">min</div>
+            <div className="text-center text-5xl">{minutes}</div>
+            <div className="text-center text-xl">min</div>
           </div>
           <Button
             onClick={handleIncrementTimer}
-            className="bg-blue-500 w-5 h-5 rounded flex items-center justify-center"
+            className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
           >
             <PlusIcon className="h-3 w-3" />
           </Button>
@@ -92,17 +92,17 @@ export const StartWorkout = ({ onStart }: Props) => {
         <div className="flex justify-between">
           <Button
             onClick={handleDecrementReps}
-            className="bg-blue-500 w-5 h-5 rounded flex items-center justify-center"
+            className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
           >
             <MinusIcon className="h-3 w-3" />
           </Button>
           <div className="grow">
-            <div className="text-5xl text-center">{reps}</div>
-            <div className="text-xl text-center">reps / round</div>
+            <div className="text-center text-5xl">{reps}</div>
+            <div className="text-center text-xl">reps / round</div>
           </div>
           <Button
             onClick={handleIncrementReps}
-            className="bg-blue-500 w-5 h-5 rounded flex items-center justify-center"
+            className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
           >
             <PlusIcon className="h-3 w-3" />
           </Button>
@@ -111,13 +111,13 @@ export const StartWorkout = ({ onStart }: Props) => {
 
       {/* Notes */}
       <div className="flex flex-col space-y-1">
-        <div className="text-center font-medium text-2xl">Notes</div>
+        <div className="text-center text-2xl font-medium">Notes</div>
         <Input value={notes} onChange={handleChangeNotes} />
       </div>
 
       <div className="flex justify-center">
         <Button
-          className="bg-blue-500 w-full rounded h-5"
+          className="h-5 w-full rounded bg-blue-500"
           onClick={handleClickStart}
           disabled={task === ''}
         >

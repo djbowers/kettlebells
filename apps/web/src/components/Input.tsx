@@ -33,7 +33,7 @@ export const Input = ({
         onChange={onChange}
         type={type}
         className={clsx(
-          'w-full bg-neutral-900 rounded-sm px-2 py-1',
+          'w-full rounded-sm bg-neutral-900 px-2 py-1',
           className,
         )}
         {...props}

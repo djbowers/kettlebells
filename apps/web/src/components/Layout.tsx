@@ -1,13 +1,9 @@
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
-interface Props {
-  children: ReactNode;
-}
-
-export const Layout = ({ children }: Props) => {
+export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <div className="h-full min-h-screen bg-black text-white flex flex-col items-center">
-      <div className="max-w-2xl w-full grow">{children}</div>
+    <div className="min-w-screen min-h-screen bg-black text-white">
+      {children}
     </div>
   );
 };

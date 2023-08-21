@@ -1,7 +1,29 @@
+import { Router } from 'react-router-dom';
+
+import { Page } from '~/components';
+import { SessionProvider } from '~/contexts';
+
 import { ActiveWorkout } from './ActiveWorkout';
 
 export default {
   component: ActiveWorkout,
+  decorators: [
+    (Story) => (
+      <Router location="/">
+        <Story />
+      </Router>
+    ),
+    (Story) => (
+      <SessionProvider value={{ user: {} }}>
+        <Story />
+      </SessionProvider>
+    ),
+    (Story) => (
+      <Page>
+        <Story />
+      </Page>
+    ),
+  ],
 };
 
 export const Normal = {

@@ -56,7 +56,7 @@ export const History = () => {
         <Loading />
       ) : (
         workoutHistory.map((workout) => (
-          <div key={workout.id} className="w-full border rounded px-2 py-1">
+          <div key={workout.id} className="w-full rounded border px-2 py-1">
             <div>
               {workout.minutes} Minutes -{' '}
               {DateTime.fromISO(workout.startedAt).toFormat('ccc LLL yy')}

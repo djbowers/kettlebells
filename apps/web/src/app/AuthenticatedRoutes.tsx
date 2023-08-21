@@ -1,13 +1,13 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Account, History, Workout } from '../pages';
-import { Page } from './Page';
+import { Root } from './Root';
 
 export default function AuthenticatedRoutes() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Page />,
+      element: <Root />,
       children: [
         {
           path: '',

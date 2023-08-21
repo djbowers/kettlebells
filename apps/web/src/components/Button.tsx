@@ -19,9 +19,9 @@ export const Button = ({
   return (
     <button
       className={clsx(
-        'text-left whitespace-nowrap hover:text-blue-300 cursor-pointer',
+        'cursor-pointer whitespace-nowrap text-left hover:text-blue-300',
         {
-          'bg-neutral-700 text-gray-300 hover:text-gray-300 cursor-default':
+          'cursor-default bg-neutral-700 text-gray-300 hover:text-gray-300':
             disabled,
         },
         className,

@@ -78,7 +78,7 @@ export const Account = () => {
   return (
     <form
       onSubmit={updateProfile}
-      className="text-white flex flex-col space-y-2"
+      className="flex flex-col space-y-2 text-white"
     >
       <Input
         id="email"
@@ -103,7 +103,7 @@ export const Account = () => {
         <Button type="submit" disabled={loading}>
           {loading ? <Loading /> : 'Update'}
         </Button>
-        <div className="grow flex justify-end gap-3">
+        <div className="flex grow justify-end gap-3">
           <Button onClick={handleGoBack}>Go Back</Button>
           <Button onClick={handleSignout}>Sign Out</Button>
         </div>

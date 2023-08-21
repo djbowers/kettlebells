@@ -55,28 +55,28 @@ export const ActiveWorkout = ({
       <Progress completedPercentage={completedPercentage} />
 
       <div className="flex flex-col space-y-1">
-        <div className="flex justify-between items-center">
-          <div className="font-medium text-2xl">
+        <div className="flex items-center justify-between">
+          <div className="text-2xl font-medium">
             {task} <span className="text-lg text-gray-500">{notes}</span>
           </div>
           <div>{timeRemaining}</div>
         </div>
 
         <Button
-          className="border border-gray-700 w-full flex justify-center items-center py-1 rounded"
+          className="flex w-full items-center justify-center rounded border border-gray-700 py-1"
           onClick={handleClickPlayPause}
         >
           <PlayPauseIcon className="h-3 w-3" />
         </Button>
       </div>
 
-      <div className="flex flex-col space-y-3 justify-center items-center py-4">
-        <div className="font-medium text-2xl">Round {currentRound}</div>
+      <div className="flex flex-col items-center justify-center space-y-3 py-4">
+        <div className="text-2xl font-medium">Round {currentRound}</div>
         <div className="text-6xl font-medium">
           {reps} <span className="text-2xl">reps</span>
         </div>
         <Button
-          className="w-full bg-blue-500 flex items-center justify-center rounded py-1"
+          className="flex w-full items-center justify-center rounded bg-blue-500 py-1"
           onClick={handleClickPlus}
         >
           <PlusIcon className="h-4 w-4 font-bold" />
@@ -88,7 +88,7 @@ export const ActiveWorkout = ({
 
       <div>
         <Button
-          className="border border-gray-700 w-full flex justify-center items-center py-1 rounded"
+          className="flex w-full items-center justify-center rounded border border-gray-700 py-1"
           onClick={handleClickFinish}
         >
           <div>FINISH WORKOUT</div>
@@ -100,9 +100,9 @@ export const ActiveWorkout = ({
 
 const Progress = ({ completedPercentage }: { completedPercentage: number }) => {
   return (
-    <div className="w-full bg-neutral-900 rounded h-5">
+    <div className="h-5 w-full rounded bg-neutral-900">
       <div
-        className="bg-green-400 h-5 rounded"
+        className="h-5 rounded bg-green-400"
         style={{ width: `${completedPercentage}%` }}
       />
     </div>
