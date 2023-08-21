@@ -4,11 +4,11 @@ import { Header, Page } from '~/components';
 
 export const Root = () => {
   return (
-    <Page>
+    <>
       <Header />
-      <div className="mt-2 px-3">
+      <Page>
         <Outlet />
-      </div>
-    </Page>
+      </Page>
+    </>
   );
 };
