@@ -59,7 +59,7 @@ export const History = () => {
           <div key={workout.id} className="w-full rounded border px-2 py-1">
             <div>
               {workout.minutes} Minutes -{' '}
-              {DateTime.fromISO(workout.startedAt).toFormat('ccc LLL yy')}
+              {DateTime.fromISO(workout.startedAt).toFormat('ccc LLL dd')}
             </div>
             <div>
               {workout.task}
