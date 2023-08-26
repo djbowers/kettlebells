@@ -1,5 +1,10 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  ReactNode,
+  useState,
+} from 'react';
 
 import { Button, Input } from '~/components';
 
@@ -59,15 +64,12 @@ export const StartWorkout = ({ onStart }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col space-y-1">
-        <div className="text-center text-2xl font-medium">Task</div>
+      <Section title="Task">
         <Input value={task} onChange={handleChangeTask} />
-      </div>
+      </Section>
 
-      {/* Timer */}
-      <div className="flex flex-col space-y-1">
-        <div className="text-center text-2xl font-medium">Timer</div>
-        <div className="flex items-center justify-between">
+      <Section title="Timer">
+        <div className="flex items-center justify-between px-4">
           <Button
             onClick={handleDecrementTimer}
             className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
@@ -85,11 +87,10 @@ export const StartWorkout = ({ onStart }: Props) => {
             <PlusIcon className="h-3 w-3" />
           </Button>
         </div>
-      </div>
+      </Section>
 
-      {/* Reps */}
-      <div className="flex flex-col space-y-1">
-        <div className="flex justify-between">
+      <Section title="Round">
+        <div className="flex justify-between px-4">
           <Button
             onClick={handleDecrementReps}
             className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
@@ -107,13 +108,11 @@ export const StartWorkout = ({ onStart }: Props) => {
             <PlusIcon className="h-3 w-3" />
           </Button>
         </div>
-      </div>
+      </Section>
 
-      {/* Notes */}
-      <div className="flex flex-col space-y-1">
-        <div className="text-center text-2xl font-medium">Notes</div>
+      <Section title="Notes">
         <Input value={notes} onChange={handleChangeNotes} />
-      </div>
+      </Section>
 
       <div className="flex justify-center">
         <Button
@@ -125,5 +124,20 @@ export const StartWorkout = ({ onStart }: Props) => {
         </Button>
       </div>
     </>
+  );
+};
+
+const Section = ({
+  children,
+  title,
+}: {
+  children: ReactNode;
+  title: string;
+}) => {
+  return (
+    <div className="flex flex-col space-y-1 rounded-lg border p-2">
+      <div className="-mt-2 -ml-1 text-base font-medium">{title}</div>
+      {children}
+    </div>
   );
 };
