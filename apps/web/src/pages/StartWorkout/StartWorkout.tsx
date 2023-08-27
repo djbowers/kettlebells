@@ -7,13 +7,7 @@ import {
 } from 'react';
 
 import { Button, Input } from '~/components';
-
-interface WorkoutOptions {
-  task: string;
-  minutes: number;
-  reps: number;
-  notes: string;
-}
+import { WorkoutOptions } from '~/types';
 
 interface Props {
   onStart?: (workoutOptions: WorkoutOptions) => void;
@@ -22,6 +16,8 @@ interface Props {
 export const StartWorkout = ({ onStart }: Props) => {
   const [task, setTask] = useState<string>('');
   const [minutes, setMinutes] = useState<number>(20);
+  const [weight, setWeight] = useState<number>(0);
+  const [weight2, setWeight2] = useState<number | null>(null);
   const [reps, setReps] = useState<number>(5);
   const [notes, setNotes] = useState<string>('');
 
@@ -36,6 +32,20 @@ export const StartWorkout = ({ onStart }: Props) => {
       if (prev <= 1) return prev;
       else return (prev -= 1);
     });
+  };
+  const handleChangeWeight: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value } = e.target;
+    const newWeight = Number(value);
+    setWeight(newWeight);
+  };
+  const handleChangeWeight2: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value } = e.target;
+    const newWeight = Number(value);
+    if (newWeight > 0) {
+      setWeight2(newWeight);
+    } else {
+      setWeight2(null);
+    }
   };
   const handleIncrementReps: MouseEventHandler<HTMLButtonElement> = () => {
     setReps((prev) => (prev += 1));
@@ -53,6 +63,8 @@ export const StartWorkout = ({ onStart }: Props) => {
   const workoutOptions = {
     task,
     minutes,
+    weight,
+    weight2,
     reps,
     notes,
   };
@@ -69,7 +81,7 @@ export const StartWorkout = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Timer">
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <Button
             onClick={handleDecrementTimer}
             className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
@@ -89,8 +101,20 @@ export const StartWorkout = ({ onStart }: Props) => {
         </div>
       </Section>
 
+      <Section title="Weights">
+        <div className="flex justify-between">
+          <Input type="number" value={weight} onChange={handleChangeWeight} />
+          <Input
+            type="number"
+            value={weight2}
+            onChange={handleChangeWeight2}
+            disabled={!weight}
+          />
+        </div>
+      </Section>
+
       <Section title="Round">
-        <div className="flex justify-between px-4">
+        <div className="flex justify-between">
           <Button
             onClick={handleDecrementReps}
             className="flex h-5 w-5 items-center justify-center rounded bg-blue-500"
@@ -110,7 +134,7 @@ export const StartWorkout = ({ onStart }: Props) => {
         </div>
       </Section>
 
-      <Section title="Notes">
+      <Section title="Notes" flag="optional">
         <Input value={notes} onChange={handleChangeNotes} />
       </Section>
 
@@ -118,7 +142,7 @@ export const StartWorkout = ({ onStart }: Props) => {
         <Button
           className="h-5 w-full rounded bg-blue-500"
           onClick={handleClickStart}
-          disabled={task === ''}
+          disabled={task === '' || weight === 0}
         >
           <div className="text-center text-xl font-medium">START</div>
         </Button>
@@ -129,15 +153,22 @@ export const StartWorkout = ({ onStart }: Props) => {
 
 const Section = ({
   children,
+  flag,
   title,
 }: {
   children: ReactNode;
+  flag?: 'required' | 'optional';
   title: string;
 }) => {
   return (
-    <div className="flex flex-col space-y-1 rounded-lg border p-2">
-      <div className="-mt-2 -ml-1 text-base font-medium">{title}</div>
-      {children}
+    <div className="flex flex-col space-y-1 rounded-lg border border-blue-100 border-opacity-50 p-2">
+      <div className="-ml-1 -mt-1.5 flex items-center space-x-1">
+        <div className="text-base font-medium">{title}</div>
+        {flag === 'optional' && (
+          <div className="text-sm font-medium text-neutral-500">(optional)</div>
+        )}
+      </div>
+      <div className="px-3">{children}</div>
     </div>
   );
 };

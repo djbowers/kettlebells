@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import { ActiveWorkout, WorkoutOptions } from '../ActiveWorkout';
+import { ActiveWorkout } from '../ActiveWorkout';
 import { StartWorkout } from '../StartWorkout';
+import { WorkoutOptions } from '~/types';
 
 export const Workout = () => {
   const [startedAt, setStartedAt] = useState<Date | null>(null);

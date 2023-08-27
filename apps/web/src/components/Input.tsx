@@ -34,6 +34,7 @@ export const Input = ({
         type={type}
         className={clsx(
           'w-full rounded-sm bg-neutral-900 px-2 py-1',
+          { 'bg-opacity-70': props.disabled },
           className,
         )}
         {...props}

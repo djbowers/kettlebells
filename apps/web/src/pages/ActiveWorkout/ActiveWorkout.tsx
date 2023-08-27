@@ -6,13 +6,7 @@ import { Button } from '~/components';
 import { useSession } from '~/contexts';
 import { useTimer } from '~/hooks';
 import { supabase } from '~/supabaseClient';
-
-export interface WorkoutOptions {
-  task: string;
-  reps: number;
-  notes: string;
-  minutes: number;
-}
+import { WorkoutOptions } from '~/types';
 
 interface Props {
   startedAt: Date;
@@ -21,7 +15,7 @@ interface Props {
 
 export const ActiveWorkout = ({
   startedAt,
-  workoutOptions: { task, reps, notes, minutes },
+  workoutOptions: { task, reps, notes, minutes, weight, weight2 },
 }: Props) => {
   const { user } = useSession();
   const navigate = useNavigate();
@@ -45,6 +39,8 @@ export const ActiveWorkout = ({
       minutes,
       reps_per_round: reps,
       completed_rounds: completedRounds,
+      weight,
+      weight_2: weight2,
     });
     if (error) console.error(error);
     else navigate('/history');
