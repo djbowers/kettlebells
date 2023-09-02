@@ -30,7 +30,7 @@ export const ActiveWorkout = ({
   const handleClickPlus = () => setCurrentRound((prev) => (prev += 1));
   const handleClickPlayPause = () => togglePause();
   const handleClickFinish = async () => {
-    const { error } = await supabase.from('workout_history').insert({
+    const { error } = await supabase.from('practices').insert({
       started_at: startedAt.toISOString(),
       completed_at: new Date().toISOString(),
       user_id: user.id,

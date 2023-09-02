@@ -24,7 +24,7 @@ export const History = () => {
     async function getTrainingHistory() {
       setLoading(true);
 
-      let { data, error } = await supabase.from('workout_history').select(`*`);
+      let { data, error } = await supabase.from('practices').select(`*`);
 
       if (error) {
         console.warn(error);
