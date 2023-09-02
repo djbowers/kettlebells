@@ -1,4 +1,5 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import {
   ChangeEventHandler,
   MouseEventHandler,
@@ -77,7 +78,7 @@ export const StartWorkout = ({ onStart }: Props) => {
   return (
     <>
       <Section title="Task">
-        <Input value={task} onChange={handleChangeTask} />
+        <Input value={task} onChange={handleChangeTask} className="w-full" />
       </Section>
 
       <Section title="Timer">
@@ -102,14 +103,26 @@ export const StartWorkout = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Weights">
-        <div className="flex justify-between">
-          <Input type="number" value={weight} onChange={handleChangeWeight} />
-          <Input
-            type="number"
-            value={weight2}
-            onChange={handleChangeWeight2}
-            disabled={!weight}
-          />
+        <div className="flex justify-between px-3">
+          <div className="flex items-center gap-1">
+            <Input
+              type="number"
+              value={weight}
+              onChange={handleChangeWeight}
+              className="w-[100px]"
+            />
+            <div>kg</div>
+          </div>
+          <div className="flex items-center gap-1">
+            <Input
+              type="number"
+              value={weight2}
+              onChange={handleChangeWeight2}
+              className="w-[100px]"
+              disabled={!weight}
+            />
+            <div className={clsx({ 'opacity-20': !weight })}>kg</div>
+          </div>
         </div>
       </Section>
 
@@ -135,7 +148,7 @@ export const StartWorkout = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Notes" flag="optional">
-        <Input value={notes} onChange={handleChangeNotes} />
+        <Input value={notes} onChange={handleChangeNotes} className="w-full" />
       </Section>
 
       <div className="flex justify-center">
