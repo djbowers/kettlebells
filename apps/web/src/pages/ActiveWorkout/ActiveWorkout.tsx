@@ -15,7 +15,7 @@ interface Props {
 
 export const ActiveWorkout = ({
   startedAt,
-  workoutOptions: { task, reps, notes, minutes, weight, weight2 },
+  workoutOptions: { task, reps, notes, minutes, bells},
 }: Props) => {
   const { user } = useSession();
   const navigate = useNavigate();
@@ -39,8 +39,7 @@ export const ActiveWorkout = ({
       minutes,
       reps_per_round: reps,
       completed_rounds: completedRounds,
-      weight,
-      weight_2: weight2,
+      bells,
     });
     if (error) console.error(error);
     else navigate('/history');

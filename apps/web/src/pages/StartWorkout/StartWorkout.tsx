@@ -16,7 +16,7 @@ interface Props {
 
 export const StartWorkout = ({ onStart }: Props) => {
   const [task, setTask] = useState<string>('');
-  const [minutes, setMinutes] = useState<number>(20);
+  const [minutes, setMinutes] = useState<number>(30);
   const [weight, setWeight] = useState<number>(0);
   const [weight2, setWeight2] = useState<number | null>(null);
   const [reps, setReps] = useState<number>(5);
@@ -61,17 +61,18 @@ export const StartWorkout = ({ onStart }: Props) => {
     setNotes(e.target.value);
   };
 
+  const bells = [weight];
+  if (weight2) bells.push(weight2);
+
   const workoutOptions = {
     task,
     minutes,
-    weight,
-    weight2,
+    bells,
     reps,
     notes,
   };
 
   const handleClickStart = () => {
-    console.log(workoutOptions);
     onStart?.(workoutOptions);
   };
 

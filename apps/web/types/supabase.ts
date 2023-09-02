@@ -11,6 +11,7 @@ export interface Database {
     Tables: {
       practices: {
         Row: {
+          bells: number[]
           completed_at: string
           completed_rounds: number
           id: number
@@ -20,10 +21,9 @@ export interface Database {
           started_at: string
           task: string
           user_id: string
-          weight: number
-          weight_2: number | null
         }
         Insert: {
+          bells?: number[]
           completed_at?: string
           completed_rounds: number
           id?: number
@@ -33,10 +33,9 @@ export interface Database {
           started_at: string
           task: string
           user_id: string
-          weight: number
-          weight_2?: number | null
         }
         Update: {
+          bells?: number[]
           completed_at?: string
           completed_rounds?: number
           id?: number
@@ -46,8 +45,6 @@ export interface Database {
           started_at?: string
           task?: string
           user_id?: string
-          weight?: number
-          weight_2?: number | null
         }
         Relationships: [
           {
