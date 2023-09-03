@@ -30,17 +30,21 @@ export const History = () => {
         console.warn(error);
       } else if (data) {
         setWorkoutHistory(
-          data.map((workout) => ({
-            startedAt: workout.started_at,
-            completedAt: workout.completed_at,
-            id: workout.id,
-            userId: workout.user_id,
-            task: workout.task,
-            notes: workout.notes,
-            reps: workout.reps_per_round,
-            minutes: workout.minutes,
-            completedRounds: workout.completed_rounds,
-          })),
+          data.map((workout) => {
+            const [reps] = workout.reps;
+
+            return {
+              startedAt: workout.started_at,
+              completedAt: workout.completed_at,
+              id: workout.id,
+              userId: workout.user_id,
+              task: workout.task,
+              notes: workout.notes,
+              reps,
+              minutes: workout.minutes,
+              completedRounds: workout.completed_rounds,
+            };
+          }),
         );
       }
 

@@ -17,9 +17,10 @@ export interface Database {
           id: number
           minutes: number
           notes: string | null
-          reps_per_round: number
+          reps: number[]
           started_at: string
           task: string
+          unit: string | null
           user_id: string
         }
         Insert: {
@@ -29,9 +30,10 @@ export interface Database {
           id?: number
           minutes: number
           notes?: string | null
-          reps_per_round: number
+          reps?: number[]
           started_at: string
           task: string
+          unit?: string | null
           user_id: string
         }
         Update: {
@@ -41,9 +43,10 @@ export interface Database {
           id?: number
           minutes?: number
           notes?: string | null
-          reps_per_round?: number
+          reps?: number[]
           started_at?: string
           task?: string
+          unit?: string | null
           user_id?: string
         }
         Relationships: [

@@ -37,7 +37,7 @@ export const ActiveWorkout = ({
       task,
       notes,
       minutes,
-      reps_per_round: reps,
+      reps: [reps],
       completed_rounds: completedRounds,
       bells,
     });
