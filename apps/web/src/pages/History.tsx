@@ -11,7 +11,7 @@ interface Workout {
   userId: string;
   task: string;
   notes: string | null;
-  reps: number;
+  reps: number[];
   minutes: number;
   completedRounds: number;
 }
@@ -31,8 +31,6 @@ export const History = () => {
       } else if (data) {
         setWorkoutHistory(
           data.map((workout) => {
-            const [reps] = workout.reps;
-
             return {
               startedAt: workout.started_at,
               completedAt: workout.completed_at,
@@ -40,7 +38,7 @@ export const History = () => {
               userId: workout.user_id,
               task: workout.task,
               notes: workout.notes,
-              reps,
+              reps: workout.reps,
               minutes: workout.minutes,
               completedRounds: workout.completed_rounds,
             };
@@ -70,8 +68,9 @@ export const History = () => {
               {workout.notes && ` - ${workout.notes}`}
             </div>
             <div>
-              Completed {workout.completedRounds} rounds x {workout.reps} reps
-              for a total of {workout.reps * workout.completedRounds} reps.
+              Completed {workout.completedRounds} rounds x {workout.reps[0]}{' '}
+              reps for a total of {workout.reps[0] * workout.completedRounds}{' '}
+              reps.
             </div>
           </div>
         ))

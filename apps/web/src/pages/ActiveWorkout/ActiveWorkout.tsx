@@ -15,7 +15,7 @@ interface Props {
 
 export const ActiveWorkout = ({
   startedAt,
-  workoutOptions: { task, reps, notes, minutes, bells},
+  workoutOptions: { task, reps, notes, minutes, bells },
 }: Props) => {
   const { user } = useSession();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const ActiveWorkout = ({
   const totalSeconds = minutes * 60;
   const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
   const completedRounds = currentRound - 1;
-  const completedReps = completedRounds * reps;
+  const completedReps = completedRounds * reps[0];
 
   const handleClickPlus = () => setCurrentRound((prev) => (prev += 1));
   const handleClickPlayPause = () => togglePause();
@@ -37,7 +37,7 @@ export const ActiveWorkout = ({
       task,
       notes,
       minutes,
-      reps: [reps],
+      reps,
       completed_rounds: completedRounds,
       bells,
     });
@@ -58,7 +58,7 @@ export const ActiveWorkout = ({
         </div>
 
         <Button
-          className="flex w-full items-center justify-center rounded border border-gray-700 py-1"
+          className="flex w-full items-center justify-center border border-gray-700 py-1"
           onClick={handleClickPlayPause}
         >
           <PlayPauseIcon className="h-3 w-3" />
@@ -68,10 +68,10 @@ export const ActiveWorkout = ({
       <div className="flex flex-col items-center justify-center space-y-3 py-4">
         <div className="text-2xl font-medium">Round {currentRound}</div>
         <div className="text-6xl font-medium">
-          {reps} <span className="text-2xl">reps</span>
+          {reps[0]} <span className="text-2xl">reps</span>
         </div>
         <Button
-          className="flex w-full items-center justify-center rounded bg-blue-500 py-1"
+          className="flex w-full items-center justify-center bg-blue-500 py-1"
           onClick={handleClickPlus}
         >
           <PlusIcon className="h-4 w-4 font-bold" />
@@ -83,7 +83,7 @@ export const ActiveWorkout = ({
 
       <div>
         <Button
-          className="flex w-full items-center justify-center rounded border border-gray-700 py-1"
+          className="flex w-full items-center justify-center border border-gray-700 py-1"
           onClick={handleClickFinish}
         >
           <div>FINISH WORKOUT</div>
