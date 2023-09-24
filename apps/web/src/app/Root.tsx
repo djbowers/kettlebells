@@ -1,14 +1,12 @@
 import { Outlet } from 'react-router-dom';
 
-import { Header, Page } from '~/components';
+import { Header } from '~/components';
 
 export const Root = () => {
   return (
     <>
       <Header />
-      <Page>
-        <Outlet />
-      </Page>
+      <Outlet />
     </>
   );
 };

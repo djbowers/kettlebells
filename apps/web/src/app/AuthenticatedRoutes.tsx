@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { Account, History, Workout } from '../pages';
+import { Account, HistoryPage, Workout } from '../pages';
 import { Root } from './Root';
 
 export default function AuthenticatedRoutes() {
@@ -19,7 +19,7 @@ export default function AuthenticatedRoutes() {
         },
         {
           path: 'history',
-          element: <History />,
+          element: <HistoryPage />,
         },
       ],
     },

@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
-import { Loading } from '~/components';
+import { Loading, Page } from '~/components';
 import { supabase } from '~/supabaseClient';
 
 interface Workout {
@@ -16,7 +16,7 @@ interface Workout {
   completedRounds: number;
 }
 
-export const History = () => {
+export const HistoryPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [workoutHistory, setWorkoutHistory] = useState<Workout[]>([]);
 
@@ -53,31 +53,40 @@ export const History = () => {
   }, []);
 
   return (
-    <>
+    <Page>
       {loading ? (
         <Loading />
       ) : (
-        workoutHistory.map((workout) => (
-          <div
-            key={workout.id}
-            className="w-full rounded border px-2 py-1 text-white"
-          >
-            <div>
-              {workout.minutes} Minutes -{' '}
-              {DateTime.fromISO(workout.startedAt).toFormat('ccc LLL dd')}
+        workoutHistory.map((workout) => {
+          const reps = workout.reps.join(', ');
+          const repsPerRound = workout.reps.reduce(
+            (prev, curr) => prev + curr,
+            0,
+          );
+          const startedAt = DateTime.fromISO(workout.startedAt).toFormat(
+            'ccc LLL dd',
+          );
+
+          return (
+            <div
+              key={workout.id}
+              className="w-full rounded border px-2 py-1 text-white"
+            >
+              <div>
+                {workout.minutes} Minutes - {startedAt}
+              </div>
+              <div>
+                {workout.task}
+                {workout.notes && ` - ${workout.notes}`}
+              </div>
+              <div>
+                Completed {workout.completedRounds} rounds x {reps} reps for a
+                total of {repsPerRound * workout.completedRounds} reps.
+              </div>
             </div>
-            <div>
-              {workout.task}
-              {workout.notes && ` - ${workout.notes}`}
-            </div>
-            <div>
-              Completed {workout.completedRounds} rounds x {workout.reps[0]}{' '}
-              reps for a total of {workout.reps[0] * workout.completedRounds}{' '}
-              reps.
-            </div>
-          </div>
-        ))
+          );
+        })
       )}
-    </>
+    </Page>
   );
 };
