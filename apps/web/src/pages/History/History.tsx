@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
-import { Loading } from '../components';
-import { supabase } from '../supabaseClient';
+import { Loading } from '~/components';
+import { supabase } from '~/supabaseClient';
 
 interface Workout {
   startedAt: string;
@@ -58,7 +58,10 @@ export const History = () => {
         <Loading />
       ) : (
         workoutHistory.map((workout) => (
-          <div key={workout.id} className="w-full rounded border px-2 py-1">
+          <div
+            key={workout.id}
+            className="w-full rounded border px-2 py-1 text-white"
+          >
             <div>
               {workout.minutes} Minutes -{' '}
               {DateTime.fromISO(workout.startedAt).toFormat('ccc LLL dd')}
