@@ -9,14 +9,14 @@ import {
   useState,
 } from 'react';
 
-import { Button, Input } from '~/components';
+import { Button, Input, Page } from '~/components';
 import { WorkoutOptions } from '~/types';
 
 interface Props {
   onStart?: (workoutOptions: WorkoutOptions) => void;
 }
 
-export const StartWorkout = ({ onStart }: Props) => {
+export const StartWorkoutPage = ({ onStart }: Props) => {
   const [task, setTask] = useState<string>('');
   const [minutes, setMinutes] = useState<number>(30);
   const [weight, setWeight] = useState<number>(0);
@@ -87,9 +87,15 @@ export const StartWorkout = ({ onStart }: Props) => {
   };
 
   return (
-    <>
-      <Section title="Task">
-        <Input value={task} onChange={handleChangeTask} className="w-full" />
+    <Page>
+      <Section>
+        <Input
+          label="Task"
+          value={task}
+          onChange={handleChangeTask}
+          className="w-full"
+          id="task"
+        />
       </Section>
 
       <Section title="Timer">
@@ -181,7 +187,7 @@ export const StartWorkout = ({ onStart }: Props) => {
           <div className="text-center text-xl font-medium">START</div>
         </Button>
       </div>
-    </>
+    </Page>
   );
 };
 
@@ -242,7 +248,7 @@ const Section = ({
 }: {
   children: ReactNode;
   flag?: 'required' | 'optional';
-  title: string;
+  title?: string;
 }) => {
   return (
     <div className="flex flex-col space-y-1 rounded-lg border border-blue-100 border-opacity-50 p-2">

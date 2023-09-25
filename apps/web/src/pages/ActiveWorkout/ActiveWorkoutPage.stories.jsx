@@ -3,7 +3,7 @@ import { Router } from 'react-router-dom';
 import { Page } from '~/components';
 import { SessionProvider } from '~/contexts';
 
-import { ActiveWorkout } from './ActiveWorkout';
+import { ActiveWorkout } from './ActiveWorkoutPage';
 
 export default {
   component: ActiveWorkout,

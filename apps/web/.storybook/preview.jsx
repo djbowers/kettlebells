@@ -18,6 +18,7 @@ const preview = {
         },
       ],
     },
+    layout: 'fullscreen',
     controls: {
       matchers: {
         color: /(background|color)$/i,

@@ -1,7 +1,7 @@
 import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 
-import * as stories from './ActiveWorkout.stories';
+import * as stories from './ActiveWorkoutPage.stories';
 
 const { Normal } = composeStories(stories);
 

@@ -1,1 +1,1 @@
-export * from './StartWorkout';
+export * from './StartWorkoutPage';

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { ActiveWorkout } from '../ActiveWorkout';
-import { StartWorkout } from '../StartWorkout';
 import { WorkoutOptions } from '~/types';
+
+import { ActiveWorkout } from '../ActiveWorkout';
+import { StartWorkoutPage } from '../StartWorkout';
 
 export const Workout = () => {
   const [startedAt, setStartedAt] = useState<Date | null>(null);
@@ -20,7 +21,7 @@ export const Workout = () => {
       {startedAt && workoutOptions ? (
         <ActiveWorkout workoutOptions={workoutOptions} startedAt={startedAt} />
       ) : (
-        <StartWorkout onStart={handleStartWorkout} />
+        <StartWorkoutPage onStart={handleStartWorkout} />
       )}
     </>
   );

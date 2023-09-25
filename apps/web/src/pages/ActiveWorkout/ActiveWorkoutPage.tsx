@@ -2,7 +2,7 @@ import { PlayPauseIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '~/components';
+import { Button, Page } from '~/components';
 import { useSession } from '~/contexts';
 import { useTimer } from '~/hooks';
 import { supabase } from '~/supabaseClient';
@@ -46,7 +46,7 @@ export const ActiveWorkout = ({
   };
 
   return (
-    <>
+    <Page>
       <Progress completedPercentage={completedPercentage} />
 
       <div className="flex flex-col space-y-1">
@@ -86,10 +86,10 @@ export const ActiveWorkout = ({
           className="flex w-full items-center justify-center border border-gray-700 py-1"
           onClick={handleClickFinish}
         >
-          <div>FINISH WORKOUT</div>
+          <div className="uppercase">Finish Workout</div>
         </Button>
       </div>
-    </>
+    </Page>
   );
 };
 
