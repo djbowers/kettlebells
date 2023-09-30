@@ -14,25 +14,32 @@ interface Props {
 }
 
 export const ActiveWorkout = ({
-  startedAt,
+  startedAt = new Date(),
   workoutOptions: { task, reps, notes, minutes, bells },
 }: Props) => {
   const { user } = useSession();
   const navigate = useNavigate();
   const [timeRemaining, { seconds, togglePause }] = useTimer(minutes);
-  const [currentRound, setCurrentRound] = useState<number>(1);
+  const [completedRungs, setCompletedRungs] = useState<number>(0);
+  const [completedReps, setCompletedReps] = useState<number>(0);
 
   const totalSeconds = minutes * 60;
   const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
-  const completedRounds = currentRound - 1;
-  const completedReps = completedRounds * reps[0];
+  const rungsPerRound = reps.length;
+  const rungIndex = completedRungs % rungsPerRound;
 
-  const handleClickPlus = () => setCurrentRound((prev) => (prev += 1));
+  const currentRung = rungIndex + 1;
+  const currentRound = Math.floor(completedRungs / rungsPerRound) + 1;
+  const completedRounds = currentRound - 1
+
+  const handleClickPlus = () => {
+    setCompletedRungs((prev) => (prev += 1));
+    setCompletedReps((prev) => (prev += reps[rungIndex]));
+  };
   const handleClickPlayPause = () => togglePause();
   const handleClickFinish = async () => {
     const { error } = await supabase.from('practices').insert({
       started_at: startedAt.toISOString(),
-      completed_at: new Date().toISOString(),
       user_id: user.id,
       task,
       notes,
@@ -66,18 +73,21 @@ export const ActiveWorkout = ({
       </div>
 
       <div className="flex flex-col items-center justify-center space-y-3 py-4">
-        <div className="text-2xl font-medium">Round {currentRound}</div>
+        <div className="text-2xl font-medium">
+          Round {currentRound} Rung {currentRung}
+        </div>
         <div className="text-6xl font-medium">
-          {reps[0]} <span className="text-2xl">reps</span>
+          {reps[rungIndex]} <span className="text-2xl">reps</span>
         </div>
         <Button
           className="flex w-full items-center justify-center bg-blue-500 py-1"
           onClick={handleClickPlus}
+          aria-label="Add Reps"
         >
           <PlusIcon className="h-4 w-4 font-bold" />
         </Button>
         <div className="text-md">
-          Completed {completedRounds} rounds ({completedReps} reps)
+          Completed {completedRungs} rungs and {completedReps} reps
         </div>
       </div>
 

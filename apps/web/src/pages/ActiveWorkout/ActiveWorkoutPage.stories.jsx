@@ -1,6 +1,5 @@
 import { Router } from 'react-router-dom';
 
-import { Page } from '~/components';
 import { SessionProvider } from '~/contexts';
 
 import { ActiveWorkout } from './ActiveWorkoutPage';
@@ -18,11 +17,6 @@ export default {
         <Story />
       </SessionProvider>
     ),
-    (Story) => (
-      <Page>
-        <Story />
-      </Page>
-    ),
   ],
 };
 
@@ -30,8 +24,8 @@ export const Normal = {
   args: {
     workoutOptions: {
       task: 'Clean and Press',
-      notes: 'The Giant Week 2 Day 3',
-      reps: [6],
+      notes: 'The Giant',
+      reps: [1, 2, 3],
       minutes: 5,
     },
   },

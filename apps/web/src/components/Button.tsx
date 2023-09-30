@@ -3,18 +3,20 @@ import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
+  className?: string;
+  disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
-  disabled?: boolean;
-  className?: string;
+  [key: string]: any;
 }
 
 export const Button = ({
   children,
+  className,
+  disabled = false,
   onClick,
   type = 'button',
-  disabled = false,
-  className,
+  ...props
 }: Props) => {
   return (
     <button
@@ -29,6 +31,7 @@ export const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>

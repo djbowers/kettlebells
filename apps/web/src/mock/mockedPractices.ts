@@ -9,6 +9,9 @@ export const mockedPracticesFetch = rest.all(
     switch (req.method) {
       case 'GET':
         return res(ctx.json(practices));
+      case 'POST':
+        const body = await req.json();
+        return res(ctx.json(body));
       default:
         return res(ctx.json('Unhandled method'));
     }
