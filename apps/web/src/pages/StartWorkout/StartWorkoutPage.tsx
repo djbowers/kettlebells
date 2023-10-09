@@ -18,7 +18,7 @@ interface Props {
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
   const [task, setTask] = useState<string>('');
-  const [minutes, setMinutes] = useState<number>(30);
+  const [minutes, setMinutes] = useState<number>(20);
   const [weight, setWeight] = useState<number>(0);
   const [weight2, setWeight2] = useState<number | null>(null);
   const [reps, setReps] = useState<number[]>([5]);
@@ -30,12 +30,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     setTask(e.target.value);
   };
   const handleIncrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
-    setMinutes((prev) => (prev += 1));
+    setMinutes((prev) => (prev += 5));
   };
   const handleDecrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
     setMinutes((prev) => {
       if (prev <= 1) return prev;
-      else return (prev -= 1);
+      else return (prev -= 5);
     });
   };
   const handleChangeWeight: ChangeEventHandler<HTMLInputElement> = (e) => {
