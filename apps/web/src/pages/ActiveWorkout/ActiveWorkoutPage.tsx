@@ -22,21 +22,60 @@ export const ActiveWorkout = ({
   const [timeRemaining, { seconds, togglePause }] = useTimer(minutes);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
+  const [rungDoubled, setRungDoubled] = useState<boolean>(false);
 
+  // Overview
   const totalSeconds = minutes * 60;
   const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
+
+  // Bells
+  const primaryBell = bells[0];
+  const secondBell = bells[1];
+  const singleBell = !secondBell;
+  const primaryBellSide = !rungDoubled ? 'left' : 'right';
+  const doubleBells = !singleBell;
+  const mismatchedBells = doubleBells && primaryBell !== secondBell;
+
+  // Rungs
   const rungsPerRound = reps.length;
   const rungIndex = completedRungs % rungsPerRound;
-
   const currentRung = rungIndex + 1;
-  const currentRound = Math.floor(completedRungs / rungsPerRound) + 1;
-  const completedRounds = currentRound - 1
+
+  // Rounds
+  const completedRounds = Math.floor(completedRungs / rungsPerRound);
+  const currentRound = completedRounds + 1;
+  const roundsDoubled = singleBell || mismatchedBells;
+
+  const getLeftBell = () => {
+    if (primaryBellSide === 'left') return primaryBell;
+    if (singleBell) return null;
+    else return secondBell;
+  };
+
+  const getRightBell = () => {
+    if (primaryBellSide === 'right') return primaryBell;
+    if (singleBell) return null;
+    else return secondBell;
+  };
+
+  const leftBell = getLeftBell();
+  const rightBell = getRightBell();
 
   const handleClickPlus = () => {
-    setCompletedRungs((prev) => (prev += 1));
     setCompletedReps((prev) => (prev += reps[rungIndex]));
+
+    if (!roundsDoubled) setCompletedRungs((prev) => (prev += 1));
+    else {
+      if (!rungDoubled) setRungDoubled(true);
+      else {
+        setRungDoubled(false);
+        setCompletedRungs((prev) => (prev += 1));
+      }
+    }
   };
+
   const handleClickPlayPause = () => togglePause();
+
   const handleClickFinish = async () => {
     const { error } = await supabase.from('practices').insert({
       started_at: startedAt.toISOString(),
@@ -74,7 +113,11 @@ export const ActiveWorkout = ({
 
       <div className="flex flex-col items-center justify-center space-y-3 py-4">
         <div className="text-2xl font-medium">
-          Round {currentRound} Rung {currentRung}
+          Round {currentRound} {rungsPerRound > 1 && `Rung ${currentRung}`}
+        </div>
+        <div className="flex w-full justify-between">
+          <div data-testid="left-bell">{leftBell && `${leftBell} kg`}</div>
+          <div data-testid="right-bell">{rightBell && `${rightBell} kg`}</div>
         </div>
         <div className="text-6xl font-medium">
           {reps[rungIndex]} <span className="text-2xl">reps</span>
@@ -87,7 +130,8 @@ export const ActiveWorkout = ({
           <PlusIcon className="h-4 w-4 font-bold" />
         </Button>
         <div className="text-md">
-          Completed {completedRungs} rungs and {completedReps} reps
+          Completed {completedRungs} {rungsPerRound > 1 ? 'rungs' : 'rounds'}{' '}
+          and {completedReps} reps
         </div>
       </div>
 
