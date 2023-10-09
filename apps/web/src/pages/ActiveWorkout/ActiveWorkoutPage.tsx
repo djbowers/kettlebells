@@ -16,7 +16,7 @@ interface Props {
 
 export const ActiveWorkout = ({
   startedAt = new Date(),
-  workoutOptions: { task, reps, notes, minutes, bells },
+  workoutOptions: { tasks, reps, notes, minutes, bells },
 }: Props) => {
   const { user } = useSession();
   const navigate = useNavigate();
@@ -83,11 +83,13 @@ export const ActiveWorkout = ({
     const { error } = await supabase.from('practices').insert({
       started_at: startedAt.toISOString(),
       user_id: user.id,
-      task,
+      tasks,
       notes,
       minutes,
       reps,
       completed_rounds: completedRounds,
+      completed_reps: completedReps,
+      completed_rungs: completedRungs,
       bells,
     });
     if (error) console.error(error);
@@ -101,7 +103,7 @@ export const ActiveWorkout = ({
       <div className="flex flex-col space-y-1">
         <div className="flex items-center justify-between">
           <div className="text-2xl font-medium">
-            {task} <span className="text-lg text-gray-500">{notes}</span>
+            {tasks[0]} <span className="text-lg text-gray-500">{notes}</span>
           </div>
           <div>{timeRemaining}</div>
         </div>

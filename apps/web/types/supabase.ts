@@ -19,7 +19,7 @@ export interface Database {
           notes: string | null
           reps: number[]
           started_at: string
-          task: string
+          tasks: string[]
           unit: string | null
           user_id: string
         }
@@ -32,7 +32,7 @@ export interface Database {
           notes?: string | null
           reps?: number[]
           started_at: string
-          task: string
+          tasks: string[]
           unit?: string | null
           user_id: string
         }
@@ -45,7 +45,7 @@ export interface Database {
           notes?: string | null
           reps?: number[]
           started_at?: string
-          task?: string
+          tasks?: string[]
           unit?: string | null
           user_id?: string
         }

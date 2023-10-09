@@ -1,5 +1,5 @@
 export interface WorkoutOptions {
-  task: string;
+  tasks: string[];
   minutes: number;
   bells: number[];
   reps: number[];

@@ -17,18 +17,15 @@ interface Props {
 }
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
-  const [task, setTask] = useState<string>('');
+  const [tasks, setTasks] = useState<string[]>(['']);
   const [minutes, setMinutes] = useState<number>(20);
   const [weight, setWeight] = useState<number>(0);
   const [weight2, setWeight2] = useState<number | null>(null);
   const [reps, setReps] = useState<number[]>([5]);
   const [notes, setNotes] = useState<string>('');
 
-  const totalReps = reps.reduce((acc, curr) => acc + curr, 0);
+  const totalRepsPerRound = reps.reduce((acc, curr) => acc + curr, 0);
 
-  const handleChangeTask: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setTask(e.target.value);
-  };
   const handleIncrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
     setMinutes((prev) => (prev += 5));
   };
@@ -75,7 +72,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   if (weight2) bells.push(weight2);
 
   const workoutOptions = {
-    task,
+    tasks,
     minutes,
     bells,
     reps,
@@ -89,13 +86,14 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   return (
     <Page>
       <Section>
-        <Input
-          label="Task"
-          value={task}
-          onChange={handleChangeTask}
-          className="w-full"
-          id="task"
-        />
+        {tasks.map((task, index) => (
+          <TaskInput
+            key={index}
+            index={index}
+            value={task}
+            onChange={setTasks}
+          />
+        ))}
       </Section>
 
       <Section title="Timer">
@@ -137,7 +135,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         </div>
         {reps.length > 1 && (
           <div className="text-center text-2xl font-medium">
-            {totalReps} total reps / round
+            {totalRepsPerRound} total reps / round
           </div>
         )}
         {reps.map((_, index) => (
@@ -182,12 +180,40 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         <Button
           className="h-5 w-full bg-blue-500"
           onClick={handleClickStart}
-          disabled={task === '' || weight === 0}
+          disabled={tasks[0] === '' || weight === 0}
         >
           <div className="text-center text-xl font-medium">START</div>
         </Button>
       </div>
     </Page>
+  );
+};
+
+const TaskInput = ({
+  onChange,
+  value,
+  index,
+}: {
+  onChange: Dispatch<SetStateAction<string[]>>;
+  value: string;
+  index: number;
+}) => {
+  const handleChangeTask: ChangeEventHandler<HTMLInputElement> = (e) => {
+    onChange((prev) => {
+      const tasks = [...prev];
+      tasks[index] = e.target.value;
+      return tasks;
+    });
+  };
+
+  return (
+    <Input
+      label="Task"
+      value={value}
+      onChange={handleChangeTask}
+      className="w-full"
+      id="task"
+    />
   );
 };
 
