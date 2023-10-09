@@ -15,7 +15,7 @@ describe('active workout page (double bells)', () => {
   });
 
   test('renders the task name and notes', () => {
-    screen.getByText(workoutOptions.task);
+    screen.getByText(workoutOptions.tasks[0]);
     screen.getByText(workoutOptions.notes);
   });
 

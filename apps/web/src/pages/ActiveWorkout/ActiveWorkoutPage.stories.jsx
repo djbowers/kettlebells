@@ -23,7 +23,7 @@ export default {
 export const DoubleBells = {
   args: {
     workoutOptions: {
-      task: 'Clean and Press',
+      tasks: ['Clean and Press'],
       notes: 'The Giant',
       reps: [1, 2, 3],
       minutes: 20,
@@ -35,7 +35,7 @@ export const DoubleBells = {
 export const SingleBell = {
   args: {
     workoutOptions: {
-      task: 'Snatch',
+      tasks: ['Snatch'],
       notes: 'King Sized Killer',
       reps: [1, 2, 3, 4, 5],
       minutes: 20,
@@ -47,7 +47,7 @@ export const SingleBell = {
 export const MismatchedBells = {
   args: {
     workoutOptions: {
-      task: 'Clean and Press',
+      tasks: ['Clean and Press'],
       notes: 'The Giant',
       reps: [3, 6, 9],
       minutes: 20,
@@ -59,7 +59,7 @@ export const MismatchedBells = {
 export const SingleRung = {
   args: {
     workoutOptions: {
-      task: 'Simple & Sinister',
+      tasks: ['Simple & Sinister'],
       reps: [10],
       minutes: 5,
       bells: [28],
