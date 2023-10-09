@@ -15,7 +15,17 @@ export default {
       6: '64px',
       7: '80px',
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-2deg)' },
+          '50%': { transform: 'rotate(2deg)' },
+        },
+      },
+      animation: {
+        wiggle: 'wiggle 200ms ease-in-out',
+      },
+    },
   },
   plugins: [],
 };

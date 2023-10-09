@@ -1,4 +1,5 @@
 import { PlayPauseIcon, PlusIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,6 +24,7 @@ export const ActiveWorkout = ({
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
   const [rungDoubled, setRungDoubled] = useState<boolean>(false);
+  const [effect, setEffect] = useState(false);
 
   // Overview
   const totalSeconds = minutes * 60;
@@ -62,6 +64,7 @@ export const ActiveWorkout = ({
   const rightBell = getRightBell();
 
   const handleClickPlus = () => {
+    setEffect(true);
     setCompletedReps((prev) => (prev += reps[rungIndex]));
 
     if (!roundsDoubled) setCompletedRungs((prev) => (prev += 1));
@@ -123,8 +126,12 @@ export const ActiveWorkout = ({
           {reps[rungIndex]} <span className="text-2xl">reps</span>
         </div>
         <Button
-          className="flex w-full items-center justify-center bg-blue-500 py-1"
+          className={clsx(
+            'flex w-full items-center justify-center bg-blue-500 py-1',
+            { 'animate-wiggle': effect },
+          )}
           onClick={handleClickPlus}
+          onAnimationEnd={() => setEffect(false)}
           aria-label="Add Reps"
         >
           <PlusIcon className="h-4 w-4 font-bold" />
