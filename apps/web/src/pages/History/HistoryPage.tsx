@@ -9,11 +9,13 @@ interface Workout {
   completedAt: string;
   id: number;
   userId: string;
-  task: string;
+  tasks: string[];
   notes: string | null;
   reps: number[];
   minutes: number;
   completedRounds: number;
+  completedRungs: number;
+  completedReps: number;
 }
 
 export const HistoryPage = () => {
@@ -36,11 +38,13 @@ export const HistoryPage = () => {
               completedAt: workout.completed_at,
               id: workout.id,
               userId: workout.user_id,
-              task: workout.task,
+              tasks: workout.tasks,
               notes: workout.notes,
               reps: workout.reps,
               minutes: workout.minutes,
               completedRounds: workout.completed_rounds,
+              completedRungs: workout.completed_rungs,
+              completedReps: workout.completed_reps,
             };
           }),
         );
@@ -73,15 +77,17 @@ export const HistoryPage = () => {
               className="w-full rounded border px-2 py-1 text-white"
             >
               <div>
-                {workout.minutes} Minutes - {startedAt}
+                {startedAt} - {workout.minutes} Minutes
               </div>
               <div>
-                {workout.task}
+                {workout.tasks[0]}
                 {workout.notes && ` - ${workout.notes}`}
               </div>
+              <div>Reps / Round: {reps}</div>
               <div>
-                Completed {workout.completedRounds} rounds x {reps} reps for a
-                total of {repsPerRound * workout.completedRounds} reps.
+                Completed {workout.completedRounds} rounds,{' '}
+                {workout.completedRungs} rungs, and {workout.completedReps}{' '}
+                reps.
               </div>
             </div>
           );

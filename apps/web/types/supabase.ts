@@ -13,7 +13,9 @@ export interface Database {
         Row: {
           bells: number[]
           completed_at: string
+          completed_reps: number
           completed_rounds: number
+          completed_rungs: number
           id: number
           minutes: number
           notes: string | null
@@ -26,7 +28,9 @@ export interface Database {
         Insert: {
           bells?: number[]
           completed_at?: string
+          completed_reps: number
           completed_rounds: number
+          completed_rungs: number
           id?: number
           minutes: number
           notes?: string | null
@@ -39,7 +43,9 @@ export interface Database {
         Update: {
           bells?: number[]
           completed_at?: string
+          completed_reps?: number
           completed_rounds?: number
+          completed_rungs?: number
           id?: number
           minutes?: number
           notes?: string | null

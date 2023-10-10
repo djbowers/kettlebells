@@ -15,7 +15,7 @@ describe('practice history page', () => {
   });
 
   test('renders name of task', async () => {
-    await screen.findByText(practice.task, { exact: false });
+    await screen.findByText(practice.tasks[0], { exact: false });
   });
 
   test('renders additional notes', async () => {
@@ -27,7 +27,7 @@ describe('practice history page', () => {
   });
 
   test('renders rep ladders correctly', async () => {
-    await screen.findByText(`${practice.reps.join(', ')} reps`, {
+    await screen.findByText(`Reps / Round: ${practice.reps.join(', ')}`, {
       exact: false,
     });
   });
