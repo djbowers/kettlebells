@@ -19,13 +19,21 @@ interface Props {
 export const StartWorkoutPage = ({ onStart }: Props) => {
   const [tasks, setTasks] = useState<string[]>(['']);
   const [minutes, setMinutes] = useState<number>(20);
-  const [weight, setWeight] = useState<number>(0);
-  const [weight2, setWeight2] = useState<number | null>(null);
+  const [bells, setBells] = useState<[number, number?]>([16]);
   const [reps, setReps] = useState<number[]>([5]);
   const [notes, setNotes] = useState<string>('');
 
-  const totalRepsPerRound = reps.reduce((acc, curr) => acc + curr, 0);
-
+  const handleClickMinusTask: MouseEventHandler<HTMLButtonElement> = () => {
+    if (tasks.length > 1)
+      setTasks((prev) => {
+        const tasks = [...prev];
+        tasks.pop();
+        return tasks;
+      });
+  };
+  const handleClickPlusTask: MouseEventHandler<HTMLButtonElement> = () => {
+    setTasks((prev) => [...prev, '']);
+  };
   const handleIncrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
     setMinutes((prev) => (prev += 5));
   };
@@ -35,19 +43,21 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       else return (prev -= 5);
     });
   };
-  const handleChangeWeight: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChangePrimaryBell: ChangeEventHandler<HTMLInputElement> = (e) => {
     const { value } = e.target;
     const newWeight = Number(value);
-    setWeight(newWeight);
+    setBells((prev) => {
+      if (prev?.[1]) return [newWeight, prev[1]];
+      return [newWeight];
+    });
   };
-  const handleChangeWeight2: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChangeSecondBell: ChangeEventHandler<HTMLInputElement> = (e) => {
     const { value } = e.target;
     const newWeight = Number(value);
-    if (newWeight > 0) {
-      setWeight2(newWeight);
-    } else {
-      setWeight2(null);
-    }
+    setBells((prev) => {
+      if (newWeight > 0) return [prev[0], newWeight];
+      return [prev[0]];
+    });
   };
   const handleClickMinusRung: MouseEventHandler<HTMLButtonElement> = () => {
     if (reps.length > 1)
@@ -68,24 +78,31 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     setNotes(e.target.value);
   };
 
-  const bells = [weight];
-  if (weight2) bells.push(weight2);
-
-  const workoutOptions = {
-    tasks,
-    minutes,
-    bells,
-    reps,
-    notes,
-  };
-
   const handleClickStart = () => {
+    const workoutOptions: WorkoutOptions = {
+      tasks,
+      minutes,
+      bells,
+      reps,
+      notes,
+    };
     onStart?.(workoutOptions);
   };
 
+  const primaryBell = bells[0];
+  const secondBell = bells?.[1];
+  const startDisabled = tasks[0] === '' || primaryBell === 0;
+  const totalRepsPerRound = reps.reduce((acc, curr) => acc + curr, 0);
+
   return (
     <Page>
-      <Section>
+      <Section title={'Task' + (tasks.length > 1 ? 's' : '')}>
+        <PlusMinusButtons
+          count={tasks.length}
+          label="Task"
+          onClickMinus={handleClickMinusTask}
+          onClickPlus={handleClickPlusTask}
+        />
         {tasks.map((task, index) => (
           <TaskInput
             key={index}
@@ -94,6 +111,22 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             onChange={setTasks}
           />
         ))}
+      </Section>
+
+      <Section title={`Bell${bells.length === 2 ? 's' : ''} (kg)`}>
+        <div className="flex justify-between gap-3">
+          <Input
+            type="number"
+            value={primaryBell}
+            onChange={handleChangePrimaryBell}
+          />
+          <Input
+            type="number"
+            value={secondBell}
+            onChange={handleChangeSecondBell}
+            disabled={!primaryBell}
+          />
+        </div>
       </Section>
 
       <Section title="Timer">
@@ -118,21 +151,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Round">
-        <div className="flex items-center justify-between gap-5">
-          <Button
-            className="h-5 grow border border-blue-100 border-opacity-50 text-center"
-            onClick={handleClickMinusRung}
-            disabled={reps.length === 1}
-          >
-            - Rung
-          </Button>
-          <Button
-            className="h-5 grow border border-blue-100 border-opacity-50 text-center"
-            onClick={handleClickPlusRung}
-          >
-            + Rung
-          </Button>
-        </div>
+        <PlusMinusButtons
+          count={reps.length}
+          label="Rung"
+          onClickMinus={handleClickMinusRung}
+          onClickPlus={handleClickPlusRung}
+        />
         {reps.length > 1 && (
           <div className="text-center text-2xl font-medium">
             {totalRepsPerRound} total reps / round
@@ -148,41 +172,17 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         ))}
       </Section>
 
-      <Section title="Weights">
-        <div className="flex justify-between px-3">
-          <div className="flex items-center gap-1">
-            <Input
-              type="number"
-              value={weight}
-              onChange={handleChangeWeight}
-              className="w-[100px]"
-            />
-            <div>kg</div>
-          </div>
-          <div className="flex items-center gap-1">
-            <Input
-              type="number"
-              value={weight2}
-              onChange={handleChangeWeight2}
-              className="w-[100px]"
-              disabled={!weight}
-            />
-            <div className={clsx({ 'opacity-20': !weight })}>kg</div>
-          </div>
-        </div>
-      </Section>
-
       <Section title="Notes" flag="optional">
         <Input value={notes} onChange={handleChangeNotes} className="w-full" />
       </Section>
 
       <div className="flex justify-center">
         <Button
-          className="h-5 w-full bg-blue-500"
+          className="h-5 w-full bg-blue-500 text-center text-xl font-medium"
           onClick={handleClickStart}
-          disabled={tasks[0] === '' || weight === 0}
+          disabled={startDisabled}
         >
-          <div className="text-center text-xl font-medium">START</div>
+          START
         </Button>
       </div>
     </Page>
@@ -208,7 +208,7 @@ const TaskInput = ({
 
   return (
     <Input
-      label="Task"
+      aria-label="Task Input"
       value={value}
       onChange={handleChangeTask}
       className="w-full"
@@ -285,6 +285,36 @@ const Section = ({
         )}
       </div>
       <div className="flex flex-col space-y-2 px-3">{children}</div>
+    </div>
+  );
+};
+
+const PlusMinusButtons = ({
+  count,
+  label,
+  onClickMinus,
+  onClickPlus,
+}: {
+  count: number;
+  label: string;
+  onClickMinus: MouseEventHandler<HTMLButtonElement>;
+  onClickPlus: MouseEventHandler<HTMLButtonElement>;
+}) => {
+  return (
+    <div className="flex items-center justify-between gap-5">
+      <Button
+        className="h-5 grow border border-blue-100 border-opacity-50 text-center"
+        onClick={onClickMinus}
+        hidden={count <= 1}
+      >
+        - {label}
+      </Button>
+      <Button
+        className="h-5 grow border border-blue-100 border-opacity-50 text-center"
+        onClick={onClickPlus}
+      >
+        + {label}
+      </Button>
     </div>
   );
 };

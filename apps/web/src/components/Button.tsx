@@ -4,7 +4,6 @@ import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 interface Props {
   children: ReactNode;
   className?: string;
-  disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   [key: string]: any;
@@ -13,7 +12,6 @@ interface Props {
 export const Button = ({
   children,
   className,
-  disabled = false,
   onClick,
   type = 'button',
   ...props
@@ -21,16 +19,16 @@ export const Button = ({
   return (
     <button
       className={clsx(
-        'cursor-pointer whitespace-nowrap rounded text-left hover:text-blue-300',
+        'whitespace-nowrap rounded text-left',
         {
+          'cursor-pointer hover:text-blue-300': !props.disabled,
           'cursor-default bg-neutral-700 text-gray-300 hover:text-gray-300':
-            disabled,
+            props.disabled,
         },
         className,
       )}
       type={type}
       onClick={onClick}
-      disabled={disabled}
       {...props}
     >
       {children}

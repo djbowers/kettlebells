@@ -4,4 +4,8 @@ export default {
   component: StartWorkoutPage,
 };
 
-export const Normal = {};
+export const Normal = {
+  args: {
+    onStart: console.log,
+  },
+};
