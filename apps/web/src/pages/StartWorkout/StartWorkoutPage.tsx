@@ -19,7 +19,7 @@ interface Props {
 export const StartWorkoutPage = ({ onStart }: Props) => {
   const [tasks, setTasks] = useState<string[]>(['']);
   const [minutes, setMinutes] = useState<number>(20);
-  const [bells, setBells] = useState<[number, number?]>([16]);
+  const [bells, setBells] = useState<[number, number]>([16, 0]);
   const [reps, setReps] = useState<number[]>([5]);
   const [notes, setNotes] = useState<string>('');
 
@@ -47,8 +47,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     const { value } = e.target;
     const newWeight = Number(value);
     setBells((prev) => {
-      if (prev?.[1]) return [newWeight, prev[1]];
-      return [newWeight];
+      if (prev[1] > 0) return [newWeight, prev[1]];
+      return [newWeight, 0];
     });
   };
   const handleChangeSecondBell: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -56,7 +56,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     const newWeight = Number(value);
     setBells((prev) => {
       if (newWeight > 0) return [prev[0], newWeight];
-      return [prev[0]];
+      return [prev[0], 0];
     });
   };
   const handleClickMinusRung: MouseEventHandler<HTMLButtonElement> = () => {

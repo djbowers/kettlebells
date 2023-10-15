@@ -10,7 +10,7 @@ describe('start workout page', () => {
   let onStart;
 
   const defaultOptions = {
-    bells: [16],
+    bells: [16, 0],
     minutes: 20,
     notes: '',
     reps: [5],

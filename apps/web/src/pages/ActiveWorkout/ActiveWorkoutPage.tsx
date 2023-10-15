@@ -21,20 +21,26 @@ export const ActiveWorkout = ({
   const { user } = useSession();
   const navigate = useNavigate();
   const [timeRemaining, { seconds, togglePause }] = useTimer(minutes);
+  const [currentTaskIndex, setCurrentTaskIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
-  const [rungDoubled, setRungDoubled] = useState<boolean>(false);
+  const [isMirrorRung, setMirrorRung] = useState<boolean>(false);
   const [effect, setEffect] = useState(false);
 
   // Overview
   const totalSeconds = minutes * 60;
   const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
 
+  // Tasks
+  const tasksPerRung = tasks.length;
+  const finalTaskIndex = tasksPerRung - 1;
+  const isFinalTask = currentTaskIndex === finalTaskIndex;
+
   // Bells
   const primaryBell = bells[0];
   const secondBell = bells[1];
   const singleBell = !secondBell;
-  const primaryBellSide = !rungDoubled ? 'left' : 'right';
+  const primaryBellSide = isMirrorRung ? 'right' : 'left';
   const doubleBells = !singleBell;
   const mismatchedBells = doubleBells && primaryBell !== secondBell;
 
@@ -46,7 +52,7 @@ export const ActiveWorkout = ({
   // Rounds
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
   const currentRound = completedRounds + 1;
-  const roundsDoubled = singleBell || mismatchedBells;
+  const rungsMirrored = singleBell || mismatchedBells;
 
   const getLeftBell = () => {
     if (primaryBellSide === 'left') return primaryBell;
@@ -63,17 +69,28 @@ export const ActiveWorkout = ({
   const leftBell = getLeftBell();
   const rightBell = getRightBell();
 
+  const handleIncrementRungs = () => {
+    if (isFinalTask) {
+      setCurrentTaskIndex(0);
+      setCompletedRungs((prev) => prev + 1);
+    } else {
+      setCurrentTaskIndex((prev) => prev + 1);
+    }
+  };
+
   const handleClickPlus = () => {
     setEffect(true);
-    setCompletedReps((prev) => (prev += reps[rungIndex]));
+    setCompletedReps((prev) => prev + reps[rungIndex]); // always increment reps
 
-    if (!roundsDoubled) setCompletedRungs((prev) => (prev += 1));
-    else {
-      if (!rungDoubled) setRungDoubled(true);
-      else {
-        setRungDoubled(false);
-        setCompletedRungs((prev) => (prev += 1));
+    if (rungsMirrored) {
+      if (isMirrorRung) {
+        setMirrorRung(false);
+        handleIncrementRungs();
+      } else {
+        setMirrorRung(true);
       }
+    } else {
+      handleIncrementRungs();
     }
   };
 
@@ -102,8 +119,11 @@ export const ActiveWorkout = ({
 
       <div className="flex flex-col space-y-1">
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-medium">
-            {tasks[0]} <span className="text-lg text-gray-500">{notes}</span>
+          <div>
+            <div className="text-2xl font-medium">
+              {tasks[currentTaskIndex]}
+            </div>
+            <div className="text-lg text-gray-500">{notes}</div>
           </div>
           <div>{timeRemaining}</div>
         </div>

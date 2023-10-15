@@ -59,10 +59,33 @@ export const MismatchedBells = {
 export const SingleRung = {
   args: {
     workoutOptions: {
-      tasks: ['Simple & Sinister'],
+      tasks: ['Swing'],
+      notes: 'Simple and Sinister',
       reps: [10],
       minutes: 5,
       bells: [28],
+    },
+  },
+};
+
+export const MultipleTasks = {
+  args: {
+    workoutOptions: {
+      tasks: ['Clean and Press', 'Front Squat'],
+      reps: [3],
+      minutes: 10,
+      bells: [16, 16],
+    },
+  },
+};
+
+export const MultipleTasksAndMirroredBells = {
+  args: {
+    workoutOptions: {
+      tasks: ['Clean and Press', 'Front Squat'],
+      reps: [3],
+      minutes: 10,
+      bells: [20, 16],
     },
   },
 };
