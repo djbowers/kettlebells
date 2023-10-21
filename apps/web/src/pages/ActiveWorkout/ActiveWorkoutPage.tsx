@@ -1,7 +1,9 @@
+import { LockClosedIcon, LockOpenIcon } from '@heroicons/react/20/solid';
 import { PlayPauseIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWakeLock } from 'react-screen-wake-lock';
 
 import { Button, Page } from '~/components';
 import { useSession } from '~/contexts';
@@ -18,9 +20,38 @@ export const ActiveWorkout = ({
   startedAt = new Date(),
   workoutOptions: { tasks, reps, notes, minutes, bells },
 }: Props) => {
-  const { user } = useSession();
+  const { isSupported, release, released, request } = useWakeLock();
+  const locked = released === false;
+
+  const handleRequestWakeLock = async () => {
+    if (!isSupported) return;
+    if (!locked) await request();
+  };
+
+  const handleReleaseWakeLock = async () => {
+    if (!isSupported) return;
+    if (locked) await release();
+  };
+
+  const handleToggleWakeLock = async () => {
+    if (!isSupported) return;
+    if (!locked) await request();
+    else if (locked) await release();
+  };
+
+  useEffect(() => {
+    handleRequestWakeLock();
+    return () => {
+      handleReleaseWakeLock();
+    };
+  }, []);
+
   const navigate = useNavigate();
+
+  const { user } = useSession();
+
   const [timeRemaining, { seconds, togglePause }] = useTimer(minutes);
+
   const [currentTaskIndex, setCurrentTaskIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
@@ -54,20 +85,15 @@ export const ActiveWorkout = ({
   const currentRound = completedRounds + 1;
   const rungsMirrored = singleBell || mismatchedBells;
 
-  const getLeftBell = () => {
+  const leftBell = useMemo(() => {
     if (primaryBellSide === 'left') return primaryBell;
-    if (singleBell) return null;
-    else return secondBell;
-  };
+    else return singleBell ? null : secondBell;
+  }, [primaryBellSide, singleBell]);
 
-  const getRightBell = () => {
+  const rightBell = useMemo(() => {
     if (primaryBellSide === 'right') return primaryBell;
-    if (singleBell) return null;
-    else return secondBell;
-  };
-
-  const leftBell = getLeftBell();
-  const rightBell = getRightBell();
+    else return singleBell ? null : secondBell;
+  }, [primaryBellSide, singleBell]);
 
   const handleIncrementRungs = () => {
     if (isFinalTask) {
@@ -80,6 +106,7 @@ export const ActiveWorkout = ({
 
   const handleClickPlus = () => {
     setEffect(true);
+    handleRequestWakeLock();
     setCompletedReps((prev) => prev + reps[rungIndex]); // always increment reps
 
     if (rungsMirrored) {
@@ -113,6 +140,9 @@ export const ActiveWorkout = ({
     else navigate('/history');
   };
 
+  const Lock =
+    released === undefined ? null : released ? LockOpenIcon : LockClosedIcon;
+
   return (
     <Page>
       <Progress completedPercentage={completedPercentage} />
@@ -125,7 +155,15 @@ export const ActiveWorkout = ({
             </div>
             <div className="text-lg text-gray-500">{notes}</div>
           </div>
-          <div>{timeRemaining}</div>
+          <div className="flex items-center gap-1">
+            {Lock && (
+              <Lock
+                className="h-2 w-2 text-blue-500"
+                onClick={handleToggleWakeLock}
+              />
+            )}
+            <div>{timeRemaining}</div>
+          </div>
         </div>
 
         <Button

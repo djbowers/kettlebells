@@ -20,7 +20,8 @@
     "luxon": "^3.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2"
+    "react-router-dom": "^6.14.2",
+    "react-screen-wake-lock": "^3.0.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.2.3",
