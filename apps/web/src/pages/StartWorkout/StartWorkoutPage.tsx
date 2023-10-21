@@ -1,5 +1,4 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
 import {
   ChangeEventHandler,
   Dispatch,
@@ -89,37 +88,54 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     onStart?.(workoutOptions);
   };
 
+  const unit = 'kg';
   const primaryBell = bells[0];
-  const secondBell = bells?.[1];
+  const secondBell = bells[1];
+
+  const doubleBells = secondBell > 0;
+  const singleBell = secondBell === 0;
+  const mismatchedBells = primaryBell !== secondBell;
+  const roundsDoubled = singleBell || mismatchedBells;
+
+  const multipleTasks = tasks.length > 1;
+  const totalRepsPerRound = reps.reduce((totalReps, repsInRung) => {
+    let multiplier = tasks.length;
+    if (roundsDoubled) multiplier = multiplier * 2;
+    return totalReps + repsInRung * multiplier;
+  }, 0);
+
   const startDisabled = tasks[0] === '' || primaryBell === 0;
-  const totalRepsPerRound = reps.reduce((acc, curr) => acc + curr, 0);
+  const tasksTitle = 'Task' + (multipleTasks ? 's' : '');
+  const bellsTitle = 'Bell' + (doubleBells ? 's' : '') + ` (${unit})`;
 
   return (
     <Page>
-      <Section title={'Task' + (tasks.length > 1 ? 's' : '')}>
+      <Section title={tasksTitle}>
+        {tasks.map((task, index) => {
+          const taskNumber = index + 1;
+          return (
+            <div key={index} className="flex items-center gap-2">
+              {multipleTasks && taskNumber}
+              <TaskInput index={index} value={task} onChange={setTasks} />
+            </div>
+          );
+        })}
         <PlusMinusButtons
           count={tasks.length}
           label="Task"
           onClickMinus={handleClickMinusTask}
           onClickPlus={handleClickPlusTask}
         />
-        {tasks.map((task, index) => (
-          <TaskInput
-            key={index}
-            index={index}
-            value={task}
-            onChange={setTasks}
-          />
-        ))}
       </Section>
 
-      <Section title={`Bell${bells.length === 2 ? 's' : ''} (kg)`}>
-        <div className="flex justify-between gap-3">
+      <Section title={bellsTitle}>
+        <div className="flex items-center justify-between gap-2">
           <Input
             type="number"
             value={primaryBell}
             onChange={handleChangePrimaryBell}
           />
+
           <Input
             type="number"
             value={secondBell}
@@ -138,8 +154,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             <MinusIcon className="h-3 w-3" />
           </Button>
           <div className="grow">
-            <div className="text-center text-5xl">{minutes}</div>
-            <div className="text-center text-xl">min</div>
+            <div className="text-center text-4xl">{minutes}</div>
+            <div className="text-center text-lg">min</div>
           </div>
           <Button
             onClick={handleIncrementTimer}
@@ -151,17 +167,10 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Round">
-        <PlusMinusButtons
-          count={reps.length}
-          label="Rung"
-          onClickMinus={handleClickMinusRung}
-          onClickPlus={handleClickPlusRung}
-        />
-        {reps.length > 1 && (
-          <div className="text-center text-2xl font-medium">
-            {totalRepsPerRound} total reps / round
-          </div>
-        )}
+        <div className="text-center text-xl font-medium">
+          {totalRepsPerRound} total reps / round
+        </div>
+
         {reps.map((_, index) => (
           <RepsInput
             key={index}
@@ -170,6 +179,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             index={index}
           />
         ))}
+        <PlusMinusButtons
+          count={reps.length}
+          label="Rung"
+          onClickMinus={handleClickMinusRung}
+          onClickPlus={handleClickPlusRung}
+        />
       </Section>
 
       <Section title="Notes" flag="optional">
@@ -254,8 +269,8 @@ const RepsInput = ({
         <MinusIcon className="h-3 w-3" />
       </Button>
       <div className="grow">
-        <div className="text-center text-5xl">{value[index]}</div>
-        <div className="text-center text-xl">{label}</div>
+        <div className="text-center text-4xl">{value[index]}</div>
+        <div className="text-center text-lg">{label}</div>
       </div>
       <Button
         onClick={handleIncrementReps}
@@ -284,7 +299,7 @@ const Section = ({
           <div className="text-sm font-medium text-neutral-500">(optional)</div>
         )}
       </div>
-      <div className="flex flex-col space-y-2 px-3">{children}</div>
+      <div className="flex flex-col space-y-2 px-2">{children}</div>
     </div>
   );
 };
@@ -303,14 +318,14 @@ const PlusMinusButtons = ({
   return (
     <div className="flex items-center justify-between gap-5">
       <Button
-        className="h-5 grow border border-blue-100 border-opacity-50 text-center"
+        className="h-5 border border-blue-100 border-opacity-50 px-3 text-center"
         onClick={onClickMinus}
         hidden={count <= 1}
       >
         - {label}
       </Button>
       <Button
-        className="h-5 grow border border-blue-100 border-opacity-50 text-center"
+        className="ml-auto h-5 border border-blue-100 border-opacity-50 px-3 text-center "
         onClick={onClickPlus}
       >
         + {label}
