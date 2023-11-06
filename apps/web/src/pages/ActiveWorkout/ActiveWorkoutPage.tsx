@@ -124,7 +124,7 @@ export const ActiveWorkout = ({
   const handleClickPlayPause = () => togglePause();
 
   const handleClickFinish = async () => {
-    const { error } = await supabase.from('practices').insert({
+    const { error } = await supabase.from('workout_logs').insert({
       started_at: startedAt.toISOString(),
       user_id: user.id,
       tasks,

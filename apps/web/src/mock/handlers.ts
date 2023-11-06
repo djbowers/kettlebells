@@ -1,3 +1,3 @@
-import { mockedPracticesFetch } from './mockedPractices';
+import { mockedWorkoutLogsFetch } from './mockedWorkoutLogs';
 
-export const handlers = [mockedPracticesFetch];
+export const handlers = [mockedWorkoutLogsFetch];

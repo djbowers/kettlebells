@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-export const practices = [
+export const workoutLogs = [
   {
     id: 1,
     tasks: ['Clean and Press'],
