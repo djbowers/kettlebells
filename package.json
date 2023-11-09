@@ -8,7 +8,8 @@
   "scripts": {
     "start:mobile": "npm start -w apps/mobile",
     "start:web": "npm run dev -w apps/web",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "diff-db": "echo 'Filename?' && read filename && npx supabase db diff -f $filename"
   },
   "devDependencies": {
     "@storybook/addon-styling": "^1.3.6",
