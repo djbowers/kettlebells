@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Background Colors */
+  .bg-primary {
+    @apply bg-blue-700 dark:bg-blue-500; /* Default shade for buttons, icons, etc. */
+  }
+
+  .bg-layout {
+    @apply bg-white text-black dark:bg-black dark:text-white;
+  }
+
+  .bg-disabled {
+    @apply bg-neutral-700;
+  }
+
+  /* Border Colors */
+  .border-layout {
+    @apply border border-black dark:border-white;
+  }
+
+  /* Text Colors */
+  .text-default {
+    @apply text-black dark:text-white;
+  }
+
+  .text-inverse {
+    @apply text-white;
+  }
+
+  .text-subdued {
+    @apply text-gray-500;
+  }
+}

@@ -8,23 +8,6 @@ initialize();
 
 const preview = {
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
-    backgrounds: {
-      default: 'black',
-      values: [
-        {
-          name: 'black',
-          value: '#000000',
-        },
-      ],
-    },
-    layout: 'fullscreen',
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
-      },
-    },
     msw: { handlers },
   },
   // Provide the MSW addon loader globally

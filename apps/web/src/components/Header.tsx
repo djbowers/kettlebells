@@ -19,7 +19,7 @@ export const Header = () => {
         onClick={handleClickHome}
         className="cursor-pointer hover:text-blue-300"
       >
-        Kettlebells
+        Bellskill
       </div>
       <div className="flex grow justify-end">
         <Dropdown

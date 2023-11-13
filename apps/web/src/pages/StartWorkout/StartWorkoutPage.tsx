@@ -147,20 +147,14 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
       <Section title="Timer">
         <div className="flex items-center justify-between">
-          <Button
-            onClick={handleDecrementTimer}
-            className="flex h-5 w-5 items-center justify-center bg-blue-500"
-          >
+          <Button onClick={handleDecrementTimer} kind="primary">
             <MinusIcon className="h-3 w-3" />
           </Button>
           <div className="grow">
             <div className="text-center text-4xl">{minutes}</div>
             <div className="text-center text-lg">min</div>
           </div>
-          <Button
-            onClick={handleIncrementTimer}
-            className="flex h-5 w-5 items-center justify-center bg-blue-500"
-          >
+          <Button onClick={handleIncrementTimer} kind="primary">
             <PlusIcon className="h-3 w-3" />
           </Button>
         </div>
@@ -193,7 +187,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
       <div className="flex justify-center">
         <Button
-          className="h-5 w-full bg-blue-500 text-center text-xl font-medium"
+          className="w-full text-xl font-medium"
+          kind="primary"
           onClick={handleClickStart}
           disabled={startDisabled}
         >
@@ -262,20 +257,14 @@ const RepsInput = ({
 
   return (
     <div className="flex justify-between">
-      <Button
-        onClick={handleDecrementReps}
-        className="flex h-5 w-5 items-center justify-center bg-blue-500"
-      >
+      <Button onClick={handleDecrementReps} kind="primary">
         <MinusIcon className="h-3 w-3" />
       </Button>
       <div className="grow">
         <div className="text-center text-4xl">{value[index]}</div>
         <div className="text-center text-lg">{label}</div>
       </div>
-      <Button
-        onClick={handleIncrementReps}
-        className="flex h-5 w-5 items-center justify-center bg-blue-500"
-      >
+      <Button onClick={handleIncrementReps} kind="primary">
         <PlusIcon className="h-3 w-3" />
       </Button>
     </div>
@@ -292,7 +281,7 @@ const Section = ({
   title?: string;
 }) => {
   return (
-    <div className="flex flex-col space-y-1 rounded-lg border border-blue-100 border-opacity-50 p-2">
+    <div className="border-layout flex flex-col space-y-1 rounded-lg p-2">
       <div className="-ml-1 -mt-1.5 flex items-center space-x-1">
         <div className="text-base font-medium">{title}</div>
         {flag === 'optional' && (
@@ -317,17 +306,12 @@ const PlusMinusButtons = ({
 }) => {
   return (
     <div className="flex items-center justify-between gap-5">
-      <Button
-        className="h-5 border border-blue-100 border-opacity-50 px-3 text-center"
-        onClick={onClickMinus}
-        hidden={count <= 1}
-      >
-        - {label}
-      </Button>
-      <Button
-        className="ml-auto h-5 border border-blue-100 border-opacity-50 px-3 text-center "
-        onClick={onClickPlus}
-      >
+      {count > 1 && (
+        <Button kind="outline" onClick={onClickMinus}>
+          - {label}
+        </Button>
+      )}
+      <Button kind="outline" onClick={onClickPlus} className="ml-auto">
         + {label}
       </Button>
     </div>

@@ -4,31 +4,33 @@ import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 interface Props {
   children: ReactNode;
   className?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  kind?: 'primary' | 'outline';
   [key: string]: any;
 }
 
 export const Button = ({
   children,
   className,
-  onClick,
-  type = 'button',
+  kind = 'primary',
   ...props
 }: Props) => {
   return (
     <button
       className={clsx(
-        'whitespace-nowrap rounded text-left',
+        'flex h-5 items-center justify-center whitespace-nowrap rounded px-3 text-left',
         {
-          'cursor-pointer hover:text-blue-300': !props.disabled,
-          'cursor-default bg-neutral-700 text-gray-300 hover:text-gray-300':
+          // button kind
+          'bg-primary text-inverse cursor-pointer hover:bg-opacity-50':
+            kind === 'primary',
+          'border-layout text-default cursor-pointer hover:border-opacity-50':
+            kind === 'outline',
+
+          // disabled states
+          'bg-disabled text-subdued cursor-default hover:border-opacity-100 hover:bg-opacity-100':
             props.disabled,
         },
         className,
       )}
-      type={type}
-      onClick={onClick}
       {...props}
     >
       {children}
