@@ -190,12 +190,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
       <div className="flex justify-center">
         <Button
-          className="w-full text-xl font-medium"
+          className="w-full text-xl font-medium uppercase"
           kind="primary"
           onClick={handleClickStart}
           disabled={startDisabled}
         >
-          START
+          Start
         </Button>
       </div>
     </Page>

@@ -20,6 +20,10 @@
     @apply bg-neutral-300 dark:bg-neutral-700;
   }
 
+  .bg-status-success {
+    @apply bg-green-500 dark:bg-green-400;
+  }
+
   /* Border Colors */
   .border-layout {
     @apply border-neutral-300 dark:border-neutral-700;
@@ -41,10 +45,6 @@
 
   .text-subdued {
     @apply text-gray-500;
-  }
-
-  .text-accent {
-    @apply text-gray-300 dark:text-gray-700;
   }
 
   .text-action {

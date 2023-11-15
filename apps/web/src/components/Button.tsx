@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { Loading } from './Loading';
 
@@ -24,16 +24,17 @@ export const Button = ({
       className={clsx(
         'flex h-5 items-center justify-center whitespace-nowrap rounded px-3 text-left',
         {
-          'cursor-pointer': !props.disabled,
+          'cursor-pointer hover:bg-opacity-80': !disabled,
 
           // button kind
-          'bg-primary text-inverse hover:bg-opacity-50':
-            kind === 'primary' && !props.disabled,
+          'bg-primary text-inverse': kind === 'primary',
           'border-layout text-default hover:bg-layout-darker border':
-            kind === 'outline' && !props.disabled,
+            kind === 'outline',
 
           // disabled states
-          'text-subdued bg-opacity-50': props.disabled,
+          'bg-opacity-50': kind === 'primary' && disabled,
+          'bg-layout-darkest hover:bg-layout-darkest text-subdued':
+            kind === 'outline' && disabled,
         },
         className,
       )}

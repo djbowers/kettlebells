@@ -30,7 +30,7 @@ export function Signup() {
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col gap-2">
-        <div>
+        <div className="text-default">
           <div className="font-bold">Kettlebells</div>
           <div>Sign in via magic link with your email below</div>
         </div>

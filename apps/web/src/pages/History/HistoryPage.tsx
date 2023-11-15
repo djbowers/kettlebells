@@ -63,10 +63,6 @@ export const HistoryPage = () => {
       ) : (
         workoutHistory.map((workout) => {
           const reps = workout.reps.join(', ');
-          const repsPerRound = workout.reps.reduce(
-            (prev, curr) => prev + curr,
-            0,
-          );
           const startedAt = DateTime.fromISO(workout.startedAt).toFormat(
             'ccc LLL dd',
           );
@@ -74,7 +70,7 @@ export const HistoryPage = () => {
           return (
             <div
               key={workout.id}
-              className="w-full rounded border px-2 py-1 text-white"
+              className="text-default border-layout w-full rounded border px-2 py-1"
             >
               <div>
                 {startedAt} - {workout.minutes} Minutes

@@ -1,7 +1,7 @@
 import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 
-import { workoutLogs } from '~/mock/data';
+import { workoutLogs } from '~/mocks/data';
 
 import * as stories from './HistoryPage.stories';
 

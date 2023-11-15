@@ -39,7 +39,7 @@ export const Input = ({
         className={clsx(
           'text-default w-full rounded-sm',
           {
-            'bg-layout-darker px-2 py-1': !props.disabled,
+            'bg-layout-darker border-layout border px-2 py-1': !props.disabled,
             'bg-layout': props.disabled,
           },
           className,

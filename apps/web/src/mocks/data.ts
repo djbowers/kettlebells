@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon';
 
+export const profiles = [
+  {
+    username: 'Luke Skywalker',
+    id: 1,
+  },
+];
+
 export const workoutLogs = [
   {
     id: 1,

@@ -5,11 +5,11 @@ import {
   useState,
 } from 'react';
 
-import { Button, Input, Page } from '../components';
-import { useSession } from '../contexts';
-import { supabase } from '../supabaseClient';
+import { Button, Input, Page } from '~/components';
+import { useSession } from '~/contexts';
+import { supabase } from '~/supabaseClient';
 
-export const Account = () => {
+export const AccountPage = () => {
   const session = useSession();
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,7 +22,7 @@ export const Account = () => {
 
       let { data, error } = await supabase
         .from('profiles')
-        .select(`username, website`)
+        .select('username')
         .eq('id', user.id)
         .single();
 
@@ -64,10 +64,7 @@ export const Account = () => {
 
   return (
     <Page>
-      <form
-        onSubmit={updateProfile}
-        className="flex flex-col space-y-2 text-white"
-      >
+      <form onSubmit={updateProfile} className="flex flex-col space-y-2">
         <Input
           id="email"
           label="Email"

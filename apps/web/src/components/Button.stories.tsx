@@ -1,4 +1,4 @@
-import { Button } from './Button';
+import { Button, ButtonKinds } from './Button';
 
 export default {
   component: Button,
@@ -21,5 +21,26 @@ export const Disabled = {
   args: {
     ...Default.args,
     disabled: true,
+  },
+};
+
+export const DisabledOutline = {
+  args: {
+    ...Outline.args,
+    disabled: true,
+  },
+};
+
+export const Loading = {
+  args: {
+    ...Default.args,
+    loading: true,
+  },
+};
+
+export const LoadingOutline = {
+  args: {
+    ...Outline.args,
+    loading: true,
   },
 };
