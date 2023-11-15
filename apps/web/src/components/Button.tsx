@@ -1,10 +1,13 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 
+import { Loading } from './Loading';
+
 interface Props {
   children: ReactNode;
   className?: string;
   kind?: 'primary' | 'outline';
+  loading?: boolean;
   [key: string]: any;
 }
 
@@ -12,28 +15,32 @@ export const Button = ({
   children,
   className,
   kind = 'primary',
+  loading = false,
   ...props
 }: Props) => {
+  const disabled = props.disabled || loading;
   return (
     <button
       className={clsx(
         'flex h-5 items-center justify-center whitespace-nowrap rounded px-3 text-left',
         {
+          'cursor-pointer': !props.disabled,
+
           // button kind
-          'bg-primary text-inverse cursor-pointer hover:bg-opacity-50':
-            kind === 'primary',
-          'border-layout text-default cursor-pointer hover:border-opacity-50':
-            kind === 'outline',
+          'bg-primary text-inverse hover:bg-opacity-50':
+            kind === 'primary' && !props.disabled,
+          'border-layout text-default hover:bg-layout-darker border':
+            kind === 'outline' && !props.disabled,
 
           // disabled states
-          'bg-disabled text-subdued cursor-default hover:border-opacity-100 hover:bg-opacity-100':
-            props.disabled,
+          'text-subdued bg-opacity-50': props.disabled,
         },
         className,
       )}
+      disabled={disabled}
       {...props}
     >
-      {children}
+      {loading ? <Loading /> : children}
     </button>
   );
 };

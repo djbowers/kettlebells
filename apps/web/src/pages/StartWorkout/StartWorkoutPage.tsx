@@ -1,4 +1,5 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import {
   ChangeEventHandler,
   Dispatch,
@@ -115,7 +116,9 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
           const taskNumber = index + 1;
           return (
             <div key={index} className="flex items-center gap-2">
-              {multipleTasks && taskNumber}
+              {multipleTasks && (
+                <div className="text-default">{taskNumber}</div>
+              )}
               <TaskInput index={index} value={task} onChange={setTasks} />
             </div>
           );
@@ -151,8 +154,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             <MinusIcon className="h-3 w-3" />
           </Button>
           <div className="grow">
-            <div className="text-center text-4xl">{minutes}</div>
-            <div className="text-center text-lg">min</div>
+            <div className="text-default text-center text-4xl">{minutes}</div>
+            <div className="text-default text-center text-lg">min</div>
           </div>
           <Button onClick={handleIncrementTimer} kind="primary">
             <PlusIcon className="h-3 w-3" />
@@ -161,12 +164,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Round">
-        <div className="text-center text-xl font-medium">
+        <div className="text-default text-center text-xl font-medium">
           {totalRepsPerRound} total reps / round
         </div>
 
         {reps.map((_, index) => (
-          <RepsInput
+          <RepSchemePicker
             key={index}
             value={reps}
             onChange={setReps}
@@ -181,7 +184,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         />
       </Section>
 
-      <Section title="Notes" flag="optional">
+      <Section title="Notes" flag="optional" bottomBorder={false}>
         <Input value={notes} onChange={handleChangeNotes} className="w-full" />
       </Section>
 
@@ -227,7 +230,7 @@ const TaskInput = ({
   );
 };
 
-const RepsInput = ({
+const RepSchemePicker = ({
   onChange,
   value,
   index,
@@ -261,8 +264,8 @@ const RepsInput = ({
         <MinusIcon className="h-3 w-3" />
       </Button>
       <div className="grow">
-        <div className="text-center text-4xl">{value[index]}</div>
-        <div className="text-center text-lg">{label}</div>
+        <div className="text-default text-center text-4xl">{value[index]}</div>
+        <div className="text-default text-center text-lg">{label}</div>
       </div>
       <Button onClick={handleIncrementReps} kind="primary">
         <PlusIcon className="h-3 w-3" />
@@ -275,17 +278,23 @@ const Section = ({
   children,
   flag,
   title,
+  bottomBorder = true,
 }: {
   children: ReactNode;
   flag?: 'required' | 'optional';
   title?: string;
+  bottomBorder?: boolean;
 }) => {
   return (
-    <div className="border-layout flex flex-col space-y-1 rounded-lg p-2">
-      <div className="-ml-1 -mt-1.5 flex items-center space-x-1">
-        <div className="text-base font-medium">{title}</div>
+    <div
+      className={clsx('layout flex flex-col space-y-2 pb-3', {
+        'border-b': bottomBorder,
+      })}
+    >
+      <div className="flex items-center space-x-1">
+        <div className="text-default text-base font-medium">{title}</div>
         {flag === 'optional' && (
-          <div className="text-sm font-medium text-neutral-500">(optional)</div>
+          <div className="text-subdued text-sm font-medium">(optional)</div>
         )}
       </div>
       <div className="flex flex-col space-y-2 px-2">{children}</div>

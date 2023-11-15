@@ -46,8 +46,8 @@ export function Signup() {
           />
 
           <div className="mt-2 flex justify-end">
-            <Button type="submit" disabled={loading}>
-              {loading ? <Loading /> : 'Send magic link'}
+            <Button type="submit" loading={loading}>
+              Send magic link
             </Button>
           </div>
         </form>
