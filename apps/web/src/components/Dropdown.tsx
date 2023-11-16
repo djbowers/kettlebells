@@ -18,10 +18,10 @@ export const Dropdown = ({
       <Menu.Button className="flex items-center">{trigger}</Menu.Button>
 
       <Transition>
-        <Menu.Items className="absolute right-0 mt-1 min-w-[150px] rounded-md bg-white p-1 shadow-lg">
+        <Menu.Items className="bg-layout-darker absolute right-0 mt-1 min-w-[150px] rounded-md p-1 shadow-lg">
           {options.map((option, index) => (
             <Menu.Item key={index}>
-              <div className="flex w-full cursor-pointer items-center rounded-md text-sm text-gray-900 hover:bg-gray-200">
+              <div className="text-default hover:bg-layout-darkest flex w-full cursor-pointer items-center rounded-md text-sm">
                 {option}
               </div>
             </Menu.Item>

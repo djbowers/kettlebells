@@ -1,6 +1,6 @@
 import { initialize, mswLoader } from 'msw-storybook-addon';
 
-import { handlers } from '../src/mock';
+import { handlers } from '../src/mocks';
 import '../src/tailwind.css';
 
 // Initialize MSW
@@ -8,22 +8,13 @@ initialize();
 
 const preview = {
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
     backgrounds: {
-      default: 'black',
+      default: 'light',
       values: [
-        {
-          name: 'black',
-          value: '#000000',
-        },
+        { name: 'light', value: '#ffffff' }, // A light background color
+        { name: 'dark', value: '#000000' }, // A dark background color
+        // Add other custom background colors if needed
       ],
-    },
-    layout: 'fullscreen',
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
-      },
     },
     msw: { handlers },
   },

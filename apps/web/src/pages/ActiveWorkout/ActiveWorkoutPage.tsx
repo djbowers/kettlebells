@@ -150,75 +150,66 @@ export const ActiveWorkout = ({
       <div className="flex flex-col space-y-1">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-2xl font-medium">
+            <div className="text-default text-2xl font-medium">
               {tasks[currentTaskIndex]}
             </div>
-            <div className="text-lg text-gray-500">{notes}</div>
+            <div className="text-subdued text-lg">{notes}</div>
           </div>
           <div className="flex items-center gap-1">
             {Lock && (
               <Lock
-                className="h-2 w-2 text-blue-500"
+                className="text-action h-2 w-2"
                 onClick={handleToggleWakeLock}
               />
             )}
-            <div>{timeRemaining}</div>
+            <div className="text-default text-xl font-medium">
+              {timeRemaining}
+            </div>
           </div>
         </div>
 
-        <Button
-          className="flex w-full items-center justify-center border border-gray-700 py-1"
-          onClick={handleClickPlayPause}
-        >
+        <Button onClick={handleClickPlayPause} kind="outline">
           <PlayPauseIcon className="h-3 w-3" />
         </Button>
       </div>
 
       <div className="flex flex-col items-center justify-center space-y-3 py-4">
-        <div className="text-2xl font-medium">
+        <div className="text-default text-2xl font-medium">
           Round {currentRound} {rungsPerRound > 1 && `Rung ${currentRung}`}
         </div>
-        <div className="flex w-full justify-between">
+        <div className="text-default flex w-full justify-between">
           <div data-testid="left-bell">{leftBell && `${leftBell} kg`}</div>
           <div data-testid="right-bell">{rightBell && `${rightBell} kg`}</div>
         </div>
-        <div className="text-6xl font-medium">
+        <div className="text-default text-6xl font-medium">
           {reps[rungIndex]} <span className="text-2xl">reps</span>
         </div>
         <Button
-          className={clsx(
-            'flex w-full items-center justify-center bg-blue-500 py-1',
-            { 'animate-wiggle': effect },
-          )}
+          className={clsx('w-full', { 'animate-wiggle': effect })}
           onClick={handleClickPlus}
           onAnimationEnd={() => setEffect(false)}
           aria-label="Add Reps"
         >
           <PlusIcon className="h-4 w-4 font-bold" />
         </Button>
-        <div className="text-md">
+        <div className="text-md text-default">
           Completed {completedRungs} {rungsPerRound > 1 ? 'rungs' : 'rounds'}{' '}
           and {completedReps} reps
         </div>
       </div>
 
-      <div>
-        <Button
-          className="flex w-full items-center justify-center border border-gray-700 py-1"
-          onClick={handleClickFinish}
-        >
-          <div className="uppercase">Finish Workout</div>
-        </Button>
-      </div>
+      <Button kind="outline" onClick={handleClickFinish}>
+        <div className="uppercase">Finish Workout</div>
+      </Button>
     </Page>
   );
 };
 
 const Progress = ({ completedPercentage }: { completedPercentage: number }) => {
   return (
-    <div className="h-5 w-full rounded bg-neutral-900">
+    <div className="bg-layout-darker h-5 w-full rounded">
       <div
-        className="h-5 rounded bg-green-400"
+        className="bg-status-success h-5 rounded"
         style={{ width: `${completedPercentage}%` }}
       />
     </div>

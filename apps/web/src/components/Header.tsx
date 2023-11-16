@@ -2,8 +2,8 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../supabaseClient';
-import { Button } from './Button';
 import { Dropdown } from './Dropdown';
+import { Link } from './Link';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -17,37 +17,37 @@ export const Header = () => {
     <div className="flex h-5 items-center border-b px-2 py-1">
       <div
         onClick={handleClickHome}
-        className="cursor-pointer hover:text-blue-300"
+        className="hover:text-action cursor-pointer"
       >
-        Kettlebells
+        Bellskill
       </div>
       <div className="flex grow justify-end">
         <Dropdown
           trigger={
-            <UserCircleIcon className="h-3 w-3 cursor-pointer text-white hover:text-blue-300" />
+            <UserCircleIcon className="hover:text-action text-default h-3 w-3 cursor-pointer" />
           }
           options={[
-            <Button
+            <Link
               key="history"
               onClick={handleClickHistory}
               className="w-full px-1 py-0.5"
             >
               History
-            </Button>,
-            <Button
+            </Link>,
+            <Link
               key="account"
               onClick={handleClickAccount}
               className="w-full px-1 py-0.5"
             >
               Account
-            </Button>,
-            <Button
+            </Link>,
+            <Link
               key="signout"
               onClick={handleSignOut}
               className="w-full px-1 py-0.5"
             >
               Sign Out
-            </Button>,
+            </Link>,
           ]}
         />
       </div>
