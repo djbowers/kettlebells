@@ -1,14 +1,12 @@
 import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
+import fetch from 'node-fetch';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 
 import { server } from '../src/mocks/server';
 
+// @ts-ignore
+global.fetch = fetch;
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-
-afterEach(() => {
-  cleanup();
-  server.resetHandlers();
-});
-
+afterEach(() => server.resetHandlers());
 afterAll(() => server.close());

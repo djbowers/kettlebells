@@ -11,6 +11,7 @@ describe('account page', () => {
   });
 
   test("renders user's email address", async () => {
-    await screen.findByText('luke@skywalker.com');
+    const emailInput = await screen.findByRole('textbox', { name: 'Email' });
+    expect(emailInput).toHaveDisplayValue('luke@skywalker.com');
   });
 });
