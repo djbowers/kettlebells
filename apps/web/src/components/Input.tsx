@@ -37,9 +37,10 @@ export const Input = ({
         onChange={onChange}
         type={type}
         className={clsx(
-          'text-default w-full rounded-sm',
+          'text-default w-full rounded',
           {
-            'bg-layout-darker border-layout border px-2 py-1': !props.disabled,
+            'bg-layout-darker border-layout border px-1 py-0.5':
+              !props.disabled,
             'bg-layout': props.disabled,
           },
           className,

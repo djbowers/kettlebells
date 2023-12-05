@@ -22,7 +22,7 @@ export const Button = ({
   return (
     <button
       className={clsx(
-        'flex h-5 items-center justify-center whitespace-nowrap rounded px-3 text-left',
+        'flex items-center justify-center whitespace-nowrap rounded px-1 py-0.5 text-left text-sm shadow-md',
         {
           'cursor-pointer hover:bg-opacity-80': !disabled,
 

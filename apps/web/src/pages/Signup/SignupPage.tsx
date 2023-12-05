@@ -29,27 +29,25 @@ export function Signup() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="flex flex-col gap-2">
-        <div className="text-default">
-          <div className="font-bold">Kettlebells</div>
-          <div>Sign in via magic link with your email below</div>
+      <div className="flex w-full max-w-sm flex-col gap-2">
+        <div className="text-default text-center text-lg font-bold">
+          Log in to BellSkill
         </div>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="space-y-2">
           <Input
             id="email"
             type="email"
-            placeholder="Your email"
+            placeholder="Enter your email address..."
             value={email}
             required={true}
             onChange={handleChangeEmail}
+            className="h-5"
           />
 
-          <div className="mt-2 flex justify-end">
-            <Button type="submit" loading={loading}>
-              Send magic link
-            </Button>
-          </div>
+          <Button type="submit" loading={loading} className="h-5 w-full">
+            Continue with Email
+          </Button>
         </form>
       </div>
     </div>

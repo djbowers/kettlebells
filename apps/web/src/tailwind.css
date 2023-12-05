@@ -5,7 +5,7 @@
 @layer base {
   /* Background Colors */
   .bg-primary {
-    @apply bg-blue-700 dark:bg-blue-500; /* Default shade for buttons, icons, etc. */
+    @apply bg-indigo-700 dark:bg-indigo-500; /* Default shade for buttons, icons, etc. */
   }
 
   .bg-layout {
@@ -31,7 +31,7 @@
 
   /* Fill Colors */
   .fill-primary {
-    @apply fill-blue-700 dark:fill-blue-500;
+    @apply fill-indigo-700 dark:fill-indigo-500;
   }
 
   /* Text Colors */
@@ -48,6 +48,6 @@
   }
 
   .text-action {
-    @apply text-blue-800 dark:text-blue-400;
+    @apply text-indigo-800 dark:text-indigo-400;
   }
 }

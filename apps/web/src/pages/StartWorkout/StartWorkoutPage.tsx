@@ -17,22 +17,24 @@ interface Props {
 }
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
-  const [tasks, setTasks] = useState<string[]>(['']);
+  const [movements, setMovements] = useState<string[]>(['']);
   const [minutes, setMinutes] = useState<number>(20);
   const [bells, setBells] = useState<[number, number]>([16, 0]);
   const [reps, setReps] = useState<number[]>([5]);
   const [notes, setNotes] = useState<string>('');
 
-  const handleClickMinusTask: MouseEventHandler<HTMLButtonElement> = () => {
-    if (tasks.length > 1)
-      setTasks((prev) => {
-        const tasks = [...prev];
-        tasks.pop();
-        return tasks;
+  const handleClickRemoveMovement: MouseEventHandler<
+    HTMLButtonElement
+  > = () => {
+    if (movements.length > 1)
+      setMovements((prev) => {
+        const movements = [...prev];
+        movements.pop();
+        return movements;
       });
   };
-  const handleClickPlusTask: MouseEventHandler<HTMLButtonElement> = () => {
-    setTasks((prev) => [...prev, '']);
+  const handleClickAddMovement: MouseEventHandler<HTMLButtonElement> = () => {
+    setMovements((prev) => [...prev, '']);
   };
   const handleIncrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
     setMinutes((prev) => (prev += 5));
@@ -80,7 +82,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
-      tasks,
+      tasks: movements,
       minutes,
       bells,
       reps,
@@ -94,44 +96,44 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   const secondBell = bells[1];
 
   const doubleBells = secondBell > 0;
-  const singleBell = secondBell === 0;
-  const mismatchedBells = primaryBell !== secondBell;
-  const roundsDoubled = singleBell || mismatchedBells;
 
-  const multipleTasks = tasks.length > 1;
-  const totalRepsPerRound = reps.reduce((totalReps, repsInRung) => {
-    let multiplier = tasks.length;
-    if (roundsDoubled) multiplier = multiplier * 2;
-    return totalReps + repsInRung * multiplier;
-  }, 0);
+  const multipleMovements = movements.length > 1;
+  const startDisabled = movements[0] === '' || primaryBell === 0;
 
-  const startDisabled = tasks[0] === '' || primaryBell === 0;
-  const tasksTitle = 'Task' + (multipleTasks ? 's' : '');
-  const bellsTitle = 'Bell' + (doubleBells ? 's' : '') + ` (${unit})`;
+  const movementsSectionTitle = 'Movement' + (multipleMovements ? 's' : '');
+  const bellsSectionTitle = 'Bell' + (doubleBells ? 's' : '') + ` (${unit})`;
 
   return (
     <Page>
-      <Section title={tasksTitle}>
-        {tasks.map((task, index) => {
-          const taskNumber = index + 1;
+      <Section
+        title={movementsSectionTitle}
+        actions={
+          <PlusMinusButtons
+            count={movements.length}
+            label="Movement"
+            onClickMinus={handleClickRemoveMovement}
+            onClickPlus={handleClickAddMovement}
+          />
+        }
+      >
+        {movements.map((movement, index) => {
+          const movementNumber = index + 1;
           return (
             <div key={index} className="flex items-center gap-2">
-              {multipleTasks && (
-                <div className="text-default">{taskNumber}</div>
+              {multipleMovements && (
+                <div className="text-default">{movementNumber}</div>
               )}
-              <TaskInput index={index} value={task} onChange={setTasks} />
+              <MovementInput
+                index={index}
+                value={movement}
+                onChange={setMovements}
+              />
             </div>
           );
         })}
-        <PlusMinusButtons
-          count={tasks.length}
-          label="Task"
-          onClickMinus={handleClickMinusTask}
-          onClickPlus={handleClickPlusTask}
-        />
       </Section>
 
-      <Section title={bellsTitle}>
+      <Section title={bellsSectionTitle}>
         <div className="flex items-center justify-between gap-2">
           <Input
             type="number"
@@ -149,25 +151,43 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Timer">
-        <div className="flex items-center justify-between">
-          <Button onClick={handleDecrementTimer} kind="primary">
-            <MinusIcon className="h-3 w-3" />
-          </Button>
+        <div className="mx-5 flex items-center justify-between">
+          <div className="flex items-center">
+            <Button
+              onClick={handleDecrementTimer}
+              kind="primary"
+              className="h-4 w-4 rounded-full"
+            >
+              <MinusIcon className="h-3 w-3" />
+            </Button>
+          </div>
           <div className="grow">
             <div className="text-default text-center text-4xl">{minutes}</div>
             <div className="text-default text-center text-lg">min</div>
           </div>
-          <Button onClick={handleIncrementTimer} kind="primary">
-            <PlusIcon className="h-3 w-3" />
-          </Button>
+          <div className="flex items-center">
+            <Button
+              onClick={handleIncrementTimer}
+              kind="primary"
+              className="h-4 w-4 rounded-full"
+            >
+              <PlusIcon className="h-2 w-2" />
+            </Button>
+          </div>
         </div>
       </Section>
 
-      <Section title="Round">
-        <div className="text-default text-center text-xl font-medium">
-          {totalRepsPerRound} total reps / round
-        </div>
-
+      <Section
+        title="Round"
+        actions={
+          <PlusMinusButtons
+            count={reps.length}
+            label="Rung"
+            onClickMinus={handleClickMinusRung}
+            onClickPlus={handleClickPlusRung}
+          />
+        }
+      >
         {reps.map((_, index) => (
           <RepSchemePicker
             key={index}
@@ -176,21 +196,15 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             index={index}
           />
         ))}
-        <PlusMinusButtons
-          count={reps.length}
-          label="Rung"
-          onClickMinus={handleClickMinusRung}
-          onClickPlus={handleClickPlusRung}
-        />
       </Section>
 
-      <Section title="Notes" flag="optional" bottomBorder={false}>
+      <Section title="Workout Notes" flag="optional" bottomBorder={false}>
         <Input value={notes} onChange={handleChangeNotes} className="w-full" />
       </Section>
 
       <div className="flex justify-center">
         <Button
-          className="w-full text-xl font-medium uppercase"
+          className="h-5 w-full text-xl font-medium uppercase"
           kind="primary"
           onClick={handleClickStart}
           disabled={startDisabled}
@@ -202,7 +216,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   );
 };
 
-const TaskInput = ({
+const MovementInput = ({
   onChange,
   value,
   index,
@@ -211,21 +225,21 @@ const TaskInput = ({
   value: string;
   index: number;
 }) => {
-  const handleChangeTask: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     onChange((prev) => {
-      const tasks = [...prev];
-      tasks[index] = e.target.value;
-      return tasks;
+      const movements = [...prev];
+      movements[index] = e.target.value;
+      return movements;
     });
   };
 
   return (
     <Input
-      aria-label="Task Input"
+      aria-label="Movement Input"
       value={value}
-      onChange={handleChangeTask}
+      onChange={handleChange}
       className="w-full"
-      id="task"
+      id="movement"
     />
   );
 };
@@ -259,45 +273,66 @@ const RepSchemePicker = ({
     value.length === 1 ? 'reps / round' : `reps / rung ${index + 1}`;
 
   return (
-    <div className="flex justify-between">
-      <Button onClick={handleDecrementReps} kind="primary">
-        <MinusIcon className="h-3 w-3" />
-      </Button>
+    <div className="mx-5 flex justify-between">
+      <div className="flex items-center">
+        <Button
+          onClick={handleDecrementReps}
+          kind="primary"
+          className="h-4 w-4 rounded-full"
+        >
+          <MinusIcon className="h-2 w-2" />
+        </Button>
+      </div>
       <div className="grow">
         <div className="text-default text-center text-4xl">{value[index]}</div>
         <div className="text-default text-center text-lg">{label}</div>
       </div>
-      <Button onClick={handleIncrementReps} kind="primary">
-        <PlusIcon className="h-3 w-3" />
-      </Button>
+      <div className="flex items-center">
+        <Button
+          onClick={handleIncrementReps}
+          kind="primary"
+          className="h-4 w-4 rounded-full"
+        >
+          <PlusIcon className="h-2 w-2" />
+        </Button>
+      </div>
     </div>
   );
 };
 
 const Section = ({
+  actions = null,
+  bottomBorder = true,
   children,
   flag,
   title,
-  bottomBorder = true,
 }: {
+  actions?: ReactNode;
+  bottomBorder?: boolean;
   children: ReactNode;
   flag?: 'required' | 'optional';
   title?: string;
-  bottomBorder?: boolean;
 }) => {
   return (
     <div
-      className={clsx('layout flex flex-col space-y-2 pb-3', {
+      className={clsx('layout flex flex-col space-y-1 pb-2', {
         'border-b': bottomBorder,
       })}
     >
       <div className="flex items-center space-x-1">
-        <div className="text-default text-base font-medium">{title}</div>
-        {flag === 'optional' && (
-          <div className="text-subdued text-sm font-medium">(optional)</div>
-        )}
+        <div className="flex w-full items-center justify-between">
+          <div className="text-default text-base font-medium">
+            {title}{' '}
+            {flag === 'optional' && (
+              <span className="text-subdued text-sm font-medium">
+                (optional)
+              </span>
+            )}
+          </div>
+          {actions}
+        </div>
       </div>
-      <div className="flex flex-col space-y-2 px-2">{children}</div>
+      <div className="flex flex-col space-y-2">{children}</div>
     </div>
   );
 };
@@ -314,14 +349,14 @@ const PlusMinusButtons = ({
   onClickPlus: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
-    <div className="flex items-center justify-between gap-5">
+    <div className="flex items-center gap-2">
       {count > 1 && (
         <Button kind="outline" onClick={onClickMinus}>
           - {label}
         </Button>
       )}
-      <Button kind="outline" onClick={onClickPlus} className="ml-auto">
-        + {label}
+      <Button kind="outline" onClick={onClickPlus}>
+        + {count === 1 && 'Additional'} {label}
       </Button>
     </div>
   );

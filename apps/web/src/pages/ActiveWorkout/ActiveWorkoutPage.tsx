@@ -50,7 +50,7 @@ export const ActiveWorkout = ({
 
   const { user } = useSession();
 
-  const [timeRemaining, { seconds, togglePause }] = useTimer(minutes);
+  const [timeRemaining, { seconds, togglePause, paused }] = useTimer(minutes);
 
   const [currentTaskIndex, setCurrentTaskIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
@@ -167,9 +167,14 @@ export const ActiveWorkout = ({
             </div>
           </div>
         </div>
-
-        <Button onClick={handleClickPlayPause} kind="outline">
-          <PlayPauseIcon className="h-3 w-3" />
+        <Button
+          onClick={handleClickPlayPause}
+          kind="outline"
+          className={clsx('ml-auto h-5 w-5 rounded-full', {
+            'bg-layout-darker': paused,
+          })}
+        >
+          <PlayPauseIcon className="h-2 w-2" />
         </Button>
       </div>
 
@@ -185,7 +190,7 @@ export const ActiveWorkout = ({
           {reps[rungIndex]} <span className="text-2xl">reps</span>
         </div>
         <Button
-          className={clsx('w-full', { 'animate-wiggle': effect })}
+          className={clsx('h-5 w-full', { 'animate-wiggle': effect })}
           onClick={handleClickPlus}
           onAnimationEnd={() => setEffect(false)}
           aria-label="Add Reps"
@@ -198,7 +203,7 @@ export const ActiveWorkout = ({
         </div>
       </div>
 
-      <Button kind="outline" onClick={handleClickFinish}>
+      <Button kind="outline" onClick={handleClickFinish} className="h-5">
         <div className="uppercase">Finish Workout</div>
       </Button>
     </Page>
