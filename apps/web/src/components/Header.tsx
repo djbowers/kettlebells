@@ -31,6 +31,13 @@ export const Header = () => {
           }
           options={[
             <Link
+              key="home"
+              onClick={handleClickHome}
+              className="w-full px-1 py-0.5"
+            >
+              Home
+            </Link>,
+            <Link
               key="history"
               onClick={handleClickHistory}
               className="w-full px-1 py-0.5"
