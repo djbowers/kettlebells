@@ -27,9 +27,9 @@ describe('start workout page', () => {
     expect(startButton).toBeDisabled();
   });
 
-  test('entering a task name enables start button', async () => {
-    const taskInput = screen.getByLabelText('Task Input');
-    await userEvent.type(taskInput, 'Clean and Press');
+  test('entering a movement name enables start button', async () => {
+    const movementInput = screen.getByLabelText('Movement Input');
+    await userEvent.type(movementInput, 'Clean and Press');
 
     const startButton = screen.getByRole('button', { name: /Start/i });
     expect(startButton).toBeEnabled();
@@ -42,15 +42,17 @@ describe('start workout page', () => {
     });
   });
 
-  test('can enter multiple tasks', async () => {
-    const addTaskButton = screen.getByRole('button', { name: '+ Task' });
-    await userEvent.click(addTaskButton);
+  test('can enter multiple movements', async () => {
+    const addMovementButton = screen.getByRole('button', {
+      name: '+ Additional Movement',
+    });
+    await userEvent.click(addMovementButton);
 
-    const taskInputs = screen.getAllByLabelText('Task Input');
-    expect(taskInputs).toHaveLength(2);
+    const movementInputs = screen.getAllByLabelText('Movement Input');
+    expect(movementInputs).toHaveLength(2);
 
-    await userEvent.type(taskInputs[0], 'Clean and Press');
-    await userEvent.type(taskInputs[1], 'Front Squat');
+    await userEvent.type(movementInputs[0], 'Clean and Press');
+    await userEvent.type(movementInputs[1], 'Front Squat');
 
     const startButton = screen.getByRole('button', { name: /Start/i });
     expect(startButton).toBeEnabled();
