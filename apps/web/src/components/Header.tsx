@@ -11,6 +11,9 @@ export const Header = () => {
   const handleClickHome = () => navigate('/');
   const handleClickAccount = () => navigate('/account');
   const handleClickHistory = () => navigate('/history');
+  const handleClickCommunity = () => {
+    window.location.href = 'https://discord.gg/BrBp87mSbA';
+  };
   const handleSignOut = () => supabase.auth.signOut();
 
   return (
@@ -40,6 +43,13 @@ export const Header = () => {
               className="w-full px-1 py-0.5"
             >
               Account
+            </Link>,
+            <Link
+              key="community"
+              onClick={handleClickCommunity}
+              className="w-full px-1 py-0.5"
+            >
+              Community
             </Link>,
             <Link
               key="signout"
