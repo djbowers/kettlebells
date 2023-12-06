@@ -93,7 +93,7 @@ export const HistoryPage = () => {
                       <div className="text-subdued">{workoutLog.notes}</div>
                     )}
                   </div>
-                  <div className="text-center">{workoutDensity}</div>
+                  <div className="text-center">{workoutDensity.toFixed(1)}</div>
                 </div>
               );
             })}
