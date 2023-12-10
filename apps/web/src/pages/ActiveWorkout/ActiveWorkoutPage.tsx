@@ -60,6 +60,9 @@ export const ActiveWorkout = ({
   const tasksPerRung = tasks.length;
   const finalTaskIndex = tasksPerRung - 1;
   const isFinalTask = currentTaskIndex === finalTaskIndex;
+  const nextTaskIndex = isFinalTask ? 0 : currentTaskIndex + 1;
+  const currentTask = tasks[currentTaskIndex];
+  const nextTask = tasks[nextTaskIndex];
 
   // Bells
   const primaryBell = bells[0];
@@ -141,24 +144,24 @@ export const ActiveWorkout = ({
         timeRemaining={timeRemaining}
       />
 
-      <div className="flex flex-col space-y-1">
-        <div className="flex flex-col">
-          <div className="text-default text-2xl font-medium">
-            {tasks[currentTaskIndex]}
-          </div>
-          <div className="text-subdued text-lg">{notes}</div>
-        </div>
-      </div>
+      <CurrentMovement
+        currentRound={currentRound}
+        currentTask={currentTask}
+        nextTask={nextTask}
+      />
 
       <div className="flex flex-col items-center justify-center space-y-3 py-4">
         <div className="text-default text-2xl font-medium">
-          Round {currentRound} {rungsPerRound > 1 && `Rung ${currentRung}`}
+          {rungsPerRound > 1 && `Rung ${currentRung}`}
         </div>
         <div className="text-default flex w-full justify-between">
           <div data-testid="left-bell">{leftBell && `${leftBell} kg`}</div>
           <div data-testid="right-bell">{rightBell && `${rightBell} kg`}</div>
         </div>
-        <div className="text-default text-6xl font-medium">
+        <div
+          className="text-default text-6xl font-medium"
+          data-testid="current-reps"
+        >
           {reps[rungIndex]} <span className="text-2xl">reps</span>
         </div>
 
@@ -210,13 +213,50 @@ const Progress = ({
   timeRemaining: string;
 }) => {
   return (
-    <div className="bg-layout-darker relative flex h-5 w-full rounded">
+    <div className="bg-layout-darker relative flex h-5 w-full rounded-xl">
       <div
-        className="bg-status-success h-5 rounded"
+        className="bg-status-success h-5 rounded-xl"
         style={{ width: `${completedPercentage}%` }}
       />
       <div className="text-default absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-medium">
         {timeRemaining}
+      </div>
+    </div>
+  );
+};
+
+export const CurrentMovement = ({
+  currentRound,
+  currentTask,
+  nextTask,
+}: {
+  currentRound: number;
+  currentTask: string;
+  nextTask: string;
+}) => {
+  return (
+    <div className="text-default flex gap-2 rounded-xl border px-2 py-3">
+      <div className="flex flex-col items-center gap-0.5">
+        <div className="text-base font-semibold">Round</div>
+        <div className="border-default relative h-6 w-6 rounded-full border">
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold"
+            data-testid="current-round"
+          >
+            {currentRound}
+          </div>
+        </div>
+      </div>
+      <div className="flex grow flex-col justify-center gap-1">
+        <div className="text-default text-2xl font-semibold">{currentTask}</div>
+        {nextTask !== currentTask && (
+          <>
+            <hr className="border-default" />
+            <div className="text-default text-base font-medium">
+              Up Next: {nextTask}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

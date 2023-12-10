@@ -21,31 +21,38 @@ describe('active workout page (double bells)', () => {
     addButton = screen.getByLabelText('Add Reps');
   });
 
-  test('renders the task name and notes', () => {
+  test('renders the task name', () => {
     screen.getByText(workoutOptions.tasks[0]);
-    screen.getByText(workoutOptions.notes);
   });
 
   test('renders rep ladders correctly', () => {
     const { reps } = workoutOptions;
 
-    const displayedReps = screen.getByText(reps[0]);
-    const round = screen.getByText('Round 1 Rung 1');
+    const currentReps = screen.getByTestId('current-reps');
+    expect(currentReps).toHaveTextContent(reps[0]);
+
+    const round = screen.getByTestId('current-round');
+    const rung = screen.getByText('Rung 1');
     const completed = screen.getByText('Completed 0 rungs and 0 reps');
 
     fireEvent.click(addButton);
-    expect(displayedReps).toHaveTextContent(reps[1]);
-    expect(round).toHaveTextContent('Round 1 Rung 2');
+    expect(currentReps).toHaveTextContent(reps[1]);
+    expect(round).toHaveTextContent('1');
+    expect(rung).toHaveTextContent('Rung 2');
     expect(completed).toHaveTextContent('Completed 1 rungs and 1 reps');
 
     fireEvent.click(addButton);
-    expect(displayedReps).toHaveTextContent(reps[2]);
-    expect(round).toHaveTextContent('Round 1 Rung 3');
+    expect(currentReps).toHaveTextContent(reps[2]);
+
+    expect(round).toHaveTextContent('1');
+    expect(rung).toHaveTextContent('Rung 3');
     expect(completed).toHaveTextContent('Completed 2 rungs and 3 reps');
 
     fireEvent.click(addButton);
-    expect(displayedReps).toHaveTextContent(reps[0]);
-    expect(round).toHaveTextContent('Round 2 Rung 1');
+    expect(currentReps).toHaveTextContent(reps[0]);
+
+    expect(round).toHaveTextContent('2');
+    expect(rung).toHaveTextContent('Rung 1');
     expect(completed).toHaveTextContent('Completed 3 rungs and 6 reps');
   });
 
@@ -75,7 +82,8 @@ describe('active workout page (single bell)', () => {
 
     const leftBell = screen.getByTestId('left-bell');
     const rightBell = screen.getByTestId('right-bell');
-    const roundText = screen.getByText('Round 1 Rung 1');
+    const round = screen.getByTestId('current-round');
+    const rung = screen.getByText('Rung 1');
 
     expect(leftBell).toHaveTextContent(`${bell} kg`);
     expect(rightBell).not.toHaveTextContent();
@@ -84,13 +92,15 @@ describe('active workout page (single bell)', () => {
 
     expect(leftBell).not.toHaveTextContent();
     expect(rightBell).toHaveTextContent(`${bell} kg`);
-    expect(roundText).toHaveTextContent('Round 1 Rung 1');
+    expect(round).toHaveTextContent('1');
+    expect(rung).toHaveTextContent('Rung 1');
 
     fireEvent.click(addButton);
 
     expect(leftBell).toHaveTextContent(`${bell} kg`);
     expect(rightBell).not.toHaveTextContent();
-    expect(roundText).toHaveTextContent('Round 1 Rung 2');
+    expect(round).toHaveTextContent('1');
+    expect(rung).toHaveTextContent('Rung 2');
   });
 });
 
@@ -110,7 +120,8 @@ describe('active workout page (mismatched bells)', () => {
 
     const leftBell = screen.getByTestId('left-bell');
     const rightBell = screen.getByTestId('right-bell');
-    const roundText = screen.getByText('Round 1 Rung 1');
+    const round = screen.getByTestId('current-round');
+    const rung = screen.getByText('Rung 1');
 
     expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
     expect(rightBell).toHaveTextContent(`${secondBell} kg`);
@@ -119,13 +130,15 @@ describe('active workout page (mismatched bells)', () => {
 
     expect(leftBell).toHaveTextContent(`${secondBell} kg`);
     expect(rightBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(roundText).toHaveTextContent('Round 1 Rung 1');
+    expect(round).toHaveTextContent('1');
+    expect(rung).toHaveTextContent('Rung 1');
 
     fireEvent.click(addButton);
 
     expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
     expect(rightBell).toHaveTextContent(`${secondBell} kg`);
-    expect(roundText).toHaveTextContent('Round 1 Rung 2');
+    expect(round).toHaveTextContent('1');
+    expect(rung).toHaveTextContent('Rung 2');
   });
 });
 
@@ -164,7 +177,8 @@ describe('active workout page (multiple tasks and mirrored bells)', () => {
     const currentTask = screen.getByText(tasks[0]);
     const leftBell = screen.getByTestId('left-bell');
     const rightBell = screen.getByTestId('right-bell');
-    const roundText = screen.getByText('Round 1');
+    const round = screen.getByTestId('current-round');
+    expect(round).toHaveTextContent('1');
 
     expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
     expect(rightBell).toHaveTextContent(`${secondBell} kg`);
@@ -174,27 +188,27 @@ describe('active workout page (multiple tasks and mirrored bells)', () => {
     expect(currentTask).toHaveTextContent(tasks[0]);
     expect(leftBell).toHaveTextContent(`${secondBell} kg`);
     expect(rightBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(roundText).toHaveTextContent('Round 1');
+    expect(round).toHaveTextContent('1');
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[1]);
     expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
     expect(rightBell).toHaveTextContent(`${secondBell} kg`);
-    expect(roundText).toHaveTextContent('Round 1');
+    expect(round).toHaveTextContent('1');
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[1]);
     expect(leftBell).toHaveTextContent(`${secondBell} kg`);
     expect(rightBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(roundText).toHaveTextContent('Round 1');
+    expect(round).toHaveTextContent('1');
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[0]);
     expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
     expect(rightBell).toHaveTextContent(`${secondBell} kg`);
-    expect(roundText).toHaveTextContent('Round 2');
+    expect(round).toHaveTextContent('2');
   });
 });

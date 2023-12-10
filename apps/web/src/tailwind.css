@@ -29,6 +29,10 @@
     @apply border-neutral-300 dark:border-neutral-700;
   }
 
+  .border-default {
+    @apply border-neutral-900 dark:border-neutral-300
+  }
+
   /* Fill Colors */
   .fill-primary {
     @apply fill-indigo-700 dark:fill-indigo-500;
