@@ -1,11 +1,11 @@
 import { LockClosedIcon, LockOpenIcon } from '@heroicons/react/20/solid';
-import { PlayPauseIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWakeLock } from 'react-screen-wake-lock';
 
-import { Button, Page } from '~/components';
+import { Button, IconButton, Page } from '~/components';
 import { useSession } from '~/contexts';
 import { useTimer } from '~/hooks';
 import { supabase } from '~/supabaseClient';
@@ -156,26 +156,11 @@ export const ActiveWorkout = ({
             <div className="text-subdued text-lg">{notes}</div>
           </div>
           <div className="flex items-center gap-1">
-            {Lock && (
-              <Lock
-                className="text-action h-2 w-2"
-                onClick={handleToggleWakeLock}
-              />
-            )}
             <div className="text-default text-xl font-medium">
               {timeRemaining}
             </div>
           </div>
         </div>
-        <Button
-          onClick={handleClickPlayPause}
-          kind="outline"
-          className={clsx('ml-auto h-5 w-5 rounded-full', {
-            'bg-layout-darker': paused,
-          })}
-        >
-          <PlayPauseIcon className="h-2 w-2" />
-        </Button>
       </div>
 
       <div className="flex flex-col items-center justify-center space-y-3 py-4">
@@ -189,14 +174,34 @@ export const ActiveWorkout = ({
         <div className="text-default text-6xl font-medium">
           {reps[rungIndex]} <span className="text-2xl">reps</span>
         </div>
-        <Button
-          className={clsx('h-5 w-full', { 'animate-wiggle': effect })}
-          onClick={handleClickPlus}
-          onAnimationEnd={() => setEffect(false)}
-          aria-label="Add Reps"
-        >
-          <PlusIcon className="h-4 w-4 font-bold" />
-        </Button>
+
+        <div className="flex w-full items-center gap-1">
+          <Button
+            className={clsx('grow', { 'animate-wiggle': effect })}
+            onClick={handleClickPlus}
+            onAnimationEnd={() => setEffect(false)}
+            aria-label="Add Reps"
+            size="large"
+            disabled={paused}
+            leftIcon={<PlusIcon className="h-3 w-3" />}
+          >
+            Next Round
+          </Button>
+          <IconButton
+            onClick={handleClickPlayPause}
+            kind="outline"
+            size="large"
+            className={clsx({
+              'bg-layout-darker': paused,
+            })}
+          >
+            {paused ? (
+              <PlayIcon className="h-3 w-3" />
+            ) : (
+              <PauseIcon className="h-3 w-3" />
+            )}
+          </IconButton>
+        </div>
         <div className="text-md text-default">
           Completed {completedRungs} {rungsPerRound > 1 ? 'rungs' : 'rounds'}{' '}
           and {completedReps} reps

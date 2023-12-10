@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react';
 
-import { Button, Input, Page } from '~/components';
+import { Button, IconButton, Input, Page } from '~/components';
 import { WorkoutOptions } from '~/types';
 
 interface Props {
@@ -173,26 +173,18 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       <Section title="Timer">
         <div className="mx-5 flex items-center justify-between">
           <div className="flex items-center">
-            <Button
-              onClick={handleDecrementTimer}
-              kind="primary"
-              className="h-4 w-4 rounded-full"
-            >
-              <MinusIcon className="h-3 w-3" />
-            </Button>
+            <IconButton onClick={handleDecrementTimer}>
+              <MinusIcon className="h-2.5 w-2.5" />
+            </IconButton>
           </div>
           <div className="text-default grow text-center">
             <div className="text-4xl">{minutes}</div>
             <div className="text-base">min</div>
           </div>
           <div className="flex items-center">
-            <Button
-              onClick={handleIncrementTimer}
-              kind="primary"
-              className="h-4 w-4 rounded-full"
-            >
-              <PlusIcon className="h-2 w-2" />
-            </Button>
+            <IconButton onClick={handleIncrementTimer}>
+              <PlusIcon className="h-2.5 w-2.5" />
+            </IconButton>
           </div>
         </div>
       </Section>
@@ -244,8 +236,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
       <div className="flex justify-center">
         <Button
-          className="h-5 w-full text-xl font-medium uppercase"
-          kind="primary"
+          className="w-full font-medium uppercase"
+          size="large"
           onClick={handleClickStart}
           disabled={startDisabled}
         >
@@ -312,26 +304,18 @@ const RepSchemePicker = ({
   return (
     <div className="mx-5 flex justify-between">
       <div className="flex items-center">
-        <Button
-          onClick={handleDecrementReps}
-          kind="primary"
-          className="h-4 w-4 rounded-full"
-        >
-          <MinusIcon className="h-2 w-2" />
-        </Button>
+        <IconButton onClick={handleDecrementReps}>
+          <MinusIcon className="h-2.5 w-2.5" />
+        </IconButton>
       </div>
       <div className="text-default grow text-center">
         <div className="text-4xl">{value[index]}</div>
         <div className="text-base">reps</div>
       </div>
       <div className="flex items-center">
-        <Button
-          onClick={handleIncrementReps}
-          kind="primary"
-          className="h-4 w-4 rounded-full"
-        >
-          <PlusIcon className="h-2 w-2" />
-        </Button>
+        <IconButton onClick={handleIncrementReps}>
+          <PlusIcon className="h-2.5 w-2.5" />
+        </IconButton>
       </div>
     </div>
   );

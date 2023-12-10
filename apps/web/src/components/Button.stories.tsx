@@ -1,4 +1,4 @@
-import { Button, ButtonKinds } from './Button';
+import { Button } from './Button';
 
 export default {
   component: Button,
@@ -14,6 +14,13 @@ export const Outline = {
   args: {
     ...Default.args,
     kind: 'outline',
+  },
+};
+
+export const Large = {
+  args: {
+    ...Default.args,
+    size: 'large',
   },
 };
 
