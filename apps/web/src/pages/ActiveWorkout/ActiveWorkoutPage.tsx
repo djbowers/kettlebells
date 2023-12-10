@@ -33,12 +33,6 @@ export const ActiveWorkout = ({
     if (locked) await release();
   };
 
-  const handleToggleWakeLock = async () => {
-    if (!isSupported) return;
-    if (!locked) await request();
-    else if (locked) await release();
-  };
-
   useEffect(() => {
     handleRequestWakeLock();
     return () => {
@@ -140,26 +134,19 @@ export const ActiveWorkout = ({
     else navigate('/history');
   };
 
-  const Lock =
-    released === undefined ? null : released ? LockOpenIcon : LockClosedIcon;
-
   return (
     <Page>
-      <Progress completedPercentage={completedPercentage} />
+      <Progress
+        completedPercentage={completedPercentage}
+        timeRemaining={timeRemaining}
+      />
 
       <div className="flex flex-col space-y-1">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-default text-2xl font-medium">
-              {tasks[currentTaskIndex]}
-            </div>
-            <div className="text-subdued text-lg">{notes}</div>
+        <div className="flex flex-col">
+          <div className="text-default text-2xl font-medium">
+            {tasks[currentTaskIndex]}
           </div>
-          <div className="flex items-center gap-1">
-            <div className="text-default text-xl font-medium">
-              {timeRemaining}
-            </div>
-          </div>
+          <div className="text-subdued text-lg">{notes}</div>
         </div>
       </div>
 
@@ -215,13 +202,22 @@ export const ActiveWorkout = ({
   );
 };
 
-const Progress = ({ completedPercentage }: { completedPercentage: number }) => {
+const Progress = ({
+  completedPercentage,
+  timeRemaining,
+}: {
+  completedPercentage: number;
+  timeRemaining: string;
+}) => {
   return (
-    <div className="bg-layout-darker h-5 w-full rounded">
+    <div className="bg-layout-darker relative flex h-5 w-full rounded">
       <div
         className="bg-status-success h-5 rounded"
         style={{ width: `${completedPercentage}%` }}
       />
+      <div className="text-default absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-medium">
+        {timeRemaining}
+      </div>
     </div>
   );
 };

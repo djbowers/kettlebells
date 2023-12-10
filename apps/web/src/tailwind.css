@@ -21,7 +21,7 @@
   }
 
   .bg-status-success {
-    @apply bg-green-500 dark:bg-green-400;
+    @apply bg-green-400 dark:bg-green-300;
   }
 
   /* Border Colors */
