@@ -150,52 +150,75 @@ export const ActiveWorkout = ({
         nextTask={nextTask}
       />
 
-      <div className="flex flex-col items-center justify-center space-y-3 py-4">
-        <div className="text-default text-2xl font-medium">
-          {rungsPerRound > 1 && `Rung ${currentRung}`}
+      <div className="flex flex-col gap-1">
+        <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center uppercase">
+          <div>Left</div>
+          <div>Reps</div>
+          <div>Right</div>
         </div>
-        <div className="text-default flex w-full justify-between">
-          <div data-testid="left-bell">{leftBell && `${leftBell} kg`}</div>
-          <div data-testid="right-bell">{rightBell && `${rightBell} kg`}</div>
-        </div>
-        <div
-          className="text-default text-6xl font-medium"
-          data-testid="current-reps"
-        >
-          {reps[rungIndex]} <span className="text-2xl">reps</span>
-        </div>
+        <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
+          {leftBell ? (
+            <div className="bg-layout-darker flex h-full flex-col items-center justify-center rounded-lg py-1">
+              <div className="text-5xl" data-testid="left-bell">
+                {leftBell}
+              </div>
+              <div className="text-3xl">kg</div>
+            </div>
+          ) : (
+            <div data-testid="left-bell" />
+          )}
 
-        <div className="flex w-full items-center gap-1">
-          <Button
-            className={clsx('grow', { 'animate-wiggle': effect })}
-            onClick={handleClickPlus}
-            onAnimationEnd={() => setEffect(false)}
-            aria-label="Add Reps"
-            size="large"
-            disabled={paused}
-            leftIcon={<PlusIcon className="h-3 w-3" />}
+          <div
+            className="bg-layout-darker flex h-full items-center justify-center rounded-lg py-1 text-6xl"
+            data-testid="current-reps"
           >
-            Next Round
-          </Button>
-          <IconButton
-            onClick={handleClickPlayPause}
-            kind="outline"
-            size="large"
-            className={clsx({
-              'bg-layout-darker': paused,
-            })}
-          >
-            {paused ? (
-              <PlayIcon className="h-3 w-3" />
-            ) : (
-              <PauseIcon className="h-3 w-3" />
-            )}
-          </IconButton>
+            {reps[rungIndex]}
+          </div>
+
+          {rightBell ? (
+            <div className="bg-layout-darker flex h-full flex-col items-center justify-center rounded-lg py-1">
+              <div className="text-5xl" data-testid="right-bell">
+                {rightBell}
+              </div>
+              <div className="text-3xl">kg</div>
+            </div>
+          ) : (
+            <div data-testid="right-bell" />
+          )}
         </div>
-        <div className="text-md text-default">
-          Completed {completedRungs} {rungsPerRound > 1 ? 'rungs' : 'rounds'}{' '}
-          and {completedReps} reps
-        </div>
+      </div>
+
+      <div className="flex w-full items-center gap-1">
+        <Button
+          className={clsx('grow', { 'animate-wiggle': effect })}
+          onClick={handleClickPlus}
+          onAnimationEnd={() => setEffect(false)}
+          aria-label="Add Reps"
+          size="large"
+          disabled={paused}
+          leftIcon={<PlusIcon className="h-3 w-3" />}
+        >
+          Continue
+        </Button>
+        <IconButton
+          onClick={handleClickPlayPause}
+          kind="outline"
+          size="large"
+          className={clsx({
+            'bg-layout-darker': paused,
+          })}
+        >
+          {paused ? (
+            <PlayIcon className="h-3 w-3" />
+          ) : (
+            <PauseIcon className="h-3 w-3" />
+          )}
+        </IconButton>
+      </div>
+
+      <div className="text-md text-default">
+        Completed {completedRungs} {rungsPerRound > 1 ? 'rungs' : 'rounds'} and{' '}
+        {completedReps} reps
       </div>
 
       <Button kind="outline" onClick={handleClickFinish} className="h-5">

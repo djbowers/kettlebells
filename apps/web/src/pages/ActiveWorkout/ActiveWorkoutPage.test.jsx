@@ -32,27 +32,23 @@ describe('active workout page (double bells)', () => {
     expect(currentReps).toHaveTextContent(reps[0]);
 
     const round = screen.getByTestId('current-round');
-    const rung = screen.getByText('Rung 1');
     const completed = screen.getByText('Completed 0 rungs and 0 reps');
 
     fireEvent.click(addButton);
     expect(currentReps).toHaveTextContent(reps[1]);
     expect(round).toHaveTextContent('1');
-    expect(rung).toHaveTextContent('Rung 2');
     expect(completed).toHaveTextContent('Completed 1 rungs and 1 reps');
 
     fireEvent.click(addButton);
     expect(currentReps).toHaveTextContent(reps[2]);
 
     expect(round).toHaveTextContent('1');
-    expect(rung).toHaveTextContent('Rung 3');
     expect(completed).toHaveTextContent('Completed 2 rungs and 3 reps');
 
     fireEvent.click(addButton);
     expect(currentReps).toHaveTextContent(reps[0]);
 
     expect(round).toHaveTextContent('2');
-    expect(rung).toHaveTextContent('Rung 1');
     expect(completed).toHaveTextContent('Completed 3 rungs and 6 reps');
   });
 
@@ -62,8 +58,8 @@ describe('active workout page (double bells)', () => {
     const leftBell = screen.getByTestId('left-bell');
     const rightBell = screen.getByTestId('right-bell');
 
-    expect(leftBell).toHaveTextContent(`${bells[0]} kg`);
-    expect(rightBell).toHaveTextContent(`${bells[1]} kg`);
+    expect(leftBell).toHaveTextContent(bells[0]);
+    expect(rightBell).toHaveTextContent(bells[1]);
   });
 });
 
@@ -83,24 +79,21 @@ describe('active workout page (single bell)', () => {
     const leftBell = screen.getByTestId('left-bell');
     const rightBell = screen.getByTestId('right-bell');
     const round = screen.getByTestId('current-round');
-    const rung = screen.getByText('Rung 1');
 
-    expect(leftBell).toHaveTextContent(`${bell} kg`);
+    expect(leftBell).toHaveTextContent(bell);
     expect(rightBell).not.toHaveTextContent();
 
     fireEvent.click(addButton);
 
     expect(leftBell).not.toHaveTextContent();
-    expect(rightBell).toHaveTextContent(`${bell} kg`);
+    expect(rightBell).toHaveTextContent(bell);
     expect(round).toHaveTextContent('1');
-    expect(rung).toHaveTextContent('Rung 1');
 
     fireEvent.click(addButton);
 
-    expect(leftBell).toHaveTextContent(`${bell} kg`);
+    expect(leftBell).toHaveTextContent(bell);
     expect(rightBell).not.toHaveTextContent();
     expect(round).toHaveTextContent('1');
-    expect(rung).toHaveTextContent('Rung 2');
   });
 });
 
@@ -121,24 +114,21 @@ describe('active workout page (mismatched bells)', () => {
     const leftBell = screen.getByTestId('left-bell');
     const rightBell = screen.getByTestId('right-bell');
     const round = screen.getByTestId('current-round');
-    const rung = screen.getByText('Rung 1');
 
-    expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(rightBell).toHaveTextContent(`${secondBell} kg`);
-
-    fireEvent.click(addButton);
-
-    expect(leftBell).toHaveTextContent(`${secondBell} kg`);
-    expect(rightBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(round).toHaveTextContent('1');
-    expect(rung).toHaveTextContent('Rung 1');
+    expect(leftBell).toHaveTextContent(primaryBell);
+    expect(rightBell).toHaveTextContent(secondBell);
 
     fireEvent.click(addButton);
 
-    expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(rightBell).toHaveTextContent(`${secondBell} kg`);
+    expect(leftBell).toHaveTextContent(secondBell);
+    expect(rightBell).toHaveTextContent(primaryBell);
     expect(round).toHaveTextContent('1');
-    expect(rung).toHaveTextContent('Rung 2');
+
+    fireEvent.click(addButton);
+
+    expect(leftBell).toHaveTextContent(primaryBell);
+    expect(rightBell).toHaveTextContent(secondBell);
+    expect(round).toHaveTextContent('1');
   });
 });
 
@@ -180,35 +170,35 @@ describe('active workout page (multiple tasks and mirrored bells)', () => {
     const round = screen.getByTestId('current-round');
     expect(round).toHaveTextContent('1');
 
-    expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(rightBell).toHaveTextContent(`${secondBell} kg`);
+    expect(leftBell).toHaveTextContent(primaryBell);
+    expect(rightBell).toHaveTextContent(secondBell);
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[0]);
-    expect(leftBell).toHaveTextContent(`${secondBell} kg`);
-    expect(rightBell).toHaveTextContent(`${primaryBell} kg`);
+    expect(leftBell).toHaveTextContent(secondBell);
+    expect(rightBell).toHaveTextContent(primaryBell);
     expect(round).toHaveTextContent('1');
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[1]);
-    expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(rightBell).toHaveTextContent(`${secondBell} kg`);
+    expect(leftBell).toHaveTextContent(primaryBell);
+    expect(rightBell).toHaveTextContent(secondBell);
     expect(round).toHaveTextContent('1');
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[1]);
-    expect(leftBell).toHaveTextContent(`${secondBell} kg`);
-    expect(rightBell).toHaveTextContent(`${primaryBell} kg`);
+    expect(leftBell).toHaveTextContent(secondBell);
+    expect(rightBell).toHaveTextContent(primaryBell);
     expect(round).toHaveTextContent('1');
 
     await userEvent.click(addButton);
 
     expect(currentTask).toHaveTextContent(tasks[0]);
-    expect(leftBell).toHaveTextContent(`${primaryBell} kg`);
-    expect(rightBell).toHaveTextContent(`${secondBell} kg`);
+    expect(leftBell).toHaveTextContent(primaryBell);
+    expect(rightBell).toHaveTextContent(secondBell);
     expect(round).toHaveTextContent('2');
   });
 });
