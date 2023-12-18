@@ -72,10 +72,14 @@ export const ActiveWorkout = ({
   const doubleBells = !singleBell;
   const mismatchedBells = doubleBells && primaryBell !== secondBell;
 
+  // Volume
+  const totalWeight = bells.reduce((total, bell) => total + bell, 0);
+  const workoutVolume = completedReps * totalWeight;
+
   // Rungs
   const rungsPerRound = reps.length;
   const rungIndex = completedRungs % rungsPerRound;
-  const currentRung = rungIndex + 1;
+  // const currentRung = rungIndex + 1;
 
   // Rounds
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
@@ -150,43 +154,12 @@ export const ActiveWorkout = ({
         nextTask={nextTask}
       />
 
-      <div className="flex flex-col gap-1">
-        <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center uppercase">
-          <div>Left</div>
-          <div>Reps</div>
-          <div>Right</div>
-        </div>
-        <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
-          {leftBell ? (
-            <div className="bg-layout-darker flex h-full flex-col items-center justify-center rounded-lg py-1">
-              <div className="text-5xl" data-testid="left-bell">
-                {leftBell}
-              </div>
-              <div className="text-3xl">kg</div>
-            </div>
-          ) : (
-            <div data-testid="left-bell" />
-          )}
-
-          <div
-            className="bg-layout-darker flex h-full items-center justify-center rounded-lg py-1 text-6xl"
-            data-testid="current-reps"
-          >
-            {reps[rungIndex]}
-          </div>
-
-          {rightBell ? (
-            <div className="bg-layout-darker flex h-full flex-col items-center justify-center rounded-lg py-1">
-              <div className="text-5xl" data-testid="right-bell">
-                {rightBell}
-              </div>
-              <div className="text-3xl">kg</div>
-            </div>
-          ) : (
-            <div data-testid="right-bell" />
-          )}
-        </div>
-      </div>
+      <CurrentRound
+        rightBell={rightBell}
+        leftBell={leftBell}
+        reps={reps}
+        rungIndex={rungIndex}
+      />
 
       <div className="flex w-full items-center gap-1">
         <Button
@@ -216,10 +189,10 @@ export const ActiveWorkout = ({
         </IconButton>
       </div>
 
-      <div className="text-md text-default">
-        Completed {completedRungs} {rungsPerRound > 1 ? 'rungs' : 'rounds'} and{' '}
-        {completedReps} reps
-      </div>
+      <CompletedSection
+        completedReps={completedReps}
+        workoutVolume={workoutVolume}
+      />
 
       <Button kind="outline" onClick={handleClickFinish} className="h-5">
         <div className="uppercase">Finish Workout</div>
@@ -281,6 +254,88 @@ export const CurrentMovement = ({
           </>
         )}
       </div>
+    </div>
+  );
+};
+
+const CurrentRound = ({
+  leftBell,
+  rightBell,
+  reps,
+  rungIndex,
+}: {
+  leftBell: number | null;
+  rightBell: number | null;
+  reps: number[];
+  rungIndex: number;
+}) => {
+  return (
+    <div className="flex flex-col gap-1">
+      <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center uppercase">
+        <div>Left</div>
+        <div>Reps</div>
+        <div>Right</div>
+      </div>
+      <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
+        {leftBell ? (
+          <div className="flex h-full flex-col items-center justify-center py-1">
+            <div className="text-5xl" data-testid="left-bell">
+              {leftBell}
+            </div>
+            <div className="text-3xl">kg</div>
+          </div>
+        ) : (
+          <div data-testid="left-bell" />
+        )}
+
+        <div
+          className="flex h-full items-center justify-center py-1 text-6xl"
+          data-testid="current-reps"
+        >
+          {reps[rungIndex]}
+        </div>
+
+        {rightBell ? (
+          <div className="flex h-full flex-col items-center justify-center py-1">
+            <div className="text-5xl" data-testid="right-bell">
+              {rightBell}
+            </div>
+            <div className="text-3xl">kg</div>
+          </div>
+        ) : (
+          <div data-testid="right-bell" />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const CompletedSection = ({
+  completedReps,
+  workoutVolume,
+}: {
+  completedReps: number;
+  workoutVolume: number;
+}) => {
+  return (
+    <div
+      className="text-default bg-layout-darker grid grid-cols-3 items-center space-x-2 space-y-1 rounded-lg p-2"
+      data-testid="completed-section"
+    >
+      <div className="text-subdued col-span-1 justify-self-end text-lg font-medium uppercase">
+        Completed
+      </div>
+      <div className="col-span-2" />
+
+      <div className="col-span-1 justify-self-end text-lg font-medium uppercase">
+        Reps
+      </div>
+      <div className="col-span-2 text-2xl font-medium">{completedReps}</div>
+
+      <div className="col-span-1 justify-self-end text-lg font-medium uppercase">
+        Volume
+      </div>
+      <div className="col-span-2 text-2xl font-medium">{workoutVolume}kg</div>
     </div>
   );
 };

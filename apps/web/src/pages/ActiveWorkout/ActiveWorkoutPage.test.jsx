@@ -32,24 +32,25 @@ describe('active workout page (double bells)', () => {
     expect(currentReps).toHaveTextContent(reps[0]);
 
     const round = screen.getByTestId('current-round');
-    const completed = screen.getByText('Completed 0 rungs and 0 reps');
+    const completedSection = screen.getByTestId('completed-section');
+    expect(completedSection).toHaveTextContent('0');
 
     fireEvent.click(addButton);
     expect(currentReps).toHaveTextContent(reps[1]);
     expect(round).toHaveTextContent('1');
-    expect(completed).toHaveTextContent('Completed 1 rungs and 1 reps');
+    expect(completedSection).toHaveTextContent('1');
 
     fireEvent.click(addButton);
     expect(currentReps).toHaveTextContent(reps[2]);
 
     expect(round).toHaveTextContent('1');
-    expect(completed).toHaveTextContent('Completed 2 rungs and 3 reps');
+    expect(completedSection).toHaveTextContent('3');
 
     fireEvent.click(addButton);
     expect(currentReps).toHaveTextContent(reps[0]);
 
     expect(round).toHaveTextContent('2');
-    expect(completed).toHaveTextContent('Completed 3 rungs and 6 reps');
+    expect(completedSection).toHaveTextContent('6');
   });
 
   test('displays left and right weights', () => {
