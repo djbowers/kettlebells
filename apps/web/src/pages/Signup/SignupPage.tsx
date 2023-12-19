@@ -29,7 +29,7 @@ export function Signup() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="flex w-full max-w-sm flex-col gap-2">
+      <div className="flex w-full max-w-sm flex-col gap-2 p-3">
         <div className="text-default text-center text-lg font-bold">
           Log in to BellSkill
         </div>
