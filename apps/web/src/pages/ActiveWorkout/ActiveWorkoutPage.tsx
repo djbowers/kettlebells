@@ -1,4 +1,3 @@
-import { LockClosedIcon, LockOpenIcon } from '@heroicons/react/20/solid';
 import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
