@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 export const profiles = [
   {
     username: 'Luke Skywalker',

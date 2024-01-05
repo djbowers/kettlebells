@@ -1,5 +1,6 @@
 import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from '~/components';
 
@@ -7,7 +8,7 @@ import { SessionProvider } from '../contexts';
 import { Signup } from '../pages';
 import { supabase } from '../supabaseClient';
 import '../tailwind.css';
-import AuthenticatedRoutes from './AuthenticatedRoutes';
+import { routes } from './routes';
 
 export function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -22,13 +23,15 @@ export function App() {
     });
   }, []);
 
+  const router = createBrowserRouter(routes);
+
   return (
     <Layout>
       {!session ? (
         <Signup />
       ) : (
         <SessionProvider value={session}>
-          <AuthenticatedRoutes key={session.user.id} />
+          <RouterProvider router={router} />
         </SessionProvider>
       )}
     </Layout>

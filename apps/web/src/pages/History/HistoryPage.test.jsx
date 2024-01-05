@@ -18,8 +18,8 @@ describe('workout history page', () => {
     await screen.findAllByText('The Giant', { exact: false });
   });
 
-  test('renders workout density', async () => {
-    await screen.findByText('88.2');
+  test('renders workout volume', async () => {
+    await screen.findByText('1764 kg');
   });
 
   test('renders workout date', async () => {

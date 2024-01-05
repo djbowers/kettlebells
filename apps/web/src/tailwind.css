@@ -13,11 +13,11 @@
   }
 
   .bg-layout-darker {
-    @apply bg-neutral-100 dark:bg-neutral-900;
+    @apply bg-gray-100 dark:bg-gray-900;
   }
 
   .bg-layout-darkest {
-    @apply bg-neutral-300 dark:bg-neutral-700;
+    @apply bg-gray-300 dark:bg-gray-700;
   }
 
   .bg-status-success {
@@ -26,11 +26,11 @@
 
   /* Border Colors */
   .border-layout {
-    @apply border-neutral-300 dark:border-neutral-700;
+    @apply border-gray-300 dark:border-gray-700;
   }
 
   .border-default {
-    @apply border-neutral-900 dark:border-neutral-300
+    @apply border-gray-900 dark:border-gray-300;
   }
 
   /* Fill Colors */

@@ -8,6 +8,14 @@ export const mockedWorkoutLogsFetch = rest.all(
   async (req, res, ctx) => {
     switch (req.method) {
       case 'GET':
+        const url = new URL(req.url);
+        const id = url.searchParams.get('id');
+        if (id) {
+          const workoutLogId = id.split('.')[1];
+          return res(
+            ctx.json(workoutLogs.find((w) => w.id === Number(workoutLogId))),
+          );
+        }
         return res(ctx.json(workoutLogs));
       case 'POST':
         const body = await req.json();
