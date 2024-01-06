@@ -14,9 +14,7 @@ export const CompletedWorkoutPage = () => {
   if (loading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
 
-  const displayDate = DateTime.fromISO(
-    completedWorkout.date.toISOString(),
-  ).toFormat('t, cccc, LLL dd y');
+  const displayDate = getDisplayDate(completedWorkout.date.toISOString());
 
   const workoutVolume =
     completedWorkout.completedReps *
@@ -90,4 +88,8 @@ export const CompletedWorkoutPage = () => {
       </div>
     </Page>
   );
+};
+
+export const getDisplayDate = (dateISOString: string) => {
+  return DateTime.fromISO(dateISOString).toFormat('t, cccc, LLL dd y');
 };
