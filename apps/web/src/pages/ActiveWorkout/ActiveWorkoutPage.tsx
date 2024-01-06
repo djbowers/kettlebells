@@ -124,20 +124,27 @@ export const ActiveWorkout = ({
   const handleClickPlayPause = () => togglePause();
 
   const handleClickFinish = async () => {
-    const { error } = await supabase.from('workout_logs').insert({
-      started_at: startedAt.toISOString(),
-      user_id: user.id,
-      tasks,
-      notes,
-      minutes,
-      reps,
-      completed_rounds: completedRounds,
-      completed_reps: completedReps,
-      completed_rungs: completedRungs,
-      bells,
-    });
+    const { error, data: workoutLogs } = await supabase
+      .from('workout_logs')
+      .insert({
+        started_at: startedAt.toISOString(),
+        user_id: user.id,
+        tasks,
+        notes,
+        minutes,
+        reps,
+        completed_rounds: completedRounds,
+        completed_reps: completedReps,
+        completed_rungs: completedRungs,
+        bells,
+      })
+      .select('id');
+
     if (error) console.error(error);
-    else navigate('/history');
+    else {
+      const workoutLogId = workoutLogs[0].id;
+      navigate(`/history/${workoutLogId}`);
+    }
   };
 
   return (
