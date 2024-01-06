@@ -6,7 +6,7 @@ export default {
   component: CompletedWorkoutPage,
   decorators: [
     (Story) => (
-      <MemoryRouter initialEntries={['/history/67']}>
+      <MemoryRouter initialEntries={['/history/66']}>
         <Routes>
           <Route path="/history/:id" element={<Story />} />
         </Routes>
