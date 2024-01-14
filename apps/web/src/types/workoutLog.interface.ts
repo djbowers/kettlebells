@@ -5,7 +5,8 @@ export interface WorkoutLog {
   date: Date;
   duration: number;
   id: number;
+  movements: string[];
   notes: string | null;
   repScheme: number[];
-  tasks: string[];
+  rpe: 'noEffort' | 'easy' | 'ideal' | 'hard' | 'maxEffort' | null;
 }

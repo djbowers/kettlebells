@@ -10,7 +10,7 @@
     "start:web": "npm run dev -w apps/web",
     "start:server": "supabase start",
     "prettier": "prettier --write .",
-    "diff-db": "echo 'Filename?' && read filename && npx supabase db diff -f $filename",
+    "diff-db": "echo 'Migration Name?' && read filename && npx supabase db diff -f $filename",
     "test:web": "npm run test -w apps/web"
   },
   "devDependencies": {

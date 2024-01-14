@@ -32,8 +32,9 @@ export const useWorkoutLogs = () => {
               duration: workoutLog.minutes,
               id: workoutLog.id,
               notes: workoutLog.notes,
-              repScheme: workoutLog.reps,
-              tasks: workoutLog.tasks,
+              repScheme: workoutLog.rep_scheme,
+              movements: workoutLog.movements,
+              rpe: workoutLog.rpe,
             };
           }),
         );

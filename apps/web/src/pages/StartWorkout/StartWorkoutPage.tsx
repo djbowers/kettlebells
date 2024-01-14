@@ -17,11 +17,11 @@ interface Props {
 }
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
-  const [movements, setMovements] = useState<string[]>(['']);
-  const [minutes, setMinutes] = useState<number>(20);
   const [bells, setBells] = useState<[number, number]>([16, 0]);
-  const [rungs, setRungs] = useState<number[]>([5]);
+  const [duration, setMinutes] = useState<number>(20);
+  const [movements, setMovements] = useState<string[]>(['']);
   const [notes, setNotes] = useState<string>('');
+  const [rep_scheme, setRepScheme] = useState<number[]>([5]);
 
   const [showNotes, setShowNotes] = useState<boolean>(false);
 
@@ -75,15 +75,15 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     });
   };
   const handleClickMinusRung: MouseEventHandler<HTMLButtonElement> = () => {
-    if (rungs.length > 1)
-      setRungs((prev) => {
+    if (rep_scheme.length > 1)
+      setRepScheme((prev) => {
         const rungs = [...prev];
         rungs.pop();
         return rungs;
       });
   };
   const handleClickPlusRung: MouseEventHandler<HTMLButtonElement> = () => {
-    setRungs((prev) => {
+    setRepScheme((prev) => {
       const last = prev[prev.length - 1];
       const rungs = [...prev, last];
       return rungs;
@@ -95,11 +95,11 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
-      tasks: movements,
-      minutes,
       bells,
-      reps: rungs,
+      duration,
+      movements,
       notes,
+      repScheme: rep_scheme,
     };
     onStart?.(workoutOptions);
   };
@@ -178,7 +178,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             </IconButton>
           </div>
           <div className="text-default grow text-center">
-            <div className="text-4xl">{minutes}</div>
+            <div className="text-4xl">{duration}</div>
             <div className="text-base">min</div>
           </div>
           <div className="flex items-center">
@@ -193,18 +193,18 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         title="Round"
         actions={
           <PlusMinusButtons
-            count={rungs.length}
+            count={rep_scheme.length}
             label="Rung"
             onClickMinus={handleClickMinusRung}
             onClickPlus={handleClickPlusRung}
           />
         }
       >
-        {rungs.map((_, index) => (
+        {rep_scheme.map((_, index) => (
           <RepSchemePicker
             key={index}
-            value={rungs}
-            onChange={setRungs}
+            value={rep_scheme}
+            onChange={setRepScheme}
             index={index}
           />
         ))}

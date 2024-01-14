@@ -45,8 +45,8 @@ export const HistoryPage = () => {
               >
                 <div>{formattedWorkoutDate}</div>
                 <div className="col-span-2">
-                  {workoutLog.tasks.map((task, i) => (
-                    <div key={i}>{task}</div>
+                  {workoutLog.movements.map((movement, i) => (
+                    <div key={i}>{movement}</div>
                   ))}
                   {workoutLog.notes && (
                     <div className="text-subdued">{workoutLog.notes}</div>

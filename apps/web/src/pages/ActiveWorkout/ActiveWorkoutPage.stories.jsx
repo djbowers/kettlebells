@@ -23,10 +23,10 @@ export default {
 export const DoubleBells = {
   args: {
     workoutOptions: {
-      tasks: ['Clean and Press'],
+      movements: ['Clean and Press'],
       notes: 'The Giant',
-      reps: [1, 2, 3],
-      minutes: 20,
+      repScheme: [1, 2, 3],
+      duration: 20,
       bells: [20, 20],
     },
   },
@@ -35,10 +35,10 @@ export const DoubleBells = {
 export const SingleBell = {
   args: {
     workoutOptions: {
-      tasks: ['Snatch'],
+      movements: ['Snatch'],
       notes: 'King Sized Killer',
-      reps: [1, 2, 3, 4, 5],
-      minutes: 20,
+      repScheme: [1, 2, 3, 4, 5],
+      duration: 20,
       bells: [20],
     },
   },
@@ -47,10 +47,10 @@ export const SingleBell = {
 export const MismatchedBells = {
   args: {
     workoutOptions: {
-      tasks: ['Clean and Press'],
+      movements: ['Clean and Press'],
       notes: 'The Giant',
-      reps: [3, 6, 9],
-      minutes: 20,
+      repScheme: [3, 6, 9],
+      duration: 20,
       bells: [20, 16],
     },
   },
@@ -59,32 +59,32 @@ export const MismatchedBells = {
 export const SingleRung = {
   args: {
     workoutOptions: {
-      tasks: ['Swing'],
+      movements: ['Swing'],
       notes: 'Simple and Sinister',
-      reps: [10],
-      minutes: 5,
+      repScheme: [10],
+      duration: 5,
       bells: [28],
     },
   },
 };
 
-export const MultipleTasks = {
+export const MultipleMovements = {
   args: {
     workoutOptions: {
-      tasks: ['Clean and Press', 'Front Squat'],
-      reps: [3],
-      minutes: 10,
+      movements: ['Clean and Press', 'Front Squat'],
+      repScheme: [3],
+      duration: 10,
       bells: [16, 16],
     },
   },
 };
 
-export const MultipleTasksAndMirroredBells = {
+export const MultipleMovementsAndMirroredBells = {
   args: {
     workoutOptions: {
-      tasks: ['Clean and Press', 'Front Squat'],
-      reps: [3],
-      minutes: 10,
+      movements: ['Clean and Press', 'Front Squat'],
+      repScheme: [3],
+      duration: 10,
       bells: [20, 16],
     },
   },
