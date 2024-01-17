@@ -20,8 +20,6 @@
     "@supabase/supabase-js": "^2.31.0",
     "clsx": "^2.0.0",
     "luxon": "^3.4.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
     "react-screen-wake-lock": "^3.0.2",
     "url": "^0.11.3"
