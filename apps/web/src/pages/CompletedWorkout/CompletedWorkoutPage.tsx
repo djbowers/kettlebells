@@ -7,13 +7,13 @@ import { Button, Loading, Page } from '~/components';
 import { RPESelector } from './components';
 
 export const CompletedWorkoutPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
 
-  const { data: completedWorkout, loading } = useWorkoutLog(id);
+  const { data: completedWorkout, isLoading } = useWorkoutLog(id);
 
-  if (loading) return <Loading />;
+  if (isLoading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
 
   const displayDate = getDisplayDate(completedWorkout.date.toISOString());

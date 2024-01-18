@@ -5,11 +5,11 @@ import { useWorkoutLogs } from '~/api';
 import { Loading, Page } from '~/components';
 
 export const HistoryPage = () => {
-  const { data: workoutLogs, loading } = useWorkoutLogs();
+  const { data: workoutLogs, isLoading } = useWorkoutLogs();
 
   const navigate = useNavigate();
 
-  if (loading) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <Page>
@@ -21,7 +21,7 @@ export const HistoryPage = () => {
           <div className="text-right">Volume</div>
         </div>
         {workoutLogs
-          .sort((a, b) => b.date.getTime() - a.date.getTime())
+          ?.sort((a, b) => b.date.getTime() - a.date.getTime())
           .map((workoutLog) => {
             const formattedWorkoutDate = DateTime.fromJSDate(
               workoutLog.date,

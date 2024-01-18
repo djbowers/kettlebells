@@ -1,48 +1,39 @@
-import { PostgrestError } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import { WorkoutLog } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
-export const useWorkoutLog = (id?: string) => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<PostgrestError | null>(null);
-  const [workoutLog, setWorkoutLog] = useState<WorkoutLog | null>(null);
+export const useWorkoutLog = (id: string) => {
+  return useQuery('workoutLog', () => fetchWorkoutLog(id));
+};
 
-  useEffect(() => {
-    async function getWorkoutLogs() {
-      setLoading(true);
+const fetchWorkoutLog = async (id: string): Promise<WorkoutLog> => {
+  const { data: workoutLog, error } = await supabase
+    .from('workout_logs')
+    .select(`*`)
+    .eq('id', id)
+    .maybeSingle();
 
-      const { data: workoutLog, error } = await supabase
-        .from('workout_logs')
-        .select(`*`)
-        .eq('id', id)
-        .maybeSingle();
+  if (error) {
+    console.error(error);
+    throw error;
+  }
 
-      if (error) {
-        setError(error);
-        console.error(error);
-      } else if (workoutLog) {
-        setWorkoutLog({
-          bells: workoutLog.bells,
-          completedReps: workoutLog.completed_reps,
-          completedRounds: workoutLog.completed_rounds,
-          date: new Date(workoutLog.started_at),
-          duration: workoutLog.minutes,
-          id: workoutLog.id,
-          notes: workoutLog.notes,
-          repScheme: workoutLog.rep_scheme,
-          movements: workoutLog.movements,
-          rpe: workoutLog.rpe,
-        });
-      }
+  if (!workoutLog) {
+    throw Error('Unable to fetch workout log data for id: ' + id);
+  }
 
-      setLoading(false);
-    }
-
-    getWorkoutLogs();
-  }, []);
-
-  return { data: workoutLog, loading, error };
+  return {
+    bells: workoutLog.bells,
+    completedReps: workoutLog.completed_reps,
+    completedRounds: workoutLog.completed_rounds,
+    date: new Date(workoutLog.started_at),
+    duration: workoutLog.minutes,
+    id: workoutLog.id,
+    notes: workoutLog.notes,
+    repScheme: workoutLog.rep_scheme,
+    movements: workoutLog.movements,
+    rpe: workoutLog.rpe,
+  };
 };

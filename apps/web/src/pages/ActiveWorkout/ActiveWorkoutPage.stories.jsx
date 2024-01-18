@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Router } from 'react-router-dom';
 
 import { SessionProvider } from '~/contexts';
@@ -16,6 +17,11 @@ export default {
       <SessionProvider value={{ user: {} }}>
         <Story />
       </SessionProvider>
+    ),
+    (Story) => (
+      <QueryClientProvider client={new QueryClient()}>
+        <Story />
+      </QueryClientProvider>
     ),
   ],
 };
