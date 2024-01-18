@@ -1,27 +1,33 @@
 import { RadioGroup } from '@headlessui/react';
 import clsx from 'clsx';
-import { useState } from 'react';
 
-export const RPESelector = () => {
-  const [rpeValue, setRpeValue] = useState('ideal');
+import { WorkoutLog } from '~/types';
 
+export interface RPESelectorProps {
+  onSelectRPE: (selectedRPE: WorkoutLog['rpe']) => void;
+  rpeValue: WorkoutLog['rpe'];
+}
+
+export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
   return (
     <RadioGroup
       value={rpeValue}
-      onChange={setRpeValue}
+      onChange={onSelectRPE}
       className="flex flex-col gap-2 text-center"
     >
       <RadioGroup.Label>
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-col gap-0.5">
-            <div className="text-subdued text-sm font-medium uppercase">
-              Exertion Rating
-            </div>
-            <div className="text-sm font-medium">
-              How difficult was moving 2525 kg in 21 min?
-            </div>
-          </div>
-          <div className="flex flex-col gap-0.5">
+        <div className="text-subdued text-sm font-medium uppercase">
+          Exertion Rating
+        </div>
+      </RadioGroup.Label>
+
+      <RadioGroup.Description>
+        <div className="text-sm font-medium">
+          How difficult was moving 2525 kg in 21 min?
+        </div>
+
+        {rpeValue && (
+          <>
             <div
               className={clsx(
                 'text-lg font-medium',
@@ -30,12 +36,13 @@ export const RPESelector = () => {
             >
               {RPE_CONFIG[rpeValue].text}
             </div>
+
             <div className="text-sm font-medium">
               {RPE_CONFIG[rpeValue].description}
             </div>
-          </div>
-        </div>
-      </RadioGroup.Label>
+          </>
+        )}
+      </RadioGroup.Description>
 
       <div className="grid grid-cols-5 gap-2 px-3">
         <Option rpeValue="noEffort" />

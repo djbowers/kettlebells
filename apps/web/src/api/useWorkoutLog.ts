@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
 
-import { WorkoutLog } from '~/types';
+import { QUERIES, WorkoutLog } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
 export const useWorkoutLog = (id: string) => {
-  return useQuery('workoutLog', () => fetchWorkoutLog(id));
+  return useQuery(QUERIES.WORKOUT_LOG, () => fetchWorkoutLog(id));
 };
 
 const fetchWorkoutLog = async (id: string): Promise<WorkoutLog> => {

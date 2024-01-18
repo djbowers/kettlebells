@@ -1,17 +1,19 @@
 import { DateTime } from 'luxon';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useWorkoutLog } from '~/api';
+import { useSelectRPE, useWorkoutLog } from '~/api';
 import { Button, Loading, Page } from '~/components';
+import { WorkoutLog } from '~/types';
 
 import { RPESelector } from './components';
 
 export const CompletedWorkoutPage = () => {
-  const { id = "" } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
 
   const { data: completedWorkout, isLoading } = useWorkoutLog(id);
+  const { mutate: selectRPE } = useSelectRPE(id);
 
   if (isLoading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
@@ -42,6 +44,10 @@ export const CompletedWorkoutPage = () => {
 
   const handleClickContinue = () => {
     navigate('/history');
+  };
+
+  const handleSelectRPE = (selectedRPE: WorkoutLog['rpe']) => {
+    selectRPE(selectedRPE);
   };
 
   return (
@@ -80,7 +86,10 @@ export const CompletedWorkoutPage = () => {
           </div>
         </div>
 
-        <RPESelector />
+        <RPESelector
+          rpeValue={completedWorkout.rpe}
+          onSelectRPE={handleSelectRPE}
+        />
 
         <Button className="w-full" size="large" onClick={handleClickContinue}>
           Continue
