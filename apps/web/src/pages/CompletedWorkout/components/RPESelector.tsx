@@ -15,13 +15,11 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
       onChange={onSelectRPE}
       className="flex flex-col gap-2 text-center"
     >
-      <RadioGroup.Label>
-        <div className="text-subdued text-sm font-medium uppercase">
-          Exertion Rating
-        </div>
+      <RadioGroup.Label className="text-subdued text-sm font-medium uppercase">
+        Exertion Rating
       </RadioGroup.Label>
 
-      <RadioGroup.Description>
+      <RadioGroup.Description as="div">
         <div className="text-sm font-medium">
           How difficult was moving 2525 kg in 21 min?
         </div>
@@ -57,9 +55,12 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
 
 const Option = ({ rpeValue }: { rpeValue: string }) => {
   return (
-    <RadioGroup.Option value={rpeValue}>
+    <RadioGroup.Option
+      value={rpeValue}
+      className="flex flex-col items-center gap-0.5 p-1"
+    >
       {({ checked }) => (
-        <div className="flex flex-col items-center gap-0.5 p-1">
+        <>
           <div
             className={clsx(
               'h-3 w-3 rounded-full',
@@ -78,13 +79,13 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
           >
             {RPE_CONFIG[rpeValue].text}
           </div>
-        </div>
+        </>
       )}
     </RadioGroup.Option>
   );
 };
 
-const RPE_CONFIG: {
+export const RPE_CONFIG: {
   [key: string]: {
     bgColor: string;
     description: string;
