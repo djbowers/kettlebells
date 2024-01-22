@@ -4,7 +4,7 @@ import { handlers } from '../src/mocks';
 import '../src/tailwind.css';
 
 // Initialize MSW
-initialize();
+initialize({ onUnhandledRequest: 'bypass' });
 
 const preview = {
   parameters: {
