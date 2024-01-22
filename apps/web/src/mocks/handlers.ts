@@ -1,4 +1,4 @@
-import { mockedProfilesFetch } from './mockedProfiles';
-import { mockedWorkoutLogsFetch } from './mockedWorkoutLogs';
+import mockedProfiles from './mockedProfiles';
+import mockedWorkoutLogs from './mockedWorkoutLogs';
 
-export const handlers = [mockedWorkoutLogsFetch, mockedProfilesFetch];
+export const handlers = [...mockedProfiles, ...mockedWorkoutLogs];
