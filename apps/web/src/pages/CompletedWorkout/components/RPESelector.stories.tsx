@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/react';
+import { useState } from 'react';
 
 import { WorkoutLog } from '~/types';
 
-import { useState } from 'react';
 import { RPESelector } from './RPESelector';
 
 export default {
@@ -10,6 +10,6 @@ export default {
 } as Meta;
 
 export const Default = () => {
-  const [rpe, setRpe] = useState<WorkoutLog['rpe']>('ideal')
-  return <RPESelector rpeValue={rpe} onSelectRPE={setRpe} />
-}
+  const [rpe, setRpe] = useState<WorkoutLog['rpe']>('ideal');
+  return <RPESelector rpeValue={rpe} onSelectRPE={setRpe} />;
+};

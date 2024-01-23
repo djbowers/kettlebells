@@ -11,22 +11,48 @@ export const mockedWorkoutLogsGet = http.get(
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
 
-    if (id) return;
+    if (id) {
+      const workoutLogId = id.split('.')[1];
+      const workoutLog = workoutLogs.find((w) => w.id === Number(workoutLogId));
+
+      if (!workoutLog) {
+        throw new Error('Cannot find workout log with id: ' + id);
+      }
+
+      return HttpResponse.json([workoutLog]);
+    }
+
     return HttpResponse.json(workoutLogs);
   },
 );
 
-export const mockedWorkoutLogGet = http.get(WORKOUT_LOGS_URL, ({ request }) => {
-  const url = new URL(request.url);
-  const id = url.searchParams.get('id');
+export const mockedWorkoutLogsPatch = http.patch(
+  WORKOUT_LOGS_URL,
+  async ({ request }) => {
+    const body = await request.json();
+    if (!body || typeof body !== 'object') {
+      throw new Error('Request body must be an object');
+    }
 
-  if (id) {
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+    if (!id) {
+      throw new Error('Must provide an ID');
+    }
+
     const workoutLogId = id.split('.')[1];
-    return HttpResponse.json(
-      workoutLogs.find((w) => w.id === Number(workoutLogId)),
-    );
-  }
-});
+    const workoutLog = workoutLogs.find((w) => w.id === Number(workoutLogId));
+    if (!workoutLog) {
+      throw new Error(`No workout log exists with id of ${id}`);
+    }
+
+    if ('rpe' in body) {
+      workoutLog.rpe = body.rpe;
+    }
+
+    return HttpResponse.json();
+  },
+);
 
 export const mockedWorkoutLogsPost = http.post(
   WORKOUT_LOGS_URL,
@@ -37,7 +63,7 @@ export const mockedWorkoutLogsPost = http.post(
 );
 
 export default [
-  mockedWorkoutLogGet,
   mockedWorkoutLogsGet,
+  mockedWorkoutLogsPatch,
   mockedWorkoutLogsPost,
 ];

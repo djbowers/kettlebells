@@ -24,7 +24,6 @@ const updateWorkoutLog = async (
     .from('workout_logs')
     .update({ rpe: selectedRpe })
     .eq('id', workoutLogId)
-    .select('rpe');
 
   if (error) {
     console.error(error);
