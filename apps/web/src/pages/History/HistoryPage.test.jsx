@@ -10,7 +10,7 @@ describe('workout history page', () => {
     render(<Normal />);
   });
 
-  test('renders name of task', async () => {
+  test('renders name of movement', async () => {
     await screen.findAllByText('Clean and Press', { exact: false });
   });
 

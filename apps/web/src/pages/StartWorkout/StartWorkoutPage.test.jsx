@@ -11,10 +11,10 @@ describe('start workout page', () => {
 
   const defaultOptions = {
     bells: [16, 0],
-    minutes: 20,
+    duration: 20,
+    movements: [''],
     notes: '',
-    reps: [5],
-    tasks: [''],
+    repScheme: [5],
   };
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('start workout page', () => {
     expect(onStart).toHaveBeenCalledTimes(1);
     expect(onStart).toHaveBeenCalledWith({
       ...defaultOptions,
-      tasks: ['Clean and Press'],
+      movements: ['Clean and Press'],
     });
   });
 
@@ -61,7 +61,7 @@ describe('start workout page', () => {
     expect(onStart).toHaveBeenCalledTimes(1);
     expect(onStart).toHaveBeenCalledWith({
       ...defaultOptions,
-      tasks: ['Clean and Press', 'Front Squat'],
+      movements: ['Clean and Press', 'Front Squat'],
     });
   });
 });

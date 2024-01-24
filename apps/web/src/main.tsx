@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { App } from './app/App';
 
@@ -21,7 +22,9 @@ if (rootElement !== null) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <App />
+      <QueryClientProvider client={new QueryClient()}>
+        <App />
+      </QueryClientProvider>
     </React.StrictMode>,
   );
 }

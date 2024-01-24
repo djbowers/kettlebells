@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { CompletedWorkoutPage } from './CompletedWorkoutPage';
@@ -11,6 +12,11 @@ export default {
           <Route path="/history/:id" element={<Story />} />
         </Routes>
       </MemoryRouter>
+    ),
+    (Story) => (
+      <QueryClientProvider client={new QueryClient()}>
+        <Story />
+      </QueryClientProvider>
     ),
   ],
 };

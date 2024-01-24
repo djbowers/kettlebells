@@ -1,49 +1,33 @@
-import { PostgrestError } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
-import { WorkoutLog } from '~/types';
+import { QUERIES, WorkoutLog } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
 export const useWorkoutLogs = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<PostgrestError | null>(null);
-  const [workoutLogs, setWorkoutLogs] = useState<WorkoutLog[]>([]);
+  return useQuery(QUERIES.WORKOUT_LOGS, fetchWorkoutLogs);
+};
 
-  useEffect(() => {
-    async function getWorkoutLogs() {
-      setLoading(true);
+const fetchWorkoutLogs = async (): Promise<WorkoutLog[]> => {
+  const { data: workoutLogs, error } = await supabase
+    .from('workout_logs')
+    .select(`*`);
 
-      const { data: workoutLogs, error } = await supabase
-        .from('workout_logs')
-        .select(`*`);
+  if (error) {
+    console.error(error);
+    throw error;
+  }
 
-      if (error) {
-        setError(error);
-        console.error(error);
-      } else if (workoutLogs) {
-        setWorkoutLogs(
-          workoutLogs.map((workoutLog) => {
-            return {
-              bells: workoutLog.bells,
-              completedReps: workoutLog.completed_reps,
-              completedRounds: workoutLog.completed_rounds,
-              date: new Date(workoutLog.started_at),
-              duration: workoutLog.minutes,
-              id: workoutLog.id,
-              notes: workoutLog.notes,
-              repScheme: workoutLog.reps,
-              tasks: workoutLog.tasks,
-            };
-          }),
-        );
-      }
-
-      setLoading(false);
-    }
-
-    getWorkoutLogs();
-  }, []);
-
-  return { data: workoutLogs, loading, error };
+  return workoutLogs.map((workoutLog) => ({
+    bells: workoutLog.bells,
+    completedReps: workoutLog.completed_reps,
+    completedRounds: workoutLog.completed_rounds,
+    date: new Date(workoutLog.started_at),
+    duration: workoutLog.minutes,
+    id: workoutLog.id,
+    notes: workoutLog.notes,
+    repScheme: workoutLog.rep_scheme,
+    movements: workoutLog.movements,
+    rpe: workoutLog.rpe,
+  }));
 };

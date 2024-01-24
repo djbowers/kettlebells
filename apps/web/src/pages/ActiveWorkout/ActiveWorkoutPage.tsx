@@ -17,7 +17,7 @@ interface Props {
 
 export const ActiveWorkout = ({
   startedAt = new Date(),
-  workoutOptions: { tasks, reps, notes, minutes, bells },
+  workoutOptions: { movements, repScheme, notes, duration, bells },
 }: Props) => {
   const { isSupported, release, released, request } = useWakeLock();
   const locked = released === false;
@@ -43,25 +43,25 @@ export const ActiveWorkout = ({
 
   const { user } = useSession();
 
-  const [timeRemaining, { seconds, togglePause, paused }] = useTimer(minutes);
+  const [timeRemaining, { seconds, togglePause, paused }] = useTimer(duration);
 
-  const [currentTaskIndex, setCurrentTaskIndex] = useState<number>(0);
+  const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
   const [isMirrorRung, setMirrorRung] = useState<boolean>(false);
   const [effect, setEffect] = useState(false);
 
   // Overview
-  const totalSeconds = minutes * 60;
+  const totalSeconds = duration * 60;
   const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
 
-  // Tasks
-  const tasksPerRung = tasks.length;
-  const finalTaskIndex = tasksPerRung - 1;
-  const isFinalTask = currentTaskIndex === finalTaskIndex;
-  const nextTaskIndex = isFinalTask ? 0 : currentTaskIndex + 1;
-  const currentTask = tasks[currentTaskIndex];
-  const nextTask = tasks[nextTaskIndex];
+  // Movements
+  const movementsPerRung = movements.length;
+  const finalMovementIndex = movementsPerRung - 1;
+  const isFinalMovement = currentMovementIndex === finalMovementIndex;
+  const nextMovementIndex = isFinalMovement ? 0 : currentMovementIndex + 1;
+  const currentMovement = movements[currentMovementIndex];
+  const nextMovement = movements[nextMovementIndex];
 
   // Bells
   const primaryBell = bells[0];
@@ -76,7 +76,7 @@ export const ActiveWorkout = ({
   const workoutVolume = completedReps * totalWeight;
 
   // Rungs
-  const rungsPerRound = reps.length;
+  const rungsPerRound = repScheme.length;
   const rungIndex = completedRungs % rungsPerRound;
   // const currentRung = rungIndex + 1;
 
@@ -96,18 +96,18 @@ export const ActiveWorkout = ({
   }, [primaryBellSide, singleBell]);
 
   const handleIncrementRungs = () => {
-    if (isFinalTask) {
-      setCurrentTaskIndex(0);
+    if (isFinalMovement) {
+      setCurrentMovementIndex(0);
       setCompletedRungs((prev) => prev + 1);
     } else {
-      setCurrentTaskIndex((prev) => prev + 1);
+      setCurrentMovementIndex((prev) => prev + 1);
     }
   };
 
   const handleClickPlus = () => {
     setEffect(true);
     handleRequestWakeLock();
-    setCompletedReps((prev) => prev + reps[rungIndex]); // always increment reps
+    setCompletedReps((prev) => prev + repScheme[rungIndex]); // always increment reps
 
     if (rungsMirrored) {
       if (isMirrorRung) {
@@ -127,16 +127,16 @@ export const ActiveWorkout = ({
     const { error, data: workoutLogs } = await supabase
       .from('workout_logs')
       .insert({
+        bells,
+        completed_reps: completedReps,
+        completed_rounds: completedRounds,
+        completed_rungs: completedRungs,
+        minutes: duration,
+        movements,
+        notes,
+        rep_scheme: repScheme,
         started_at: startedAt.toISOString(),
         user_id: user.id,
-        tasks,
-        notes,
-        minutes,
-        reps,
-        completed_rounds: completedRounds,
-        completed_reps: completedReps,
-        completed_rungs: completedRungs,
-        bells,
       })
       .select('id');
 
@@ -156,14 +156,14 @@ export const ActiveWorkout = ({
 
       <CurrentMovement
         currentRound={currentRound}
-        currentTask={currentTask}
-        nextTask={nextTask}
+        currentMovement={currentMovement}
+        nextMovement={nextMovement}
       />
 
       <CurrentRound
         rightBell={rightBell}
         leftBell={leftBell}
-        reps={reps}
+        repScheme={repScheme}
         rungIndex={rungIndex}
       />
 
@@ -228,13 +228,13 @@ const Progress = ({
 };
 
 export const CurrentMovement = ({
+  currentMovement,
   currentRound,
-  currentTask,
-  nextTask,
+  nextMovement,
 }: {
+  currentMovement: string;
   currentRound: number;
-  currentTask: string;
-  nextTask: string;
+  nextMovement: string;
 }) => {
   return (
     <div className="text-default flex gap-2 rounded-xl border px-2 py-3">
@@ -250,12 +250,14 @@ export const CurrentMovement = ({
         </div>
       </div>
       <div className="flex grow flex-col justify-center gap-1">
-        <div className="text-default text-2xl font-semibold">{currentTask}</div>
-        {nextTask !== currentTask && (
+        <div className="text-default text-2xl font-semibold">
+          {currentMovement}
+        </div>
+        {nextMovement !== currentMovement && (
           <>
             <hr className="border-default" />
             <div className="text-default text-base font-medium">
-              Up Next: {nextTask}
+              Up Next: {nextMovement}
             </div>
           </>
         )}
@@ -266,13 +268,13 @@ export const CurrentMovement = ({
 
 const CurrentRound = ({
   leftBell,
+  repScheme,
   rightBell,
-  reps,
   rungIndex,
 }: {
   leftBell: number | null;
+  repScheme: number[];
   rightBell: number | null;
-  reps: number[];
   rungIndex: number;
 }) => {
   return (
@@ -298,7 +300,7 @@ const CurrentRound = ({
           className="flex h-full items-center justify-center py-1 text-6xl"
           data-testid="current-reps"
         >
-          {reps[rungIndex]}
+          {repScheme[rungIndex]}
         </div>
 
         {rightBell ? (

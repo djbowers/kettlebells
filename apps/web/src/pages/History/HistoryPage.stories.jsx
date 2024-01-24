@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { HistoryPage } from './HistoryPage';
@@ -9,6 +10,11 @@ export default {
       <MemoryRouter>
         <Story />
       </MemoryRouter>
+    ),
+    (Story) => (
+      <QueryClientProvider client={new QueryClient()}>
+        <Story />
+      </QueryClientProvider>
     ),
   ],
 };

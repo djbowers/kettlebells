@@ -10,7 +10,7 @@
     "start:web": "npm run dev -w apps/web",
     "start:server": "supabase start",
     "prettier": "prettier --write .",
-    "diff-db": "echo 'Filename?' && read filename && npx supabase db diff -f $filename",
+    "diff-db": "echo 'Migration Name?' && read filename && npx supabase db diff -f $filename",
     "test:web": "npm run test -w apps/web"
   },
   "devDependencies": {
@@ -19,5 +19,14 @@
     "prettier": "^3.0.2",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "apps/web/public"
+    ]
   }
 }

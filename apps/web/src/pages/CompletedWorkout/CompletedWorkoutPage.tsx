@@ -1,17 +1,21 @@
 import { DateTime } from 'luxon';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useWorkoutLog } from '~/api';
+import { useSelectRPE, useWorkoutLog } from '~/api';
 import { Button, Loading, Page } from '~/components';
+import { WorkoutLog } from '~/types';
+
+import { RPESelector } from './components';
 
 export const CompletedWorkoutPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
 
-  const { data: completedWorkout, loading } = useWorkoutLog(id);
+  const { data: completedWorkout, isLoading } = useWorkoutLog(id);
+  const { mutate: selectRPE } = useSelectRPE(id);
 
-  if (loading) return <Loading />;
+  if (isLoading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
 
   const displayDate = getDisplayDate(completedWorkout.date.toISOString());
@@ -42,6 +46,10 @@ export const CompletedWorkoutPage = () => {
     navigate('/history');
   };
 
+  const handleSelectRPE = (selectedRPE: WorkoutLog['rpe']) => {
+    selectRPE(selectedRPE);
+  };
+
   return (
     <Page>
       <div className="mt-5 flex flex-col gap-5">
@@ -62,7 +70,7 @@ export const CompletedWorkoutPage = () => {
           <div className="flex flex-col gap-0.5">
             <div className="text-subdued uppercase">Movements</div>
 
-            {completedWorkout.tasks.map((movement) => {
+            {completedWorkout.movements.map((movement) => {
               return <div key={movement}>{movement}</div>;
             })}
           </div>
@@ -78,11 +86,12 @@ export const CompletedWorkoutPage = () => {
           </div>
         </div>
 
-        <Button
-          className="mt-5 w-full"
-          size="large"
-          onClick={handleClickContinue}
-        >
+        <RPESelector
+          rpeValue={completedWorkout.rpe}
+          onSelectRPE={handleSelectRPE}
+        />
+
+        <Button className="w-full" size="large" onClick={handleClickContinue}>
           Continue
         </Button>
       </div>
