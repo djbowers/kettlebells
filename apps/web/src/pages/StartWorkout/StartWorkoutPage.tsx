@@ -21,7 +21,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   const [duration, setMinutes] = useState<number>(20);
   const [movements, setMovements] = useState<string[]>(['']);
   const [notes, setNotes] = useState<string>('');
-  const [rep_scheme, setRepScheme] = useState<number[]>([5]);
+  const [repScheme, setRepScheme] = useState<number[]>([5]);
 
   const [showNotes, setShowNotes] = useState<boolean>(false);
 
@@ -75,7 +75,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     });
   };
   const handleClickMinusRung: MouseEventHandler<HTMLButtonElement> = () => {
-    if (rep_scheme.length > 1)
+    if (repScheme.length > 1)
       setRepScheme((prev) => {
         const rungs = [...prev];
         rungs.pop();
@@ -99,7 +99,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       duration,
       movements,
       notes,
-      repScheme: rep_scheme,
+      repScheme,
     };
     onStart?.(workoutOptions);
   };
@@ -193,17 +193,17 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         title="Round"
         actions={
           <PlusMinusButtons
-            count={rep_scheme.length}
+            count={repScheme.length}
             label="Rung"
             onClickMinus={handleClickMinusRung}
             onClickPlus={handleClickPlusRung}
           />
         }
       >
-        {rep_scheme.map((_, index) => (
+        {repScheme.map((_, index) => (
           <RepSchemePicker
             key={index}
-            value={rep_scheme}
+            value={repScheme}
             onChange={setRepScheme}
             index={index}
           />
