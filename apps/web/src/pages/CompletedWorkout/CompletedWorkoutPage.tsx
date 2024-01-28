@@ -5,7 +5,7 @@ import { useSelectRPE, useWorkoutLog } from '~/api';
 import { Button, Loading, Page } from '~/components';
 import { WorkoutLog } from '~/types';
 
-import { RPESelector } from './components';
+import { RPESelector, WorkoutHistoryItem } from './components';
 
 export const CompletedWorkoutPage = () => {
   const { id = '' } = useParams<{ id: string }>();
@@ -17,30 +17,6 @@ export const CompletedWorkoutPage = () => {
 
   if (isLoading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
-
-  const displayDate = getDisplayDate(completedWorkout.date.toISOString());
-
-  const workoutVolume =
-    completedWorkout.completedReps *
-    completedWorkout.bells.reduce((total, bell) => total + bell, 0);
-
-  const repSchemeDisplayValue = completedWorkout.repScheme.reduce(
-    (repScheme, rung) => {
-      const unilateral = completedWorkout.bells[1] === 0;
-      const rungDisplayValue = unilateral ? `${rung}/${rung}` : rung.toString();
-      if (repScheme === '') return rungDisplayValue;
-      return repScheme + ', ' + rungDisplayValue;
-    },
-    '',
-  );
-
-  const bellsDisplayValue = completedWorkout.bells.reduce(
-    (bellWeights, bell) => {
-      if (bellWeights === '') return bell.toString();
-      return bellWeights + ', ' + bell;
-    },
-    '',
-  );
 
   const handleClickContinue = () => {
     navigate('/history');
@@ -58,37 +34,13 @@ export const CompletedWorkoutPage = () => {
           <div>Well Done!</div>
         </div>
 
-        <div className="flex flex-col gap-1 rounded-2xl border p-2">
-          <div>{displayDate}</div>
-
-          <div className="flex justify-between">
-            <div>⏱️ {completedWorkout.duration} min</div>
-            <div>🔂 {repSchemeDisplayValue} reps</div>
-            <div>🏋️ {bellsDisplayValue} kg</div>
-          </div>
-
-          <div className="flex flex-col gap-0.5">
-            <div className="text-subdued uppercase">Movements</div>
-
-            {completedWorkout.movements.map((movement) => {
-              return <div key={movement}>{movement}</div>;
-            })}
-          </div>
-
-          <div className="flex flex-col gap-0.5">
-            <div className="text-subdued uppercase">Completed</div>
-
-            <div className="flex justify-between">
-              <div>🔁 {completedWorkout.completedRounds} rounds</div>
-              <div>💪 {completedWorkout.completedReps} reps</div>
-              <div>🏆 {workoutVolume} kg</div>
-            </div>
-          </div>
-        </div>
+        <WorkoutHistoryItem completedWorkout={completedWorkout} />
 
         <RPESelector
-          rpeValue={completedWorkout.rpe}
+          bellWeights={completedWorkout.bells}
           onSelectRPE={handleSelectRPE}
+          repScheme={completedWorkout.repScheme}
+          rpeValue={completedWorkout.rpe}
         />
 
         <Button className="w-full" size="large" onClick={handleClickContinue}>
