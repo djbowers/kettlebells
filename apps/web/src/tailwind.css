@@ -54,4 +54,17 @@
   .text-action {
     @apply text-indigo-800 dark:text-indigo-400;
   }
+
+  /* Ring Offset Colors */
+  .ring-offset-layout {
+    @apply ring-offset-white dark:ring-offset-black;
+  }
+
+  .ring-offset-layout-darker {
+    @apply ring-offset-gray-100 dark:ring-offset-gray-900;
+  }
+
+  .ring-offset-layout-darkest {
+    @apply ring-offset-gray-300 dark:ring-offset-gray-700;
+  }
 }

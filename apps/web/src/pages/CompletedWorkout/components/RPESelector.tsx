@@ -82,7 +82,7 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
               'h-2.5 w-2.5 rounded-full',
               RPE_CONFIG[rpeValue].bgColor,
               RPE_CONFIG[rpeValue].ringColor,
-              'ring-offset-4 ring-offset-white dark:ring-offset-black',
+              'ring-offset-layout-darker ring-offset-4',
               { ring: checked },
             )}
           />

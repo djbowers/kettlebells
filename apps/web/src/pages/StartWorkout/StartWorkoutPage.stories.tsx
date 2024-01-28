@@ -1,11 +1,12 @@
+import { Meta } from '@storybook/react';
+
 import { StartWorkoutPage } from './StartWorkoutPage';
 
 export default {
   component: StartWorkoutPage,
-};
-
-export const Normal = {
   args: {
     onStart: console.log,
   },
-};
+} as Meta;
+
+export const Default = {};
