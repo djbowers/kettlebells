@@ -28,9 +28,9 @@ export const RPESelector = ({
     <RadioGroup
       value={rpeValue}
       onChange={onSelectRPE}
-      className="flex flex-col gap-2 text-center"
+      className="bg-layout-darker flex flex-col gap-2 rounded-2xl p-2 text-center"
     >
-      <RadioGroup.Label className="text-subdued text-sm font-medium uppercase">
+      <RadioGroup.Label className="text-default text-base font-medium uppercase">
         Exertion Rating
       </RadioGroup.Label>
 
@@ -51,7 +51,7 @@ export const RPESelector = ({
               {RPE_CONFIG[rpeValue].text}
             </div>
 
-            <div className="text-default text-sm font-medium">
+            <div className="text-default text-sm">
               {RPE_CONFIG[rpeValue].description}
             </div>
           </>

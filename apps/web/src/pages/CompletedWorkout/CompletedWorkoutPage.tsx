@@ -28,7 +28,7 @@ export const CompletedWorkoutPage = () => {
 
   return (
     <Page>
-      <div className="mt-5 flex flex-col gap-5">
+      <div className="flex flex-col gap-2">
         <div className="text-center">
           <div>⭐️</div>
           <div>Well Done!</div>
