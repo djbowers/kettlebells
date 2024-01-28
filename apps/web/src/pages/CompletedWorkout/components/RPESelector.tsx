@@ -3,12 +3,27 @@ import clsx from 'clsx';
 
 import { WorkoutLog } from '~/types';
 
+import { getBellWeightsDisplayValue, getRepSchemeDisplayValue } from '../utils';
+
 export interface RPESelectorProps {
+  bellWeights: WorkoutLog['bells'];
   onSelectRPE: (selectedRPE: WorkoutLog['rpe']) => void;
+  repScheme: WorkoutLog['repScheme'];
   rpeValue: WorkoutLog['rpe'];
 }
 
-export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
+export const RPESelector = ({
+  bellWeights,
+  onSelectRPE,
+  repScheme,
+  rpeValue,
+}: RPESelectorProps) => {
+  const bellWeightsDisplayValue = getBellWeightsDisplayValue(bellWeights);
+  const repSchemeDisplayValue = getRepSchemeDisplayValue(
+    repScheme,
+    bellWeights,
+  );
+
   return (
     <RadioGroup
       value={rpeValue}
@@ -20,8 +35,9 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
       </RadioGroup.Label>
 
       <RadioGroup.Description as="div">
-        <div className="text-sm font-medium">
-          How difficult was moving 2525 kg in 21 min?
+        <div className="text-default text-sm font-medium">
+          How difficult was moving {bellWeightsDisplayValue} kg for{' '}
+          {repSchemeDisplayValue} reps?
         </div>
 
         {rpeValue && (
@@ -35,7 +51,7 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
               {RPE_CONFIG[rpeValue].text}
             </div>
 
-            <div className="text-sm font-medium">
+            <div className="text-default text-sm font-medium">
               {RPE_CONFIG[rpeValue].description}
             </div>
           </>
@@ -63,12 +79,11 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
         <>
           <div
             className={clsx(
-              'h-3 w-3 rounded-full',
+              'h-2.5 w-2.5 rounded-full',
               RPE_CONFIG[rpeValue].bgColor,
-              {
-                'ring ring-offset-2': checked,
-                [RPE_CONFIG[rpeValue].ringColor]: checked,
-              },
+              RPE_CONFIG[rpeValue].ringColor,
+              'ring-offset-4 ring-offset-white dark:ring-offset-black',
+              { ring: checked },
             )}
           />
           <div

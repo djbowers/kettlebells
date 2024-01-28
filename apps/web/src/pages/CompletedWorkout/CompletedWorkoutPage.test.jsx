@@ -1,9 +1,6 @@
 import { composeStories } from '@storybook/react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import { workoutLogs } from '~/mocks/data';
-
-import { getDisplayDate } from './CompletedWorkoutPage';
 import * as stories from './CompletedWorkoutPage.stories';
 
 const { Normal } = composeStories(stories);
@@ -13,9 +10,8 @@ describe('completed workout page', () => {
     render(<Normal />);
   });
 
-  test('displays the date of the workout', async () => {
-    const date = getDisplayDate(workoutLogs[0].started_at);
-    await screen.findByText(date);
+  test('renders the completed workout history item', async () => {
+    await screen.findByTestId('workout-history-item');
   });
 
   test('clicking on an RPE value updates the selected value', async () => {
