@@ -12,7 +12,7 @@ export const getRepSchemeDisplayValue = (
   bellWeights: WorkoutLog['bells'],
 ) =>
   repScheme.reduce((reps, rung) => {
-    const unilateral = bellWeights[1] === 0;
+    const unilateral = bellWeights[0] > 0 && bellWeights[1] === 0;
     const rungDisplayValue = unilateral ? `${rung} / ${rung}` : rung.toString();
     if (reps === '') return rungDisplayValue;
     return reps + ', ' + rungDisplayValue;

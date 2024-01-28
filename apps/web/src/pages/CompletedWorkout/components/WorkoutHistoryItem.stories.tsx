@@ -25,3 +25,20 @@ export const Default = {
     },
   } as WorkoutHistoryItemProps,
 };
+
+export const Bodyweight = {
+  args: {
+    completedWorkout: {
+      bells: [0, 0],
+      completedReps: 50,
+      completedRounds: 10,
+      date: new Date(),
+      duration: 10,
+      id: 456,
+      movements: ['Pull-Ups'],
+      notes: '',
+      repScheme: [5],
+      rpe: 'ideal',
+    },
+  } as WorkoutHistoryItemProps,
+};

@@ -22,11 +22,10 @@ export const WorkoutHistoryItem = ({
 
   const displayDate = getDisplayDate(date.toISOString());
 
-  const workoutVolume =
-    completedReps * bells.reduce((total, bell) => total + bell, 0);
+  const workoutLoad = bells.reduce((total, bell) => total + bell, 0);
+  const workoutVolume = completedReps * workoutLoad;
 
   const repSchemeDisplayValue = getRepSchemeDisplayValue(repScheme, bells);
-
   const bellsDisplayValue = getBellWeightsDisplayValue(bells);
 
   return (
@@ -38,8 +37,8 @@ export const WorkoutHistoryItem = ({
 
       <div className="flex justify-between">
         <div>⏱️ {duration} min</div>
+        {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
         <div>🔂 {repSchemeDisplayValue} reps</div>
-        <div>🏋️ {bellsDisplayValue} kg</div>
       </div>
 
       <div className="flex flex-col gap-0.5">
@@ -55,8 +54,8 @@ export const WorkoutHistoryItem = ({
 
         <div className="flex justify-between">
           <div>🔁 {completedRounds} rounds</div>
+          {workoutVolume > 0 && <div>🏆 {workoutVolume} kg</div>}
           <div>💪 {completedReps} reps</div>
-          <div>🏆 {workoutVolume} kg</div>
         </div>
       </div>
     </div>
