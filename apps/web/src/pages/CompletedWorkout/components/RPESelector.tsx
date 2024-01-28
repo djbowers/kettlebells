@@ -18,11 +18,16 @@ export const RPESelector = ({
   repScheme,
   rpeValue,
 }: RPESelectorProps) => {
+  const workoutLoad = bellWeights.reduce((total, bell) => total + bell, 0);
+
   const bellWeightsDisplayValue = getBellWeightsDisplayValue(bellWeights);
   const repSchemeDisplayValue = getRepSchemeDisplayValue(
     repScheme,
     bellWeights,
   );
+
+  const displayText =
+    workoutLoad > 0 ? `${bellWeightsDisplayValue} kg` : 'your bodyweight';
 
   return (
     <RadioGroup
@@ -36,8 +41,8 @@ export const RPESelector = ({
 
       <RadioGroup.Description as="div">
         <div className="text-default text-sm font-medium">
-          How difficult was moving {bellWeightsDisplayValue} kg for{' '}
-          {repSchemeDisplayValue} reps?
+          How difficult was moving {displayText} for {repSchemeDisplayValue}{' '}
+          reps?
         </div>
 
         {rpeValue && (
@@ -82,7 +87,7 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
               'h-2.5 w-2.5 rounded-full',
               RPE_CONFIG[rpeValue].bgColor,
               RPE_CONFIG[rpeValue].ringColor,
-              'ring-offset-4 ring-offset-white dark:ring-offset-black',
+              'ring-offset-layout-darker ring-offset-4',
               { ring: checked },
             )}
           />

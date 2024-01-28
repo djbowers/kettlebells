@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import * as stories from './StartWorkoutPage.stories';
 
-const { Normal } = composeStories(stories);
+const { Default } = composeStories(stories);
 
 describe('start workout page', () => {
   let onStart;
@@ -19,7 +19,7 @@ describe('start workout page', () => {
 
   beforeEach(() => {
     onStart = vi.fn();
-    render(<Normal onStart={onStart} />);
+    render(<Default onStart={onStart} />);
   });
 
   test('start button is disabled by default', () => {
@@ -44,7 +44,7 @@ describe('start workout page', () => {
 
   test('can enter multiple movements', async () => {
     const addMovementButton = screen.getByRole('button', {
-      name: '+ Additional Movement',
+      name: '+ Add Movement',
     });
     await userEvent.click(addMovementButton);
 
@@ -62,6 +62,31 @@ describe('start workout page', () => {
     expect(onStart).toHaveBeenCalledWith({
       ...defaultOptions,
       movements: ['Clean and Press', 'Front Squat'],
+    });
+  });
+
+  test('can create bodyweight only workouts', async () => {
+    const movementInput = screen.getByLabelText('Movement Input');
+    await userEvent.type(movementInput, 'Pull-Ups');
+
+    expect(screen.getAllByLabelText('Bell Input')).toHaveLength(1);
+
+    const bodyweightOnlyButton = screen.getByRole('button', {
+      name: 'Bodyweight Only',
+    });
+    await userEvent.click(bodyweightOnlyButton);
+
+    expect(screen.queryAllByLabelText('Bell Input')).toHaveLength(0);
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    expect(startButton).toBeEnabled();
+    await userEvent.click(startButton);
+
+    expect(onStart).toHaveBeenCalledTimes(1);
+    expect(onStart).toHaveBeenCalledWith({
+      ...defaultOptions,
+      movements: ['Pull-Ups'],
+      bells: [0, 0],
     });
   });
 });

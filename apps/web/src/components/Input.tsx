@@ -5,25 +5,25 @@ import {
   InputHTMLAttributes,
 } from 'react';
 
-interface Props {
+export interface InputProps {
+  className?: string;
   id?: string;
   label?: string;
-  value: InputHTMLAttributes<HTMLInputElement>['value'] | null;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   type?: HTMLInputTypeAttribute;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  className?: string;
+  value: InputHTMLAttributes<HTMLInputElement>['value'] | null;
   [key: string]: any;
 }
 
 export const Input = ({
+  className,
   id,
   label,
-  value,
-  onChange = () => {},
+  onChange,
   type = 'text',
-  className,
+  value,
   ...props
-}: Props) => {
+}: InputProps) => {
   return (
     <>
       {label && (

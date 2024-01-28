@@ -1,15 +1,15 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import {
-  ChangeEventHandler,
-  Dispatch,
-  MouseEventHandler,
-  ReactNode,
-  SetStateAction,
-  useState,
-} from 'react';
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 
-import { Button, IconButton, Input, Page } from '~/components';
+import {
+  Button,
+  ButtonProps,
+  IconButton,
+  Input,
+  InputProps,
+  Page,
+} from '~/components';
 import { WorkoutOptions } from '~/types';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
-  const [bells, setBells] = useState<[number, number]>([16, 0]);
+  const [bells, setBells] = useState<[number, number]>([DEFAULT_WEIGHT, 0]);
   const [duration, setMinutes] = useState<number>(20);
   const [movements, setMovements] = useState<string[]>(['']);
   const [notes, setNotes] = useState<string>('');
@@ -25,9 +25,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
   const [showNotes, setShowNotes] = useState<boolean>(false);
 
-  const handleClickRemoveMovement: MouseEventHandler<
-    HTMLButtonElement
-  > = () => {
+  const handleClickRemoveMovement: ButtonProps['onClick'] = () => {
     if (movements.length > 1)
       setMovements((prev) => {
         const movements = [...prev];
@@ -35,46 +33,40 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         return movements;
       });
   };
-  const handleClickAddMovement: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClickAddMovement: ButtonProps['onClick'] = () => {
     setMovements((prev) => [...prev, '']);
   };
-  const handleIncrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleIncrementTimer: ButtonProps['onClick'] = () => {
     setMinutes((prev) => (prev += 5));
   };
-  const handleDecrementTimer: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleDecrementTimer: ButtonProps['onClick'] = () => {
     setMinutes((prev) => {
       if (prev <= 1) return prev;
       else return (prev -= 5);
     });
   };
-  const handleChangePrimaryBell: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
-    const newWeight = Number(value);
-    setBells((prev) => {
-      if (prev[1] > 0) return [newWeight, prev[1]];
-      return [newWeight, 0];
-    });
+  const handleChangePrimaryBell: InputProps['onChange'] = (e) => {
+    setBells((prev) => [Number(e.target.value), prev[1]]);
   };
-  const handleChangeSecondBell: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
-    const newWeight = Number(value);
-    setBells((prev) => {
-      if (newWeight > 0) return [prev[0], newWeight];
-      return [prev[0], 0];
-    });
+  const handleChangeSecondBell: InputProps['onChange'] = (e) => {
+    setBells((prev) => [prev[0], Number(e.target.value)]);
   };
-  const handleClickAddBell: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClickAddBell: ButtonProps['onClick'] = () => {
     setBells((prev) => {
       const primaryBell = prev[0];
-      return [primaryBell, primaryBell];
+      if (primaryBell === 0) return [DEFAULT_WEIGHT, 0];
+      else return [primaryBell, primaryBell];
     });
   };
-  const handleClickRemoveBell: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClickRemoveBell: ButtonProps['onClick'] = () => {
     setBells((prev) => {
       return [prev[0], 0];
     });
   };
-  const handleClickMinusRung: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClickBodyweightOnly: ButtonProps['onClick'] = () => {
+    setBells([0, 0]);
+  };
+  const handleClickMinusRung: ButtonProps['onClick'] = () => {
     if (repScheme.length > 1)
       setRepScheme((prev) => {
         const rungs = [...prev];
@@ -82,14 +74,14 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         return rungs;
       });
   };
-  const handleClickPlusRung: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClickPlusRung: ButtonProps['onClick'] = () => {
     setRepScheme((prev) => {
       const last = prev[prev.length - 1];
       const rungs = [...prev, last];
       return rungs;
     });
   };
-  const handleChangeNotes: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChangeNotes: InputProps['onChange'] = (e) => {
     setNotes(e.target.value);
   };
 
@@ -107,7 +99,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   const primaryBell = bells[0];
   const secondBell = bells[1];
 
-  const startDisabled = movements[0] === '' || primaryBell === 0;
+  const startDisabled = movements[0] === '';
 
   return (
     <Page>
@@ -138,21 +130,25 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       <Section title="Bell(s) (kg)">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1">
-            <Input
-              label={secondBell ? 'L' : undefined}
-              className="w-[100px]"
-              onChange={handleChangePrimaryBell}
-              type="number"
-              value={primaryBell}
-            />
+            {primaryBell > 0 && (
+              <Input
+                aria-label="Bell Input"
+                label={secondBell ? 'L' : undefined}
+                min={0}
+                onChange={handleChangePrimaryBell}
+                type="number"
+                value={primaryBell}
+              />
+            )}
           </div>
 
-          {secondBell && (
+          {secondBell > 0 && (
             <div className="flex items-center gap-1">
               <Input
-                label="R"
-                className="w-[100px]"
+                aria-label="Bell Input"
                 disabled={!primaryBell}
+                label="R"
+                min={0}
                 onChange={handleChangeSecondBell}
                 type="number"
                 value={secondBell}
@@ -160,13 +156,21 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             </div>
           )}
 
-          <PlusMinusButtons
-            count={secondBell > 0 ? 2 : 1}
-            label="Bell"
-            limit={2}
-            onClickMinus={handleClickRemoveBell}
-            onClickPlus={handleClickAddBell}
-          />
+          <div className="flex items-center gap-1">
+            {primaryBell > 0 && secondBell === 0 && (
+              <Button kind="outline" onClick={handleClickBodyweightOnly}>
+                Bodyweight Only
+              </Button>
+            )}
+
+            <PlusMinusButtons
+              count={secondBell > 0 ? 2 : 1}
+              label="Bell"
+              limit={2}
+              onClickMinus={handleClickRemoveBell}
+              onClickPlus={handleClickAddBell}
+            />
+          </div>
         </div>
       </Section>
 
@@ -257,7 +261,7 @@ const MovementInput = ({
   value: string;
   index: number;
 }) => {
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChange: InputProps['onChange'] = (e) => {
     onChange((prev) => {
       const movements = [...prev];
       movements[index] = e.target.value;
@@ -285,14 +289,14 @@ const RepSchemePicker = ({
   value: number[];
   index: number;
 }) => {
-  const handleIncrementReps: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleIncrementReps: ButtonProps['onClick'] = () => {
     onChange((prev) => {
       const reps = [...prev];
       reps[index] += 1;
       return reps;
     });
   };
-  const handleDecrementReps: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleDecrementReps: ButtonProps['onClick'] = () => {
     onChange((prev) => {
       const reps = [...prev];
       if (reps[index] <= 1) return reps;
@@ -359,8 +363,8 @@ const PlusMinusButtons = ({
   count: number;
   label: string;
   limit?: number;
-  onClickMinus: MouseEventHandler<HTMLButtonElement>;
-  onClickPlus: MouseEventHandler<HTMLButtonElement>;
+  onClickMinus: ButtonProps['onClick'];
+  onClickPlus: ButtonProps['onClick'];
 }) => {
   return (
     <div className="flex items-center gap-2">
@@ -371,9 +375,11 @@ const PlusMinusButtons = ({
       )}
       {count < limit && (
         <Button kind="outline" onClick={onClickPlus}>
-          + {count === 1 && 'Additional'} {label}
+          + {count === 1 && 'Add'} {label}
         </Button>
       )}
     </div>
   );
 };
+
+const DEFAULT_WEIGHT = 16;

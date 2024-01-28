@@ -1,27 +1,29 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
 import { Loading } from './Loading';
 
-interface Props {
-  leftIcon?: ReactNode;
+export interface ButtonProps {
   children: ReactNode;
   className?: string;
   kind?: 'primary' | 'outline';
-  size?: 'default' | 'large';
+  leftIcon?: ReactNode;
   loading?: boolean;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  size?: 'default' | 'large';
   [key: string]: any;
 }
 
 export const Button = ({
-  leftIcon = null,
   children,
   className,
   kind = 'primary',
-  size = 'default',
+  leftIcon = null,
   loading = false,
+  onClick,
+  size = 'default',
   ...props
-}: Props) => {
+}: ButtonProps) => {
   const disabled = props.disabled || loading;
 
   const classes = clsx(
@@ -46,7 +48,12 @@ export const Button = ({
   );
 
   return (
-    <button className={classes} disabled={disabled} {...props}>
+    <button
+      className={classes}
+      disabled={disabled}
+      onClick={onClick}
+      {...props}
+    >
       {leftIcon && <div className="mr-1">{leftIcon}</div>}
       {loading ? <Loading /> : children}
     </button>

@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
 import { Loading, Page } from '~/components';
+import { WorkoutLog } from '~/types';
 
 export const HistoryPage = () => {
   const { data: workoutLogs, isLoading } = useWorkoutLogs();
-
-  const navigate = useNavigate();
 
   if (isLoading) return <Loading />;
 
@@ -22,41 +21,45 @@ export const HistoryPage = () => {
         </div>
         {workoutLogs
           ?.sort((a, b) => b.date.getTime() - a.date.getTime())
-          .map((workoutLog) => {
-            const formattedWorkoutDate = DateTime.fromJSDate(
-              workoutLog.date,
-            ).toFormat('MM-d ccc');
-
-            const totalWeight = workoutLog.bells.reduce(
-              (total, bell) => total + bell,
-              0,
-            );
-            const workoutVolume = workoutLog.completedReps * totalWeight;
-
-            const handleClick = () => {
-              navigate('/history/' + workoutLog.id);
-            };
-
-            return (
-              <div
-                key={workoutLog.id}
-                className="hover:bg-layout-darker grid grid-cols-4 rounded-xl px-2 py-1 hover:cursor-pointer"
-                onClick={handleClick}
-              >
-                <div>{formattedWorkoutDate}</div>
-                <div className="col-span-2">
-                  {workoutLog.movements.map((movement, i) => (
-                    <div key={i}>{movement}</div>
-                  ))}
-                  {workoutLog.notes && (
-                    <div className="text-subdued">{workoutLog.notes}</div>
-                  )}
-                </div>
-                <div className="text-right">{workoutVolume.toFixed(0)} kg</div>
-              </div>
-            );
-          })}
+          .map((workoutLog) => <WorkoutHistoryItem workoutLog={workoutLog} />)}
       </div>
     </Page>
+  );
+};
+
+const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/history/' + workoutLog.id);
+  };
+
+  const formattedWorkoutDate = DateTime.fromJSDate(workoutLog.date).toFormat(
+    'MM-d ccc',
+  );
+  const totalWeight = workoutLog.bells.reduce((total, bell) => total + bell, 0);
+  const workoutVolume = workoutLog.completedReps * totalWeight;
+  const displayText =
+    workoutVolume > 0
+      ? `${workoutVolume.toFixed(0)} kg`
+      : `${workoutLog.completedReps} reps`;
+
+  return (
+    <div
+      key={workoutLog.id}
+      className="hover:bg-layout-darker grid grid-cols-4 rounded-xl px-2 py-1 hover:cursor-pointer"
+      onClick={handleClick}
+    >
+      <div>{formattedWorkoutDate}</div>
+      <div className="col-span-2">
+        {workoutLog.movements.map((movement, i) => (
+          <div key={i}>{movement}</div>
+        ))}
+        {workoutLog.notes && (
+          <div className="text-subdued">{workoutLog.notes}</div>
+        )}
+      </div>
+      <div className="text-right">{displayText}</div>
+    </div>
   );
 };
