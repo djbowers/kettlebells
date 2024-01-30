@@ -65,6 +65,33 @@ describe('start workout page', () => {
     });
   });
 
+  test('can change the weights of the bells', async () => {
+    const addBellButton = screen.getByRole('button', {
+      name: '+ Add Bell',
+    });
+    await userEvent.click(addBellButton);
+
+    const bellInputs = screen.getAllByLabelText('Bell Input');
+    await userEvent.clear(bellInputs[0]);
+    await userEvent.type(bellInputs[0], '20');
+    await userEvent.clear(bellInputs[1]);
+    await userEvent.type(bellInputs[1], '24');
+
+    const movementInput = screen.getByLabelText('Movement Input');
+    await userEvent.type(movementInput, 'Clean and Press');
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    expect(startButton).toBeEnabled();
+    await userEvent.click(startButton);
+
+    expect(onStart).toHaveBeenCalledTimes(1);
+    expect(onStart).toHaveBeenCalledWith({
+      ...defaultOptions,
+      bells: [20, 24],
+      movements: ['Clean and Press'],
+    });
+  });
+
   test('can create bodyweight only workouts', async () => {
     const movementInput = screen.getByLabelText('Movement Input');
     await userEvent.type(movementInput, 'Pull-Ups');

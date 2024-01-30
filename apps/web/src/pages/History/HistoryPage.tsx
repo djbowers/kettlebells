@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
@@ -8,7 +9,11 @@ import { WorkoutLog } from '~/types';
 export const HistoryPage = () => {
   const { data: workoutLogs, isLoading } = useWorkoutLogs();
 
-  if (isLoading) return <Loading />;
+  const sortedWorkoutLogs = useMemo(
+    () =>
+      workoutLogs?.sort((a, b) => b.date.getTime() - a.date.getTime()) || [],
+    [workoutLogs],
+  );
 
   return (
     <Page>
@@ -19,9 +24,12 @@ export const HistoryPage = () => {
           <div className="col-span-2">Movements</div>
           <div className="text-right">Volume</div>
         </div>
-        {workoutLogs
-          ?.sort((a, b) => b.date.getTime() - a.date.getTime())
-          .map((workoutLog) => <WorkoutHistoryItem workoutLog={workoutLog} />)}
+
+        {sortedWorkoutLogs.map((workoutLog) => (
+          <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
+        ))}
+
+        {isLoading && <Loading />}
       </div>
     </Page>
   );

@@ -9,7 +9,7 @@ export interface ButtonProps {
   kind?: 'primary' | 'outline';
   leftIcon?: ReactNode;
   loading?: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   size?: 'default' | 'large';
   [key: string]: any;
 }

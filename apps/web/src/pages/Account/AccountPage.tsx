@@ -13,7 +13,7 @@ export const AccountPage = () => {
   const session = useSession();
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [username, setUsername] = useState<string | null>(null);
+  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
     async function getProfile() {
@@ -29,7 +29,7 @@ export const AccountPage = () => {
       if (error) {
         console.warn(error);
       } else if (data) {
-        setUsername(data.username);
+        setUsername(data.username || '');
       }
 
       setLoading(false);

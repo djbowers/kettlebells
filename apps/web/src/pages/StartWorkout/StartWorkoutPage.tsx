@@ -1,6 +1,6 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
 
 import {
   Button,
@@ -25,6 +25,9 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
 
   const [showNotes, setShowNotes] = useState<boolean>(false);
 
+  const primaryBellRef = useRef<HTMLInputElement>(null);
+  const secondBellRef = useRef<HTMLInputElement>(null);
+
   const handleClickRemoveMovement: ButtonProps['onClick'] = () => {
     if (movements.length > 1)
       setMovements((prev) => {
@@ -45,11 +48,11 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       else return (prev -= 5);
     });
   };
-  const handleChangePrimaryBell: InputProps['onChange'] = (e) => {
-    setBells((prev) => [Number(e.target.value), prev[1]]);
+  const handleBlurPrimaryBellInput = () => {
+    setBells((prev) => [Number(primaryBellRef.current?.value), prev[1]]);
   };
-  const handleChangeSecondBell: InputProps['onChange'] = (e) => {
-    setBells((prev) => [prev[0], Number(e.target.value)]);
+  const handleBlurSecondBellInput = () => {
+    setBells((prev) => [prev[0], Number(secondBellRef.current?.value)]);
   };
   const handleClickAddBell: ButtonProps['onClick'] = () => {
     setBells((prev) => {
@@ -59,9 +62,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     });
   };
   const handleClickRemoveBell: ButtonProps['onClick'] = () => {
-    setBells((prev) => {
-      return [prev[0], 0];
-    });
+    setBells((prev) => [prev[0], 0]);
   };
   const handleClickBodyweightOnly: ButtonProps['onClick'] = () => {
     setBells([0, 0]);
@@ -84,7 +85,6 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   const handleChangeNotes: InputProps['onChange'] = (e) => {
     setNotes(e.target.value);
   };
-
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
       bells,
@@ -114,17 +114,15 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
           />
         }
       >
-        {movements.map((movement, index) => {
-          return (
-            <div key={index} className="flex items-center gap-2">
-              <MovementInput
-                index={index}
-                value={movement}
-                onChange={setMovements}
-              />
-            </div>
-          );
-        })}
+        {movements.map((movement, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <MovementInput
+              index={index}
+              value={movement}
+              onChange={setMovements}
+            />
+          </div>
+        ))}
       </Section>
 
       <Section title="Bell(s) (kg)">
@@ -133,11 +131,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             {primaryBell > 0 && (
               <Input
                 aria-label="Bell Input"
+                defaultValue={primaryBell}
                 label={secondBell ? 'L' : undefined}
                 min={0}
-                onChange={handleChangePrimaryBell}
+                onBlur={handleBlurPrimaryBellInput}
+                ref={primaryBellRef}
                 type="number"
-                value={primaryBell}
               />
             )}
           </div>
@@ -146,12 +145,13 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             <div className="flex items-center gap-1">
               <Input
                 aria-label="Bell Input"
+                defaultValue={secondBell}
                 disabled={!primaryBell}
                 label="R"
                 min={0}
-                onChange={handleChangeSecondBell}
+                onBlur={handleBlurSecondBellInput}
+                ref={secondBellRef}
                 type="number"
-                value={secondBell}
               />
             </div>
           )}
