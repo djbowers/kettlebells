@@ -9,16 +9,17 @@ const {
   SingleBell,
   MismatchedBells,
   MultipleMovements,
-  MultipleMovementsAndMirroredBells,
+  MultipleMovementsAndMixedBells,
+  BodyweightMovements,
 } = composeStories(stories);
 
 describe('active workout page (double bells)', () => {
   const { workoutOptions } = DoubleBells.args;
-  let addButton;
+  let continueButton;
 
   beforeEach(() => {
     render(<DoubleBells />);
-    addButton = screen.getByLabelText('Add Reps');
+    continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
   test('renders the movement name', () => {
@@ -35,18 +36,18 @@ describe('active workout page (double bells)', () => {
     const completedSection = screen.getByTestId('completed-section');
     expect(completedSection).toHaveTextContent('0');
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
     expect(currentReps).toHaveTextContent(repScheme[1]);
     expect(round).toHaveTextContent('1');
     expect(completedSection).toHaveTextContent('1');
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
     expect(currentReps).toHaveTextContent(repScheme[2]);
 
     expect(round).toHaveTextContent('1');
     expect(completedSection).toHaveTextContent('3');
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
     expect(currentReps).toHaveTextContent(repScheme[0]);
 
     expect(round).toHaveTextContent('2');
@@ -66,11 +67,11 @@ describe('active workout page (double bells)', () => {
 
 describe('active workout page (single bell)', () => {
   const { workoutOptions } = SingleBell.args;
-  let addButton;
+  let continueButton;
 
   beforeEach(() => {
     render(<SingleBell />);
-    addButton = screen.getByLabelText('Add Reps');
+    continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
   test('alternates single bell between right and left side for each rung', () => {
@@ -84,13 +85,13 @@ describe('active workout page (single bell)', () => {
     expect(leftBell).toHaveTextContent(bell);
     expect(rightBell).not.toHaveTextContent();
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
 
     expect(leftBell).not.toHaveTextContent();
     expect(rightBell).toHaveTextContent(bell);
     expect(round).toHaveTextContent('1');
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
 
     expect(leftBell).toHaveTextContent(bell);
     expect(rightBell).not.toHaveTextContent();
@@ -98,13 +99,13 @@ describe('active workout page (single bell)', () => {
   });
 });
 
-describe('active workout page (mismatched bells)', () => {
+describe('active workout page (mixed bells)', () => {
   const { workoutOptions } = MismatchedBells.args;
-  let addButton;
+  let continueButton;
 
   beforeEach(() => {
     render(<MismatchedBells />);
-    addButton = screen.getByLabelText('Add Reps');
+    continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
   test('alternates weights between left and right hands for each rung', () => {
@@ -119,13 +120,13 @@ describe('active workout page (mismatched bells)', () => {
     expect(leftBell).toHaveTextContent(primaryBell);
     expect(rightBell).toHaveTextContent(secondBell);
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
 
     expect(leftBell).toHaveTextContent(secondBell);
     expect(rightBell).toHaveTextContent(primaryBell);
     expect(round).toHaveTextContent('1');
 
-    fireEvent.click(addButton);
+    fireEvent.click(continueButton);
 
     expect(leftBell).toHaveTextContent(primaryBell);
     expect(rightBell).toHaveTextContent(secondBell);
@@ -135,32 +136,32 @@ describe('active workout page (mismatched bells)', () => {
 
 describe('active workout page (multiple movements)', () => {
   const { workoutOptions } = MultipleMovements.args;
-  let addButton;
+  let continueButton;
 
   beforeEach(() => {
     render(<MultipleMovements />);
-    addButton = screen.getByLabelText('Add Reps');
+    continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
-  test('switches between movements', async () => {
+  test('alternates between movements', async () => {
     const currentMovement = screen.getByText(workoutOptions.movements[0]);
 
-    await userEvent.click(addButton);
+    await userEvent.click(continueButton);
 
     expect(currentMovement).toHaveTextContent(workoutOptions.movements[1]);
   });
 });
 
-describe('active workout page (multiple movements and mirrored bells)', () => {
-  const { workoutOptions } = MultipleMovementsAndMirroredBells.args;
-  let addButton;
+describe('active workout page (multiple movements and mixed bells)', () => {
+  const { workoutOptions } = MultipleMovementsAndMixedBells.args;
+  let continueButton;
 
   beforeEach(() => {
-    render(<MultipleMovementsAndMirroredBells />);
-    addButton = screen.getByLabelText('Add Reps');
+    render(<MultipleMovementsAndMixedBells />);
+    continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
-  test('switches between mirrored bells, then movements, then reps', async () => {
+  test('switches between mixed bells, then movements, then reps', async () => {
     const { bells, movements } = workoutOptions;
     const primaryBell = bells[0];
     const secondBell = bells[1];
@@ -174,32 +175,50 @@ describe('active workout page (multiple movements and mirrored bells)', () => {
     expect(leftBell).toHaveTextContent(primaryBell);
     expect(rightBell).toHaveTextContent(secondBell);
 
-    await userEvent.click(addButton);
+    await userEvent.click(continueButton);
 
     expect(currentMovement).toHaveTextContent(movements[0]);
     expect(leftBell).toHaveTextContent(secondBell);
     expect(rightBell).toHaveTextContent(primaryBell);
     expect(round).toHaveTextContent('1');
 
-    await userEvent.click(addButton);
+    await userEvent.click(continueButton);
 
     expect(currentMovement).toHaveTextContent(movements[1]);
     expect(leftBell).toHaveTextContent(primaryBell);
     expect(rightBell).toHaveTextContent(secondBell);
     expect(round).toHaveTextContent('1');
 
-    await userEvent.click(addButton);
+    await userEvent.click(continueButton);
 
     expect(currentMovement).toHaveTextContent(movements[1]);
     expect(leftBell).toHaveTextContent(secondBell);
     expect(rightBell).toHaveTextContent(primaryBell);
     expect(round).toHaveTextContent('1');
 
-    await userEvent.click(addButton);
+    await userEvent.click(continueButton);
 
     expect(currentMovement).toHaveTextContent(movements[0]);
     expect(leftBell).toHaveTextContent(primaryBell);
     expect(rightBell).toHaveTextContent(secondBell);
     expect(round).toHaveTextContent('2');
+  });
+});
+
+describe('active workout page (bodyweight movements)', () => {
+  const { workoutOptions } = BodyweightMovements.args;
+  let continueButton;
+
+  beforeEach(() => {
+    render(<BodyweightMovements />);
+    continueButton = screen.getByRole('button', { name: 'Continue' });
+  });
+
+  test('alternates between movements', async () => {
+    const currentMovement = screen.getByText(workoutOptions.movements[0]);
+
+    await userEvent.click(continueButton);
+
+    expect(currentMovement).toHaveTextContent(workoutOptions.movements[1]);
   });
 });

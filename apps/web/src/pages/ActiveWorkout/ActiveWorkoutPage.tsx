@@ -22,20 +22,20 @@ export const ActiveWorkout = ({
   const { isSupported, release, released, request } = useWakeLock();
   const locked = released === false;
 
-  const handleRequestWakeLock = async () => {
+  const requestWakeLock = async () => {
     if (!isSupported) return;
     if (!locked) await request();
   };
 
-  const handleReleaseWakeLock = async () => {
+  const releaseWakeLock = async () => {
     if (!isSupported) return;
     if (locked) await release();
   };
 
   useEffect(() => {
-    handleRequestWakeLock();
+    requestWakeLock();
     return () => {
-      handleReleaseWakeLock();
+      releaseWakeLock();
     };
   }, []);
 
@@ -56,20 +56,18 @@ export const ActiveWorkout = ({
   const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
 
   // Movements
-  const movementsPerRung = movements.length;
-  const finalMovementIndex = movementsPerRung - 1;
-  const isFinalMovement = currentMovementIndex === finalMovementIndex;
-  const nextMovementIndex = isFinalMovement ? 0 : currentMovementIndex + 1;
+  const lastMovementIndex = movements.length - 1;
+  const isLastMovement = currentMovementIndex === lastMovementIndex;
   const currentMovement = movements[currentMovementIndex];
-  const nextMovement = movements[nextMovementIndex];
 
   // Bells
-  const primaryBell = bells[0];
-  const secondBell = bells[1];
-  const singleBell = !secondBell;
   const primaryBellSide = isMirrorRung ? 'right' : 'left';
-  const doubleBells = !singleBell;
-  const mismatchedBells = doubleBells && primaryBell !== secondBell;
+  const primaryBellWeight = bells[0];
+  const secondaryBellWeight = bells[1];
+  const isSingleBell = primaryBellWeight > 0 && secondaryBellWeight === 0;
+  const isDoubleBells = primaryBellWeight > 0 && secondaryBellWeight > 0;
+  const isMixedBells =
+    isDoubleBells && primaryBellWeight !== secondaryBellWeight;
 
   // Volume
   const totalWeight = bells.reduce((total, bell) => total + bell, 0);
@@ -83,20 +81,20 @@ export const ActiveWorkout = ({
   // Rounds
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
   const currentRound = completedRounds + 1;
-  const rungsMirrored = singleBell || mismatchedBells;
+  const shouldMirrorReps = isSingleBell || isMixedBells;
 
   const leftBell = useMemo(() => {
-    if (primaryBellSide === 'left') return primaryBell;
-    else return singleBell ? null : secondBell;
-  }, [primaryBellSide, singleBell]);
+    if (primaryBellSide === 'left') return primaryBellWeight;
+    else return isSingleBell ? null : secondaryBellWeight;
+  }, [primaryBellSide, isSingleBell]);
 
   const rightBell = useMemo(() => {
-    if (primaryBellSide === 'right') return primaryBell;
-    else return singleBell ? null : secondBell;
-  }, [primaryBellSide, singleBell]);
+    if (primaryBellSide === 'right') return primaryBellWeight;
+    else return isSingleBell ? null : secondaryBellWeight;
+  }, [primaryBellSide, isSingleBell]);
 
   const handleIncrementRungs = () => {
-    if (isFinalMovement) {
+    if (isLastMovement) {
       setCurrentMovementIndex(0);
       setCompletedRungs((prev) => prev + 1);
     } else {
@@ -104,12 +102,12 @@ export const ActiveWorkout = ({
     }
   };
 
-  const handleClickPlus = () => {
+  const handleClickContinue = () => {
     setEffect(true);
-    handleRequestWakeLock();
+    requestWakeLock();
     setCompletedReps((prev) => prev + repScheme[rungIndex]); // always increment reps
 
-    if (rungsMirrored) {
+    if (shouldMirrorReps) {
       if (isMirrorRung) {
         setMirrorRung(false);
         handleIncrementRungs();
@@ -157,7 +155,6 @@ export const ActiveWorkout = ({
       <CurrentMovement
         currentRound={currentRound}
         currentMovement={currentMovement}
-        nextMovement={nextMovement}
       />
 
       <CurrentRound
@@ -170,12 +167,11 @@ export const ActiveWorkout = ({
       <div className="flex w-full items-center gap-1">
         <Button
           className={clsx('grow', { 'animate-wiggle': effect })}
-          onClick={handleClickPlus}
-          onAnimationEnd={() => setEffect(false)}
-          aria-label="Add Reps"
-          size="large"
           disabled={paused}
           leftIcon={<PlusIcon className="h-3 w-3" />}
+          onAnimationEnd={() => setEffect(false)}
+          onClick={handleClickContinue}
+          size="large"
         >
           Continue
         </Button>
@@ -230,11 +226,9 @@ const Progress = ({
 export const CurrentMovement = ({
   currentMovement,
   currentRound,
-  nextMovement,
 }: {
   currentMovement: string;
   currentRound: number;
-  nextMovement: string;
 }) => {
   return (
     <div className="text-default flex gap-2 rounded-xl border px-2 py-3">
@@ -253,14 +247,6 @@ export const CurrentMovement = ({
         <div className="text-default text-2xl font-semibold">
           {currentMovement}
         </div>
-        {nextMovement !== currentMovement && (
-          <>
-            <hr className="border-default" />
-            <div className="text-default text-base font-medium">
-              Up Next: {nextMovement}
-            </div>
-          </>
-        )}
       </div>
     </div>
   );
