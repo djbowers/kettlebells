@@ -173,8 +173,8 @@ export const workoutLogs = [
   },
   {
     id: 78,
-    started_at: '2023-11-07T14:47:03.617+00:00',
-    completed_at: '2023-11-07T15:06:59.161679+00:00',
+    started_at: '2023-11-09T14:47:03.617+00:00',
+    completed_at: '2023-11-09T15:06:59.161679+00:00',
     movements: ['Clean and Press'],
     notes: 'The Giant 3.0 W4D3',
     minutes: 20,
@@ -189,7 +189,7 @@ export const workoutLogs = [
   {
     id: 79,
     started_at: '2023-11-09T14:47:03.617+00:00',
-    completed_at: '2023-11-00T15:06:59.161679+00:00',
+    completed_at: '2023-11-09T15:06:59.161679+00:00',
     movements: ['Pull-Ups'],
     notes: '',
     minutes: 10,
