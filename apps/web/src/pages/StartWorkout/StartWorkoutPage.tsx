@@ -94,10 +94,10 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     });
   };
   const handleDecrementInterval: ButtonProps['onClick'] = () => {
-    setIntervalTimer((prev) => (prev > 0 ? prev - 1 : 0));
+    setIntervalTimer((prev) => (prev > 0 ? prev - 0.25 : 0));
   };
   const handleIncrementInterval: ButtonProps['onClick'] = () => {
-    setIntervalTimer((prev) => prev + 1);
+    setIntervalTimer((prev) => (prev > 0 ? prev + 0.25 : 1));
   };
   const handleChangeNotes: InputProps['onChange'] = (e) => {
     setNotes(e.target.value);
@@ -236,8 +236,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
           <ModifyCountButtons
             onClickMinus={handleDecrementInterval}
             onClickPlus={handleIncrementInterval}
-            text="min"
-            value={intervalTimer.toString()}
+            text="sec"
+            value={(intervalTimer * 60).toString()}
           />
         )}
       </Section>
