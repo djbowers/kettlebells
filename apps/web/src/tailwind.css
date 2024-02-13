@@ -24,6 +24,10 @@
     @apply bg-green-400 dark:bg-green-300;
   }
 
+  .bg-status-warning {
+    @apply bg-orange-400 dark:bg-orange-300;
+  }
+
   /* Border Colors */
   .border-layout {
     @apply border-gray-300 dark:border-gray-700;

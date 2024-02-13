@@ -5,53 +5,24 @@ import userEvent from '@testing-library/user-event';
 import * as stories from './ActiveWorkoutPage.stories';
 
 const {
+  BodyweightMovements,
   DoubleBells,
-  SingleBell,
-  MismatchedBells,
+  MixedBells,
   MultipleMovements,
   MultipleMovementsAndMixedBells,
-  BodyweightMovements,
+  RepLadders,
+  SingleBell,
 } = composeStories(stories);
 
 describe('active workout page (double bells)', () => {
   const { workoutOptions } = DoubleBells.args;
-  let continueButton;
 
   beforeEach(() => {
     render(<DoubleBells />);
-    continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
   test('renders the movement name', () => {
     screen.getByText(workoutOptions.movements[0]);
-  });
-
-  test('renders rep ladders correctly', () => {
-    const { repScheme } = workoutOptions;
-
-    const currentReps = screen.getByTestId('current-reps');
-    expect(currentReps).toHaveTextContent(repScheme[0]);
-
-    const round = screen.getByTestId('current-round');
-    const completedSection = screen.getByTestId('completed-section');
-    expect(completedSection).toHaveTextContent('0');
-
-    fireEvent.click(continueButton);
-    expect(currentReps).toHaveTextContent(repScheme[1]);
-    expect(round).toHaveTextContent('1');
-    expect(completedSection).toHaveTextContent('1');
-
-    fireEvent.click(continueButton);
-    expect(currentReps).toHaveTextContent(repScheme[2]);
-
-    expect(round).toHaveTextContent('1');
-    expect(completedSection).toHaveTextContent('3');
-
-    fireEvent.click(continueButton);
-    expect(currentReps).toHaveTextContent(repScheme[0]);
-
-    expect(round).toHaveTextContent('2');
-    expect(completedSection).toHaveTextContent('6');
   });
 
   test('displays left and right weights', () => {
@@ -95,16 +66,54 @@ describe('active workout page (single bell)', () => {
 
     expect(leftBell).toHaveTextContent(bell);
     expect(rightBell).not.toHaveTextContent();
+    expect(round).toHaveTextContent('2');
+  });
+});
+
+describe('active workout page (rep ladders)', () => {
+  const { workoutOptions } = RepLadders.args;
+  let continueButton;
+
+  beforeEach(() => {
+    render(<RepLadders />);
+    continueButton = screen.getByRole('button', { name: 'Continue' });
+  });
+
+  test('renders rep ladders correctly', () => {
+    const { repScheme } = workoutOptions;
+
+    const currentReps = screen.getByTestId('current-reps');
+    expect(currentReps).toHaveTextContent(repScheme[0]);
+
+    const round = screen.getByTestId('current-round');
+    const completedSection = screen.getByTestId('completed-section');
+    expect(completedSection).toHaveTextContent('0');
+
+    fireEvent.click(continueButton);
+    expect(currentReps).toHaveTextContent(repScheme[1]);
     expect(round).toHaveTextContent('1');
+    expect(completedSection).toHaveTextContent('1');
+
+    fireEvent.click(continueButton);
+    expect(currentReps).toHaveTextContent(repScheme[2]);
+
+    expect(round).toHaveTextContent('1');
+    expect(completedSection).toHaveTextContent('3');
+
+    fireEvent.click(continueButton);
+    expect(currentReps).toHaveTextContent(repScheme[0]);
+
+    expect(round).toHaveTextContent('2');
+    expect(completedSection).toHaveTextContent('6');
   });
 });
 
 describe('active workout page (mixed bells)', () => {
-  const { workoutOptions } = MismatchedBells.args;
+  const { workoutOptions } = MixedBells.args;
   let continueButton;
 
   beforeEach(() => {
-    render(<MismatchedBells />);
+    render(<MixedBells />);
     continueButton = screen.getByRole('button', { name: 'Continue' });
   });
 
@@ -130,7 +139,7 @@ describe('active workout page (mixed bells)', () => {
 
     expect(leftBell).toHaveTextContent(primaryBell);
     expect(rightBell).toHaveTextContent(secondBell);
-    expect(round).toHaveTextContent('1');
+    expect(round).toHaveTextContent('2');
   });
 });
 

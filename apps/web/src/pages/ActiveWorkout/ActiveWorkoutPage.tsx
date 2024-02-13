@@ -17,7 +17,14 @@ interface Props {
 
 export const ActiveWorkout = ({
   startedAt = new Date(),
-  workoutOptions: { movements, repScheme, notes, duration, bells },
+  workoutOptions: {
+    bells,
+    duration,
+    intervalTimer,
+    movements,
+    notes,
+    repScheme,
+  },
 }: Props) => {
   const { isSupported, release, released, request } = useWakeLock();
   const locked = released === false;
@@ -43,7 +50,14 @@ export const ActiveWorkout = ({
 
   const { user } = useSession();
 
-  const [timeRemaining, { seconds, togglePause, paused }] = useTimer(duration);
+  const [
+    timeRemaining,
+    {
+      seconds: remainingSeconds,
+      togglePause: togglePauseWorkout,
+      paused: workoutPaused,
+    },
+  ] = useTimer(duration);
 
   const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
@@ -53,7 +67,8 @@ export const ActiveWorkout = ({
 
   // Overview
   const totalSeconds = duration * 60;
-  const completedPercentage = ((totalSeconds - seconds) / totalSeconds) * 100;
+  const completedPercentage =
+    ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
 
   // Movements
   const lastMovementIndex = movements.length - 1;
@@ -93,6 +108,15 @@ export const ActiveWorkout = ({
     else return isSingleBell ? null : secondaryBellWeight;
   }, [primaryBellSide, isSingleBell]);
 
+  // Intervals
+  const intervalSeconds = intervalTimer * 60;
+  const intervalRemaining = remainingSeconds % intervalSeconds;
+  const intervalCompletedPercentage =
+    (1 - (intervalSeconds - intervalRemaining) / intervalSeconds) * 100 || 100;
+  const intervalRemainingText = (
+    intervalRemaining > 0 ? intervalRemaining : intervalSeconds
+  ).toString();
+
   const handleIncrementRungs = () => {
     if (isLastMovement) {
       setCurrentMovementIndex(0);
@@ -119,7 +143,7 @@ export const ActiveWorkout = ({
     }
   };
 
-  const handleClickPlayPause = () => togglePause();
+  const handleClickPlayPause = () => togglePauseWorkout();
 
   const handleClickFinish = async () => {
     const { error, data: workoutLogs } = await supabase
@@ -145,12 +169,37 @@ export const ActiveWorkout = ({
     }
   };
 
+  useEffect(() => {
+    if (intervalTimer === 0 || remainingSeconds === totalSeconds) return;
+    if (intervalRemaining === 0) handleClickContinue();
+  }, [intervalRemaining]);
+
   return (
     <Page>
-      <Progress
-        completedPercentage={completedPercentage}
-        timeRemaining={timeRemaining}
-      />
+      <div className="flex w-full items-center gap-1">
+        <Progress
+          completedPercentage={completedPercentage}
+          text="remaining"
+          timeRemaining={timeRemaining}
+        />
+
+        <div>
+          <IconButton
+            onClick={handleClickPlayPause}
+            kind="outline"
+            size="large"
+            className={clsx({
+              'bg-layout-darker': workoutPaused,
+            })}
+          >
+            {workoutPaused ? (
+              <PlayIcon className="h-3 w-3" />
+            ) : (
+              <PauseIcon className="h-3 w-3" />
+            )}
+          </IconButton>
+        </div>
+      </div>
 
       <CurrentMovement
         currentRound={currentRound}
@@ -164,10 +213,17 @@ export const ActiveWorkout = ({
         rungIndex={rungIndex}
       />
 
-      <div className="flex w-full items-center gap-1">
+      {intervalTimer > 0 ? (
+        <Progress
+          color="warning"
+          text="interval"
+          timeRemaining={intervalRemainingText}
+          completedPercentage={intervalCompletedPercentage}
+        />
+      ) : (
         <Button
           className={clsx('grow', { 'animate-wiggle': effect })}
-          disabled={paused}
+          disabled={workoutPaused}
           leftIcon={<PlusIcon className="h-3 w-3" />}
           onAnimationEnd={() => setEffect(false)}
           onClick={handleClickContinue}
@@ -175,21 +231,7 @@ export const ActiveWorkout = ({
         >
           Continue
         </Button>
-        <IconButton
-          onClick={handleClickPlayPause}
-          kind="outline"
-          size="large"
-          className={clsx({
-            'bg-layout-darker': paused,
-          })}
-        >
-          {paused ? (
-            <PlayIcon className="h-3 w-3" />
-          ) : (
-            <PauseIcon className="h-3 w-3" />
-          )}
-        </IconButton>
-      </div>
+      )}
 
       <CompletedSection
         completedReps={completedReps}
@@ -204,21 +246,33 @@ export const ActiveWorkout = ({
 };
 
 const Progress = ({
+  color = 'success',
   completedPercentage,
+  text,
   timeRemaining,
 }: {
+  color?: 'success' | 'warning';
   completedPercentage: number;
+  text?: string;
   timeRemaining: string;
 }) => {
   return (
     <div className="bg-layout-darker relative flex h-5 w-full rounded-xl">
       <div
-        className="bg-status-success h-5 rounded-xl"
+        className={clsx('h-5 rounded-xl', {
+          'bg-status-success': color === 'success',
+          'bg-status-warning': color === 'warning',
+        })}
         style={{ width: `${completedPercentage}%` }}
       />
-      <div className="text-default absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-medium">
+      <div className="text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 text-xl font-medium">
         {timeRemaining}
       </div>
+      {text && (
+        <span className="text-subdued absolute right-0 top-1/2 mr-2 -translate-y-1/2 text-sm uppercase">
+          {text}
+        </span>
+      )}
     </div>
   );
 };
