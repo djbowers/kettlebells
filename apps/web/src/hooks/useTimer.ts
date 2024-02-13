@@ -9,7 +9,7 @@ export const useTimer = (
   const [paused, setPaused] = useState<boolean>(false);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || initialTimer === 0) return;
 
     const timer = setInterval(() => {
       setSeconds((s) => s - 1);

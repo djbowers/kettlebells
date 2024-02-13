@@ -17,11 +17,22 @@ interface Props {
 }
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
-  const [bells, setBells] = useState<[number, number]>([DEFAULT_WEIGHT, 0]);
-  const [duration, setMinutes] = useState<number>(20);
-  const [movements, setMovements] = useState<string[]>(['']);
-  const [notes, setNotes] = useState<string>('');
-  const [repScheme, setRepScheme] = useState<number[]>([5]);
+  const [bells, setBells] = useState<[number, number]>(
+    DEFAULT_WORKOUT_OPTIONS.bells,
+  );
+  const [duration, setMinutes] = useState<number>(
+    DEFAULT_WORKOUT_OPTIONS.duration,
+  );
+  const [movements, setMovements] = useState<string[]>(
+    DEFAULT_WORKOUT_OPTIONS.movements,
+  );
+  const [notes, setNotes] = useState<string>(DEFAULT_WORKOUT_OPTIONS.notes);
+  const [repScheme, setRepScheme] = useState<number[]>(
+    DEFAULT_WORKOUT_OPTIONS.repScheme,
+  );
+  const [intervalTimer, setIntervalTimer] = useState<number>(
+    DEFAULT_WORKOUT_OPTIONS.intervalTimer,
+  );
 
   const [showNotes, setShowNotes] = useState<boolean>(false);
 
@@ -57,7 +68,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   const handleClickAddBell: ButtonProps['onClick'] = () => {
     setBells((prev) => {
       const primaryBell = prev[0];
-      if (primaryBell === 0) return [DEFAULT_WEIGHT, 0];
+      if (primaryBell === 0) return DEFAULT_WORKOUT_OPTIONS.bells;
       else return [primaryBell, primaryBell];
     });
   };
@@ -82,6 +93,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       return rungs;
     });
   };
+  const handleDecrementInterval: ButtonProps['onClick'] = () => {
+    setIntervalTimer((prev) => (prev > 0 ? prev - 1 : 0));
+  };
+  const handleIncrementInterval: ButtonProps['onClick'] = () => {
+    setIntervalTimer((prev) => prev + 1);
+  };
   const handleChangeNotes: InputProps['onChange'] = (e) => {
     setNotes(e.target.value);
   };
@@ -89,6 +106,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     const workoutOptions: WorkoutOptions = {
       bells,
       duration,
+      intervalTimer,
       movements,
       notes,
       repScheme,
@@ -106,7 +124,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       <Section
         title="Movement(s)"
         actions={
-          <PlusMinusButtons
+          <ModifyWorkoutButtons
             count={movements.length}
             label="Movement"
             onClickMinus={handleClickRemoveMovement}
@@ -163,7 +181,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
               </Button>
             )}
 
-            <PlusMinusButtons
+            <ModifyWorkoutButtons
               count={secondBell > 0 ? 2 : 1}
               label="Bell"
               limit={2}
@@ -175,28 +193,18 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       </Section>
 
       <Section title="Timer">
-        <div className="mx-5 flex items-center justify-between">
-          <div className="flex items-center">
-            <IconButton onClick={handleDecrementTimer}>
-              <MinusIcon className="h-2.5 w-2.5" />
-            </IconButton>
-          </div>
-          <div className="text-default grow text-center">
-            <div className="text-4xl">{duration}</div>
-            <div className="text-base">min</div>
-          </div>
-          <div className="flex items-center">
-            <IconButton onClick={handleIncrementTimer}>
-              <PlusIcon className="h-2.5 w-2.5" />
-            </IconButton>
-          </div>
-        </div>
+        <ModifyCountButtons
+          onClickMinus={handleDecrementTimer}
+          onClickPlus={handleIncrementTimer}
+          text="min"
+          value={duration.toString()}
+        />
       </Section>
 
       <Section
-        title="Round"
+        title="Rep Scheme"
         actions={
-          <PlusMinusButtons
+          <ModifyWorkoutButtons
             count={repScheme.length}
             label="Rung"
             onClickMinus={handleClickMinusRung}
@@ -212,6 +220,26 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             index={index}
           />
         ))}
+      </Section>
+
+      <Section
+        title="Interval Timer"
+        actions={
+          intervalTimer === 0 && (
+            <Button kind="outline" onClick={handleIncrementInterval}>
+              + Add Interval Timer
+            </Button>
+          )
+        }
+      >
+        {intervalTimer > 0 && (
+          <ModifyCountButtons
+            onClickMinus={handleDecrementInterval}
+            onClickPlus={handleIncrementInterval}
+            text="min"
+            value={intervalTimer.toString()}
+          />
+        )}
       </Section>
 
       <Section
@@ -306,22 +334,12 @@ const RepSchemePicker = ({
   };
 
   return (
-    <div className="mx-5 flex justify-between">
-      <div className="flex items-center">
-        <IconButton onClick={handleDecrementReps}>
-          <MinusIcon className="h-2.5 w-2.5" />
-        </IconButton>
-      </div>
-      <div className="text-default grow text-center">
-        <div className="text-4xl">{value[index]}</div>
-        <div className="text-base">reps</div>
-      </div>
-      <div className="flex items-center">
-        <IconButton onClick={handleIncrementReps}>
-          <PlusIcon className="h-2.5 w-2.5" />
-        </IconButton>
-      </div>
-    </div>
+    <ModifyCountButtons
+      onClickMinus={handleDecrementReps}
+      onClickPlus={handleIncrementReps}
+      text="reps"
+      value={value[index].toString()}
+    />
   );
 };
 
@@ -353,7 +371,7 @@ const Section = ({
   );
 };
 
-const PlusMinusButtons = ({
+const ModifyWorkoutButtons = ({
   count,
   label,
   limit = 10,
@@ -382,4 +400,42 @@ const PlusMinusButtons = ({
   );
 };
 
-const DEFAULT_WEIGHT = 16;
+const ModifyCountButtons = ({
+  onClickMinus,
+  onClickPlus,
+  text,
+  value,
+}: {
+  onClickMinus: ButtonProps['onClick'];
+  onClickPlus: ButtonProps['onClick'];
+  text: string;
+  value: string;
+}) => {
+  return (
+    <div className="mx-5 flex items-center justify-between">
+      <div className="flex items-center">
+        <IconButton onClick={onClickMinus}>
+          <MinusIcon className="h-2.5 w-2.5" />
+        </IconButton>
+      </div>
+      <div className="text-default grow text-center">
+        <div className="text-4xl">{value}</div>
+        <div className="text-base">{text}</div>
+      </div>
+      <div className="flex items-center">
+        <IconButton onClick={onClickPlus}>
+          <PlusIcon className="h-2.5 w-2.5" />
+        </IconButton>
+      </div>
+    </div>
+  );
+};
+
+export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
+  bells: [16, 0],
+  duration: 20,
+  movements: [''],
+  notes: '',
+  repScheme: [5],
+  intervalTimer: 0,
+};

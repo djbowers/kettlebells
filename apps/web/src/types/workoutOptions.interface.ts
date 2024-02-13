@@ -4,4 +4,5 @@ export interface WorkoutOptions {
   movements: string[];
   notes: string;
   repScheme: number[];
+  intervalTimer: number;
 }

@@ -2,20 +2,13 @@ import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { DEFAULT_WORKOUT_OPTIONS } from './StartWorkoutPage';
 import * as stories from './StartWorkoutPage.stories';
 
 const { Default } = composeStories(stories);
 
 describe('start workout page', () => {
   let onStart;
-
-  const defaultOptions = {
-    bells: [16, 0],
-    duration: 20,
-    movements: [''],
-    notes: '',
-    repScheme: [5],
-  };
 
   beforeEach(() => {
     onStart = vi.fn();
@@ -37,7 +30,7 @@ describe('start workout page', () => {
 
     expect(onStart).toHaveBeenCalledTimes(1);
     expect(onStart).toHaveBeenCalledWith({
-      ...defaultOptions,
+      ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Clean and Press'],
     });
   });
@@ -60,7 +53,7 @@ describe('start workout page', () => {
 
     expect(onStart).toHaveBeenCalledTimes(1);
     expect(onStart).toHaveBeenCalledWith({
-      ...defaultOptions,
+      ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Clean and Press', 'Front Squat'],
     });
   });
@@ -86,7 +79,7 @@ describe('start workout page', () => {
 
     expect(onStart).toHaveBeenCalledTimes(1);
     expect(onStart).toHaveBeenCalledWith({
-      ...defaultOptions,
+      ...DEFAULT_WORKOUT_OPTIONS,
       bells: [20, 24],
       movements: ['Clean and Press'],
     });
@@ -111,7 +104,7 @@ describe('start workout page', () => {
 
     expect(onStart).toHaveBeenCalledTimes(1);
     expect(onStart).toHaveBeenCalledWith({
-      ...defaultOptions,
+      ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Pull-Ups'],
       bells: [0, 0],
     });
