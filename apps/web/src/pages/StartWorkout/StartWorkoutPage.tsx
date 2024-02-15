@@ -1,6 +1,7 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -10,6 +11,7 @@ import {
   InputProps,
   Page,
 } from '~/components';
+import { useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
 interface Props {
@@ -17,24 +19,21 @@ interface Props {
 }
 
 export const StartWorkoutPage = ({ onStart }: Props) => {
-  const [bells, setBells] = useState<[number, number]>(
-    DEFAULT_WORKOUT_OPTIONS.bells,
-  );
-  const [duration, setMinutes] = useState<number>(
-    DEFAULT_WORKOUT_OPTIONS.duration,
-  );
+  const navigate = useNavigate();
+  const [workoutOptions, updateWorkoutOptions] = useWorkoutOptions();
+
+  const [bells, setBells] = useState<[number, number]>(workoutOptions.bells);
+  const [duration, setMinutes] = useState<number>(workoutOptions.duration);
   const [movements, setMovements] = useState<string[]>(
-    DEFAULT_WORKOUT_OPTIONS.movements,
+    workoutOptions.movements,
   );
-  const [notes, setNotes] = useState<string>(DEFAULT_WORKOUT_OPTIONS.notes);
+  const [notes, setNotes] = useState<string>(workoutOptions.notes);
   const [repScheme, setRepScheme] = useState<number[]>(
-    DEFAULT_WORKOUT_OPTIONS.repScheme,
+    workoutOptions.repScheme,
   );
   const [intervalTimer, setIntervalTimer] = useState<number>(
-    DEFAULT_WORKOUT_OPTIONS.intervalTimer,
+    workoutOptions.intervalTimer,
   );
-
-  const [showNotes, setShowNotes] = useState<boolean>(false);
 
   const primaryBellRef = useRef<HTMLInputElement>(null);
   const secondBellRef = useRef<HTMLInputElement>(null);
@@ -112,6 +111,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       repScheme,
     };
     onStart?.(workoutOptions);
+    updateWorkoutOptions(workoutOptions);
+    navigate('active');
   };
 
   const primaryBell = bells[0];
@@ -242,28 +243,8 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
         )}
       </Section>
 
-      <Section
-        title={showNotes ? 'Workout Notes' : undefined}
-        bottomBorder={false}
-        actions={
-          !showNotes && (
-            <Button
-              kind="outline"
-              className="ml-auto"
-              onClick={() => setShowNotes(true)}
-            >
-              + Workout Notes
-            </Button>
-          )
-        }
-      >
-        {showNotes && (
-          <Input
-            value={notes}
-            onChange={handleChangeNotes}
-            className="w-full"
-          />
-        )}
+      <Section title="Workout Notes" bottomBorder={false}>
+        <Input value={notes} onChange={handleChangeNotes} className="w-full" />
       </Section>
 
       <div className="flex justify-center">

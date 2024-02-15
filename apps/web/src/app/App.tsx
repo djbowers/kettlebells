@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from '~/components';
+import { WorkoutOptionsProvider } from '~/contexts/WorkoutOptionsContext';
 
 import { SessionProvider } from '../contexts';
 import { Signup } from '../pages';
@@ -31,7 +32,9 @@ export function App() {
         <Signup />
       ) : (
         <SessionProvider value={session}>
-          <RouterProvider router={router} />
+          <WorkoutOptionsProvider>
+            <RouterProvider router={router} />
+          </WorkoutOptionsProvider>
         </SessionProvider>
       )}
     </Layout>

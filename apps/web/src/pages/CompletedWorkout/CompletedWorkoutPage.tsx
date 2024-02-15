@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelectRPE, useWorkoutLog } from '~/api';
 import { Button, Loading, Page } from '~/components';
+import { useWorkoutOptions } from '~/contexts';
 import { WorkoutLog } from '~/types';
 
 import { RPESelector, WorkoutHistoryItem } from './components';
@@ -11,6 +12,8 @@ export const CompletedWorkoutPage = () => {
   const { id = '' } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
+
+  const [, updateWorkoutOptions] = useWorkoutOptions();
 
   const { data: completedWorkout, isLoading } = useWorkoutLog(id);
   const { mutate: selectRPE } = useSelectRPE(id);
@@ -24,6 +27,18 @@ export const CompletedWorkoutPage = () => {
 
   const handleSelectRPE = (selectedRPE: WorkoutLog['rpe']) => {
     selectRPE(selectedRPE);
+  };
+
+  const handleClickRepeat = () => {
+    updateWorkoutOptions({
+      bells: [completedWorkout.bells[0], completedWorkout.bells[1]],
+      duration: completedWorkout.duration,
+      movements: completedWorkout.movements,
+      notes: completedWorkout.notes || '',
+      repScheme: completedWorkout.repScheme,
+      intervalTimer: 0,
+    });
+    navigate('/');
   };
 
   return (
@@ -43,7 +58,11 @@ export const CompletedWorkoutPage = () => {
           rpeValue={completedWorkout.rpe}
         />
 
-        <Button className="w-full" size="large" onClick={handleClickContinue}>
+        <Button kind="outline" size="large" onClick={handleClickRepeat}>
+          Repeat
+        </Button>
+
+        <Button size="large" onClick={handleClickContinue}>
           Continue
         </Button>
       </div>

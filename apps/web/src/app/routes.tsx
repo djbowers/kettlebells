@@ -2,9 +2,10 @@ import { RouteObject } from 'react-router-dom';
 
 import {
   AccountPage,
+  ActiveWorkoutPage,
   CompletedWorkoutPage,
   HistoryPage,
-  Workout,
+  StartWorkoutPage,
 } from '../pages';
 import { Root } from './Root';
 
@@ -15,7 +16,11 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: '',
-        element: <Workout />,
+        element: <StartWorkoutPage />,
+      },
+      {
+        path: 'active',
+        element: <ActiveWorkoutPage />,
       },
       {
         path: 'account',

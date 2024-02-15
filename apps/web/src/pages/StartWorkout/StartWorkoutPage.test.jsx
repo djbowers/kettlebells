@@ -8,11 +8,13 @@ import * as stories from './StartWorkoutPage.stories';
 const { Default } = composeStories(stories);
 
 describe('start workout page', () => {
-  let onStart;
+  let startWorkout;
 
   beforeEach(() => {
-    onStart = vi.fn();
-    render(<Default onStart={onStart} />);
+    startWorkout = vi.fn();
+    Default.parameters.updateWorkoutOptions = startWorkout;
+
+    render(<Default />);
   });
 
   test('start button is disabled by default', () => {
@@ -28,8 +30,8 @@ describe('start workout page', () => {
     expect(startButton).toBeEnabled();
     await userEvent.click(startButton);
 
-    expect(onStart).toHaveBeenCalledTimes(1);
-    expect(onStart).toHaveBeenCalledWith({
+    expect(startWorkout).toHaveBeenCalledTimes(1);
+    expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Clean and Press'],
     });
@@ -51,8 +53,8 @@ describe('start workout page', () => {
     expect(startButton).toBeEnabled();
     await userEvent.click(startButton);
 
-    expect(onStart).toHaveBeenCalledTimes(1);
-    expect(onStart).toHaveBeenCalledWith({
+    expect(startWorkout).toHaveBeenCalledTimes(1);
+    expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Clean and Press', 'Front Squat'],
     });
@@ -77,8 +79,8 @@ describe('start workout page', () => {
     expect(startButton).toBeEnabled();
     await userEvent.click(startButton);
 
-    expect(onStart).toHaveBeenCalledTimes(1);
-    expect(onStart).toHaveBeenCalledWith({
+    expect(startWorkout).toHaveBeenCalledTimes(1);
+    expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       bells: [20, 24],
       movements: ['Clean and Press'],
@@ -102,8 +104,8 @@ describe('start workout page', () => {
     expect(startButton).toBeEnabled();
     await userEvent.click(startButton);
 
-    expect(onStart).toHaveBeenCalledTimes(1);
-    expect(onStart).toHaveBeenCalledWith({
+    expect(startWorkout).toHaveBeenCalledTimes(1);
+    expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Pull-Ups'],
       bells: [0, 0],

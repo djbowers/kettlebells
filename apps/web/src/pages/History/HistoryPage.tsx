@@ -22,7 +22,7 @@ export const HistoryPage = () => {
           } else {
             groupedWorkoutLogs[completedDate].push(workoutLog);
             groupedWorkoutLogs[completedDate].sort(
-              (a, b) => b.date.getTime() - a.date.getTime(),
+              (a, b) => a.date.getTime() - b.date.getTime(),
             );
           }
           return groupedWorkoutLogs;

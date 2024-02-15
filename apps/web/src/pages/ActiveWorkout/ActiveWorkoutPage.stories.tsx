@@ -1,11 +1,11 @@
-import { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { MemoryRouter, Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
-import { SessionProvider } from '~/contexts';
+import { SessionProvider, WorkoutOptionsContext } from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
-import { ActiveWorkout } from './ActiveWorkoutPage';
+import { ActiveWorkoutPage } from './ActiveWorkoutPage';
 
 const defaultWorkoutOptions: WorkoutOptions = {
   movements: ['Single Arm Clean & Press'],
@@ -17,11 +17,18 @@ const defaultWorkoutOptions: WorkoutOptions = {
 };
 
 export default {
-  component: ActiveWorkout,
-  args: {
-    workoutOptions: defaultWorkoutOptions,
-  },
+  component: ActiveWorkoutPage,
   decorators: [
+    (Story, { parameters }) => (
+      <WorkoutOptionsContext.Provider
+        value={[
+          { ...defaultWorkoutOptions, ...parameters.workoutOptions },
+          () => {},
+        ]}
+      >
+        <Story />
+      </WorkoutOptionsContext.Provider>
+    ),
     (Story) => (
       <MemoryRouter>
         <Story />
@@ -54,86 +61,78 @@ export default {
   ],
 } as Meta;
 
-export const DoubleBells = {
-  args: {
+export const DoubleBells: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
+      movements: ['Single Arm Front Squat'],
       bells: [20, 20],
     },
   },
 };
 
-export const SingleBell = {
-  args: {
+export const SingleBell: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       bells: [20, 0],
     },
   },
 };
 
-export const RepLadders = {
-  args: {
+export const RepLadders: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       repScheme: [1, 2, 3],
       bells: [16, 16],
     },
   },
 };
 
-export const MixedBells = {
-  args: {
+export const MixedBells: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       bells: [20, 16],
     },
   },
 };
 
-export const SingleRung = {
-  args: {
+export const SingleRung: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       repScheme: [10],
     },
   },
 };
 
-export const MultipleMovements = {
-  args: {
+export const MultipleMovements: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       movements: ['Clean and Press', 'Front Squat'],
       bells: [16, 16],
     },
   },
 };
 
-export const MultipleMovementsAndMixedBells = {
-  args: {
+export const MultipleMovementsAndMixedBells: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       movements: ['Clean and Press', 'Front Squat'],
       bells: [20, 16],
     },
   },
 };
 
-export const BodyweightMovements = {
-  args: {
+export const BodyweightMovements: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       movements: ['Push-Ups', 'Pull-Ups'],
       bells: [0, 0],
     },
   },
 };
 
-export const IntervalTimer = {
-  args: {
+export const IntervalTimer: StoryObj = {
+  parameters: {
     workoutOptions: {
-      ...defaultWorkoutOptions,
       intervalTimer: 0.5,
     },
   },
