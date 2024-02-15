@@ -15,7 +15,7 @@ const {
 } = composeStories(stories);
 
 describe('active workout page (double bells)', () => {
-  const { workoutOptions } = DoubleBells.args;
+  const { workoutOptions } = DoubleBells.parameters;
 
   beforeEach(() => {
     render(<DoubleBells />);
@@ -37,7 +37,7 @@ describe('active workout page (double bells)', () => {
 });
 
 describe('active workout page (single bell)', () => {
-  const { workoutOptions } = SingleBell.args;
+  const { workoutOptions } = SingleBell.parameters;
   let continueButton;
 
   beforeEach(() => {
@@ -71,7 +71,7 @@ describe('active workout page (single bell)', () => {
 });
 
 describe('active workout page (rep ladders)', () => {
-  const { workoutOptions } = RepLadders.args;
+  const { workoutOptions } = RepLadders.parameters;
   let continueButton;
 
   beforeEach(() => {
@@ -109,7 +109,7 @@ describe('active workout page (rep ladders)', () => {
 });
 
 describe('active workout page (mixed bells)', () => {
-  const { workoutOptions } = MixedBells.args;
+  const { workoutOptions } = MixedBells.parameters;
   let continueButton;
 
   beforeEach(() => {
@@ -144,7 +144,7 @@ describe('active workout page (mixed bells)', () => {
 });
 
 describe('active workout page (multiple movements)', () => {
-  const { workoutOptions } = MultipleMovements.args;
+  const { workoutOptions } = MultipleMovements.parameters;
   let continueButton;
 
   beforeEach(() => {
@@ -162,7 +162,7 @@ describe('active workout page (multiple movements)', () => {
 });
 
 describe('active workout page (multiple movements and mixed bells)', () => {
-  const { workoutOptions } = MultipleMovementsAndMixedBells.args;
+  const { workoutOptions } = MultipleMovementsAndMixedBells.parameters;
   let continueButton;
 
   beforeEach(() => {
@@ -215,7 +215,7 @@ describe('active workout page (multiple movements and mixed bells)', () => {
 });
 
 describe('active workout page (bodyweight movements)', () => {
-  const { workoutOptions } = BodyweightMovements.args;
+  const { workoutOptions } = BodyweightMovements.parameters;
   let continueButton;
 
   beforeEach(() => {

@@ -5,27 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import { useWakeLock } from 'react-screen-wake-lock';
 
 import { Button, IconButton, Page } from '~/components';
-import { useSession } from '~/contexts';
+import { useSession, useWorkoutOptions } from '~/contexts';
 import { useTimer } from '~/hooks';
 import { supabase } from '~/supabaseClient';
-import { WorkoutOptions } from '~/types';
 
 interface Props {
-  startedAt: Date;
-  workoutOptions: WorkoutOptions;
+  startedAt?: Date;
 }
 
-export const ActiveWorkout = ({
-  startedAt = new Date(),
-  workoutOptions: {
-    bells,
-    duration,
-    intervalTimer,
-    movements,
-    notes,
-    repScheme,
-  },
-}: Props) => {
+export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
+  const [workoutOptions] = useWorkoutOptions();
+  const { bells, duration, intervalTimer, movements, notes, repScheme } =
+    workoutOptions;
+
   const { isSupported, release, released, request } = useWakeLock();
   const locked = released === false;
 
