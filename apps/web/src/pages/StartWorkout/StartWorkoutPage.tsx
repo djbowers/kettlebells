@@ -1,5 +1,4 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
 import { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

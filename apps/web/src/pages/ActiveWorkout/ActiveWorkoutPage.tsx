@@ -160,10 +160,12 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         completed_reps: completedReps,
         completed_rounds: completedRounds,
         completed_rungs: completedRungs,
+        interval_timer: intervalTimer,
         minutes: duration,
         movements,
         notes,
         rep_scheme: repScheme,
+        rest_timer: restTimer,
         started_at: startedAt.toISOString(),
         user_id: user.id,
       })
