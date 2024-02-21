@@ -36,8 +36,8 @@ export const CompletedWorkoutPage = () => {
       movements: completedWorkout.movements,
       notes: completedWorkout.notes || '',
       repScheme: completedWorkout.repScheme,
-      intervalTimer: 0,
-      restTimer: 0,
+      intervalTimer: completedWorkout.intervalTimer,
+      restTimer: completedWorkout.restTimer,
     });
     navigate('/');
   };
@@ -59,12 +59,12 @@ export const CompletedWorkoutPage = () => {
           rpeValue={completedWorkout.rpe}
         />
 
-        <Button kind="outline" size="large" onClick={handleClickRepeat}>
-          Repeat
-        </Button>
-
         <Button size="large" onClick={handleClickContinue}>
           Continue
+        </Button>
+
+        <Button kind="outline" size="large" onClick={handleClickRepeat}>
+          Repeat
         </Button>
       </div>
     </Page>

@@ -28,7 +28,9 @@ export const StartWorkoutPage = () => {
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
-  const [notes, setNotes] = useState<string | undefined>(undefined);
+  const [notes, setNotes] = useState<string | undefined>(
+    workoutOptions.notes || undefined,
+  );
   const [repScheme, setRepScheme] = useState<number[]>(
     workoutOptions.repScheme,
   );
