@@ -1,3 +1,5 @@
+import { RpeOptions } from './rpe.type';
+
 export interface WorkoutLog {
   bells: number[];
   completedReps: number;
@@ -5,8 +7,10 @@ export interface WorkoutLog {
   date: Date;
   duration: number;
   id: number;
+  intervalTimer: number;
   movements: string[];
   notes: string | null;
   repScheme: number[];
-  rpe: 'noEffort' | 'easy' | 'ideal' | 'hard' | 'maxEffort' | null;
+  restTimer: number;
+  rpe: RpeOptions | null;
 }

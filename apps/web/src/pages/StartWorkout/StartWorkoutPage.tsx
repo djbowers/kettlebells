@@ -1,5 +1,4 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
 import { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,14 +10,16 @@ import {
   InputProps,
   Page,
 } from '~/components';
-import { useWorkoutOptions } from '~/contexts';
+import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
-interface Props {
-  onStart?: (workoutOptions: WorkoutOptions) => void;
-}
+const DURATION_INCREMENT = 2; // minutes
+const INTERVAL_TIMER_INCREMENT = 5; // seconds
+const DEFAULT_INTERVAL_TIMER = 30; // seconds
+const REST_TIMER_INCREMENT = 5; // seconds
+const DEFAULT_REST_TIMER = 30; // seconds
 
-export const StartWorkoutPage = ({ onStart }: Props) => {
+export const StartWorkoutPage = () => {
   const navigate = useNavigate();
   const [workoutOptions, updateWorkoutOptions] = useWorkoutOptions();
 
@@ -27,16 +28,20 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
-  const [notes, setNotes] = useState<string>(workoutOptions.notes);
+  const [notes, setNotes] = useState<string | undefined>(
+    workoutOptions.notes || undefined,
+  );
   const [repScheme, setRepScheme] = useState<number[]>(
     workoutOptions.repScheme,
   );
   const [intervalTimer, setIntervalTimer] = useState<number>(
     workoutOptions.intervalTimer,
   );
+  const [restTimer, setRestTimer] = useState<number>(workoutOptions.restTimer);
 
   const primaryBellRef = useRef<HTMLInputElement>(null);
   const secondBellRef = useRef<HTMLInputElement>(null);
+  const notesRef = useRef<HTMLInputElement>(null);
 
   const handleClickRemoveMovement: ButtonProps['onClick'] = () => {
     if (movements.length > 1)
@@ -50,12 +55,12 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     setMovements((prev) => [...prev, '']);
   };
   const handleIncrementTimer: ButtonProps['onClick'] = () => {
-    setMinutes((prev) => (prev += 5));
+    setMinutes((prev) => prev + DURATION_INCREMENT);
   };
   const handleDecrementTimer: ButtonProps['onClick'] = () => {
     setMinutes((prev) => {
-      if (prev <= 1) return prev;
-      else return (prev -= 5);
+      if (prev <= DURATION_INCREMENT) return prev;
+      else return prev - DURATION_INCREMENT;
     });
   };
   const handleBlurPrimaryBellInput = () => {
@@ -93,13 +98,28 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
     });
   };
   const handleDecrementInterval: ButtonProps['onClick'] = () => {
-    setIntervalTimer((prev) => (prev > 0 ? prev - 0.25 : 0));
+    setIntervalTimer((prev) =>
+      prev > 0 ? prev - INTERVAL_TIMER_INCREMENT : 0,
+    );
   };
   const handleIncrementInterval: ButtonProps['onClick'] = () => {
-    setIntervalTimer((prev) => (prev > 0 ? prev + 0.25 : 1));
+    setIntervalTimer((prev) =>
+      prev > 0 ? prev + INTERVAL_TIMER_INCREMENT : DEFAULT_INTERVAL_TIMER,
+    );
   };
-  const handleChangeNotes: InputProps['onChange'] = (e) => {
-    setNotes(e.target.value);
+  const handleDecrementRest: ButtonProps['onClick'] = () => {
+    setRestTimer((prev) => (prev > 0 ? prev - REST_TIMER_INCREMENT : 0));
+  };
+  const handleIncrementRest: ButtonProps['onClick'] = () => {
+    setRestTimer((prev) =>
+      prev > 0 ? prev + REST_TIMER_INCREMENT : DEFAULT_REST_TIMER,
+    );
+  };
+  const handleAddNotes = () => {
+    setNotes('');
+  };
+  const handleBlurNotes = () => {
+    setNotes(() => notesRef.current?.value || undefined);
   };
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
@@ -107,10 +127,10 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       duration,
       intervalTimer,
       movements,
-      notes,
+      notes: notes || '',
       repScheme,
+      restTimer,
     };
-    onStart?.(workoutOptions);
     updateWorkoutOptions(workoutOptions);
     navigate('active');
   };
@@ -198,7 +218,7 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
           onClickMinus={handleDecrementTimer}
           onClickPlus={handleIncrementTimer}
           text="min"
-          value={duration.toString()}
+          value={duration > 0 ? duration.toString() : <>&infin;</>}
         />
       </Section>
 
@@ -226,9 +246,13 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
       <Section
         title="Interval Timer"
         actions={
-          intervalTimer === 0 && (
+          intervalTimer === 0 ? (
             <Button kind="outline" onClick={handleIncrementInterval}>
               + Add Interval Timer
+            </Button>
+          ) : (
+            <Button kind="outline" onClick={() => setIntervalTimer(0)}>
+              - Remove Interval Timer
             </Button>
           )
         }
@@ -238,13 +262,62 @@ export const StartWorkoutPage = ({ onStart }: Props) => {
             onClickMinus={handleDecrementInterval}
             onClickPlus={handleIncrementInterval}
             text="sec"
-            value={(intervalTimer * 60).toString()}
+            value={intervalTimer.toString()}
           />
         )}
       </Section>
 
-      <Section title="Workout Notes" bottomBorder={false}>
-        <Input value={notes} onChange={handleChangeNotes} className="w-full" />
+      <Section
+        title="Rest Timer"
+        actions={
+          restTimer === 0 ? (
+            <Button kind="outline" onClick={handleIncrementRest}>
+              + Add Rest Timer
+            </Button>
+          ) : (
+            <Button kind="outline" onClick={() => setRestTimer(0)}>
+              - Remove Rest Timer
+            </Button>
+          )
+        }
+      >
+        {restTimer > 0 && (
+          <ModifyCountButtons
+            onClickMinus={handleDecrementRest}
+            onClickPlus={handleIncrementRest}
+            text="sec"
+            value={restTimer.toString()}
+          />
+        )}
+      </Section>
+
+      <Section
+        title="Workout Notes"
+        actions={
+          <>
+            {notes === undefined && (
+              <Button kind="outline" onClick={handleAddNotes}>
+                + Add Workout Notes
+              </Button>
+            )}
+            {notes && notes.length > 0 && (
+              <Button kind="outline" onClick={() => setNotes(undefined)}>
+                - Remove Workout Notes
+              </Button>
+            )}
+          </>
+        }
+        bottomBorder={false}
+      >
+        {notes !== undefined && (
+          <Input
+            autoFocus
+            className="w-full"
+            defaultValue={notes}
+            onBlur={handleBlurNotes}
+            ref={notesRef}
+          />
+        )}
       </Section>
 
       <div className="flex justify-center">
@@ -280,6 +353,7 @@ const MovementInput = ({
 
   return (
     <Input
+      autoFocus
       aria-label="Movement Input"
       value={value}
       onChange={handleChange}
@@ -336,19 +410,18 @@ const Section = ({
   title?: string;
 }) => {
   return (
-    <div
-      className={clsx('layout flex flex-col space-y-1 pb-2', {
-        'border-b': bottomBorder,
-      })}
-    >
-      <div className="flex items-center space-x-1">
-        <div className="flex w-full items-center justify-between">
-          <div className="text-default text-base font-medium">{title}</div>
-          {actions}
+    <>
+      <div className="layout flex flex-col gap-y-1">
+        <div className="flex items-center gap-x-1">
+          <div className="flex w-full items-center justify-between">
+            <div className="text-default text-base font-medium">{title}</div>
+            {actions}
+          </div>
         </div>
+        {children && <div className="flex flex-col gap-y-2">{children}</div>}
       </div>
-      <div className="flex flex-col space-y-2">{children}</div>
-    </div>
+      {bottomBorder && <hr />}
+    </>
   );
 };
 
@@ -390,16 +463,16 @@ const ModifyCountButtons = ({
   onClickMinus: ButtonProps['onClick'];
   onClickPlus: ButtonProps['onClick'];
   text: string;
-  value: string;
+  value: ReactNode;
 }) => {
   return (
-    <div className="mx-5 flex items-center justify-between">
+    <div className="flex items-center justify-center gap-5">
       <div className="flex items-center">
         <IconButton onClick={onClickMinus}>
           <MinusIcon className="h-2.5 w-2.5" />
         </IconButton>
       </div>
-      <div className="text-default grow text-center">
+      <div className="text-default text-center">
         <div className="text-4xl">{value}</div>
         <div className="text-base">{text}</div>
       </div>
@@ -410,13 +483,4 @@ const ModifyCountButtons = ({
       </div>
     </div>
   );
-};
-
-export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
-  bells: [16, 0],
-  duration: 20,
-  movements: [''],
-  notes: '',
-  repScheme: [5],
-  intervalTimer: 0,
 };

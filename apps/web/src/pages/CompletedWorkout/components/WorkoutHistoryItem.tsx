@@ -16,8 +16,11 @@ export const WorkoutHistoryItem = ({
     completedRounds,
     date,
     duration,
+    intervalTimer,
     movements,
+    notes,
     repScheme,
+    restTimer,
   } = completedWorkout;
 
   const displayDate = getDisplayDate(date.toISOString());
@@ -41,6 +44,11 @@ export const WorkoutHistoryItem = ({
         <div>🔂 {repSchemeDisplayValue} reps</div>
       </div>
 
+      <div className="flex justify-between">
+        {intervalTimer > 0 && <div>Interval: {intervalTimer} seconds</div>}
+        {restTimer > 0 && <div>Rest: {restTimer} seconds</div>}
+      </div>
+
       <div className="flex flex-col gap-0.5">
         <div className="text-subdued uppercase">Movements</div>
 
@@ -48,6 +56,13 @@ export const WorkoutHistoryItem = ({
           return <div key={movement}>{movement}</div>;
         })}
       </div>
+
+      {notes && (
+        <div className="flex flex-col gap-0.5">
+          <div className="text-subdued uppercase">Notes</div>
+          <div>{notes}</div>
+        </div>
+      )}
 
       <div className="flex flex-col gap-0.5">
         <div className="text-subdued uppercase">Completed</div>

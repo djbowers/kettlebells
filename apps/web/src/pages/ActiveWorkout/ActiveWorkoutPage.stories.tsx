@@ -2,18 +2,19 @@ import { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { SessionProvider, WorkoutOptionsContext } from '~/contexts';
+import {
+  DEFAULT_WORKOUT_OPTIONS,
+  SessionProvider,
+  WorkoutOptionsContext,
+} from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
 import { ActiveWorkoutPage } from './ActiveWorkoutPage';
 
 const defaultWorkoutOptions: WorkoutOptions = {
+  ...DEFAULT_WORKOUT_OPTIONS,
   movements: ['Single Arm Clean & Press'],
   notes: 'Example Notes',
-  repScheme: [5],
-  duration: 20,
-  bells: [16, 0],
-  intervalTimer: 0,
 };
 
 export default {

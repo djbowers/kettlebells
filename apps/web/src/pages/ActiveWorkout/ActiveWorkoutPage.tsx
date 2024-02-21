@@ -1,6 +1,6 @@
 import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWakeLock } from 'react-screen-wake-lock';
 
@@ -15,8 +15,15 @@ interface Props {
 
 export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const [workoutOptions] = useWorkoutOptions();
-  const { bells, duration, intervalTimer, movements, notes, repScheme } =
-    workoutOptions;
+  const {
+    bells,
+    duration,
+    intervalTimer,
+    movements,
+    notes,
+    repScheme,
+    restTimer,
+  } = workoutOptions;
 
   const { isSupported, release, released, request } = useWakeLock();
   const locked = released === false;
@@ -56,6 +63,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const [completedReps, setCompletedReps] = useState<number>(0);
   const [isMirrorRung, setMirrorRung] = useState<boolean>(false);
   const [effect, setEffect] = useState(false);
+  const [restRemaining, setRestRemaining] = useState<number>(0);
 
   // Overview
   const totalSeconds = duration * 60;
@@ -100,16 +108,17 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     else return isSingleBell ? null : secondaryBellWeight;
   }, [primaryBellSide, isSingleBell]);
 
-  // Intervals
-  const intervalSeconds = intervalTimer * 60;
-  const intervalRemaining = remainingSeconds % intervalSeconds;
+  // Interval Timer
+  const intervalSeconds = remainingSeconds % intervalTimer;
+  const intervalRemaining = intervalSeconds || intervalTimer;
   const intervalCompletedPercentage =
-    (1 - (intervalSeconds - intervalRemaining) / intervalSeconds) * 100 || 100;
-  const intervalRemainingText = (
-    intervalRemaining > 0 ? intervalRemaining : intervalSeconds
-  ).toString();
+    ((intervalTimer - intervalRemaining) / intervalTimer) * 100;
 
-  const handleIncrementRungs = () => {
+  // Rest Timer
+  const restCompletedPercentage =
+    ((restTimer - restRemaining) / restTimer) * 100;
+
+  const nextMovement = () => {
     if (isLastMovement) {
       setCurrentMovementIndex(0);
       setCompletedRungs((prev) => prev + 1);
@@ -118,24 +127,30 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     }
   };
 
-  const handleClickContinue = () => {
-    setEffect(true);
-    requestWakeLock();
+  const incrementRound = () => {
     setCompletedReps((prev) => prev + repScheme[rungIndex]); // always increment reps
 
     if (shouldMirrorReps) {
       if (isMirrorRung) {
         setMirrorRung(false);
-        handleIncrementRungs();
+        nextMovement();
       } else {
         setMirrorRung(true);
       }
     } else {
-      handleIncrementRungs();
+      nextMovement();
+    }
+
+    if (restTimer > 0) {
+      setRestRemaining(restTimer);
     }
   };
 
-  const handleClickPlayPause = () => togglePauseWorkout();
+  const handleClickContinue = () => {
+    setEffect(true);
+    requestWakeLock();
+    incrementRound();
+  };
 
   const handleClickFinish = async () => {
     const { error, data: workoutLogs } = await supabase
@@ -145,10 +160,12 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         completed_reps: completedReps,
         completed_rounds: completedRounds,
         completed_rungs: completedRungs,
+        interval_timer: intervalTimer,
         minutes: duration,
         movements,
         notes,
         rep_scheme: repScheme,
+        rest_timer: restTimer,
         started_at: startedAt.toISOString(),
         user_id: user.id,
       })
@@ -161,10 +178,30 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     }
   };
 
+  /** Interval Timer Effect */
   useEffect(() => {
-    if (intervalTimer === 0 || remainingSeconds === totalSeconds) return;
-    if (intervalRemaining === 0) handleClickContinue();
-  }, [intervalRemaining]);
+    if (
+      intervalTimer === 0 ||
+      remainingSeconds === totalSeconds ||
+      restRemaining > 0
+    )
+      return;
+    if (intervalSeconds === 0) incrementRound();
+  }, [intervalSeconds]);
+
+  /** Rest Timer Effect */
+  useEffect(() => {
+    if (restRemaining === 0) return;
+
+    setTimeout(() => {
+      setRestRemaining((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+  }, [restRemaining]);
+
+  /** Return to start workout page on refresh */
+  useEffect(() => {
+    if (movements[0] === '') navigate('/');
+  }, [movements]);
 
   return (
     <Page>
@@ -172,25 +209,27 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         <Progress
           completedPercentage={completedPercentage}
           text="remaining"
-          timeRemaining={timeRemaining}
+          timeRemaining={duration > 0 ? timeRemaining : <>&infin;</>}
         />
 
-        <div>
-          <IconButton
-            onClick={handleClickPlayPause}
-            kind="outline"
-            size="large"
-            className={clsx({
-              'bg-layout-darker': workoutPaused,
-            })}
-          >
-            {workoutPaused ? (
-              <PlayIcon className="h-3 w-3" />
-            ) : (
-              <PauseIcon className="h-3 w-3" />
-            )}
-          </IconButton>
-        </div>
+        {duration > 0 && (
+          <div>
+            <IconButton
+              onClick={togglePauseWorkout}
+              kind="outline"
+              size="large"
+              className={clsx({
+                'bg-layout-darker': workoutPaused,
+              })}
+            >
+              {workoutPaused ? (
+                <PlayIcon className="h-3 w-3" />
+              ) : (
+                <PauseIcon className="h-3 w-3" />
+              )}
+            </IconButton>
+          </div>
+        )}
       </div>
 
       <CurrentMovement
@@ -203,16 +242,28 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         leftBell={leftBell}
         repScheme={repScheme}
         rungIndex={rungIndex}
+        restRemaining={restRemaining > 0}
       />
 
-      {intervalTimer > 0 ? (
+      {intervalTimer > 0 && restRemaining === 0 && (
         <Progress
-          color="warning"
+          color="success"
           text="interval"
-          timeRemaining={intervalRemainingText}
+          timeRemaining={intervalRemaining.toString()}
           completedPercentage={intervalCompletedPercentage}
         />
-      ) : (
+      )}
+
+      {restRemaining > 0 && (
+        <Progress
+          color="warning"
+          text="rest"
+          timeRemaining={restRemaining.toString()}
+          completedPercentage={restCompletedPercentage}
+        />
+      )}
+
+      {intervalTimer === 0 && restRemaining === 0 && (
         <Button
           className={clsx('grow', { 'animate-wiggle': effect })}
           disabled={workoutPaused}
@@ -246,7 +297,7 @@ const Progress = ({
   color?: 'success' | 'warning';
   completedPercentage: number;
   text?: string;
-  timeRemaining: string;
+  timeRemaining: ReactNode;
 }) => {
   return (
     <div className="bg-layout-darker relative flex h-5 w-full rounded-xl">
@@ -303,11 +354,13 @@ const CurrentRound = ({
   repScheme,
   rightBell,
   rungIndex,
+  restRemaining,
 }: {
   leftBell: number | null;
   repScheme: number[];
   rightBell: number | null;
   rungIndex: number;
+  restRemaining: boolean;
 }) => {
   return (
     <div className="flex flex-col gap-1">
@@ -316,8 +369,8 @@ const CurrentRound = ({
         <div>Reps</div>
         <div>Right</div>
       </div>
-      <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
-        {leftBell ? (
+      <div className="text-default grid h-[100px] grid-cols-3 items-center gap-3 text-center font-medium">
+        {leftBell && !restRemaining ? (
           <div className="flex h-full flex-col items-center justify-center py-1">
             <div className="text-5xl" data-testid="left-bell">
               {leftBell}
@@ -328,14 +381,18 @@ const CurrentRound = ({
           <div data-testid="left-bell" />
         )}
 
-        <div
-          className="flex h-full items-center justify-center py-1 text-6xl"
-          data-testid="current-reps"
-        >
-          {repScheme[rungIndex]}
-        </div>
+        {!restRemaining ? (
+          <div
+            className="flex h-full items-center justify-center py-1 text-6xl"
+            data-testid="current-reps"
+          >
+            {repScheme[rungIndex]}
+          </div>
+        ) : (
+          <div className="text-subdued text-4xl">Rest</div>
+        )}
 
-        {rightBell ? (
+        {rightBell && !restRemaining ? (
           <div className="flex h-full flex-col items-center justify-center py-1">
             <div className="text-5xl" data-testid="right-bell">
               {rightBell}

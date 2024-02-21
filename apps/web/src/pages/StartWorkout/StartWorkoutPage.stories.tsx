@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { WorkoutOptionsContext } from '~/contexts';
+import { DEFAULT_WORKOUT_OPTIONS, WorkoutOptionsContext } from '~/contexts';
 
-import { DEFAULT_WORKOUT_OPTIONS, StartWorkoutPage } from './StartWorkoutPage';
+import { StartWorkoutPage } from './StartWorkoutPage';
 
 export default {
   component: StartWorkoutPage,
