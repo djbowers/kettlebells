@@ -2,7 +2,8 @@ import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { DEFAULT_WORKOUT_OPTIONS } from './StartWorkoutPage';
+import { DEFAULT_WORKOUT_OPTIONS } from '~/contexts';
+
 import * as stories from './StartWorkoutPage.stories';
 
 const { Default } = composeStories(stories);

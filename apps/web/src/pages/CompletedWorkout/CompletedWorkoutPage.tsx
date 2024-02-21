@@ -37,6 +37,7 @@ export const CompletedWorkoutPage = () => {
       notes: completedWorkout.notes || '',
       repScheme: completedWorkout.repScheme,
       intervalTimer: 0,
+      restTimer: 0,
     });
     navigate('/');
   };

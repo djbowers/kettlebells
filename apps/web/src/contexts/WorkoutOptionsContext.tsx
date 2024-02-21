@@ -1,7 +1,16 @@
 import { createContext, useContext, useState } from 'react';
 
-import { DEFAULT_WORKOUT_OPTIONS } from '~/pages';
 import { WorkoutOptions } from '~/types';
+
+export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
+  bells: [16, 0],
+  duration: 10,
+  intervalTimer: 0,
+  movements: [''],
+  notes: '',
+  repScheme: [5],
+  restTimer: 0,
+};
 
 export const WorkoutOptionsContext = createContext<
   [WorkoutOptions, (workoutOptions: WorkoutOptions) => void]
