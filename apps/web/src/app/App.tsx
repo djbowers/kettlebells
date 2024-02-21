@@ -2,7 +2,7 @@ import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { Layout } from '~/components';
+import { Layout, Loading } from '~/components';
 import { WorkoutOptionsProvider } from '~/contexts/WorkoutOptionsContext';
 
 import { SessionProvider } from '../contexts';
@@ -12,7 +12,7 @@ import '../tailwind.css';
 import { routes } from './routes';
 
 export function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -28,9 +28,11 @@ export function App() {
 
   return (
     <Layout>
-      {!session ? (
-        <Signup />
-      ) : (
+      {session === undefined && <Loading />}
+
+      {session === null && <Signup />}
+
+      {session && (
         <SessionProvider value={session}>
           <WorkoutOptionsProvider>
             <RouterProvider router={router} />

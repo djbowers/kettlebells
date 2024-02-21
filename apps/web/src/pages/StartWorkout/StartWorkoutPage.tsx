@@ -58,7 +58,7 @@ export const StartWorkoutPage = () => {
   };
   const handleDecrementTimer: ButtonProps['onClick'] = () => {
     setMinutes((prev) => {
-      if (prev <= 1) return prev;
+      if (prev <= DURATION_INCREMENT) return prev;
       else return prev - DURATION_INCREMENT;
     });
   };
@@ -217,7 +217,7 @@ export const StartWorkoutPage = () => {
           onClickMinus={handleDecrementTimer}
           onClickPlus={handleIncrementTimer}
           text="min"
-          value={duration.toString()}
+          value={duration > 0 ? duration.toString() : <>&infin;</>}
         />
       </Section>
 
@@ -462,7 +462,7 @@ const ModifyCountButtons = ({
   onClickMinus: ButtonProps['onClick'];
   onClickPlus: ButtonProps['onClick'];
   text: string;
-  value: string;
+  value: ReactNode;
 }) => {
   return (
     <div className="flex items-center justify-center gap-5">
