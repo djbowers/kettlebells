@@ -262,72 +262,81 @@ export const StartWorkoutPage = () => {
         ))}
       </Section>
 
-      <Section
-        title="Interval Timer"
-        actions={
-          intervalTimer === 0 ? (
-            <Button kind="outline" onClick={handleIncrementInterval}>
-              + Interval Timer
-            </Button>
-          ) : (
-            <Button kind="outline" onClick={() => setIntervalTimer(0)}>
-              - Interval Timer
-            </Button>
-          )
-        }
-      >
-        {intervalTimer > 0 && (
+      <div className="grid grid-cols-3 gap-2">
+        {intervalTimer === 0 ? (
+          <Button kind="outline" onClick={handleIncrementInterval}>
+            + Interval Timer
+          </Button>
+        ) : (
+          <div />
+        )}
+        {restTimer === 0 ? (
+          <Button kind="outline" onClick={handleIncrementRest}>
+            + Rest Timer
+          </Button>
+        ) : (
+          <div />
+        )}
+        {notes === undefined ? (
+          <Button kind="outline" onClick={handleAddNotes}>
+            + Workout Notes
+          </Button>
+        ) : (
+          <div />
+        )}
+      </div>
+
+      {intervalTimer > 0 && (
+        <Section
+          title="Interval Timer"
+          actions={
+            intervalTimer !== 0 && (
+              <Button kind="outline" onClick={() => setIntervalTimer(0)}>
+                - Interval Timer
+              </Button>
+            )
+          }
+        >
           <ModifyCountButtons
             onClickMinus={handleDecrementInterval}
             onClickPlus={handleIncrementInterval}
             text="sec"
             value={intervalTimer.toString()}
           />
-        )}
-      </Section>
+        </Section>
+      )}
 
-      <Section
-        title="Rest Timer"
-        actions={
-          restTimer === 0 ? (
-            <Button kind="outline" onClick={handleIncrementRest}>
-              + Rest Timer
-            </Button>
-          ) : (
-            <Button kind="outline" onClick={() => setRestTimer(0)}>
-              - Rest Timer
-            </Button>
-          )
-        }
-      >
-        {restTimer > 0 && (
+      {restTimer > 0 && (
+        <Section
+          title="Rest Timer"
+          actions={
+            restTimer !== 0 && (
+              <Button kind="outline" onClick={() => setRestTimer(0)}>
+                - Rest Timer
+              </Button>
+            )
+          }
+        >
           <ModifyCountButtons
             onClickMinus={handleDecrementRest}
             onClickPlus={handleIncrementRest}
             text="sec"
             value={restTimer.toString()}
           />
-        )}
-      </Section>
+        </Section>
+      )}
 
-      <Section
-        title="Workout Notes"
-        actions={
-          <>
-            {notes === undefined && (
-              <Button kind="outline" onClick={handleAddNotes}>
-                + Workout Notes
-              </Button>
-            )}
-            {notes && notes.length > 0 && (
+      {notes !== undefined && (
+        <Section
+          title="Workout Notes"
+          actions={
+            notes?.length > 0 && (
               <Button kind="outline" onClick={() => setNotes(undefined)}>
                 - Workout Notes
               </Button>
-            )}
-          </>
-        }
-      >
-        {notes !== undefined && (
+            )
+          }
+        >
           <Input
             autoFocus
             className="w-full"
@@ -335,8 +344,8 @@ export const StartWorkoutPage = () => {
             onBlur={handleBlurNotes}
             ref={notesRef}
           />
-        )}
-      </Section>
+        </Section>
+      )}
 
       <div className="flex justify-center">
         <Button
