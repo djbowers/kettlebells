@@ -1,5 +1,12 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  forwardRef,
+  useRef,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -39,20 +46,26 @@ export const StartWorkoutPage = () => {
   );
   const [restTimer, setRestTimer] = useState<number>(workoutOptions.restTimer);
 
+  const movementsRef = useRef<Array<HTMLInputElement | null>>([]);
   const primaryBellRef = useRef<HTMLInputElement>(null);
   const secondBellRef = useRef<HTMLInputElement>(null);
   const notesRef = useRef<HTMLInputElement>(null);
 
   const handleClickRemoveMovement: ButtonProps['onClick'] = () => {
-    if (movements.length > 1)
+    if (movements.length > 1) {
       setMovements((prev) => {
         const movements = [...prev];
         movements.pop();
         return movements;
       });
+    }
+    movementsRef.current[movements.length - 2]?.focus();
   };
   const handleClickAddMovement: ButtonProps['onClick'] = () => {
-    setMovements((prev) => [...prev, '']);
+    setMovements((prev) =>
+      prev[prev.length - 1] === '' ? prev : [...prev, ''],
+    );
+    movementsRef.current[movements.length - 1]?.focus();
   };
   const handleIncrementTimer: ButtonProps['onClick'] = () => {
     setMinutes((prev) => prev + DURATION_INCREMENT);
@@ -138,7 +151,7 @@ export const StartWorkoutPage = () => {
   const primaryBell = bells[0];
   const secondBell = bells[1];
 
-  const startDisabled = movements[0] === '';
+  const startDisabled = movements[movements.length - 1] === '';
 
   return (
     <Page>
@@ -159,44 +172,17 @@ export const StartWorkoutPage = () => {
               index={index}
               value={movement}
               onChange={setMovements}
+              ref={(el) => (movementsRef.current[index] = el)}
             />
           </div>
         ))}
       </Section>
 
-      <Section title="Bell(s) (kg)">
-        <div className="flex items-center justify-between gap-2">
+      <Section
+        title="Bell(s) (kg)"
+        actions={
           <div className="flex items-center gap-1">
             {primaryBell > 0 && (
-              <Input
-                aria-label="Bell Input"
-                defaultValue={primaryBell}
-                label={secondBell ? 'L' : undefined}
-                min={0}
-                onBlur={handleBlurPrimaryBellInput}
-                ref={primaryBellRef}
-                type="number"
-              />
-            )}
-          </div>
-
-          {secondBell > 0 && (
-            <div className="flex items-center gap-1">
-              <Input
-                aria-label="Bell Input"
-                defaultValue={secondBell}
-                disabled={!primaryBell}
-                label="R"
-                min={0}
-                onBlur={handleBlurSecondBellInput}
-                ref={secondBellRef}
-                type="number"
-              />
-            </div>
-          )}
-
-          <div className="flex items-center gap-1">
-            {primaryBell > 0 && secondBell === 0 && (
               <Button kind="outline" onClick={handleClickBodyweightOnly}>
                 Bodyweight Only
               </Button>
@@ -210,7 +196,40 @@ export const StartWorkoutPage = () => {
               onClickPlus={handleClickAddBell}
             />
           </div>
-        </div>
+        }
+      >
+        {primaryBell > 0 && (
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex basis-1/2 flex-col gap-1">
+              {primaryBell > 0 && (
+                <Input
+                  aria-label="Bell Input"
+                  defaultValue={primaryBell}
+                  label={secondBell ? 'Left' : undefined}
+                  min={0}
+                  onBlur={handleBlurPrimaryBellInput}
+                  ref={primaryBellRef}
+                  type="number"
+                />
+              )}
+            </div>
+
+            {secondBell > 0 && (
+              <div className="flex basis-1/2 flex-col gap-1">
+                <Input
+                  aria-label="Bell Input"
+                  defaultValue={secondBell}
+                  disabled={!primaryBell}
+                  label="Right"
+                  min={0}
+                  onBlur={handleBlurSecondBellInput}
+                  ref={secondBellRef}
+                  type="number"
+                />
+              </div>
+            )}
+          </div>
+        )}
       </Section>
 
       <Section title="Timer">
@@ -248,11 +267,11 @@ export const StartWorkoutPage = () => {
         actions={
           intervalTimer === 0 ? (
             <Button kind="outline" onClick={handleIncrementInterval}>
-              + Add Interval Timer
+              + Interval Timer
             </Button>
           ) : (
             <Button kind="outline" onClick={() => setIntervalTimer(0)}>
-              - Remove Interval Timer
+              - Interval Timer
             </Button>
           )
         }
@@ -272,11 +291,11 @@ export const StartWorkoutPage = () => {
         actions={
           restTimer === 0 ? (
             <Button kind="outline" onClick={handleIncrementRest}>
-              + Add Rest Timer
+              + Rest Timer
             </Button>
           ) : (
             <Button kind="outline" onClick={() => setRestTimer(0)}>
-              - Remove Rest Timer
+              - Rest Timer
             </Button>
           )
         }
@@ -297,17 +316,16 @@ export const StartWorkoutPage = () => {
           <>
             {notes === undefined && (
               <Button kind="outline" onClick={handleAddNotes}>
-                + Add Workout Notes
+                + Workout Notes
               </Button>
             )}
             {notes && notes.length > 0 && (
               <Button kind="outline" onClick={() => setNotes(undefined)}>
-                - Remove Workout Notes
+                - Workout Notes
               </Button>
             )}
           </>
         }
-        bottomBorder={false}
       >
         {notes !== undefined && (
           <Input
@@ -334,15 +352,14 @@ export const StartWorkoutPage = () => {
   );
 };
 
-const MovementInput = ({
-  onChange,
-  value,
-  index,
-}: {
-  onChange: Dispatch<SetStateAction<string[]>>;
-  value: string;
-  index: number;
-}) => {
+const MovementInput = forwardRef<
+  HTMLInputElement,
+  {
+    onChange: Dispatch<SetStateAction<string[]>>;
+    value: string;
+    index: number;
+  }
+>(({ onChange, value, index }, ref) => {
   const handleChange: InputProps['onChange'] = (e) => {
     onChange((prev) => {
       const movements = [...prev];
@@ -359,9 +376,10 @@ const MovementInput = ({
       onChange={handleChange}
       className="w-full"
       id="movement"
+      ref={ref}
     />
   );
-};
+});
 
 const RepSchemePicker = ({
   onChange,
@@ -400,28 +418,23 @@ const RepSchemePicker = ({
 
 const Section = ({
   actions = null,
-  bottomBorder = true,
   children,
   title,
 }: {
   actions?: ReactNode;
-  bottomBorder?: boolean;
   children: ReactNode;
   title?: string;
 }) => {
   return (
-    <>
-      <div className="layout flex flex-col gap-y-1">
-        <div className="flex items-center gap-x-1">
-          <div className="flex w-full items-center justify-between">
-            <div className="text-default text-base font-medium">{title}</div>
-            {actions}
-          </div>
+    <div className="layout flex flex-col gap-y-1">
+      <div className="flex items-center gap-x-1">
+        <div className="flex w-full items-center justify-between">
+          <div className="text-default text-base font-medium">{title}</div>
+          {actions}
         </div>
-        {children && <div className="flex flex-col gap-y-2">{children}</div>}
       </div>
-      {bottomBorder && <hr />}
-    </>
+      {children && <div className="flex flex-col gap-y-2">{children}</div>}
+    </div>
   );
 };
 
@@ -447,7 +460,7 @@ const ModifyWorkoutButtons = ({
       )}
       {count < limit && (
         <Button kind="outline" onClick={onClickPlus}>
-          + {count === 1 && 'Add'} {label}
+          + {label}
         </Button>
       )}
     </div>

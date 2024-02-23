@@ -12,7 +12,7 @@ export const Header = () => {
   const handleClickAccount = () => navigate('/account');
   const handleClickHistory = () => navigate('/history');
   const handleClickCommunity = () => {
-    window.location.href = 'https://discord.gg/BrBp87mSbA';
+    window.open('https://discord.gg/BrBp87mSbA', '_blank');
   };
   const handleSignOut = () => supabase.auth.signOut();
 
