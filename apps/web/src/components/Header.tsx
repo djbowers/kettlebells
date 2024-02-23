@@ -2,6 +2,7 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../supabaseClient';
+import { Badge } from './Badge';
 import { Dropdown } from './Dropdown';
 import { Link } from './Link';
 
@@ -20,9 +21,10 @@ export const Header = () => {
     <div className="flex h-5 items-center border-b px-2 py-1">
       <div
         onClick={handleClickHome}
-        className="hover:text-action cursor-pointer"
+        className="hover:text-action flex cursor-pointer items-center gap-1"
       >
-        Bellskill
+        <h1>Bellskill</h1>
+        <Badge label="alpha" size="small" status="warning" />
       </div>
       <div className="flex grow justify-end">
         <Dropdown
