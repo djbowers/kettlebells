@@ -20,7 +20,7 @@ import {
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
-const DURATION_INCREMENT = 2; // minutes
+const DURATION_INCREMENT = 1; // minutes
 const INTERVAL_TIMER_INCREMENT = 5; // seconds
 const DEFAULT_INTERVAL_TIMER = 30; // seconds
 const REST_TIMER_INCREMENT = 5; // seconds
