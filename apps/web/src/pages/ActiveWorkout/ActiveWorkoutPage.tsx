@@ -1,5 +1,6 @@
 import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { DateTime, Duration } from 'luxon';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWakeLock } from 'react-screen-wake-lock';
@@ -52,7 +53,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const [
     timeRemaining,
     {
-      seconds: remainingSeconds,
+      milliseconds: remainingMilliseconds,
       togglePause: togglePauseWorkout,
       paused: workoutPaused,
     },
@@ -67,8 +68,10 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
 
   // Overview
   const totalSeconds = duration * 60;
+  const totalMilliseconds = duration * 60000;
+  const remainingSeconds = Math.floor(remainingMilliseconds / 1000);
   const completedPercentage =
-    ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
+    ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
 
   // Movements
   const lastMovementIndex = movements.length - 1;
@@ -91,7 +94,6 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   // Rungs
   const rungsPerRound = repScheme.length;
   const rungIndex = completedRungs % rungsPerRound;
-  // const currentRung = rungIndex + 1;
 
   // Rounds
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
@@ -109,14 +111,27 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   }, [primaryBellSide, isSingleBell]);
 
   // Interval Timer
-  const intervalSeconds = remainingSeconds % intervalTimer;
-  const intervalRemaining = intervalSeconds || intervalTimer;
+  const totalIntervalMilliseconds = intervalTimer * 1000;
+  const intervalMilliseconds =
+    remainingMilliseconds % totalIntervalMilliseconds;
+  const intervalRemaining = intervalMilliseconds || totalIntervalMilliseconds;
   const intervalCompletedPercentage =
-    ((intervalTimer - intervalRemaining) / intervalTimer) * 100;
+    ((totalIntervalMilliseconds - intervalRemaining) /
+      totalIntervalMilliseconds) *
+    100;
+  const intervalRemainingText = Duration.fromObject({
+    milliseconds: intervalRemaining,
+  })
+    .toFormat('ss')
+    .toString();
 
   // Rest Timer
+  const restMilliseconds = restTimer * 1000;
   const restCompletedPercentage =
-    ((restTimer - restRemaining) / restTimer) * 100;
+    ((restMilliseconds - restRemaining) / restMilliseconds) * 100;
+  const restRemainingText = Duration.fromObject({ milliseconds: restRemaining })
+    .toFormat('ss')
+    .toString();
 
   const nextMovement = () => {
     if (isLastMovement) {
@@ -128,6 +143,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   };
 
   const incrementRound = () => {
+    requestWakeLock();
     setCompletedReps((prev) => prev + repScheme[rungIndex]); // always increment reps
 
     if (shouldMirrorReps) {
@@ -142,13 +158,12 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     }
 
     if (restTimer > 0) {
-      setRestRemaining(restTimer);
+      setRestRemaining(restMilliseconds);
     }
   };
 
   const handleClickContinue = () => {
     setEffect(true);
-    requestWakeLock();
     incrementRound();
   };
 
@@ -186,16 +201,16 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       restRemaining > 0
     )
       return;
-    if (intervalSeconds === 0) incrementRound();
-  }, [intervalSeconds]);
+    if (intervalMilliseconds === 0) incrementRound();
+  }, [intervalMilliseconds]);
 
   /** Rest Timer Effect */
   useEffect(() => {
     if (restRemaining === 0) return;
 
     setTimeout(() => {
-      setRestRemaining((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+      setRestRemaining((prev) => (prev > 0 ? prev - 100 : 0));
+    }, 100);
   }, [restRemaining]);
 
   /** Return to start workout page on refresh */
@@ -249,7 +264,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         <Progress
           color="success"
           text="interval"
-          timeRemaining={intervalRemaining.toString()}
+          timeRemaining={intervalRemainingText}
           completedPercentage={intervalCompletedPercentage}
         />
       )}
@@ -258,7 +273,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         <Progress
           color="warning"
           text="rest"
-          timeRemaining={restRemaining.toString()}
+          timeRemaining={restRemainingText}
           completedPercentage={restCompletedPercentage}
         />
       )}
@@ -308,7 +323,7 @@ const Progress = ({
         })}
         style={{ width: `${completedPercentage}%` }}
       />
-      <div className="text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 text-xl font-medium">
+      <div className="text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 font-mono text-xl font-medium">
         {timeRemaining}
       </div>
       {text && (

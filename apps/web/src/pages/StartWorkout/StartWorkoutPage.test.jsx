@@ -39,16 +39,21 @@ describe('start workout page', () => {
   });
 
   test('can enter multiple movements', async () => {
-    const addMovementButton = screen.getByRole('button', {
-      name: '+ Add Movement',
-    });
-    await userEvent.click(addMovementButton);
+    await userEvent.type(
+      screen.getAllByLabelText('Movement Input')[0],
+      'Clean and Press',
+    );
 
-    const movementInputs = screen.getAllByLabelText('Movement Input');
-    expect(movementInputs).toHaveLength(2);
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: '+ Movement',
+      }),
+    );
 
-    await userEvent.type(movementInputs[0], 'Clean and Press');
-    await userEvent.type(movementInputs[1], 'Front Squat');
+    await userEvent.type(
+      screen.getAllByLabelText('Movement Input')[1],
+      'Front Squat',
+    );
 
     const startButton = screen.getByRole('button', { name: /Start/i });
     expect(startButton).toBeEnabled();
@@ -63,7 +68,7 @@ describe('start workout page', () => {
 
   test('can change the weights of the bells', async () => {
     const addBellButton = screen.getByRole('button', {
-      name: '+ Add Bell',
+      name: '+ Bell',
     });
     await userEvent.click(addBellButton);
 
