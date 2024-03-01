@@ -265,21 +265,21 @@ export const StartWorkoutPage = () => {
       <div className="grid grid-cols-3 gap-2">
         {intervalTimer === 0 ? (
           <Button kind="outline" onClick={handleIncrementInterval}>
-            + Interval Timer
+            + Interval
           </Button>
         ) : (
           <div />
         )}
         {restTimer === 0 ? (
           <Button kind="outline" onClick={handleIncrementRest}>
-            + Rest Timer
+            + Rest
           </Button>
         ) : (
           <div />
         )}
         {notes === undefined ? (
           <Button kind="outline" onClick={handleAddNotes}>
-            + Workout Notes
+            + Notes
           </Button>
         ) : (
           <div />

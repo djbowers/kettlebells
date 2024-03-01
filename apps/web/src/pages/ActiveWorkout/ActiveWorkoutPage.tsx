@@ -1,6 +1,5 @@
 import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { DateTime, Duration } from 'luxon';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWakeLock } from 'react-screen-wake-lock';
@@ -51,25 +50,45 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const { user } = useSession();
 
   const [
-    timeRemaining,
+    formattedTimeRemaining,
     {
       milliseconds: remainingMilliseconds,
-      togglePause: togglePauseWorkout,
-      paused: workoutPaused,
+      pause: pauseWorkoutTimer,
+      paused: workoutTimerPaused,
+      play: startWorkoutTimer,
     },
   ] = useTimer(duration);
+
+  const [
+    formattedIntervalRemaining,
+    {
+      milliseconds: intervalRemainingMilliseconds,
+      pause: pauseIntervalTimer,
+      play: startIntervalTimer,
+      reset: resetIntervalTimer,
+    },
+  ] = useTimer(intervalTimer / 60, { timeFormat: 'ss.S' });
+
+  const [
+    formattedRestRemaining,
+    {
+      milliseconds: restRemainingMilliseconds,
+      pause: pauseRestTimer,
+      play: startRestTimer,
+      reset: resetRestTimer,
+    },
+  ] = useTimer(restTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
 
   const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
-  const [isMirrorRung, setMirrorRung] = useState<boolean>(false);
-  const [effect, setEffect] = useState(false);
-  const [restRemaining, setRestRemaining] = useState<number>(0);
+
+  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false);
+  const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
+  const [isRestActive, setIsRestActive] = useState<boolean>(false);
 
   // Overview
-  const totalSeconds = duration * 60;
   const totalMilliseconds = duration * 60000;
-  const remainingSeconds = Math.floor(remainingMilliseconds / 1000);
   const completedPercentage =
     ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
 
@@ -79,7 +98,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const currentMovement = movements[currentMovementIndex];
 
   // Bells
-  const primaryBellSide = isMirrorRung ? 'right' : 'left';
+  const primaryBellSide = isMirrorSet ? 'right' : 'left'; // todo: make primary bell side configurable
   const primaryBellWeight = bells[0];
   const secondaryBellWeight = bells[1];
   const isSingleBell = primaryBellWeight > 0 && secondaryBellWeight === 0;
@@ -112,59 +131,86 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
 
   // Interval Timer
   const totalIntervalMilliseconds = intervalTimer * 1000;
-  const intervalMilliseconds =
-    remainingMilliseconds % totalIntervalMilliseconds;
-  const intervalRemaining = intervalMilliseconds || totalIntervalMilliseconds;
   const intervalCompletedPercentage =
-    ((totalIntervalMilliseconds - intervalRemaining) /
+    ((totalIntervalMilliseconds - intervalRemainingMilliseconds) /
       totalIntervalMilliseconds) *
     100;
-  const intervalRemainingText = Duration.fromObject({
-    milliseconds: intervalRemaining,
-  })
-    .toFormat('ss')
-    .toString();
 
   // Rest Timer
-  const restMilliseconds = restTimer * 1000;
+  const totalRestMilliseconds = restTimer * 1000;
   const restCompletedPercentage =
-    ((restMilliseconds - restRemaining) / restMilliseconds) * 100;
-  const restRemainingText = Duration.fromObject({ milliseconds: restRemaining })
-    .toFormat('ss')
-    .toString();
+    ((totalRestMilliseconds - restRemainingMilliseconds) /
+      totalRestMilliseconds) *
+    100;
 
-  const nextMovement = () => {
+  const incrementReps = () => {
+    setCompletedReps((prev) => prev + repScheme[rungIndex]);
+  };
+
+  const incrementRungs = () => {
+    setCompletedRungs((prev) => prev + 1);
+  };
+
+  const goToNextMovement = () => {
     if (isLastMovement) {
       setCurrentMovementIndex(0);
-      setCompletedRungs((prev) => prev + 1);
+      incrementRungs();
     } else {
       setCurrentMovementIndex((prev) => prev + 1);
     }
   };
 
-  const incrementRound = () => {
-    requestWakeLock();
-    setCompletedReps((prev) => prev + repScheme[rungIndex]); // always increment reps
-
-    if (shouldMirrorReps) {
-      if (isMirrorRung) {
-        setMirrorRung(false);
-        nextMovement();
-      } else {
-        setMirrorRung(true);
-      }
+  /** Continue to the next side of the body for unilateral movements, or swap bells for mixed weights. */
+  const goToNextSide = () => {
+    if (isMirrorSet) {
+      setIsMirrorSet(false);
+      goToNextMovement();
     } else {
-      nextMovement();
-    }
-
-    if (restTimer > 0) {
-      setRestRemaining(restMilliseconds);
+      setIsMirrorSet(true);
     }
   };
 
+  const goToNextSet = () => {
+    if (shouldMirrorReps) {
+      goToNextSide();
+    } else {
+      goToNextMovement();
+    }
+  };
+
+  const startRest = () => {
+    setIsRestActive(true);
+    startRestTimer();
+  };
+
+  const finishRest = () => {
+    pauseRestTimer();
+    resetRestTimer();
+    setIsRestActive(false);
+  };
+
+  const continueWorkout = () => {
+    requestWakeLock();
+    incrementReps();
+    goToNextSet();
+    if (restTimer > 0) startRest();
+  };
+
   const handleClickContinue = () => {
-    setEffect(true);
-    incrementRound();
+    setIsEffectActive(true);
+    continueWorkout();
+  };
+
+  const handleClickPlay = () => {
+    startWorkoutTimer();
+    startIntervalTimer();
+    if (isRestActive) startRestTimer();
+  };
+
+  const handleClickPause = () => {
+    pauseWorkoutTimer();
+    pauseIntervalTimer();
+    if (isRestActive) pauseRestTimer();
   };
 
   const handleClickFinish = async () => {
@@ -195,27 +241,26 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
 
   /** Interval Timer Effect */
   useEffect(() => {
-    if (
-      intervalTimer === 0 ||
-      remainingSeconds === totalSeconds ||
-      restRemaining > 0
-    )
-      return;
-    if (intervalMilliseconds === 0) incrementRound();
-  }, [intervalMilliseconds]);
+    if (intervalTimer === 0) return;
+    if (intervalRemainingMilliseconds === 0) {
+      continueWorkout();
+      resetIntervalTimer();
+    }
+  }, [intervalRemainingMilliseconds]);
 
   /** Rest Timer Effect */
   useEffect(() => {
-    if (restRemaining === 0) return;
-
-    setTimeout(() => {
-      setRestRemaining((prev) => (prev > 0 ? prev - 100 : 0));
-    }, 100);
-  }, [restRemaining]);
+    if (restTimer === 0) return;
+    if (restRemainingMilliseconds === 0) {
+      finishRest();
+    }
+  });
 
   /** Return to start workout page on refresh */
   useEffect(() => {
-    if (movements[0] === '') navigate('/');
+    if (movements[0] === '') {
+      navigate('/');
+    }
   }, [movements]);
 
   return (
@@ -224,25 +269,34 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         <Progress
           completedPercentage={completedPercentage}
           text="remaining"
-          timeRemaining={duration > 0 ? timeRemaining : <>&infin;</>}
+          timeRemaining={duration > 0 ? formattedTimeRemaining : <>&infin;</>}
         />
 
         {duration > 0 && (
           <div>
-            <IconButton
-              onClick={togglePauseWorkout}
-              kind="outline"
-              size="large"
-              className={clsx({
-                'bg-layout-darker': workoutPaused,
-              })}
-            >
-              {workoutPaused ? (
+            {workoutTimerPaused ? (
+              <IconButton
+                onClick={handleClickPlay}
+                kind="outline"
+                size="large"
+                className={clsx({
+                  'bg-layout-darker': workoutTimerPaused,
+                })}
+              >
                 <PlayIcon className="h-3 w-3" />
-              ) : (
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={handleClickPause}
+                kind="outline"
+                size="large"
+                className={clsx({
+                  'bg-layout-darker': workoutTimerPaused,
+                })}
+              >
                 <PauseIcon className="h-3 w-3" />
-              )}
-            </IconButton>
+              </IconButton>
+            )}
           </div>
         )}
       </div>
@@ -257,33 +311,33 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         leftBell={leftBell}
         repScheme={repScheme}
         rungIndex={rungIndex}
-        restRemaining={restRemaining > 0}
+        restRemaining={isRestActive}
       />
 
-      {intervalTimer > 0 && restRemaining === 0 && (
+      {intervalTimer > 0 && !isRestActive && (
         <Progress
           color="success"
           text="interval"
-          timeRemaining={intervalRemainingText}
+          timeRemaining={parseFloat(formattedIntervalRemaining).toFixed(1)}
           completedPercentage={intervalCompletedPercentage}
         />
       )}
 
-      {restRemaining > 0 && (
+      {isRestActive && (
         <Progress
           color="warning"
           text="rest"
-          timeRemaining={restRemainingText}
+          timeRemaining={parseFloat(formattedRestRemaining).toFixed(1)}
           completedPercentage={restCompletedPercentage}
         />
       )}
 
-      {intervalTimer === 0 && restRemaining === 0 && (
+      {intervalTimer === 0 && !isRestActive && (
         <Button
-          className={clsx('grow', { 'animate-wiggle': effect })}
-          disabled={workoutPaused}
+          className={clsx('grow', { 'animate-wiggle': isEffectActive })}
+          disabled={workoutTimerPaused}
           leftIcon={<PlusIcon className="h-3 w-3" />}
-          onAnimationEnd={() => setEffect(false)}
+          onAnimationEnd={() => setIsEffectActive(false)}
           onClick={handleClickContinue}
           size="large"
         >

@@ -1,14 +1,23 @@
 import { Duration } from 'luxon';
 import { useCallback, useEffect, useState } from 'react';
 
+const DEFAULT_PAUSED = false;
+const TIME_FORMAT = 'm:ss';
+
 export const useTimer = (
   /** Time to start counting down from in minutes */
   initialTimer: number,
+  options: { defaultPaused?: boolean; timeFormat?: string } = {
+    defaultPaused: DEFAULT_PAUSED,
+    timeFormat: TIME_FORMAT,
+  },
 ) => {
   const [milliseconds, setMilliseconds] = useState<number>(
     initialTimer * 60000,
   );
-  const [paused, setPaused] = useState<boolean>(false);
+  const [paused, setPaused] = useState<boolean>(
+    options?.defaultPaused || DEFAULT_PAUSED,
+  );
 
   useEffect(() => {
     if (paused || initialTimer === 0) return;
@@ -19,14 +28,16 @@ export const useTimer = (
     return () => clearInterval(timer);
   }, [paused]);
 
-  const reset = useCallback(() => setMilliseconds(initialTimer), []);
-  const togglePause = useCallback(() => setPaused((prev) => !prev), []);
+  const reset = useCallback(
+    (timer: number = initialTimer) => setMilliseconds(timer * 60000),
+    [],
+  );
+  const pause = useCallback(() => setPaused(true), []);
+  const play = useCallback(() => setPaused(false), []);
 
   const timeRemaining = Duration.fromObject({
     milliseconds,
-  })
-    .toFormat('m:ss')
-    .toString();
+  }).toFormat(options?.timeFormat || TIME_FORMAT);
 
-  return [timeRemaining, { reset, milliseconds, togglePause, paused }] as const;
+  return [timeRemaining, { reset, milliseconds, pause, play, paused }] as const;
 };
