@@ -1,10 +1,14 @@
+import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
-import { Loading, Page } from '~/components';
+import { Badge, Loading, Page } from '~/components';
 import { WorkoutLog } from '~/types';
+import { RpeOptions } from '~/types/rpe.type';
+
+import { RPE_CONFIG } from '../CompletedWorkout/components';
 
 export const HistoryPage = () => {
   const { data: workoutLogs, isLoading } = useWorkoutLogs();
@@ -77,7 +81,17 @@ const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
           <div className="text-subdued">{workoutLog.notes}</div>
         )}
       </div>
-      <div className="text-right">{displayText}</div>
+      <div className="flex grow items-center justify-end gap-1">
+        <Badge
+          size="small"
+          label={RPE_CONFIG[workoutLog.rpe as RpeOptions].text}
+          className={clsx(
+            RPE_CONFIG[workoutLog.rpe as RpeOptions].bgColor,
+            'text-inverse',
+          )}
+        />
+        <div className="text-right">{displayText}</div>
+      </div>
     </Link>
   );
 };
@@ -89,8 +103,8 @@ const HistoryItemGroup = ({
   date: string;
   workoutLogs: WorkoutLog[];
 }) => (
-  <div className="flex flex-col gap-1 rounded-lg border px-2 py-1">
-    <div className="text-sm font-semibold">{date}</div>
+  <div className="flex flex-col gap-1 rounded-xl border px-2 py-1">
+    <div className="text-subdued text-sm font-semibold uppercase">{date}</div>
     {workoutLogs.map((workoutLog) => (
       <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
     ))}
