@@ -1,53 +1,34 @@
 import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useWakeLock } from 'react-screen-wake-lock';
 
+import { useLogWorkout } from '~/api';
 import { Button, IconButton, Page } from '~/components';
-import { useSession, useWorkoutOptions } from '~/contexts';
+import { useWorkoutOptions } from '~/contexts';
 import { useTimer } from '~/hooks';
-import { supabase } from '~/supabaseClient';
+
+import {
+  CompletedSection,
+  CurrentMovement,
+  CurrentRound,
+  ProgressBar,
+} from './components';
+import { useRequestWakeLock } from './hooks';
 
 interface Props {
   startedAt?: Date;
 }
 
 export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
-  const [workoutOptions] = useWorkoutOptions();
-  const {
-    bells,
-    duration,
-    intervalTimer,
-    movements,
-    notes,
-    repScheme,
-    restTimer,
-  } = workoutOptions;
+  const [
+    { bells, duration, intervalTimer, movements, notes, repScheme, restTimer },
+  ] = useWorkoutOptions();
 
-  const { isSupported, release, released, request } = useWakeLock();
-  const locked = released === false;
-
-  const requestWakeLock = async () => {
-    if (!isSupported) return;
-    if (!locked) await request();
-  };
-
-  const releaseWakeLock = async () => {
-    if (!isSupported) return;
-    if (locked) await release();
-  };
-
-  useEffect(() => {
-    requestWakeLock();
-    return () => {
-      releaseWakeLock();
-    };
-  }, []);
+  const { mutate: logWorkout, data: workoutLogId } = useLogWorkout(startedAt);
 
   const navigate = useNavigate();
-
-  const { user } = useSession();
+  const requestWakeLock = useRequestWakeLock();
 
   const [
     formattedTimeRemaining,
@@ -161,7 +142,6 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     }
   };
 
-  /** Continue to the next side of the body for unilateral movements, or swap bells for mixed weights. */
   const goToNextSide = () => {
     if (isMirrorSet) {
       setIsMirrorSet(false);
@@ -190,6 +170,11 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     setIsRestActive(false);
   };
 
+  const finishInterval = () => {
+    continueWorkout();
+    resetIntervalTimer();
+  };
+
   const continueWorkout = () => {
     requestWakeLock();
     incrementReps();
@@ -214,60 +199,48 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     if (isRestActive) pauseRestTimer();
   };
 
-  const handleClickFinish = async () => {
-    const { error, data: workoutLogs } = await supabase
-      .from('workout_logs')
-      .insert({
-        bells,
-        completed_reps: completedReps,
-        completed_rounds: completedRounds,
-        completed_rungs: completedRungs,
-        interval_timer: intervalTimer,
-        minutes: duration,
-        movements,
-        notes,
-        rep_scheme: repScheme,
-        rest_timer: restTimer,
-        started_at: startedAt.toISOString(),
-        user_id: user.id,
-      })
-      .select('id');
-
-    if (error) console.error(error);
-    else {
-      const workoutLogId = workoutLogs[0].id;
-      navigate(`/history/${workoutLogId}`);
-    }
+  const handleClickFinish = () => {
+    logWorkout({
+      completedReps,
+      completedRounds,
+      completedRungs,
+    });
   };
 
-  /** Interval Timer Effect */
-  useEffect(() => {
-    if (intervalTimer === 0) return;
-    if (intervalRemainingMilliseconds === 0) {
-      continueWorkout();
-      resetIntervalTimer();
-    }
-  }, [intervalRemainingMilliseconds]);
+  useEffect(
+    function handleFinishInterval() {
+      if (intervalTimer === 0) return;
+      if (intervalRemainingMilliseconds === 0) finishInterval();
+    },
+    [intervalRemainingMilliseconds],
+  );
 
-  /** Rest Timer Effect */
-  useEffect(() => {
-    if (restTimer === 0) return;
-    if (restRemainingMilliseconds === 0) {
-      finishRest();
-    }
-  });
+  useEffect(
+    function handleFinishRest() {
+      if (restTimer === 0) return;
+      if (restRemainingMilliseconds === 0) finishRest();
+    },
+    [restRemainingMilliseconds],
+  );
 
-  /** Return to start workout page on refresh */
-  useEffect(() => {
-    if (movements[0] === '') {
-      navigate('/');
-    }
-  }, [movements]);
+  useEffect(
+    function handlePageRefresh() {
+      if (movements[0] === '') navigate('/'); // todo: handle page refresh with local storage
+    },
+    [movements],
+  );
+
+  useEffect(
+    function handleFinishWorkout() {
+      if (workoutLogId) navigate(`/history/${workoutLogId}`);
+    },
+    [workoutLogId],
+  );
 
   return (
     <Page>
       <div className="flex w-full items-center gap-1">
-        <Progress
+        <ProgressBar
           completedPercentage={completedPercentage}
           text="remaining"
           timeRemaining={duration > 0 ? formattedTimeRemaining : <>&infin;</>}
@@ -305,6 +278,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       <CurrentMovement
         currentRound={currentRound}
         currentMovement={currentMovement}
+        notes={notes}
       />
 
       <CurrentRound
@@ -316,7 +290,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       />
 
       {intervalTimer > 0 && !isRestActive && (
-        <Progress
+        <ProgressBar
           color="success"
           completedPercentage={intervalCompletedPercentage}
           size="large"
@@ -326,7 +300,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       )}
 
       {isRestActive && (
-        <Progress
+        <ProgressBar
           color="warning"
           completedPercentage={restCompletedPercentage}
           size="large"
@@ -358,172 +332,5 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         <div className="uppercase">Finish Workout</div>
       </Button>
     </Page>
-  );
-};
-
-const Progress = ({
-  color = 'success',
-  completedPercentage,
-  size = 'default',
-  text,
-  timeRemaining,
-}: {
-  color?: 'success' | 'warning';
-  completedPercentage: number;
-  size?: 'default' | 'large';
-  text?: string;
-  timeRemaining: ReactNode;
-}) => {
-  return (
-    <div
-      className={clsx('bg-layout-darker relative flex w-full rounded-xl', {
-        'h-5': size === 'default',
-        'h-6': size === 'large',
-      })}
-    >
-      <div
-        className={clsx('rounded-xl', {
-          // Color
-          'bg-status-success': color === 'success',
-          'bg-status-warning': color === 'warning',
-
-          // Size
-          'h-5': size === 'default',
-          'h-6': size === 'large',
-        })}
-        style={{ width: `${completedPercentage}%` }}
-      />
-      <div
-        className={clsx(
-          'text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 font-mono font-medium',
-          {
-            'text-xl': size === 'default',
-            'text-3xl': size === 'large',
-          },
-        )}
-      >
-        {timeRemaining}
-      </div>
-      {text && (
-        <span className="text-subdued absolute right-0 top-1/2 mr-2 -translate-y-1/2 text-sm uppercase">
-          {text}
-        </span>
-      )}
-    </div>
-  );
-};
-
-export const CurrentMovement = ({
-  currentMovement,
-  currentRound,
-}: {
-  currentMovement: string;
-  currentRound: number;
-}) => {
-  return (
-    <div className="text-default flex gap-2 rounded-xl border px-2 py-3">
-      <div className="flex flex-col items-center gap-0.5">
-        <div className="text-subdued text-sm font-semibold uppercase">
-          Round
-        </div>
-        <div className="bg-layout-darker relative h-6 w-6 rounded-full">
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold"
-            data-testid="current-round"
-          >
-            {currentRound}
-          </div>
-        </div>
-      </div>
-      <div className="flex grow flex-col justify-center gap-1">
-        <div className="text-default text-center text-2xl font-semibold">
-          {currentMovement}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const CurrentRound = ({
-  leftBell,
-  repScheme,
-  rightBell,
-  rungIndex,
-  restRemaining,
-}: {
-  leftBell: number | null;
-  repScheme: number[];
-  rightBell: number | null;
-  rungIndex: number;
-  restRemaining: boolean;
-}) => {
-  return (
-    <div className="flex flex-col gap-1">
-      <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center text-sm font-semibold uppercase">
-        <div>Left</div>
-        <div>Reps</div>
-        <div>Right</div>
-      </div>
-      <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
-        {leftBell && !restRemaining ? (
-          <div className="flex items-end justify-center gap-1">
-            <div className="text-5xl" data-testid="left-bell">
-              {leftBell}
-            </div>
-            <div className="text-subdued text-xl">kg</div>
-          </div>
-        ) : (
-          <div data-testid="left-bell" />
-        )}
-
-        <div
-          className="flex items-end justify-center text-5xl"
-          data-testid="current-reps"
-        >
-          {restRemaining ? <span className="h-5" /> : repScheme[rungIndex]}
-        </div>
-
-        {rightBell && !restRemaining ? (
-          <div className="flex items-end justify-center gap-1">
-            <div className="text-5xl" data-testid="right-bell">
-              {rightBell}
-            </div>
-            <div className="text-subdued text-xl">kg</div>
-          </div>
-        ) : (
-          <div data-testid="right-bell" />
-        )}
-      </div>
-    </div>
-  );
-};
-
-const CompletedSection = ({
-  isBodyweight,
-  completedReps,
-  workoutVolume,
-}: {
-  isBodyweight: boolean;
-  completedReps: number;
-  workoutVolume: number;
-}) => {
-  return (
-    <div
-      className="text-default bg-layout-darker flex flex-col gap-x-2 gap-y-1 rounded-lg p-2"
-      data-testid="completed-section"
-    >
-      <div className="text-subdued text-sm font-semibold uppercase">
-        Completed
-      </div>
-
-      <div className="flex items-center justify-center gap-4">
-        <div className="basis-1/2 text-right text-base font-semibold uppercase">
-          {isBodyweight ? 'Reps' : 'Volume'}
-        </div>
-        <div className="basis-1/2 text-3xl font-medium">
-          {isBodyweight ? completedReps : workoutVolume}
-        </div>
-      </div>
-    </div>
   );
 };
