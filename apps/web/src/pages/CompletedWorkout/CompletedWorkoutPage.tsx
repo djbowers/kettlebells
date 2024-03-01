@@ -59,13 +59,12 @@ export const CompletedWorkoutPage = () => {
           rpeValue={completedWorkout.rpe}
         />
 
-        <Button size="large" onClick={handleClickContinue}>
-          Continue
-        </Button>
-
-        <Button kind="outline" size="large" onClick={handleClickRepeat}>
-          Repeat
-        </Button>
+        <div className="flex justify-end gap-2">
+          <Button kind="outline" onClick={handleClickRepeat}>
+            Repeat
+          </Button>
+          <Button onClick={handleClickContinue}>Continue</Button>
+        </div>
       </div>
     </Page>
   );

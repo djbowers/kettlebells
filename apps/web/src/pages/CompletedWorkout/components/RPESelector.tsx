@@ -1,6 +1,7 @@
 import { RadioGroup } from '@headlessui/react';
 import clsx from 'clsx';
 
+import { Badge } from '~/components';
 import { WorkoutLog } from '~/types';
 
 import { getBellWeightsDisplayValue, getRepSchemeDisplayValue } from '../utils';
@@ -19,47 +20,35 @@ export const RPESelector = ({
   rpeValue,
 }: RPESelectorProps) => {
   const workoutLoad = bellWeights.reduce((total, bell) => total + bell, 0);
-
   const bellWeightsDisplayValue = getBellWeightsDisplayValue(bellWeights);
-  const repSchemeDisplayValue = getRepSchemeDisplayValue(
-    repScheme,
-    bellWeights,
-  );
-
-  const displayText =
-    workoutLoad > 0 ? `${bellWeightsDisplayValue} kg` : 'your bodyweight';
 
   return (
     <RadioGroup
       value={rpeValue}
       onChange={onSelectRPE}
-      className="bg-layout-darker flex flex-col gap-2 rounded-2xl p-2 text-center"
+      className="bg-layout-darker flex flex-col gap-2 rounded-2xl p-2"
     >
-      <RadioGroup.Label className="text-default text-base font-medium uppercase">
+      <RadioGroup.Label className="text-subdued text-sm font-semibold uppercase">
         Exertion Rating
       </RadioGroup.Label>
 
-      <RadioGroup.Description as="div">
-        <div className="text-default text-sm font-medium">
-          How difficult was moving {displayText} for {repSchemeDisplayValue}{' '}
-          reps?
+      <RadioGroup.Description as="div" className="flex flex-col gap-1">
+        <div className="text-default text-center text-sm font-medium">
+          How difficult was your workout?
         </div>
 
         {rpeValue && (
-          <>
-            <div
-              className={clsx(
-                'text-lg font-medium',
-                RPE_CONFIG[rpeValue].textColor,
-              )}
-            >
-              {RPE_CONFIG[rpeValue].text}
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-1">
+            <Badge
+              size="small"
+              label={RPE_CONFIG[rpeValue].text}
+              className={clsx(RPE_CONFIG[rpeValue].bgColor, 'text-inverse')}
+            />
 
-            <div className="text-default text-sm">
+            <div className="text-default text-center text-sm">
               {RPE_CONFIG[rpeValue].description}
             </div>
-          </>
+          </div>
         )}
       </RadioGroup.Description>
 
@@ -78,13 +67,13 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
   return (
     <RadioGroup.Option
       value={rpeValue}
-      className="flex flex-col items-center gap-0.5 p-1"
+      className="flex flex-col items-center gap-0.5"
     >
       {({ checked }) => (
-        <>
+        <div className="flex flex-col items-center justify-center gap-1">
           <div
             className={clsx(
-              'h-2.5 w-2.5 rounded-full',
+              'h-2.5 w-2.5 rounded-full hover:ring',
               RPE_CONFIG[rpeValue].bgColor,
               RPE_CONFIG[rpeValue].ringColor,
               'ring-offset-layout-darker ring-offset-4',
@@ -92,14 +81,14 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
             )}
           />
           <div
-            className={clsx('rounded-xl px-1 py-0.5 text-center font-medium', {
+            className={clsx('rounded-xl text-center text-sm font-medium', {
               'text-default': checked,
               'text-subdued': !checked,
             })}
           >
             {RPE_CONFIG[rpeValue].text}
           </div>
-        </>
+        </div>
       )}
     </RadioGroup.Option>
   );
