@@ -36,17 +36,16 @@ export const HistoryPage = () => {
 
   return (
     <Page>
-      <div className="text-default flex flex-col gap-3">
-        <div className="text-xl font-bold">History</div>
-        <div className="text-subdued text-md grid grid-cols-4 px-2 font-medium uppercase">
-          <div>Date</div>
-          <div className="col-span-2">Movements</div>
-          <div className="text-right">Volume</div>
-        </div>
+      <div className="text-default flex flex-col gap-2">
+        <div className="text-xl font-semibold">Workout History</div>
 
         <div className="flex flex-col gap-1">
           {itemsGroupedByDate.map(([date, workoutLogs]) => (
-            <HistoryItemGroup key={date} workoutLogs={workoutLogs} />
+            <HistoryItemGroup
+              key={date}
+              workoutLogs={workoutLogs}
+              date={date}
+            />
           ))}
         </div>
 
@@ -56,17 +55,8 @@ export const HistoryPage = () => {
   );
 };
 
-const WorkoutHistoryItem = ({
-  workoutLog,
-  showDate = false,
-}: {
-  workoutLog: WorkoutLog;
-  showDate: boolean;
-}) => {
+const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
   const workoutDetailsPath = '/history/' + workoutLog.id;
-  const formattedWorkoutDate = DateTime.fromJSDate(workoutLog.date).toFormat(
-    'MM-d ccc',
-  );
   const totalWeight = workoutLog.bells.reduce((total, bell) => total + bell, 0);
   const workoutVolume = workoutLog.completedReps * totalWeight;
   const displayText =
@@ -76,11 +66,10 @@ const WorkoutHistoryItem = ({
 
   return (
     <Link
-      className="hover:bg-layout-darker grid grid-cols-4 rounded-xl px-2 py-1 hover:cursor-pointer"
+      className="hover:bg-layout-darker flex justify-between rounded-xl px-2 py-1 hover:cursor-pointer"
       to={workoutDetailsPath}
     >
-      <div>{showDate && formattedWorkoutDate}</div>
-      <div className="col-span-2">
+      <div>
         {workoutLog.movements.map((movement, i) => (
           <div key={i}>{movement}</div>
         ))}
@@ -94,18 +83,16 @@ const WorkoutHistoryItem = ({
 };
 
 const HistoryItemGroup = ({
+  date,
   workoutLogs = [],
 }: {
+  date: string;
   workoutLogs: WorkoutLog[];
 }) => (
-  <>
-    {workoutLogs.map((workoutLog, index) => (
-      <WorkoutHistoryItem
-        key={workoutLog.id}
-        workoutLog={workoutLog}
-        showDate={index === 0}
-      />
+  <div className="flex flex-col gap-1 rounded-lg border px-2 py-1">
+    <div className="text-sm font-semibold">{date}</div>
+    {workoutLogs.map((workoutLog) => (
+      <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
     ))}
-    <hr className="m-1" />
-  </>
+  </div>
 );

@@ -10,10 +10,6 @@ beforeEach(() => {
   render(<Default />);
 });
 
-test('asks the user how difficult the rep scheme and load was', () => {
-  screen.getByText('How difficult was moving 16 kg for 5 / 5 reps?');
-});
-
 test('renders all RPE options', () => {
   Object.values(RPE_CONFIG).forEach(({ text }) => {
     screen.getByRole('radio', { name: text });

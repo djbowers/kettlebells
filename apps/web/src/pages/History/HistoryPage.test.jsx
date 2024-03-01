@@ -23,7 +23,7 @@ describe('workout history page', () => {
   });
 
   test('renders workout date', async () => {
-    await screen.findByText('11-9 Thu');
+    await screen.findByText('Thu Nov 09 2023');
   });
 
   test('renders rep count for bodyweight workouts', async () => {

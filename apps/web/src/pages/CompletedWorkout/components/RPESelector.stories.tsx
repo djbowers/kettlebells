@@ -11,12 +11,5 @@ export default {
 
 export const Default = () => {
   const [rpe, setRpe] = useState<WorkoutLog['rpe']>('ideal');
-  return (
-    <RPESelector
-      bellWeights={[16, 0]}
-      onSelectRPE={setRpe}
-      repScheme={[5]}
-      rpeValue={rpe}
-    />
-  );
+  return <RPESelector onSelectRPE={setRpe} rpeValue={rpe} />;
 };

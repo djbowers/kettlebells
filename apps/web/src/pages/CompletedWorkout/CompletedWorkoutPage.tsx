@@ -53,9 +53,7 @@ export const CompletedWorkoutPage = () => {
         <WorkoutHistoryItem completedWorkout={completedWorkout} />
 
         <RPESelector
-          bellWeights={completedWorkout.bells}
           onSelectRPE={handleSelectRPE}
-          repScheme={completedWorkout.repScheme}
           rpeValue={completedWorkout.rpe}
         />
 

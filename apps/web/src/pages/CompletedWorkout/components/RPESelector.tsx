@@ -4,24 +4,12 @@ import clsx from 'clsx';
 import { Badge } from '~/components';
 import { WorkoutLog } from '~/types';
 
-import { getBellWeightsDisplayValue, getRepSchemeDisplayValue } from '../utils';
-
 export interface RPESelectorProps {
-  bellWeights: WorkoutLog['bells'];
   onSelectRPE: (selectedRPE: WorkoutLog['rpe']) => void;
-  repScheme: WorkoutLog['repScheme'];
   rpeValue: WorkoutLog['rpe'];
 }
 
-export const RPESelector = ({
-  bellWeights,
-  onSelectRPE,
-  repScheme,
-  rpeValue,
-}: RPESelectorProps) => {
-  const workoutLoad = bellWeights.reduce((total, bell) => total + bell, 0);
-  const bellWeightsDisplayValue = getBellWeightsDisplayValue(bellWeights);
-
+export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
   return (
     <RadioGroup
       value={rpeValue}
@@ -73,7 +61,7 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
         <div className="flex flex-col items-center justify-center gap-1">
           <div
             className={clsx(
-              'h-2.5 w-2.5 rounded-full hover:ring',
+              'h-2.5 w-2.5 rounded-full hover:cursor-pointer hover:ring',
               RPE_CONFIG[rpeValue].bgColor,
               RPE_CONFIG[rpeValue].ringColor,
               'ring-offset-layout-darker ring-offset-4',
