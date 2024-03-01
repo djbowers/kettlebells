@@ -31,7 +31,7 @@ export const Button = ({
     {
       // button size
       'text-sm h-4 px-1': size === 'default',
-      'text-xl h-5 px-2': size === 'large',
+      'text-xl h-6 px-2': size === 'large',
 
       // button kind
       'bg-primary text-inverse': kind === 'primary',

@@ -83,7 +83,7 @@ export const RepLadders: StoryObj = {
   parameters: {
     workoutOptions: {
       repScheme: [1, 2, 3],
-      bells: [16, 16],
+      bells: [0, 0],
     },
   },
 };

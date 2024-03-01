@@ -108,6 +108,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
 
   // Volume
   const totalWeight = bells.reduce((total, bell) => total + bell, 0);
+  const isBodyweight = totalWeight === 0;
   const workoutVolume = completedReps * totalWeight;
 
   // Rungs
@@ -317,18 +318,20 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       {intervalTimer > 0 && !isRestActive && (
         <Progress
           color="success"
+          completedPercentage={intervalCompletedPercentage}
+          size="large"
           text="interval"
           timeRemaining={parseFloat(formattedIntervalRemaining).toFixed(1)}
-          completedPercentage={intervalCompletedPercentage}
         />
       )}
 
       {isRestActive && (
         <Progress
           color="warning"
+          completedPercentage={restCompletedPercentage}
+          size="large"
           text="rest"
           timeRemaining={parseFloat(formattedRestRemaining).toFixed(1)}
-          completedPercentage={restCompletedPercentage}
         />
       )}
 
@@ -346,6 +349,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       )}
 
       <CompletedSection
+        isBodyweight={isBodyweight}
         completedReps={completedReps}
         workoutVolume={workoutVolume}
       />
@@ -360,24 +364,44 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
 const Progress = ({
   color = 'success',
   completedPercentage,
+  size = 'default',
   text,
   timeRemaining,
 }: {
   color?: 'success' | 'warning';
   completedPercentage: number;
+  size?: 'default' | 'large';
   text?: string;
   timeRemaining: ReactNode;
 }) => {
   return (
-    <div className="bg-layout-darker relative flex h-5 w-full rounded-xl">
+    <div
+      className={clsx('bg-layout-darker relative flex w-full rounded-xl', {
+        'h-5': size === 'default',
+        'h-6': size === 'large',
+      })}
+    >
       <div
-        className={clsx('h-5 rounded-xl', {
+        className={clsx('rounded-xl', {
+          // Color
           'bg-status-success': color === 'success',
           'bg-status-warning': color === 'warning',
+
+          // Size
+          'h-5': size === 'default',
+          'h-6': size === 'large',
         })}
         style={{ width: `${completedPercentage}%` }}
       />
-      <div className="text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 font-mono text-xl font-medium">
+      <div
+        className={clsx(
+          'text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 font-mono font-medium',
+          {
+            'text-xl': size === 'default',
+            'text-3xl': size === 'large',
+          },
+        )}
+      >
         {timeRemaining}
       </div>
       {text && (
@@ -399,8 +423,10 @@ export const CurrentMovement = ({
   return (
     <div className="text-default flex gap-2 rounded-xl border px-2 py-3">
       <div className="flex flex-col items-center gap-0.5">
-        <div className="text-base font-semibold">Round</div>
-        <div className="border-default relative h-6 w-6 rounded-full border">
+        <div className="text-subdued text-sm font-semibold uppercase">
+          Round
+        </div>
+        <div className="bg-layout-darker relative h-6 w-6 rounded-full">
           <div
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold"
             data-testid="current-round"
@@ -410,7 +436,7 @@ export const CurrentMovement = ({
         </div>
       </div>
       <div className="flex grow flex-col justify-center gap-1">
-        <div className="text-default text-2xl font-semibold">
+        <div className="text-default text-center text-2xl font-semibold">
           {currentMovement}
         </div>
       </div>
@@ -433,40 +459,36 @@ const CurrentRound = ({
 }) => {
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center uppercase">
+      <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center text-sm font-semibold uppercase">
         <div>Left</div>
         <div>Reps</div>
         <div>Right</div>
       </div>
-      <div className="text-default grid h-[100px] grid-cols-3 items-center gap-3 text-center font-medium">
+      <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
         {leftBell && !restRemaining ? (
-          <div className="flex h-full flex-col items-center justify-center py-1">
+          <div className="flex items-end justify-center gap-1">
             <div className="text-5xl" data-testid="left-bell">
               {leftBell}
             </div>
-            <div className="text-3xl">kg</div>
+            <div className="text-subdued text-xl">kg</div>
           </div>
         ) : (
           <div data-testid="left-bell" />
         )}
 
-        {!restRemaining ? (
-          <div
-            className="flex h-full items-center justify-center py-1 text-6xl"
-            data-testid="current-reps"
-          >
-            {repScheme[rungIndex]}
-          </div>
-        ) : (
-          <div className="text-subdued text-4xl">Rest</div>
-        )}
+        <div
+          className="flex items-end justify-center text-5xl"
+          data-testid="current-reps"
+        >
+          {restRemaining ? <span className="h-5" /> : repScheme[rungIndex]}
+        </div>
 
         {rightBell && !restRemaining ? (
-          <div className="flex h-full flex-col items-center justify-center py-1">
+          <div className="flex items-end justify-center gap-1">
             <div className="text-5xl" data-testid="right-bell">
               {rightBell}
             </div>
-            <div className="text-3xl">kg</div>
+            <div className="text-subdued text-xl">kg</div>
           </div>
         ) : (
           <div data-testid="right-bell" />
@@ -477,31 +499,31 @@ const CurrentRound = ({
 };
 
 const CompletedSection = ({
+  isBodyweight,
   completedReps,
   workoutVolume,
 }: {
+  isBodyweight: boolean;
   completedReps: number;
   workoutVolume: number;
 }) => {
   return (
     <div
-      className="text-default bg-layout-darker grid grid-cols-3 items-center space-x-2 space-y-1 rounded-lg p-2"
+      className="text-default bg-layout-darker flex flex-col gap-x-2 gap-y-1 rounded-lg p-2"
       data-testid="completed-section"
     >
-      <div className="text-subdued col-span-1 justify-self-end text-lg font-medium uppercase">
+      <div className="text-subdued text-sm font-semibold uppercase">
         Completed
       </div>
-      <div className="col-span-2" />
 
-      <div className="col-span-1 justify-self-end text-lg font-medium uppercase">
-        Reps
+      <div className="flex items-center justify-center gap-4">
+        <div className="basis-1/2 text-right text-base font-semibold uppercase">
+          {isBodyweight ? 'Reps' : 'Volume'}
+        </div>
+        <div className="basis-1/2 text-3xl font-medium">
+          {isBodyweight ? completedReps : workoutVolume}
+        </div>
       </div>
-      <div className="col-span-2 text-2xl font-medium">{completedReps}</div>
-
-      <div className="col-span-1 justify-self-end text-lg font-medium uppercase">
-        Volume
-      </div>
-      <div className="col-span-2 text-2xl font-medium">{workoutVolume}kg</div>
     </div>
   );
 };
