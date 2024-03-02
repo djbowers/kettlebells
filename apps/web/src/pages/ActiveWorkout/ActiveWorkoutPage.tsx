@@ -18,9 +18,13 @@ import { useRequestWakeLock } from './hooks';
 
 interface Props {
   startedAt?: Date;
+  defaultPaused?: boolean;
 }
 
-export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
+export const ActiveWorkoutPage = ({
+  startedAt = new Date(),
+  defaultPaused = true,
+}: Props) => {
   const [
     { bells, duration, intervalTimer, movements, notes, repScheme, restTimer },
   ] = useWorkoutOptions();
@@ -38,7 +42,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       paused: workoutTimerPaused,
       play: startWorkoutTimer,
     },
-  ] = useTimer(duration);
+  ] = useTimer(duration, { defaultPaused });
 
   const [
     formattedIntervalRemaining,
@@ -48,7 +52,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
       play: startIntervalTimer,
       reset: resetIntervalTimer,
     },
-  ] = useTimer(intervalTimer / 60, { timeFormat: 'ss.S' });
+  ] = useTimer(intervalTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
 
   const [
     formattedRestRemaining,
@@ -60,6 +64,16 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     },
   ] = useTimer(restTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
 
+  const [
+    formattedCountdownRemaining,
+    {
+      milliseconds: countdownRemainingMilliseconds,
+      pause: pauseCountdownTimer,
+      play: startCountdownTimer,
+      reset: resetCountdownTimer,
+    },
+  ] = useTimer(3 / 60, { defaultPaused: true, timeFormat: 's.S' });
+
   const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
@@ -67,6 +81,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false);
   const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
   const [isRestActive, setIsRestActive] = useState<boolean>(false);
+  const [isCountdownActive, setIsCountdownActive] = useState<boolean>(false);
 
   // Overview
   const totalMilliseconds = duration * 60000;
@@ -162,12 +177,14 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
   const startRest = () => {
     setIsRestActive(true);
     startRestTimer();
+    if (intervalTimer > 0) pauseIntervalTimer();
   };
 
   const finishRest = () => {
     pauseRestTimer();
     resetRestTimer();
     setIsRestActive(false);
+    if (intervalTimer > 0) startIntervalTimer();
   };
 
   const finishInterval = () => {
@@ -182,15 +199,23 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     if (restTimer > 0) startRest();
   };
 
+  const finishCountdown = () => {
+    pauseCountdownTimer();
+    setIsCountdownActive(false);
+    resetCountdownTimer();
+    startWorkoutTimer();
+    if (intervalTimer > 0 && !isRestActive) startIntervalTimer();
+    if (isRestActive) startRestTimer();
+  };
+
   const handleClickContinue = () => {
     setIsEffectActive(true);
     continueWorkout();
   };
 
-  const handleClickPlay = () => {
-    startWorkoutTimer();
-    startIntervalTimer();
-    if (isRestActive) startRestTimer();
+  const handleClickStart = () => {
+    startCountdownTimer();
+    setIsCountdownActive(true);
   };
 
   const handleClickPause = () => {
@@ -237,6 +262,20 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
     [workoutLogId],
   );
 
+  useEffect(
+    function handleCountdownTimer() {
+      if (countdownRemainingMilliseconds === 0) finishCountdown();
+    },
+    [countdownRemainingMilliseconds],
+  );
+
+  const showIntervalProgressBar =
+    intervalTimer > 0 && !isRestActive && !workoutTimerPaused;
+  const showRestProgressBar = isRestActive && !workoutTimerPaused;
+  const showContinueButton =
+    intervalTimer === 0 && !isRestActive && !workoutTimerPaused;
+  const showStartButton = !isCountdownActive && workoutTimerPaused;
+
   return (
     <Page>
       <div className="flex w-full items-center gap-1">
@@ -248,29 +287,14 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
 
         {duration > 0 && (
           <div>
-            {workoutTimerPaused ? (
-              <IconButton
-                onClick={handleClickPlay}
-                kind="outline"
-                size="large"
-                className={clsx({
-                  'bg-layout-darker': workoutTimerPaused,
-                })}
-              >
-                <PlayIcon className="h-3 w-3" />
-              </IconButton>
-            ) : (
-              <IconButton
-                onClick={handleClickPause}
-                kind="outline"
-                size="large"
-                className={clsx({
-                  'bg-layout-darker': workoutTimerPaused,
-                })}
-              >
-                <PauseIcon className="h-3 w-3" />
-              </IconButton>
-            )}
+            <IconButton
+              onClick={handleClickPause}
+              disabled={workoutTimerPaused}
+              kind="outline"
+              size="large"
+            >
+              <PauseIcon className="h-3 w-3" />
+            </IconButton>
           </div>
         )}
       </div>
@@ -289,7 +313,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         restRemaining={isRestActive}
       />
 
-      {intervalTimer > 0 && !isRestActive && (
+      {showIntervalProgressBar && (
         <ProgressBar
           color="success"
           completedPercentage={intervalCompletedPercentage}
@@ -299,7 +323,7 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         />
       )}
 
-      {isRestActive && (
+      {showRestProgressBar && (
         <ProgressBar
           color="warning"
           completedPercentage={restCompletedPercentage}
@@ -309,7 +333,21 @@ export const ActiveWorkoutPage = ({ startedAt = new Date() }: Props) => {
         />
       )}
 
-      {intervalTimer === 0 && !isRestActive && (
+      {isCountdownActive && (
+        <div className="flex items-center justify-center">
+          <div className="flex h-6 w-6 items-center justify-center font-mono text-5xl font-medium">
+            {parseFloat(formattedCountdownRemaining).toFixed(1)}
+          </div>
+        </div>
+      )}
+
+      {showStartButton && (
+        <Button onClick={handleClickStart} size="large">
+          <PlayIcon className="h-3 w-3 fill-white" />
+        </Button>
+      )}
+
+      {showContinueButton && (
         <Button
           className={clsx('grow', { 'animate-wiggle': isEffectActive })}
           disabled={workoutTimerPaused}

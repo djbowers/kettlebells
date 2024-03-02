@@ -28,6 +28,12 @@ export const IconButton = ({
       'bg-primary text-inverse': kind === 'primary',
       'border-layout text-default hover:bg-layout-darker border':
         kind === 'outline',
+
+      // disabled states
+      'cursor-pointer hover:bg-opacity-80': !disabled,
+      'bg-opacity-50': kind === 'primary' && disabled,
+      'bg-layout-darker hover:bg-layout-darker text-subdued':
+        kind === 'outline' && disabled,
     },
     className,
   );

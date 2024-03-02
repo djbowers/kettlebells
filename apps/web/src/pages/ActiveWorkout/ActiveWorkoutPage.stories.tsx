@@ -19,6 +19,9 @@ const defaultWorkoutOptions: WorkoutOptions = {
 
 export default {
   component: ActiveWorkoutPage,
+  args: {
+    defaultPaused: false,
+  },
   decorators: [
     (Story, { parameters }) => (
       <WorkoutOptionsContext.Provider
@@ -134,7 +137,24 @@ export const BodyweightMovements: StoryObj = {
 export const IntervalTimer: StoryObj = {
   parameters: {
     workoutOptions: {
-      intervalTimer: 0.5,
+      intervalTimer: 30,
+    },
+  },
+};
+
+export const RestTimer: StoryObj = {
+  parameters: {
+    workoutOptions: {
+      restTimer: 30,
+    },
+  },
+};
+
+export const IntervalRestTimer: StoryObj = {
+  parameters: {
+    workoutOptions: {
+      intervalTimer: 5,
+      restTimer: 5,
     },
   },
 };
