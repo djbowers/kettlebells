@@ -1,14 +1,11 @@
-import clsx from 'clsx';
-import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
-import { Badge, Loading, Page } from '~/components';
+import { Loading, Page } from '~/components';
 import { WorkoutLog } from '~/types';
-import { RpeOptions } from '~/types/rpe.type';
 
-import { RPE_CONFIG } from '../CompletedWorkout/components';
+import { RpeBadge } from '../CompletedWorkout/components';
 
 export const HistoryPage = () => {
   const { data: workoutLogs, isLoading } = useWorkoutLogs();
@@ -82,14 +79,7 @@ const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
         )}
       </div>
       <div className="flex grow items-center justify-end gap-1">
-        <Badge
-          size="small"
-          label={RPE_CONFIG[workoutLog.rpe as RpeOptions].text}
-          className={clsx(
-            RPE_CONFIG[workoutLog.rpe as RpeOptions].bgColor,
-            'text-inverse',
-          )}
-        />
+        {workoutLog.rpe !== null && <RpeBadge rpeValue={workoutLog.rpe} />}
         <div className="text-right">{displayText}</div>
       </div>
     </Link>

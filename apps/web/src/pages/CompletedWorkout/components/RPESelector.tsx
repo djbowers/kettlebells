@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import { Badge } from '~/components';
 import { WorkoutLog } from '~/types';
+import { RpeOptions } from '~/types/rpe.type';
 
 export interface RPESelectorProps {
   onSelectRPE: (selectedRPE: WorkoutLog['rpe']) => void;
@@ -27,12 +28,7 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
 
         {rpeValue && (
           <div className="flex flex-wrap items-center justify-center gap-1">
-            <Badge
-              size="small"
-              label={RPE_CONFIG[rpeValue].text}
-              className={clsx(RPE_CONFIG[rpeValue].bgColor, 'text-inverse')}
-            />
-
+            <RpeBadge rpeValue={rpeValue} />
             <div className="text-default text-center text-sm">
               {RPE_CONFIG[rpeValue].description}
             </div>
@@ -79,6 +75,16 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
         </div>
       )}
     </RadioGroup.Option>
+  );
+};
+
+export const RpeBadge = ({ rpeValue }: { rpeValue: RpeOptions }) => {
+  return (
+    <Badge
+      size="small"
+      label={RPE_CONFIG[rpeValue].text}
+      className={clsx(RPE_CONFIG[rpeValue].bgColor, 'text-inverse')}
+    />
   );
 };
 
