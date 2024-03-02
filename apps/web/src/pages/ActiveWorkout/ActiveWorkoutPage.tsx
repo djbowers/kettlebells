@@ -29,7 +29,11 @@ export const ActiveWorkoutPage = ({
     { bells, duration, intervalTimer, movements, notes, repScheme, restTimer },
   ] = useWorkoutOptions();
 
-  const { mutate: logWorkout, data: workoutLogId } = useLogWorkout(startedAt);
+  const {
+    mutate: logWorkout,
+    data: workoutLogId,
+    isLoading: logWorkoutLoading,
+  } = useLogWorkout(startedAt);
 
   const navigate = useNavigate();
   const requestWakeLock = useRequestWakeLock();
@@ -366,7 +370,12 @@ export const ActiveWorkoutPage = ({
         workoutVolume={workoutVolume}
       />
 
-      <Button kind="outline" onClick={handleClickFinish} className="h-5">
+      <Button
+        className="h-5"
+        disabled={logWorkoutLoading}
+        kind="outline"
+        onClick={handleClickFinish}
+      >
         <div className="uppercase">Finish Workout</div>
       </Button>
     </Page>
