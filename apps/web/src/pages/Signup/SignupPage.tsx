@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 
-import { Input } from '~/components';
 import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
 import { supabase } from '~/supabaseClient';
 
 export function Signup() {
@@ -41,7 +41,7 @@ export function Signup() {
             value={email}
             required={true}
             onChange={handleChangeEmail}
-            className="h-5"
+            className="h-5 text-base"
           />
 
           <Button type="submit" loading={loading} size="lg" className="w-full">

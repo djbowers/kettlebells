@@ -1,5 +1,6 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import {
+  ChangeEventHandler,
   Dispatch,
   ReactNode,
   SetStateAction,
@@ -9,8 +10,10 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Input, InputProps, Page } from '~/components';
+import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
@@ -200,30 +203,34 @@ export const StartWorkoutPage = () => {
           <div className="flex items-center justify-between gap-2">
             <div className="flex basis-1/2 flex-col gap-1">
               {primaryBell > 0 && (
-                <Input
-                  aria-label="Bell Input"
-                  defaultValue={primaryBell}
-                  label={secondBell ? 'Left' : undefined}
-                  min={0}
-                  onBlur={handleBlurPrimaryBellInput}
-                  ref={primaryBellRef}
-                  type="number"
-                />
+                <>
+                  <Label>{secondBell ? 'Left' : undefined}</Label>
+                  <Input
+                    aria-label="Bell Input"
+                    defaultValue={primaryBell}
+                    min={0}
+                    onBlur={handleBlurPrimaryBellInput}
+                    ref={primaryBellRef}
+                    type="number"
+                  />
+                </>
               )}
             </div>
 
             {secondBell > 0 && (
               <div className="flex basis-1/2 flex-col gap-1">
-                <Input
-                  aria-label="Bell Input"
-                  defaultValue={secondBell}
-                  disabled={!primaryBell}
-                  label="Right"
-                  min={0}
-                  onBlur={handleBlurSecondBellInput}
-                  ref={secondBellRef}
-                  type="number"
-                />
+                <>
+                  <Label>Right</Label>
+                  <Input
+                    aria-label="Bell Input"
+                    defaultValue={secondBell}
+                    disabled={!primaryBell}
+                    min={0}
+                    onBlur={handleBlurSecondBellInput}
+                    ref={secondBellRef}
+                    type="number"
+                  />
+                </>
               </div>
             )}
           </div>
@@ -377,7 +384,7 @@ const MovementInput = forwardRef<
     index: number;
   }
 >(({ onChange, value, index }, ref) => {
-  const handleChange: InputProps['onChange'] = (e) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     onChange((prev) => {
       const movements = [...prev];
       movements[index] = e.target.value;
