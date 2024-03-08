@@ -1,10 +1,11 @@
-import { PauseIcon, PlayIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { PauseIcon, PlayIcon, PlusIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogWorkout } from '~/api';
-import { Button, IconButton, Page } from '~/components';
+import { Page } from '~/components';
+import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
 import { useTimer } from '~/hooks';
 
@@ -291,14 +292,14 @@ export const ActiveWorkoutPage = ({
 
         {duration > 0 && (
           <div>
-            <IconButton
-              onClick={handleClickPause}
+            <Button
               disabled={workoutTimerPaused}
-              kind="outline"
-              size="large"
+              onClick={handleClickPause}
+              size="icon"
+              variant="secondary"
             >
               <PauseIcon className="h-3 w-3" />
-            </IconButton>
+            </Button>
           </div>
         )}
       </div>
@@ -346,8 +347,8 @@ export const ActiveWorkoutPage = ({
       )}
 
       {showStartButton && (
-        <Button onClick={handleClickStart} size="large">
-          <PlayIcon className="h-3 w-3 fill-white" />
+        <Button onClick={handleClickStart} size="lg">
+          <PlayIcon className="h-3 w-3" />
         </Button>
       )}
 
@@ -355,12 +356,11 @@ export const ActiveWorkoutPage = ({
         <Button
           className={clsx('grow', { 'animate-wiggle': isEffectActive })}
           disabled={workoutTimerPaused}
-          leftIcon={<PlusIcon className="h-3 w-3" />}
           onAnimationEnd={() => setIsEffectActive(false)}
           onClick={handleClickContinue}
-          size="large"
+          size="lg"
         >
-          Continue
+          <PlusIcon className="mr-1 h-2.5 w-2.5 stroke-2" /> Continue
         </Button>
       )}
 
@@ -371,12 +371,11 @@ export const ActiveWorkoutPage = ({
       />
 
       <Button
-        className="h-5"
         disabled={logWorkoutLoading}
-        kind="outline"
+        variant="outline"
         onClick={handleClickFinish}
       >
-        <div className="uppercase">Finish Workout</div>
+        Finish workout
       </Button>
     </Page>
   );

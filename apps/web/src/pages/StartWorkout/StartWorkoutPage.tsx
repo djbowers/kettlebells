@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { IconButton, Input, InputProps, Page } from '~/components';
+import { Input, InputProps, Page } from '~/components';
 import { Button } from '~/components/ui/button';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';

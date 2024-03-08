@@ -5,7 +5,8 @@ import {
   useState,
 } from 'react';
 
-import { Button, Input, Page } from '~/components';
+import { Input, Page } from '~/components';
+import { Button } from '~/components/ui/button';
 import { useSession } from '~/contexts';
 import { supabase } from '~/supabaseClient';
 

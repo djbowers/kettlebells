@@ -1,9 +1,8 @@
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 
-import { Page } from '~/components/Page';
-
-import { Button, Input, Loading } from '../../components';
-import { supabase } from '../../supabaseClient';
+import { Input } from '~/components';
+import { Button } from '~/components/ui/button';
+import { supabase } from '~/supabaseClient';
 
 export function Signup() {
   const [loading, setLoading] = useState(false);
@@ -45,7 +44,7 @@ export function Signup() {
             className="h-5"
           />
 
-          <Button type="submit" loading={loading} className="h-5 w-full">
+          <Button type="submit" loading={loading} size="lg" className="w-full">
             Continue with Email
           </Button>
         </form>

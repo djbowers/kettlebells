@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 
-import { Button } from './button';
+import { Button, ButtonProps } from './button';
 
 export default {
   component: Button,
@@ -9,23 +9,37 @@ export default {
   },
 };
 
-export const Default = {};
-
-export const Small = {
-  args: {
-    size: 'sm',
-  },
+export const Default = {
+  name: 'Button',
 };
 
-export const Large = {
-  args: {
-    size: 'lg',
-  },
-};
+const variants: ButtonProps['variant'][] = [
+  'default',
+  'destructive',
+  'outline',
+  'secondary',
+  'ghost',
+  'link',
+];
 
-export const Icon = {
+const sizes: ButtonProps['size'][] = ['sm', 'default', 'lg', 'icon'];
+
+export const AllButtons = () => (
+  <div className="flex gap-2">
+    {variants.map((variant) => (
+      <div key={variant} className="flex flex-col gap-1">
+        {sizes.map((size) => (
+          <Button key={`${variant}-${size}`} variant={variant} size={size}>
+            {size === 'icon' ? <ChevronRightIcon /> : 'Click me!'}
+          </Button>
+        ))}
+      </div>
+    ))}
+  </div>
+);
+
+export const Loading = {
   args: {
-    size: 'icon',
-    children: <ChevronRightIcon />,
+    loading: true,
   },
 };
