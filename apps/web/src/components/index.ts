@@ -1,4 +1,3 @@
-export * from './Badge';
 export * from './Dropdown';
 export * from './Header';
 export * from './Layout';

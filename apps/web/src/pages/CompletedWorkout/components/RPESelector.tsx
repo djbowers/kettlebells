@@ -1,7 +1,7 @@
 import { RadioGroup } from '@headlessui/react';
 import clsx from 'clsx';
 
-import { Badge } from '~/components';
+import { Badge } from '~/components/ui/badge';
 import { WorkoutLog } from '~/types';
 import { RpeOptions } from '~/types/rpe.type';
 
@@ -80,11 +80,9 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
 
 export const RpeBadge = ({ rpeValue }: { rpeValue: RpeOptions }) => {
   return (
-    <Badge
-      size="small"
-      label={RPE_CONFIG[rpeValue].text}
-      className={clsx(RPE_CONFIG[rpeValue].bgColor, 'text-inverse')}
-    />
+    <Badge className={clsx(RPE_CONFIG[rpeValue].bgColor, 'text-inverse')}>
+      {RPE_CONFIG[rpeValue].text}
+    </Badge>
   );
 };
 
