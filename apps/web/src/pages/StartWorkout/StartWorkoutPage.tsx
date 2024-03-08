@@ -9,14 +9,8 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  Button,
-  ButtonProps,
-  IconButton,
-  Input,
-  InputProps,
-  Page,
-} from '~/components';
+import { IconButton, Input, InputProps, Page } from '~/components';
+import { Button } from '~/components/ui/button';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';
 
@@ -51,7 +45,7 @@ export const StartWorkoutPage = () => {
   const secondBellRef = useRef<HTMLInputElement>(null);
   const notesRef = useRef<HTMLInputElement>(null);
 
-  const handleClickRemoveMovement: ButtonProps['onClick'] = () => {
+  const handleClickRemoveMovement = () => {
     if (movements.length > 1) {
       setMovements((prev) => {
         const movements = [...prev];
@@ -61,16 +55,16 @@ export const StartWorkoutPage = () => {
     }
     movementsRef.current[movements.length - 2]?.focus();
   };
-  const handleClickAddMovement: ButtonProps['onClick'] = () => {
+  const handleClickAddMovement = () => {
     setMovements((prev) =>
       prev[prev.length - 1] === '' ? prev : [...prev, ''],
     );
     movementsRef.current[movements.length - 1]?.focus();
   };
-  const handleIncrementTimer: ButtonProps['onClick'] = () => {
+  const handleIncrementTimer = () => {
     setMinutes((prev) => prev + DURATION_INCREMENT);
   };
-  const handleDecrementTimer: ButtonProps['onClick'] = () => {
+  const handleDecrementTimer = () => {
     setMinutes((prev) => {
       if (prev <= DURATION_INCREMENT) return prev;
       else return prev - DURATION_INCREMENT;
@@ -82,20 +76,20 @@ export const StartWorkoutPage = () => {
   const handleBlurSecondBellInput = () => {
     setBells((prev) => [prev[0], Number(secondBellRef.current?.value)]);
   };
-  const handleClickAddBell: ButtonProps['onClick'] = () => {
+  const handleClickAddBell = () => {
     setBells((prev) => {
       const primaryBell = prev[0];
       if (primaryBell === 0) return DEFAULT_WORKOUT_OPTIONS.bells;
       else return [primaryBell, primaryBell];
     });
   };
-  const handleClickRemoveBell: ButtonProps['onClick'] = () => {
+  const handleClickRemoveBell = () => {
     setBells((prev) => [prev[0], 0]);
   };
-  const handleClickBodyweightOnly: ButtonProps['onClick'] = () => {
+  const handleClickBodyweightOnly = () => {
     setBells([0, 0]);
   };
-  const handleClickMinusRung: ButtonProps['onClick'] = () => {
+  const handleClickMinusRung = () => {
     if (repScheme.length > 1)
       setRepScheme((prev) => {
         const rungs = [...prev];
@@ -103,27 +97,27 @@ export const StartWorkoutPage = () => {
         return rungs;
       });
   };
-  const handleClickPlusRung: ButtonProps['onClick'] = () => {
+  const handleClickPlusRung = () => {
     setRepScheme((prev) => {
       const last = prev[prev.length - 1];
       const rungs = [...prev, last];
       return rungs;
     });
   };
-  const handleDecrementInterval: ButtonProps['onClick'] = () => {
+  const handleDecrementInterval = () => {
     setIntervalTimer((prev) =>
       prev > 0 ? prev - INTERVAL_TIMER_INCREMENT : 0,
     );
   };
-  const handleIncrementInterval: ButtonProps['onClick'] = () => {
+  const handleIncrementInterval = () => {
     setIntervalTimer((prev) =>
       prev > 0 ? prev + INTERVAL_TIMER_INCREMENT : DEFAULT_INTERVAL_TIMER,
     );
   };
-  const handleDecrementRest: ButtonProps['onClick'] = () => {
+  const handleDecrementRest = () => {
     setRestTimer((prev) => (prev > 0 ? prev - REST_TIMER_INCREMENT : 0));
   };
-  const handleIncrementRest: ButtonProps['onClick'] = () => {
+  const handleIncrementRest = () => {
     setRestTimer((prev) =>
       prev > 0 ? prev + REST_TIMER_INCREMENT : DEFAULT_REST_TIMER,
     );
@@ -183,8 +177,12 @@ export const StartWorkoutPage = () => {
         actions={
           <div className="flex items-center gap-1">
             {primaryBell > 0 && (
-              <Button kind="outline" onClick={handleClickBodyweightOnly}>
-                Bodyweight Only
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleClickBodyweightOnly}
+              >
+                Bodyweight only
               </Button>
             )}
 
@@ -264,21 +262,21 @@ export const StartWorkoutPage = () => {
 
       <div className="grid grid-cols-3 gap-2">
         {intervalTimer === 0 ? (
-          <Button kind="outline" onClick={handleIncrementInterval}>
+          <Button variant="outline" onClick={handleIncrementInterval}>
             + Interval
           </Button>
         ) : (
           <div />
         )}
         {restTimer === 0 ? (
-          <Button kind="outline" onClick={handleIncrementRest}>
+          <Button variant="outline" onClick={handleIncrementRest}>
             + Rest
           </Button>
         ) : (
           <div />
         )}
         {notes === undefined ? (
-          <Button kind="outline" onClick={handleAddNotes}>
+          <Button variant="outline" onClick={handleAddNotes}>
             + Notes
           </Button>
         ) : (
@@ -291,8 +289,12 @@ export const StartWorkoutPage = () => {
           title="Interval Timer"
           actions={
             intervalTimer !== 0 && (
-              <Button kind="outline" onClick={() => setIntervalTimer(0)}>
-                - Interval Timer
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setIntervalTimer(0)}
+              >
+                - Interval
               </Button>
             )
           }
@@ -311,8 +313,12 @@ export const StartWorkoutPage = () => {
           title="Rest Timer"
           actions={
             restTimer !== 0 && (
-              <Button kind="outline" onClick={() => setRestTimer(0)}>
-                - Rest Timer
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setRestTimer(0)}
+              >
+                - Rest
               </Button>
             )
           }
@@ -331,8 +337,12 @@ export const StartWorkoutPage = () => {
           title="Workout Notes"
           actions={
             notes?.length > 0 && (
-              <Button kind="outline" onClick={() => setNotes(undefined)}>
-                - Workout Notes
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setNotes(undefined)}
+              >
+                - Notes
               </Button>
             )
           }
@@ -347,16 +357,14 @@ export const StartWorkoutPage = () => {
         </Section>
       )}
 
-      <div className="flex justify-center">
-        <Button
-          className="w-full font-medium uppercase"
-          size="large"
-          onClick={handleClickStart}
-          disabled={startDisabled}
-        >
-          Start
-        </Button>
-      </div>
+      <Button
+        className="w-full"
+        size="lg"
+        onClick={handleClickStart}
+        disabled={startDisabled}
+      >
+        Start workout
+      </Button>
     </Page>
   );
 };
@@ -399,14 +407,14 @@ const RepSchemePicker = ({
   value: number[];
   index: number;
 }) => {
-  const handleIncrementReps: ButtonProps['onClick'] = () => {
+  const handleIncrementReps = () => {
     onChange((prev) => {
       const reps = [...prev];
       reps[index] += 1;
       return reps;
     });
   };
-  const handleDecrementReps: ButtonProps['onClick'] = () => {
+  const handleDecrementReps = () => {
     onChange((prev) => {
       const reps = [...prev];
       if (reps[index] <= 1) return reps;
@@ -457,18 +465,18 @@ const ModifyWorkoutButtons = ({
   count: number;
   label: string;
   limit?: number;
-  onClickMinus: ButtonProps['onClick'];
-  onClickPlus: ButtonProps['onClick'];
+  onClickMinus: () => void;
+  onClickPlus: () => void;
 }) => {
   return (
     <div className="flex items-center gap-2">
       {count > 1 && (
-        <Button kind="outline" onClick={onClickMinus}>
+        <Button variant="secondary" size="sm" onClick={onClickMinus}>
           - {label}
         </Button>
       )}
       {count < limit && (
-        <Button kind="outline" onClick={onClickPlus}>
+        <Button variant="secondary" size="sm" onClick={onClickPlus}>
           + {label}
         </Button>
       )}
@@ -482,26 +490,26 @@ const ModifyCountButtons = ({
   text,
   value,
 }: {
-  onClickMinus: ButtonProps['onClick'];
-  onClickPlus: ButtonProps['onClick'];
+  onClickMinus: () => void;
+  onClickPlus: () => void;
   text: string;
   value: ReactNode;
 }) => {
   return (
     <div className="flex items-center justify-center gap-5">
       <div className="flex items-center">
-        <IconButton onClick={onClickMinus}>
+        <Button size="icon" onClick={onClickMinus}>
           <MinusIcon className="h-2.5 w-2.5" />
-        </IconButton>
+        </Button>
       </div>
       <div className="text-default text-center">
         <div className="text-4xl">{value}</div>
         <div className="text-base">{text}</div>
       </div>
       <div className="flex items-center">
-        <IconButton onClick={onClickPlus}>
+        <Button size="icon" onClick={onClickPlus}>
           <PlusIcon className="h-2.5 w-2.5" />
-        </IconButton>
+        </Button>
       </div>
     </div>
   );
