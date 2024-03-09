@@ -1,75 +1,82 @@
-import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { supabase } from '../supabaseClient';
-import { Dropdown } from './Dropdown';
-import { Link } from './Link';
 import { Badge } from './ui/badge';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from './ui/navigation-menu';
+import { Separator } from './ui/separator';
 
 export const Header = () => {
-  const navigate = useNavigate();
-
-  const handleClickHome = () => navigate('/');
-  const handleClickAccount = () => navigate('/account');
-  const handleClickHistory = () => navigate('/history');
-  const handleClickCommunity = () => {
+  const handleClickCommunity = () =>
     window.open('https://discord.gg/BrBp87mSbA', '_blank');
-  };
   const handleSignOut = () => supabase.auth.signOut();
 
   return (
-    <div className="flex h-5 items-center border-b px-2 py-1">
-      <div
-        onClick={handleClickHome}
-        className="hover:text-action flex cursor-pointer items-center gap-2"
-      >
-        <h1 className="text-xl font-semibold">BellSkill</h1>
-        <Badge>Beta</Badge>
-      </div>
-      <div className="flex grow justify-end">
-        <Dropdown
-          trigger={
-            <UserCircleIcon className="hover:text-action text-default h-3 w-3 cursor-pointer" />
-          }
-          options={[
-            <Link
-              key="home"
-              onClick={handleClickHome}
-              className="w-full px-1 py-0.5"
-            >
-              Home
-            </Link>,
-            <Link
-              key="history"
-              onClick={handleClickHistory}
-              className="w-full px-1 py-0.5"
-            >
-              History
-            </Link>,
-            <Link
-              key="account"
-              onClick={handleClickAccount}
-              className="w-full px-1 py-0.5"
-            >
-              Account
-            </Link>,
-            <Link
-              key="community"
-              onClick={handleClickCommunity}
-              className="w-full px-1 py-0.5"
-            >
-              Community
-            </Link>,
-            <Link
-              key="signout"
-              onClick={handleSignOut}
-              className="w-full px-1 py-0.5"
-            >
-              Sign Out
-            </Link>,
-          ]}
-        />
-      </div>
+    <div className="flex items-center justify-between border-b p-1">
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="flex gap-1">
+              <h1 className="text-lg font-medium">BellSkill</h1>
+              <Badge>Beta</Badge>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div className="p-1">
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <NavLink to="/account">Account</NavLink>
+                </NavigationMenuLink>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <span onClick={handleClickCommunity}>Discord Community</span>
+                </NavigationMenuLink>
+              </div>
+              <Separator />
+              <div className="p-1">
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <span onClick={handleSignOut}>Sign Out</span>
+                </NavigationMenuLink>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <div className="flex gap-1">
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <NavLink to="/">Start workout</NavLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <NavLink to="/history">History</NavLink>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </div>
+        </NavigationMenuList>
+      </NavigationMenu>
     </div>
   );
 };
