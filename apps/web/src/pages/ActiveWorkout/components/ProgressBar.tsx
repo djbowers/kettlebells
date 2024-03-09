@@ -18,10 +18,13 @@ export const ProgressBar = ({
 }: Props) => {
   return (
     <div
-      className={clsx('bg-layout-darker relative flex w-full rounded-xl', {
-        'h-5': size === 'default',
-        'h-6': size === 'large',
-      })}
+      className={clsx(
+        'bg-accent text-accent-foreground relative flex w-full rounded-xl',
+        {
+          'h-5': size === 'default',
+          'h-6': size === 'large',
+        },
+      )}
     >
       <div
         className={clsx('rounded-xl', {
@@ -37,7 +40,7 @@ export const ProgressBar = ({
       />
       <div
         className={clsx(
-          'text-default absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 font-mono font-medium',
+          'text-foreground absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 font-mono font-medium',
           {
             'text-xl': size === 'default',
             'text-3xl': size === 'large',
@@ -47,7 +50,7 @@ export const ProgressBar = ({
         {timeRemaining}
       </div>
       {text && (
-        <span className="text-subdued absolute right-0 top-1/2 mr-2 -translate-y-1/2 text-sm uppercase">
+        <span className="text-muted-foreground absolute right-0 top-1/2 mr-2 -translate-y-1/2 text-sm uppercase">
           {text}
         </span>
       )}

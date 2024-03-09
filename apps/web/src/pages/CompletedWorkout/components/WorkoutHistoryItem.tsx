@@ -51,7 +51,7 @@ export const WorkoutHistoryItem = ({
         </div>
 
         <div className="flex flex-col gap-0.5">
-          <div className="text-subdued uppercase">Movements</div>
+          <div className="text-muted-foreground uppercase">Movements</div>
 
           {movements.map((movement) => {
             return <div key={movement}>{movement}</div>;
@@ -60,13 +60,13 @@ export const WorkoutHistoryItem = ({
 
         {notes && (
           <div className="flex flex-col gap-0.5">
-            <div className="text-subdued uppercase">Notes</div>
+            <div className="text-muted-foreground uppercase">Notes</div>
             <div>{notes}</div>
           </div>
         )}
 
         <div className="flex flex-col gap-0.5">
-          <div className="text-subdued uppercase">Completed</div>
+          <div className="text-muted-foreground uppercase">Completed</div>
 
           <div className="flex justify-between">
             <div>🔁 {completedRounds} rounds</div>

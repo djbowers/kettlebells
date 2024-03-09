@@ -26,6 +26,8 @@ export default {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        ['status-warning']: 'hsl(var(--status-warning))',
+        ['status-success']: 'hsl(var(--status-positive))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

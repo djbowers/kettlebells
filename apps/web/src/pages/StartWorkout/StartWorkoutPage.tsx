@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
+import { Card, CardContent, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
@@ -176,7 +177,7 @@ export const StartWorkoutPage = () => {
       </Section>
 
       <Section
-        title="Bell(s) (kg)"
+        title="Weights"
         actions={
           <div className="flex items-center gap-1">
             {primaryBell > 0 && (
@@ -205,14 +206,17 @@ export const StartWorkoutPage = () => {
               {primaryBell > 0 && (
                 <>
                   <Label>{secondBell ? 'Left' : undefined}</Label>
-                  <Input
-                    aria-label="Bell Input"
-                    defaultValue={primaryBell}
-                    min={0}
-                    onBlur={handleBlurPrimaryBellInput}
-                    ref={primaryBellRef}
-                    type="number"
-                  />
+                  <span className="flex items-center gap-1">
+                    <Input
+                      aria-label="Bell Input"
+                      defaultValue={primaryBell}
+                      min={0}
+                      onBlur={handleBlurPrimaryBellInput}
+                      ref={primaryBellRef}
+                      type="number"
+                    />
+                    <span>kg</span>
+                  </span>
                 </>
               )}
             </div>
@@ -221,15 +225,18 @@ export const StartWorkoutPage = () => {
               <div className="flex basis-1/2 flex-col gap-1">
                 <>
                   <Label>Right</Label>
-                  <Input
-                    aria-label="Bell Input"
-                    defaultValue={secondBell}
-                    disabled={!primaryBell}
-                    min={0}
-                    onBlur={handleBlurSecondBellInput}
-                    ref={secondBellRef}
-                    type="number"
-                  />
+                  <span className="flex items-center gap-1">
+                    <Input
+                      aria-label="Bell Input"
+                      defaultValue={secondBell}
+                      disabled={!primaryBell}
+                      min={0}
+                      onBlur={handleBlurSecondBellInput}
+                      ref={secondBellRef}
+                      type="number"
+                    />
+                    <span>kg</span>
+                  </span>
                 </>
               </div>
             )}
@@ -269,21 +276,25 @@ export const StartWorkoutPage = () => {
 
       <div className="grid grid-cols-3 gap-2">
         {intervalTimer === 0 ? (
-          <Button variant="outline" onClick={handleIncrementInterval}>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleIncrementInterval}
+          >
             + Interval
           </Button>
         ) : (
           <div />
         )}
         {restTimer === 0 ? (
-          <Button variant="outline" onClick={handleIncrementRest}>
+          <Button variant="secondary" size="sm" onClick={handleIncrementRest}>
             + Rest
           </Button>
         ) : (
           <div />
         )}
         {notes === undefined ? (
-          <Button variant="outline" onClick={handleAddNotes}>
+          <Button variant="secondary" size="sm" onClick={handleAddNotes}>
             + Notes
           </Button>
         ) : (
@@ -453,7 +464,7 @@ const Section = ({
     <div className="layout flex flex-col gap-y-1">
       <div className="flex items-center gap-x-1">
         <div className="flex w-full items-center justify-between">
-          <div className="text-default text-base font-medium">{title}</div>
+          <div className="text-foreground text-base font-medium">{title}</div>
           {actions}
         </div>
       </div>
@@ -503,21 +514,23 @@ const ModifyCountButtons = ({
   value: ReactNode;
 }) => {
   return (
-    <div className="flex items-center justify-center gap-5">
-      <div className="flex items-center">
-        <Button size="icon" onClick={onClickMinus}>
-          <MinusIcon className="h-2.5 w-2.5" />
-        </Button>
+    <Card>
+      <div className="flex items-center justify-center gap-5 p-2">
+        <div className="flex items-center">
+          <Button size="icon" onClick={onClickMinus}>
+            <MinusIcon className="h-2.5 w-2.5" />
+          </Button>
+        </div>
+        <div className="text-foreground text-center">
+          <div className="text-lg font-semibold">{value}</div>
+          <div className="text-sm">{text}</div>
+        </div>
+        <div className="flex items-center">
+          <Button size="icon" onClick={onClickPlus}>
+            <PlusIcon className="h-2.5 w-2.5" />
+          </Button>
+        </div>
       </div>
-      <div className="text-default text-center">
-        <div className="text-4xl">{value}</div>
-        <div className="text-base">{text}</div>
-      </div>
-      <div className="flex items-center">
-        <Button size="icon" onClick={onClickPlus}>
-          <PlusIcon className="h-2.5 w-2.5" />
-        </Button>
-      </div>
-    </div>
+    </Card>
   );
 };

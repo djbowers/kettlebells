@@ -3,64 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  /* === OLD STYLES === */
-  /* Background Colors */
-  .bg-layout {
-    @apply bg-white dark:bg-black;
-  }
-
-  .bg-layout-darker {
-    @apply bg-slate-100 dark:bg-slate-900;
-  }
-
-  .bg-layout-darkest {
-    @apply bg-slate-300 dark:bg-slate-700;
-  }
-
-  .bg-status-success {
-    @apply bg-green-400 dark:bg-green-300;
-  }
-
-  .bg-status-warning {
-    @apply bg-orange-400 dark:bg-orange-300;
-  }
-
-  /* Border Colors */
-  .border-layout {
-    @apply border-slate-300 dark:border-slate-700;
-  }
-
-  /* Text Colors */
-  .text-default {
-    @apply text-slate-900 dark:text-slate-50;
-  }
-
-  .text-inverse {
-    @apply text-white;
-  }
-
-  .text-subdued {
-    @apply text-slate-500;
-  }
-
-  .text-action {
-    @apply text-slate-800 dark:text-slate-400;
-  }
-
-  /* Ring Offset Colors */
-  .ring-offset-layout {
-    @apply ring-offset-white dark:ring-offset-black;
-  }
-
-  .ring-offset-layout-darker {
-    @apply ring-offset-slate-100 dark:ring-offset-slate-900;
-  }
-
-  .ring-offset-layout-darkest {
-    @apply ring-offset-slate-300 dark:ring-offset-slate-700;
-  }
-
-  /* === NEW SHADCN STYLES === */
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -82,6 +24,10 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 1rem;
+
+    /* custom add-ons */
+    --status-warning: 27 96% 61%;
+    --status-positive: 142 69.2% 58%;
   }
 
   .dark {
@@ -104,6 +50,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+
+    /* custom add-ons */
+    --status-warning: 31 97.2% 72.4%;
+    --status-positive: 142 76.6% 73.1%;
   }
 }
 
