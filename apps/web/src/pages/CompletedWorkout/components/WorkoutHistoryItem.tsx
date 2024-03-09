@@ -1,3 +1,4 @@
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { WorkoutLog } from '~/types';
 
 import { getDisplayDate } from '../CompletedWorkoutPage';
@@ -32,47 +33,48 @@ export const WorkoutHistoryItem = ({
   const bellsDisplayValue = getBellWeightsDisplayValue(bells);
 
   return (
-    <div
-      className="flex flex-col gap-1 rounded-2xl border p-2"
-      data-testid="workout-history-item"
-    >
-      <div>{displayDate}</div>
+    <Card data-testid="workout-history-item">
+      <CardHeader>
+        <CardTitle>{displayDate}</CardTitle>
+      </CardHeader>
 
-      <div className="flex justify-between">
-        <div>⏱️ {duration} min</div>
-        {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
-        <div>🔂 {repSchemeDisplayValue} reps</div>
-      </div>
-
-      <div className="flex justify-between">
-        {intervalTimer > 0 && <div>Interval: {intervalTimer} seconds</div>}
-        {restTimer > 0 && <div>Rest: {restTimer} seconds</div>}
-      </div>
-
-      <div className="flex flex-col gap-0.5">
-        <div className="text-subdued uppercase">Movements</div>
-
-        {movements.map((movement) => {
-          return <div key={movement}>{movement}</div>;
-        })}
-      </div>
-
-      {notes && (
-        <div className="flex flex-col gap-0.5">
-          <div className="text-subdued uppercase">Notes</div>
-          <div>{notes}</div>
+      <CardContent>
+        <div className="flex justify-between">
+          <div>⏱️ {duration} min</div>
+          {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
+          <div>🔂 {repSchemeDisplayValue} reps</div>
         </div>
-      )}
-
-      <div className="flex flex-col gap-0.5">
-        <div className="text-subdued uppercase">Completed</div>
 
         <div className="flex justify-between">
-          <div>🔁 {completedRounds} rounds</div>
-          {workoutVolume > 0 && <div>🏆 {workoutVolume} kg</div>}
-          <div>💪 {completedReps} reps</div>
+          {intervalTimer > 0 && <div>Interval: {intervalTimer} seconds</div>}
+          {restTimer > 0 && <div>Rest: {restTimer} seconds</div>}
         </div>
-      </div>
-    </div>
+
+        <div className="flex flex-col gap-0.5">
+          <div className="text-subdued uppercase">Movements</div>
+
+          {movements.map((movement) => {
+            return <div key={movement}>{movement}</div>;
+          })}
+        </div>
+
+        {notes && (
+          <div className="flex flex-col gap-0.5">
+            <div className="text-subdued uppercase">Notes</div>
+            <div>{notes}</div>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-0.5">
+          <div className="text-subdued uppercase">Completed</div>
+
+          <div className="flex justify-between">
+            <div>🔁 {completedRounds} rounds</div>
+            {workoutVolume > 0 && <div>🏆 {workoutVolume} kg</div>}
+            <div>💪 {completedReps} reps</div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };

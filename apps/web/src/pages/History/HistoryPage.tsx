@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
 import { Loading, Page } from '~/components';
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { WorkoutLog } from '~/types';
 
 import { RpeBadge } from '../CompletedWorkout/components';
@@ -93,10 +94,14 @@ const HistoryItemGroup = ({
   date: string;
   workoutLogs: WorkoutLog[];
 }) => (
-  <div className="flex flex-col gap-1 rounded-xl border px-2 py-1">
-    <div className="text-subdued text-sm font-semibold uppercase">{date}</div>
-    {workoutLogs.map((workoutLog) => (
-      <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
-    ))}
-  </div>
+  <Card>
+    <CardHeader>
+      <CardTitle>{date}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      {workoutLogs.map((workoutLog) => (
+        <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
+      ))}
+    </CardContent>
+  </Card>
 );
