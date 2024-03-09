@@ -5,7 +5,10 @@ import {
   useState,
 } from 'react';
 
-import { Button, Input, Page } from '~/components';
+import { Page } from '~/components';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
 import { useSession } from '~/contexts';
 import { supabase } from '~/supabaseClient';
 
@@ -65,15 +68,16 @@ export const AccountPage = () => {
   return (
     <Page>
       <form onSubmit={updateProfile} className="flex flex-col space-y-2">
+        <Label htmlFor='email'>Email</Label>
         <Input
           id="email"
-          label="Email"
           value={session.user.email}
           disabled={true}
         />
+        
+        <Label htmlFor="name">Name</Label>
         <Input
           id="name"
-          label="Name"
           value={username}
           onChange={handleChangeUsername}
         />

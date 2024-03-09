@@ -7,9 +7,6 @@ import {
 
 export default {
   component: WorkoutHistoryItem,
-} as Meta;
-
-export const Default = {
   args: {
     completedWorkout: {
       bells: [16, 0],
@@ -24,7 +21,16 @@ export const Default = {
       rpe: 'ideal',
     },
   } as WorkoutHistoryItemProps,
-};
+  decorators: [
+    (Story) => (
+      <div className="max-w-lg">
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
+
+export const Default = {};
 
 export const Bodyweight = {
   args: {

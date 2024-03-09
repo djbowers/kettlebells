@@ -2,7 +2,8 @@ import { DateTime } from 'luxon';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelectRPE, useWorkoutLog } from '~/api';
-import { Button, Loading, Page } from '~/components';
+import { Loading, Page } from '~/components';
+import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
 import { WorkoutLog } from '~/types';
 
@@ -58,7 +59,7 @@ export const CompletedWorkoutPage = () => {
         />
 
         <div className="flex justify-end gap-2">
-          <Button kind="outline" onClick={handleClickRepeat}>
+          <Button variant="ghost" onClick={handleClickRepeat}>
             Repeat
           </Button>
           <Button onClick={handleClickContinue}>Continue</Button>

@@ -1,9 +1,8 @@
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 
-import { Page } from '~/components/Page';
-
-import { Button, Input, Loading } from '../../components';
-import { supabase } from '../../supabaseClient';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { supabase } from '~/supabaseClient';
 
 export function Signup() {
   const [loading, setLoading] = useState(false);
@@ -30,7 +29,7 @@ export function Signup() {
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="flex w-full max-w-sm flex-col gap-2 p-3">
-        <div className="text-default text-center text-lg font-bold">
+        <div className="text-foreground text-center text-lg font-bold">
           Sign up or Log in to BellSkill
         </div>
 
@@ -42,10 +41,10 @@ export function Signup() {
             value={email}
             required={true}
             onChange={handleChangeEmail}
-            className="h-5"
+            className="h-5 text-base"
           />
 
-          <Button type="submit" loading={loading} className="h-5 w-full">
+          <Button type="submit" loading={loading} size="lg" className="w-full">
             Continue with Email
           </Button>
         </form>

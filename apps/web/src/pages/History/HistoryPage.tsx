@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
 import { Loading, Page } from '~/components';
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { WorkoutLog } from '~/types';
 
 import { RpeBadge } from '../CompletedWorkout/components';
@@ -37,7 +38,7 @@ export const HistoryPage = () => {
 
   return (
     <Page>
-      <div className="text-default flex flex-col gap-2">
+      <div className="text-foreground flex flex-col gap-2">
         <div className="text-xl font-semibold">Workout History</div>
 
         <div className="flex flex-col gap-1">
@@ -67,7 +68,7 @@ const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
 
   return (
     <Link
-      className="hover:bg-layout-darker flex justify-between rounded-xl px-2 py-1 hover:cursor-pointer"
+      className="hover:bg-accent hover:text-accent-foreground flex justify-between rounded-xl px-2 py-1 hover:cursor-pointer"
       to={workoutDetailsPath}
     >
       <div>
@@ -75,7 +76,7 @@ const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
           <div key={i}>{movement}</div>
         ))}
         {workoutLog.notes && (
-          <div className="text-subdued">{workoutLog.notes}</div>
+          <div className="text-muted-foreground">{workoutLog.notes}</div>
         )}
       </div>
       <div className="flex grow items-center justify-end gap-1">
@@ -93,10 +94,14 @@ const HistoryItemGroup = ({
   date: string;
   workoutLogs: WorkoutLog[];
 }) => (
-  <div className="flex flex-col gap-1 rounded-xl border px-2 py-1">
-    <div className="text-subdued text-sm font-semibold uppercase">{date}</div>
-    {workoutLogs.map((workoutLog) => (
-      <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
-    ))}
-  </div>
+  <Card>
+    <CardHeader>
+      <CardTitle>{date}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      {workoutLogs.map((workoutLog) => (
+        <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
+      ))}
+    </CardContent>
+  </Card>
 );

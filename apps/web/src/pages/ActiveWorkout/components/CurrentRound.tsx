@@ -15,18 +15,18 @@ export const CurrentRound = ({
 }: Props) => {
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-subdued grid grid-cols-3 items-center gap-3 text-center text-sm font-semibold uppercase">
+      <div className="text-muted-foreground grid grid-cols-3 items-center gap-3 text-center text-sm font-semibold uppercase">
         <div>Left</div>
         <div>Reps</div>
         <div>Right</div>
       </div>
-      <div className="text-default grid grid-cols-3 items-center gap-3 text-center font-medium">
+      <div className="text-foreground grid grid-cols-3 items-center gap-3 text-center font-medium">
         {leftBell && !restRemaining ? (
           <div className="flex items-end justify-center gap-1">
             <div className="text-5xl" data-testid="left-bell">
               {leftBell}
             </div>
-            <div className="text-subdued text-xl">kg</div>
+            <div className="text-muted-foreground text-xl">kg</div>
           </div>
         ) : (
           <div data-testid="left-bell" />
@@ -44,7 +44,7 @@ export const CurrentRound = ({
             <div className="text-5xl" data-testid="right-bell">
               {rightBell}
             </div>
-            <div className="text-subdued text-xl">kg</div>
+            <div className="text-muted-foreground text-xl">kg</div>
           </div>
         ) : (
           <div data-testid="right-bell" />

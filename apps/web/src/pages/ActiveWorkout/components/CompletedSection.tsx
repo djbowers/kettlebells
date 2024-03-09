@@ -11,10 +11,10 @@ export const CompletedSection = ({
 }: Props) => {
   return (
     <div
-      className="text-default bg-layout-darker flex flex-col gap-x-2 gap-y-1 rounded-lg p-2"
+      className="text-accent-foreground bg-accent flex flex-col gap-x-2 gap-y-1 rounded-lg p-2"
       data-testid="completed-section"
     >
-      <div className="text-subdued text-sm font-semibold uppercase">
+      <div className="text-muted-foreground text-sm font-semibold uppercase">
         Completed
       </div>
 

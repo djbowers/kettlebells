@@ -100,7 +100,7 @@ describe('start workout page', () => {
     expect(screen.getAllByLabelText('Bell Input')).toHaveLength(1);
 
     const bodyweightOnlyButton = screen.getByRole('button', {
-      name: 'Bodyweight Only',
+      name: /Bodyweight only/i,
     });
     await userEvent.click(bodyweightOnlyButton);
 
