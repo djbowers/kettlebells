@@ -6,7 +6,7 @@ export const Page: FC<{ children: ReactNode }> = ({ children }) => {
       <div className="flex flex-row flex-wrap">
         <main
           role="main"
-          className="text-foreground mb-5 mt-2 flex w-full flex-col gap-3 px-3"
+          className="text-foreground mb-5 mt-2 flex w-full flex-col gap-3 px-1"
         >
           {children}
         </main>
