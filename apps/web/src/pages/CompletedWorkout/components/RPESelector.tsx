@@ -80,7 +80,13 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
 
 export const RpeBadge = ({ rpeValue }: { rpeValue: RpeOptions }) => {
   return (
-    <Badge className={clsx(RPE_CONFIG[rpeValue].bgColor, 'text-inverse')}>
+    <Badge
+      variant="outline"
+      className={clsx(
+        RPE_CONFIG[rpeValue].bgColor,
+        'text-inverse border-transparent',
+      )}
+    >
       {RPE_CONFIG[rpeValue].text}
     </Badge>
   );
