@@ -37,10 +37,8 @@ export const HistoryPage = () => {
   }, [workoutLogs]);
 
   return (
-    <Page>
+    <Page title="Workout History">
       <div className="text-foreground flex flex-col gap-2">
-        <div className="text-xl font-semibold">Workout History</div>
-
         <div className="flex flex-col gap-1">
           {itemsGroupedByDate.map(([date, workoutLogs]) => (
             <HistoryItemGroup

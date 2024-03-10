@@ -66,21 +66,13 @@ export const AccountPage = () => {
   };
 
   return (
-    <Page>
+    <Page title="Account">
       <form onSubmit={updateProfile} className="flex flex-col space-y-2">
-        <Label htmlFor='email'>Email</Label>
-        <Input
-          id="email"
-          value={session.user.email}
-          disabled={true}
-        />
-        
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" value={session.user.email} disabled={true} />
+
         <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          value={username}
-          onChange={handleChangeUsername}
-        />
+        <Input id="name" value={username} onChange={handleChangeUsername} />
 
         <div className="flex justify-end">
           <Button type="submit" loading={loading}>

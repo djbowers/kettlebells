@@ -1,16 +1,17 @@
 import { FC, ReactNode } from 'react';
 
-export const Page: FC<{ children: ReactNode }> = ({ children }) => {
+import { Card, CardContent, CardTitle } from './ui/card';
+
+interface Props {
+  children: ReactNode;
+  title?: ReactNode;
+}
+
+export const Page = ({ children, title }: Props) => {
   return (
-    <div className="container mx-auto max-w-xl">
-      <div className="flex flex-row flex-wrap">
-        <main
-          role="main"
-          className="text-foreground mb-5 mt-2 flex w-full flex-col gap-3 px-1"
-        >
-          {children}
-        </main>
-      </div>
-    </div>
+    <Card className="md:border-border container my-4 h-full max-w-xl border-transparent shadow-none md:shadow-xl">
+      {title && <CardTitle className="my-2 text-xl">{title}</CardTitle>}
+      <CardContent className="my-3 flex flex-col gap-3">{children}</CardContent>
+    </Card>
   );
 };
