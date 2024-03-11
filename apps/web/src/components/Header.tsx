@@ -20,7 +20,7 @@ export const Header = () => {
   const handleSignOut = () => supabase.auth.signOut();
 
   return (
-    <div className="bg-background border-border flex items-center border-b p-1">
+    <div className="bg-background border-border flex items-center border-b p-1 shadow">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>

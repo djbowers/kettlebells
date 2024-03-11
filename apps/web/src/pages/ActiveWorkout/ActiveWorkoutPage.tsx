@@ -9,12 +9,7 @@ import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
 import { useTimer } from '~/hooks';
 
-import {
-  CompletedSection,
-  CurrentMovement,
-  CurrentRound,
-  ProgressBar,
-} from './components';
+import { CompletedSection, CurrentMovement, ProgressBar } from './components';
 import { useRequestWakeLock } from './hooks';
 
 interface Props {
@@ -308,9 +303,6 @@ export const ActiveWorkoutPage = ({
         currentRound={currentRound}
         currentMovement={currentMovement}
         notes={notes}
-      />
-
-      <CurrentRound
         rightBell={rightBell}
         leftBell={leftBell}
         repScheme={repScheme}
