@@ -1,13 +1,4 @@
-import clsx from 'clsx';
-import { FC, ReactNode } from 'react';
-
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './ui/card';
+import { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -17,18 +8,10 @@ interface Props {
 
 export const Page = ({ children, title = null, actions = null }: Props) => {
   return (
-    <Card className="md:border-border mx-auto max-w-lg border-transparent shadow-none md:my-2 md:shadow-xl">
-      {title && (
-        <CardHeader>
-          <CardTitle className="text-xl">{title}</CardTitle>
-        </CardHeader>
-      )}
-      <CardContent
-        className={clsx('flex flex-col gap-2', { 'pt-2': title === null })}
-      >
-        {children}
-      </CardContent>
-      {actions && <CardFooter className="justify-end">{actions}</CardFooter>}
-    </Card>
+    <div className="mx-auto my-3 flex max-w-lg flex-col gap-2">
+      {title && <div className="text-xl font-semibold">{title}</div>}
+      {children}
+      {actions && <div className="justify-end">{actions}</div>}
+    </div>
   );
 };
