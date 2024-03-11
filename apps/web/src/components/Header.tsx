@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
 import { supabase } from '../supabaseClient';
+import './Header.styles.css';
 import { Badge } from './ui/badge';
 import {
   NavigationMenu,
@@ -33,13 +34,13 @@ export const Header = () => {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <NavLink to="/">Start workout</NavLink>
+                  <NavLink to="/">Start Workout</NavLink>
                 </NavigationMenuLink>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <NavLink to="/history">History</NavLink>
+                  <NavLink to="/history">Workout History</NavLink>
                 </NavigationMenuLink>
               </div>
               <Separator />
@@ -78,7 +79,7 @@ export const Header = () => {
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <NavLink to="/">Start workout</NavLink>
+                <NavLink to="/">Start Workout</NavLink>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -86,7 +87,7 @@ export const Header = () => {
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <NavLink to="/history">History</NavLink>
+                <NavLink to="/history">Workout History</NavLink>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </div>

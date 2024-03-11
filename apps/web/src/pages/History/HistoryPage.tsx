@@ -39,7 +39,7 @@ export const HistoryPage = () => {
   return (
     <Page title="Workout History">
       <div className="text-foreground flex flex-col gap-2">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           {itemsGroupedByDate.map(([date, workoutLogs]) => (
             <HistoryItemGroup
               key={date}
