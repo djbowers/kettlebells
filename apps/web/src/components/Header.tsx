@@ -20,7 +20,7 @@ export const Header = () => {
   const handleSignOut = () => supabase.auth.signOut();
 
   return (
-    <div className="bg-background border-border flex items-center justify-between border-b p-1">
+    <div className="bg-background border-border flex items-center border-b p-1">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -69,28 +69,6 @@ export const Header = () => {
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <div className="flex gap-1">
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <NavLink to="/">Start Workout</NavLink>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <NavLink to="/history">Workout History</NavLink>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </div>
         </NavigationMenuList>
       </NavigationMenu>
     </div>
