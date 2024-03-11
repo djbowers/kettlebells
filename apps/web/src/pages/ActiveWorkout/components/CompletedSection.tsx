@@ -1,3 +1,11 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
+
 interface Props {
   completedReps: number;
   isBodyweight: boolean;
@@ -10,22 +18,30 @@ export const CompletedSection = ({
   workoutVolume,
 }: Props) => {
   return (
-    <div
-      className="text-accent-foreground bg-accent flex flex-col gap-x-2 gap-y-1 rounded-lg p-2"
-      data-testid="completed-section"
-    >
-      <div className="text-muted-foreground text-sm font-semibold uppercase">
-        Completed
-      </div>
+    <Card className="bg-accent" data-testid="completed-section">
+      <CardHeader>
+        <CardTitle className="text-muted-foreground">Completed</CardTitle>
+      </CardHeader>
 
-      <div className="flex items-center justify-center gap-4">
-        <div className="basis-1/2 text-right text-base font-semibold uppercase">
-          {isBodyweight ? 'Reps' : 'Volume'}
+      <CardContent>
+        <div className="flex items-end justify-center gap-3">
+          <CardDescription className="basis-1/2 text-right text-base font-semibold uppercase">
+            Reps
+          </CardDescription>
+          <div className="basis-1/2 text-3xl font-medium">{completedReps}</div>
         </div>
-        <div className="basis-1/2 text-3xl font-medium">
-          {isBodyweight ? completedReps : workoutVolume}
-        </div>
-      </div>
-    </div>
+        {!isBodyweight && (
+          <div className="flex items-end justify-center gap-3">
+            <CardDescription className="basis-1/2 text-right text-base font-semibold uppercase">
+              Volume
+            </CardDescription>
+            <div className="basis-1/2 text-3xl font-medium">
+              {workoutVolume}{' '}
+              <span className="text-muted-foreground text-base">kg</span>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
