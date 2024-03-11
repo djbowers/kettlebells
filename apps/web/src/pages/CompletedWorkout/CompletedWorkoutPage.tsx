@@ -44,31 +44,26 @@ export const CompletedWorkoutPage = () => {
   };
 
   return (
-    <Page>
-      <div className="flex flex-col gap-2">
-        <div className="text-center">
-          <div>⭐️</div>
-          <div>Well Done!</div>
-        </div>
-
-        <WorkoutHistoryItem completedWorkout={completedWorkout} />
-
-        <RPESelector
-          onSelectRPE={handleSelectRPE}
-          rpeValue={completedWorkout.rpe}
-        />
-
-        <div className="flex justify-end gap-2">
+    <Page
+      title="Workout Log"
+      actions={
+        <>
           <Button variant="ghost" onClick={handleClickRepeat}>
             Repeat
           </Button>
           <Button onClick={handleClickContinue}>Continue</Button>
-        </div>
-      </div>
+        </>
+      }
+    >
+      <WorkoutHistoryItem completedWorkout={completedWorkout} />
+      <RPESelector
+        onSelectRPE={handleSelectRPE}
+        rpeValue={completedWorkout.rpe}
+      />
     </Page>
   );
 };
 
 export const getDisplayDate = (dateISOString: string) => {
-  return DateTime.fromISO(dateISOString).toFormat('t, cccc, LLL dd y');
+  return DateTime.fromISO(dateISOString).toFormat('cccc, LLL dd y, t');
 };

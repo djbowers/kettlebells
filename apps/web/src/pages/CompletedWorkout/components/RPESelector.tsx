@@ -15,9 +15,9 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
     <RadioGroup
       value={rpeValue}
       onChange={onSelectRPE}
-      className="bg-accent text-accent-foreground flex flex-col gap-2 rounded-2xl p-2"
+      className="bg-accent text-accent-foreground flex flex-col gap-2 rounded-xl p-2"
     >
-      <RadioGroup.Label className="text-muted-foreground text-sm font-semibold uppercase">
+      <RadioGroup.Label className="text-muted-foreground text-sm font-medium">
         Exertion Rating
       </RadioGroup.Label>
 
@@ -27,11 +27,8 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
         </div>
 
         {rpeValue && (
-          <div className="flex flex-wrap items-center justify-center gap-1">
-            <RpeBadge rpeValue={rpeValue} />
-            <div className="text-foreground text-center text-sm">
-              {RPE_CONFIG[rpeValue].description}
-            </div>
+          <div className="text-foreground text-center text-sm">
+            {RPE_CONFIG[rpeValue].description} <RpeBadge rpeValue={rpeValue} />
           </div>
         )}
       </RadioGroup.Description>

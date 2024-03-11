@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
 import { WorkoutLog } from '~/types';
 
 import { getDisplayDate } from '../CompletedWorkoutPage';
@@ -39,40 +45,42 @@ export const WorkoutHistoryItem = ({
       </CardHeader>
 
       <CardContent>
-        <div className="flex justify-between">
+        <CardDescription>Timers</CardDescription>
+        <div className="flex justify-between gap-1">
           <div>⏱️ {duration} min</div>
-          {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
+          {intervalTimer > 0 && <div>⏰ {intervalTimer} second intervals</div>}
+          {restTimer > 0 && <div>😴 {restTimer} second rest</div>}
+        </div>
+      </CardContent>
+
+      <CardContent>
+        <CardDescription>Rep Scheme</CardDescription>
+        <div className="flex justify-between gap-1">
           <div>🔂 {repSchemeDisplayValue} reps</div>
+          {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
         </div>
+      </CardContent>
 
-        <div className="flex justify-between">
-          {intervalTimer > 0 && <div>Interval: {intervalTimer} seconds</div>}
-          {restTimer > 0 && <div>Rest: {restTimer} seconds</div>}
-        </div>
+      <CardContent>
+        <CardDescription>Movements</CardDescription>
+        {movements.map((movement) => (
+          <div key={movement}>{movement}</div>
+        ))}
+      </CardContent>
 
-        <div className="flex flex-col gap-0.5">
-          <div className="text-muted-foreground uppercase">Movements</div>
+      {notes && (
+        <CardContent>
+          <CardDescription>Notes</CardDescription>
+          {notes}
+        </CardContent>
+      )}
 
-          {movements.map((movement) => {
-            return <div key={movement}>{movement}</div>;
-          })}
-        </div>
-
-        {notes && (
-          <div className="flex flex-col gap-0.5">
-            <div className="text-muted-foreground uppercase">Notes</div>
-            <div>{notes}</div>
-          </div>
-        )}
-
-        <div className="flex flex-col gap-0.5">
-          <div className="text-muted-foreground uppercase">Completed</div>
-
-          <div className="flex justify-between">
-            <div>🔁 {completedRounds} rounds</div>
-            {workoutVolume > 0 && <div>🏆 {workoutVolume} kg</div>}
-            <div>💪 {completedReps} reps</div>
-          </div>
+      <CardContent>
+        <CardDescription>Completed</CardDescription>
+        <div className="flex justify-between gap-1">
+          <div>🔁 {completedRounds} rounds</div>
+          <div>💪 {completedReps} reps</div>
+          {workoutVolume > 0 && <div>🏆 {workoutVolume} kg</div>}
         </div>
       </CardContent>
     </Card>

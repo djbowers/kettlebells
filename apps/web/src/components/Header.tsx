@@ -18,8 +18,6 @@ export const Header = () => {
     window.open('https://discord.gg/BrBp87mSbA', '_blank');
   const handleSignOut = () => supabase.auth.signOut();
 
-
-
   return (
     <div className="bg-background border-border flex items-center justify-between border-b p-1">
       <NavigationMenu>

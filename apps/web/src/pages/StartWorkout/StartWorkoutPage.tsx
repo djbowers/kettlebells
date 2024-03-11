@@ -152,7 +152,18 @@ export const StartWorkoutPage = () => {
   const startDisabled = movements[movements.length - 1] === '';
 
   return (
-    <Page>
+    <Page
+      actions={
+        <Button
+          className="w-full"
+          size="lg"
+          onClick={handleClickStart}
+          disabled={startDisabled}
+        >
+          Start workout
+        </Button>
+      }
+    >
       <Section
         title="Movement(s)"
         actions={
@@ -374,15 +385,6 @@ export const StartWorkoutPage = () => {
           />
         </Section>
       )}
-
-      <Button
-        className="w-full"
-        size="lg"
-        onClick={handleClickStart}
-        disabled={startDisabled}
-      >
-        Start workout
-      </Button>
     </Page>
   );
 };
