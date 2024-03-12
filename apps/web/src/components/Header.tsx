@@ -1,8 +1,10 @@
+import { ButtonIcon, SunIcon } from '@radix-ui/react-icons';
 import { NavLink } from 'react-router-dom';
 
 import { supabase } from '../supabaseClient';
 import './Header.styles.css';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,6 +20,22 @@ export const Header = () => {
   const handleClickCommunity = () =>
     window.open('https://discord.gg/BrBp87mSbA', '_blank');
   const handleSignOut = () => supabase.auth.signOut();
+
+  function handleClickLightDarkMode() {
+    if (localStorage.theme === 'dark' || !('theme' in localStorage)) {
+      //add class=dark in html element
+      document.documentElement.classList.add('dark');
+    } else {
+      //remove class=dark in html element
+      document.documentElement.classList.remove('dark');
+    }
+
+    if (localStorage.theme === 'dark') {
+      localStorage.theme = 'light';
+    } else {
+      localStorage.theme = 'dark';
+    }
+  }
 
   return (
     <div className="bg-background border-border flex items-center border-b p-1 shadow">
@@ -71,6 +89,9 @@ export const Header = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+      <Button variant="ghost" size="icon" onClick={handleClickLightDarkMode}>
+        <SunIcon />
+      </Button>
     </div>
   );
 };
