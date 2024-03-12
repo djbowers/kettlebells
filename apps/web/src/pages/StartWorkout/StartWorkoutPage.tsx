@@ -1,8 +1,6 @@
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import {
   ChangeEventHandler,
   Dispatch,
-  ReactNode,
   SetStateAction,
   forwardRef,
   useRef,
@@ -12,11 +10,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import { WorkoutOptions } from '~/types';
+
+import {
+  ModifyCountButtons,
+  ModifyWorkoutButtons,
+  MovementInput,
+  RepSchemePicker,
+  Section,
+} from './components';
 
 const DURATION_INCREMENT = 1; // minutes
 const INTERVAL_TIMER_INCREMENT = 5; // seconds
@@ -386,153 +391,5 @@ export const StartWorkoutPage = () => {
         </Section>
       )}
     </Page>
-  );
-};
-
-const MovementInput = forwardRef<
-  HTMLInputElement,
-  {
-    onChange: Dispatch<SetStateAction<string[]>>;
-    value: string;
-    index: number;
-  }
->(({ onChange, value, index }, ref) => {
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    onChange((prev) => {
-      const movements = [...prev];
-      movements[index] = e.target.value;
-      return movements;
-    });
-  };
-
-  return (
-    <Input
-      autoFocus
-      aria-label="Movement Input"
-      value={value}
-      onChange={handleChange}
-      className="w-full"
-      id="movement"
-      ref={ref}
-    />
-  );
-});
-
-const RepSchemePicker = ({
-  onChange,
-  value,
-  index,
-}: {
-  onChange: Dispatch<SetStateAction<number[]>>;
-  value: number[];
-  index: number;
-}) => {
-  const handleIncrementReps = () => {
-    onChange((prev) => {
-      const reps = [...prev];
-      reps[index] += 1;
-      return reps;
-    });
-  };
-  const handleDecrementReps = () => {
-    onChange((prev) => {
-      const reps = [...prev];
-      if (reps[index] <= 1) return reps;
-      reps[index] -= 1;
-      return reps;
-    });
-  };
-
-  return (
-    <ModifyCountButtons
-      onClickMinus={handleDecrementReps}
-      onClickPlus={handleIncrementReps}
-      text="reps"
-      value={value[index].toString()}
-    />
-  );
-};
-
-const Section = ({
-  actions = null,
-  children,
-  title,
-}: {
-  actions?: ReactNode;
-  children: ReactNode;
-  title?: string;
-}) => {
-  return (
-    <div className="layout flex flex-col gap-y-1">
-      <div className="flex items-center gap-x-1">
-        <div className="flex w-full items-center justify-between">
-          <div className="text-foreground text-base font-medium">{title}</div>
-          {actions}
-        </div>
-      </div>
-      {children && <div className="flex flex-col gap-y-2">{children}</div>}
-    </div>
-  );
-};
-
-const ModifyWorkoutButtons = ({
-  count,
-  label,
-  limit = 10,
-  onClickMinus,
-  onClickPlus,
-}: {
-  count: number;
-  label: string;
-  limit?: number;
-  onClickMinus: () => void;
-  onClickPlus: () => void;
-}) => {
-  return (
-    <div className="flex items-center gap-2">
-      {count > 1 && (
-        <Button variant="secondary" size="sm" onClick={onClickMinus}>
-          - {label}
-        </Button>
-      )}
-      {count < limit && (
-        <Button variant="secondary" size="sm" onClick={onClickPlus}>
-          + {label}
-        </Button>
-      )}
-    </div>
-  );
-};
-
-const ModifyCountButtons = ({
-  onClickMinus,
-  onClickPlus,
-  text,
-  value,
-}: {
-  onClickMinus: () => void;
-  onClickPlus: () => void;
-  text: string;
-  value: ReactNode;
-}) => {
-  return (
-    <Card>
-      <div className="flex items-center justify-center gap-5 p-2">
-        <div className="flex items-center">
-          <Button size="icon" onClick={onClickMinus}>
-            <MinusIcon className="h-2.5 w-2.5" />
-          </Button>
-        </div>
-        <div className="text-foreground text-center">
-          <div className="text-lg font-semibold">{value}</div>
-          <div className="text-sm">{text}</div>
-        </div>
-        <div className="flex items-center">
-          <Button size="icon" onClick={onClickPlus}>
-            <PlusIcon className="h-2.5 w-2.5" />
-          </Button>
-        </div>
-      </div>
-    </Card>
   );
 };
