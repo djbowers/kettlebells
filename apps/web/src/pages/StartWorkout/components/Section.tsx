@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+
 export const Section = ({
   actions = null,
   children,
@@ -10,14 +12,14 @@ export const Section = ({
   title?: string;
 }) => {
   return (
-    <div className="layout flex flex-col gap-y-1">
-      <div className="flex items-center gap-x-1">
-        <div className="flex w-full items-center justify-between">
-          <div className="text-foreground text-base font-medium">{title}</div>
+    <Card>
+      <CardHeader>
+        <div className="flex w-full items-center justify-between gap-x-1">
+          <CardTitle>{title}</CardTitle>
           {actions}
         </div>
-      </div>
-      {children && <div className="flex flex-col gap-y-2">{children}</div>}
-    </div>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-y-2">{children}</CardContent>
+    </Card>
   );
 };
