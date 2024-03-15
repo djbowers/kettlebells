@@ -43,7 +43,7 @@ export const Header = () => {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="flex gap-1">
-              <h1 className="text-lg font-medium">BellSkill</h1>
+              <h1 className="text-lg font-medium">🚀 BellSkill</h1>
               <Badge>Beta</Badge>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
