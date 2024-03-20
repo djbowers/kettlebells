@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,54 +12,29 @@ import { RpeBadge } from '../CompletedWorkout/components';
 export const HistoryPage = () => {
   const { data: workoutLogs, isLoading } = useWorkoutLogs();
 
-  const itemsGroupedByDate = useMemo(() => {
-    const groupedWorkouts =
-      workoutLogs?.reduce(
-        (
-          groupedWorkoutLogs: { [date: string]: WorkoutLog[] },
-          workoutLog: WorkoutLog,
-        ) => {
-          const completedDate = workoutLog.date.toDateString();
-          if (!groupedWorkoutLogs[completedDate]) {
-            groupedWorkoutLogs[completedDate] = [workoutLog];
-          } else {
-            groupedWorkoutLogs[completedDate].push(workoutLog);
-            groupedWorkoutLogs[completedDate].sort(
-              (a, b) => a.date.getTime() - b.date.getTime(),
-            );
-          }
-          return groupedWorkoutLogs;
-        },
-        {},
-      ) || {};
-    return Object.entries(groupedWorkouts).sort(
-      ([a], [b]) => new Date(b).getTime() - new Date(a).getTime(),
-    );
-  }, [workoutLogs]);
+  const workoutDays = groupByDate(workoutLogs);
+  const workoutWeeks = groupByWeek(workoutDays);
 
   return (
     <Page title="Workout History">
-      <div className="text-foreground flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
-          {itemsGroupedByDate.map(([date, workoutLogs]) => (
-            <HistoryItemGroup
-              key={date}
-              workoutLogs={workoutLogs}
-              date={date}
-            />
-          ))}
-        </div>
-
-        {isLoading && <Loading />}
+      <div className="flex flex-col gap-4">
+        {workoutWeeks.map(({ weekNumber, workoutDays }) => (
+          <WorkoutWeekGroup
+            key={weekNumber}
+            weekNumber={weekNumber}
+            workoutDays={workoutDays}
+          />
+        ))}
       </div>
+
+      {isLoading && <Loading />}
     </Page>
   );
 };
 
-const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
+const WorkoutLogItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
   const workoutDetailsPath = '/history/' + workoutLog.id;
-  const totalWeight = workoutLog.bells.reduce((total, bell) => total + bell, 0);
-  const workoutVolume = workoutLog.completedReps * totalWeight;
+  const workoutVolume = getWorkoutVolume(workoutLog);
   const displayText =
     workoutVolume > 0
       ? `${workoutVolume.toFixed(0)} kg`
@@ -85,7 +61,7 @@ const WorkoutHistoryItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
   );
 };
 
-const HistoryItemGroup = ({
+const WorkoutDayCard = ({
   date,
   workoutLogs = [],
 }: {
@@ -98,8 +74,102 @@ const HistoryItemGroup = ({
     </CardHeader>
     <CardContent>
       {workoutLogs.map((workoutLog) => (
-        <WorkoutHistoryItem key={workoutLog.id} workoutLog={workoutLog} />
+        <WorkoutLogItem key={workoutLog.id} workoutLog={workoutLog} />
       ))}
     </CardContent>
   </Card>
 );
+
+const WorkoutWeekGroup = ({
+  weekNumber,
+  workoutDays,
+}: {
+  weekNumber: number;
+  workoutDays: WorkoutDay[];
+}) => {
+  let weekVolume = 0;
+
+  workoutDays.forEach(({ workoutLogs }) => {
+    let dayVolume = 0;
+    workoutLogs.forEach((workoutLog) => {
+      dayVolume += getWorkoutVolume(workoutLog);
+    });
+    weekVolume += dayVolume;
+  });
+
+  const displayText = weekVolume > 0 && `${weekVolume.toFixed(0)} kg total`;
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between gap-1 px-1 text-sm font-medium">
+        <div>Week {weekNumber}</div>
+        <div>{displayText}</div>
+      </div>
+      {workoutDays.map(({ date, workoutLogs }) => (
+        <WorkoutDayCard
+          key={date.toISOString()}
+          workoutLogs={workoutLogs}
+          date={date.toDateString()}
+        />
+      ))}
+    </div>
+  );
+};
+
+interface WorkoutDay {
+  date: Date;
+  workoutLogs: WorkoutLog[];
+}
+
+interface WorkoutWeek {
+  weekNumber: number;
+  workoutDays: WorkoutDay[];
+}
+
+const groupByDate = (workoutLogs: WorkoutLog[] = []): WorkoutDay[] => {
+  const groupedByDate: { [dateKey: string]: WorkoutLog[] } = {};
+
+  workoutLogs.forEach((log) => {
+    const dateKey = log.date.toDateString();
+    if (!groupedByDate[dateKey]) {
+      groupedByDate[dateKey] = [];
+    }
+    groupedByDate[dateKey].push(log);
+    groupedByDate[dateKey].sort((a, b) => a.date.getTime() - b.date.getTime());
+  });
+
+  return Object.entries(groupedByDate)
+    .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime())
+    .map(([dateKey, workoutLogs]) => ({
+      date: new Date(dateKey),
+      workoutLogs,
+    }));
+};
+
+const groupByWeek = (workoutDays: WorkoutDay[]): WorkoutWeek[] => {
+  const groupedByWeek: { [weekKey: string]: WorkoutDay[] } = {};
+
+  workoutDays.forEach((workoutDay) => {
+    const year = DateTime.fromJSDate(workoutDay.date).weekYear;
+    const weekNumber = DateTime.fromJSDate(workoutDay.date).weekNumber;
+    const weekKey = `${year}-W${weekNumber}`;
+    if (!groupedByWeek[weekKey]) {
+      groupedByWeek[weekKey] = [];
+    }
+    groupedByWeek[weekKey].push(workoutDay);
+    groupedByWeek[weekKey].sort((a, b) => b.date.getTime() - a.date.getTime());
+  });
+
+  return Object.entries(groupedByWeek)
+    .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime())
+    .map(([weekKey, workoutDays]) => ({
+      weekNumber: Number(weekKey.split('-W')[1]),
+      workoutDays,
+    }));
+};
+
+const getWorkoutVolume = (workoutLog: WorkoutLog): number => {
+  const totalWeight = workoutLog.bells.reduce((total, bell) => total + bell, 0);
+  const workoutVolume = workoutLog.completedReps * totalWeight;
+  return workoutVolume;
+};

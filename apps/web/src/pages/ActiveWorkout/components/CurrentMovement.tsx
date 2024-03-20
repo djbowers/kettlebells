@@ -32,7 +32,7 @@ export const CurrentMovement = ({
       <CardHeader>
         <div className="flex gap-2">
           <CardTitle>
-            <div className="flex items-center gap-0.5">
+            <div className="flex h-full flex-col items-center justify-center gap-0.5">
               Round
               <div className="bg-accent text-accent-foreground relative h-4 w-4 rounded-full">
                 <div
@@ -54,11 +54,11 @@ export const CurrentMovement = ({
 
       <CardContent>
         <div className="flex flex-col gap-1">
-          <CardDescription className="grid grid-cols-3 items-center gap-3 text-center">
-            <div>Left</div>
-            <div>Reps</div>
-            <div>Right</div>
-          </CardDescription>
+          <div className="grid grid-cols-3 items-center gap-3 text-center">
+            <CardDescription>Left</CardDescription>
+            <CardDescription>Reps</CardDescription>
+            <CardDescription>Right</CardDescription>
+          </div>
 
           <div className="grid grid-cols-3 items-center gap-3 text-center font-medium">
             {leftBell && !restRemaining ? (
