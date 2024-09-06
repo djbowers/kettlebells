@@ -27,7 +27,7 @@ export const StartWorkoutPage = () => {
   const [workoutOptions, updateWorkoutOptions] = useWorkoutOptions();
 
   const [bells, setBells] = useState<[number, number]>(workoutOptions.bells);
-  const [duration, setMinutes] = useState<number>(workoutOptions.duration);
+  const [duration, setDuration] = useState<number>(workoutOptions.duration);
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
@@ -41,6 +41,9 @@ export const StartWorkoutPage = () => {
     workoutOptions.intervalTimer,
   );
   const [restTimer, setRestTimer] = useState<number>(workoutOptions.restTimer);
+  const [isOneHanded, setIsOneHanded] = useState<boolean>(
+    workoutOptions.isOneHanded,
+  );
 
   const movementsRef = useRef<Array<HTMLInputElement | null>>([]);
   const primaryBellRef = useRef<HTMLInputElement>(null);
@@ -64,10 +67,10 @@ export const StartWorkoutPage = () => {
     movementsRef.current[movements.length - 1]?.focus();
   };
   const handleIncrementTimer = () => {
-    setMinutes((prev) => prev + DURATION_INCREMENT);
+    setDuration((prev) => prev + DURATION_INCREMENT);
   };
   const handleDecrementTimer = () => {
-    setMinutes((prev) => {
+    setDuration((prev) => {
       if (prev <= DURATION_INCREMENT) return prev;
       else return prev - DURATION_INCREMENT;
     });
@@ -90,6 +93,9 @@ export const StartWorkoutPage = () => {
   };
   const handleClickBodyweightOnly = () => {
     setBells([0, 0]);
+  };
+  const handleToggleHands = () => {
+    setIsOneHanded((prev) => !prev);
   };
   const handleClickMinusRung = () => {
     if (repScheme.length > 1)
@@ -128,15 +134,16 @@ export const StartWorkoutPage = () => {
     setNotes('');
   };
   const handleBlurNotes = () => {
-    setNotes(() => notesRef.current?.value || undefined);
+    setNotes(() => notesRef.current?.value ?? undefined);
   };
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
       bells,
       duration,
       intervalTimer,
+      isOneHanded,
       movements,
-      notes: notes || '',
+      notes: notes ?? '',
       repScheme,
       restTimer,
     };
@@ -210,43 +217,45 @@ export const StartWorkoutPage = () => {
         }
       >
         {primaryBell > 0 && (
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex basis-1/2 flex-col gap-1">
-              {primaryBell > 0 && (
-                <>
-                  <Label>{secondBell ? 'Left' : undefined}</Label>
-                  <span className="flex items-center gap-1">
-                    <Input
-                      aria-label="Bell Input"
-                      defaultValue={primaryBell}
-                      min={0}
-                      onBlur={handleBlurPrimaryBellInput}
-                      ref={primaryBellRef}
-                      type="number"
-                    />
-                    <span>kg</span>
-                  </span>
-                </>
-              )}
+          <div className="flex items-center justify-center gap-2">
+            {secondBell === 0 && (
+              <Button variant="secondary" onClick={handleToggleHands}>
+                {isOneHanded ? '1H' : '2H'}
+              </Button>
+            )}
+
+            <div className="flex flex-col gap-1">
+              {secondBell > 0 && <Label>Left</Label>}
+              <span className="flex items-center gap-1">
+                <Input
+                  aria-label="Bell Input"
+                  className="max-w-[100px]"
+                  defaultValue={primaryBell}
+                  min={0}
+                  onBlur={handleBlurPrimaryBellInput}
+                  ref={primaryBellRef}
+                  type="number"
+                />
+                <span>kg</span>
+              </span>
             </div>
 
             {secondBell > 0 && (
-              <div className="flex basis-1/2 flex-col gap-1">
-                <>
-                  <Label>Right</Label>
-                  <span className="flex items-center gap-1">
-                    <Input
-                      aria-label="Bell Input"
-                      defaultValue={secondBell}
-                      disabled={!primaryBell}
-                      min={0}
-                      onBlur={handleBlurSecondBellInput}
-                      ref={secondBellRef}
-                      type="number"
-                    />
-                    <span>kg</span>
-                  </span>
-                </>
+              <div className="flex flex-col gap-1">
+                <Label>Right</Label>
+                <span className="flex items-center gap-1">
+                  <Input
+                    aria-label="Bell Input"
+                    className="max-w-[100px]"
+                    defaultValue={secondBell}
+                    disabled={!primaryBell}
+                    min={0}
+                    onBlur={handleBlurSecondBellInput}
+                    ref={secondBellRef}
+                    type="number"
+                  />
+                  <span>kg</span>
+                </span>
               </div>
             )}
           </div>

@@ -22,7 +22,16 @@ export const ActiveWorkoutPage = ({
   defaultPaused = true,
 }: Props) => {
   const [
-    { bells, duration, intervalTimer, movements, notes, repScheme, restTimer },
+    {
+      bells,
+      duration,
+      intervalTimer,
+      isOneHanded,
+      movements,
+      notes,
+      repScheme,
+      restTimer,
+    },
   ] = useWorkoutOptions();
 
   const {
@@ -114,7 +123,7 @@ export const ActiveWorkoutPage = ({
   // Rounds
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
   const currentRound = completedRounds + 1;
-  const shouldMirrorReps = isSingleBell || isMixedBells;
+  const shouldMirrorReps = (isSingleBell && isOneHanded) || isMixedBells;
 
   const leftBell = useMemo(() => {
     if (primaryBellSide === 'left') return primaryBellWeight;
@@ -302,6 +311,7 @@ export const ActiveWorkoutPage = ({
       <CurrentMovement
         currentRound={currentRound}
         currentMovement={currentMovement}
+        isOneHanded={isOneHanded}
         notes={notes}
         rightBell={rightBell}
         leftBell={leftBell}

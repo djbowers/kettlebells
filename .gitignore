@@ -2,3 +2,5 @@
 .netlify
 
 coverage
+
+node_modules

@@ -6,6 +6,7 @@ export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
   bells: [16, 0],
   duration: 10,
   intervalTimer: 0,
+  isOneHanded: true,
   movements: [''],
   notes: '',
   repScheme: [5],

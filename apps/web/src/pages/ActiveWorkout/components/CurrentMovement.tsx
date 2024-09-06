@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import {
   Card,
   CardContent,
@@ -9,6 +11,7 @@ import {
 interface Props {
   currentMovement: string;
   currentRound: number;
+  isOneHanded: boolean;
   notes: string;
   leftBell: number | null;
   repScheme: number[];
@@ -20,6 +23,7 @@ interface Props {
 export const CurrentMovement = ({
   currentMovement,
   currentRound,
+  isOneHanded,
   notes,
   leftBell,
   repScheme,
@@ -27,6 +31,8 @@ export const CurrentMovement = ({
   rightBell,
   rungIndex,
 }: Props) => {
+  const isThreeColumn = isOneHanded || rightBell;
+
   return (
     <Card>
       <CardHeader>
@@ -54,13 +60,23 @@ export const CurrentMovement = ({
 
       <CardContent>
         <div className="flex flex-col gap-1">
-          <div className="grid grid-cols-3 items-center gap-3 text-center">
-            <CardDescription>Left</CardDescription>
+          <div
+            className={clsx(
+              'grid items-center gap-3 text-center',
+              isThreeColumn ? 'grid-cols-3' : 'grid-cols-2',
+            )}
+          >
+            <CardDescription>{isThreeColumn ? 'Left' : 'Bell'}</CardDescription>
             <CardDescription>Reps</CardDescription>
-            <CardDescription>Right</CardDescription>
+            {isThreeColumn && <CardDescription>Right</CardDescription>}
           </div>
 
-          <div className="grid grid-cols-3 items-center gap-3 text-center font-medium">
+          <div
+            className={clsx(
+              'grid items-center gap-3 text-center font-medium',
+              isThreeColumn ? 'grid-cols-3' : 'grid-cols-2',
+            )}
+          >
             {leftBell && !restRemaining ? (
               <div className="flex items-end justify-center gap-1">
                 <div className="text-3xl" data-testid="left-bell">
