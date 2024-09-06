@@ -74,10 +74,20 @@ export const DoubleBells: StoryObj = {
   },
 };
 
-export const SingleBell: StoryObj = {
+export const SingleBellOneHanded: StoryObj = {
   parameters: {
     workoutOptions: {
       bells: [20, 0],
+      isOneHanded: true,
+    },
+  },
+};
+
+export const SingleBellTwoHanded: StoryObj = {
+  parameters: {
+    workoutOptions: {
+      bells: [20, 0],
+      isOneHanded: false,
     },
   },
 };
@@ -95,14 +105,6 @@ export const MixedBells: StoryObj = {
   parameters: {
     workoutOptions: {
       bells: [20, 16],
-    },
-  },
-};
-
-export const SingleRung: StoryObj = {
-  parameters: {
-    workoutOptions: {
-      repScheme: [10],
     },
   },
 };
