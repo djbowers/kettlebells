@@ -11,25 +11,25 @@ import {
 interface Props {
   currentMovement: string;
   currentRound: number;
-  isOneHanded: boolean;
-  notes: string;
+  isOneHanded: boolean | null;
   leftBell: number | null;
   repScheme: number[];
   restRemaining: boolean;
   rightBell: number | null;
   rungIndex: number;
+  workoutDetails: string | null;
 }
 
 export const CurrentMovement = ({
   currentMovement,
   currentRound,
   isOneHanded,
-  notes,
   leftBell,
   repScheme,
   restRemaining,
   rightBell,
   rungIndex,
+  workoutDetails,
 }: Props) => {
   const isThreeColumn = isOneHanded || rightBell;
 
@@ -53,7 +53,9 @@ export const CurrentMovement = ({
 
           <div className="flex grow flex-col justify-center gap-1">
             <div className="text-2xl font-medium">{currentMovement}</div>
-            <div className="text-muted-foreground font-medium">{notes}</div>
+            <div className="text-muted-foreground font-medium">
+              {workoutDetails}
+            </div>
           </div>
         </div>
       </CardHeader>

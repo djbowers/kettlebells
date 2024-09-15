@@ -89,6 +89,7 @@ describe('start workout page', () => {
     expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       bells: [20, 24],
+      isOneHanded: null,
       movements: ['Clean and Press'],
     });
   });
@@ -113,8 +114,9 @@ describe('start workout page', () => {
     expect(startWorkout).toHaveBeenCalledTimes(1);
     expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
-      movements: ['Pull-Ups'],
       bells: [0, 0],
+      isOneHanded: null,
+      movements: ['Pull-Ups'],
     });
   });
 

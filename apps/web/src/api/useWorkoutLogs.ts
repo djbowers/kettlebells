@@ -25,9 +25,13 @@ const fetchWorkoutLogs = async (): Promise<WorkoutLog[]> => {
     date: new Date(workoutLog.started_at),
     duration: workoutLog.minutes,
     id: workoutLog.id,
-    notes: workoutLog.notes,
-    repScheme: workoutLog.rep_scheme,
+    intervalTimer: workoutLog.interval_timer,
+    isOneHanded: workoutLog.is_one_handed,
     movements: workoutLog.movements,
+    repScheme: workoutLog.rep_scheme,
+    restTimer: workoutLog.rest_timer,
     rpe: workoutLog.rpe,
+    workoutDetails: workoutLog.workout_details,
+    workoutNotes: workoutLog.workout_notes,
   }));
 };

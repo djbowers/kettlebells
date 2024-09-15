@@ -14,7 +14,7 @@ import { ActiveWorkoutPage } from './ActiveWorkoutPage';
 const defaultWorkoutOptions: WorkoutOptions = {
   ...DEFAULT_WORKOUT_OPTIONS,
   movements: ['Single Arm Clean & Press'],
-  notes: 'Example Notes',
+  workoutDetails: 'Example Workout Details',
 };
 
 export default {

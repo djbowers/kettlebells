@@ -52,15 +52,17 @@ export interface Database {
           completed_rungs: number
           id: number
           interval_timer: number
+          is_one_handed: boolean | null
           minutes: number
           movements: string[]
-          notes: string | null
           rep_scheme: number[]
           rest_timer: number
           rpe: Database["public"]["Enums"]["RPE"] | null
           started_at: string
           unit: string | null
           user_id: string
+          workout_details: string | null
+          workout_notes: string | null
         }
         Insert: {
           bells?: number[]
@@ -70,15 +72,17 @@ export interface Database {
           completed_rungs: number
           id?: number
           interval_timer?: number
+          is_one_handed?: boolean | null
           minutes: number
           movements: string[]
-          notes?: string | null
           rep_scheme?: number[]
           rest_timer?: number
           rpe?: Database["public"]["Enums"]["RPE"] | null
           started_at: string
           unit?: string | null
           user_id: string
+          workout_details?: string | null
+          workout_notes?: string | null
         }
         Update: {
           bells?: number[]
@@ -88,15 +92,17 @@ export interface Database {
           completed_rungs?: number
           id?: number
           interval_timer?: number
+          is_one_handed?: boolean | null
           minutes?: number
           movements?: string[]
-          notes?: string | null
           rep_scheme?: number[]
           rest_timer?: number
           rpe?: Database["public"]["Enums"]["RPE"] | null
           started_at?: string
           unit?: string | null
           user_id?: string
+          workout_details?: string | null
+          workout_notes?: string | null
         }
         Relationships: [
           {

@@ -32,10 +32,12 @@ const fetchWorkoutLog = async (id: string): Promise<WorkoutLog> => {
     duration: workoutLog.minutes,
     id: workoutLog.id,
     intervalTimer: workoutLog.interval_timer,
+    isOneHanded: workoutLog.is_one_handed,
     movements: workoutLog.movements,
-    notes: workoutLog.notes,
     repScheme: workoutLog.rep_scheme,
     restTimer: workoutLog.rest_timer,
     rpe: workoutLog.rpe,
+    workoutDetails: workoutLog.workout_details,
+    workoutNotes: workoutLog.workout_notes,
   };
 };

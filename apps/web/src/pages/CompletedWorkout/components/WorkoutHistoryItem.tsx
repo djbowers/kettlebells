@@ -24,10 +24,11 @@ export const WorkoutHistoryItem = ({
     date,
     duration,
     intervalTimer,
+    isOneHanded,
     movements,
-    notes,
     repScheme,
     restTimer,
+    workoutDetails,
   } = completedWorkout;
 
   const displayDate = getDisplayDate(date.toISOString());
@@ -58,6 +59,9 @@ export const WorkoutHistoryItem = ({
         <div className="flex justify-between gap-1">
           <div>🔂 {repSchemeDisplayValue} reps</div>
           {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
+          {isOneHanded !== null && (
+            <div>🤛 {isOneHanded ? 'One-handed' : 'Two-handed'}</div>
+          )}
         </div>
       </CardContent>
 
@@ -68,10 +72,10 @@ export const WorkoutHistoryItem = ({
         ))}
       </CardContent>
 
-      {notes && (
+      {workoutDetails && (
         <CardContent>
-          <CardDescription>Notes</CardDescription>
-          {notes}
+          <CardDescription>Workout Details</CardDescription>
+          {workoutDetails}
         </CardContent>
       )}
 

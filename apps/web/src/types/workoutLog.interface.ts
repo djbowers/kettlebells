@@ -8,9 +8,11 @@ export interface WorkoutLog {
   duration: number;
   id: number;
   intervalTimer: number;
+  isOneHanded: boolean | null;
   movements: string[];
-  notes: string | null;
   repScheme: number[];
   restTimer: number;
   rpe: RpeOptions | null;
+  workoutDetails: string | null;
+  workoutNotes: string | null;
 }
