@@ -50,6 +50,10 @@ export const mockedWorkoutLogsPatch = http.patch(
       workoutLog.rpe = body.rpe;
     }
 
+    if ('workout_notes' in body) {
+      workoutLog.workout_notes = body.workout_notes;
+    }
+
     return HttpResponse.json();
   },
 );

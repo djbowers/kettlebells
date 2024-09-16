@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Page } from '~/components';
@@ -31,8 +31,8 @@ export const StartWorkoutPage = () => {
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
-  const [notes, setNotes] = useState<string | undefined>(
-    workoutOptions.notes || undefined,
+  const [workoutDetails, setWorkoutDetails] = useState<string | null>(
+    workoutOptions.workoutDetails,
   );
   const [repScheme, setRepScheme] = useState<number[]>(
     workoutOptions.repScheme,
@@ -41,14 +41,14 @@ export const StartWorkoutPage = () => {
     workoutOptions.intervalTimer,
   );
   const [restTimer, setRestTimer] = useState<number>(workoutOptions.restTimer);
-  const [isOneHanded, setIsOneHanded] = useState<boolean>(
+  const [isOneHanded, setIsOneHanded] = useState<boolean | null>(
     workoutOptions.isOneHanded,
   );
 
   const movementsRef = useRef<Array<HTMLInputElement | null>>([]);
   const primaryBellRef = useRef<HTMLInputElement>(null);
   const secondBellRef = useRef<HTMLInputElement>(null);
-  const notesRef = useRef<HTMLInputElement>(null);
+  const detailsRef = useRef<HTMLInputElement>(null);
 
   const handleClickRemoveMovement = () => {
     if (movements.length > 1) {
@@ -130,11 +130,11 @@ export const StartWorkoutPage = () => {
       prev > 0 ? prev + REST_TIMER_INCREMENT : DEFAULT_REST_TIMER,
     );
   };
-  const handleAddNotes = () => {
-    setNotes('');
+  const handleAddDetails = () => {
+    setWorkoutDetails('');
   };
-  const handleBlurNotes = () => {
-    setNotes(() => notesRef.current?.value ?? undefined);
+  const handleBlurDetails = () => {
+    setWorkoutDetails(() => detailsRef.current?.value || null);
   };
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
@@ -143,9 +143,9 @@ export const StartWorkoutPage = () => {
       intervalTimer,
       isOneHanded,
       movements,
-      notes: notes ?? '',
       repScheme,
       restTimer,
+      workoutDetails,
     };
     updateWorkoutOptions(workoutOptions);
     navigate('active');
@@ -153,6 +153,16 @@ export const StartWorkoutPage = () => {
 
   const primaryBell = bells[0];
   const secondBell = bells[1];
+
+  useEffect(
+    function handleUpdateIsOneHanded() {
+      if (primaryBell === 0 && secondBell === 0) setIsOneHanded(null);
+      if (primaryBell > 0 && secondBell > 0) setIsOneHanded(null);
+      if (primaryBell > 0 && secondBell === 0 && isOneHanded === null)
+        setIsOneHanded(DEFAULT_WORKOUT_OPTIONS.isOneHanded);
+    },
+    [bells],
+  );
 
   const startDisabled = movements[movements.length - 1] === '';
 
@@ -311,9 +321,9 @@ export const StartWorkoutPage = () => {
         ) : (
           <div />
         )}
-        {notes === undefined ? (
-          <Button variant="secondary" size="sm" onClick={handleAddNotes}>
-            + Notes
+        {workoutDetails === null ? (
+          <Button variant="secondary" size="sm" onClick={handleAddDetails}>
+            + Details
           </Button>
         ) : (
           <div />
@@ -368,17 +378,17 @@ export const StartWorkoutPage = () => {
         </Section>
       )}
 
-      {notes !== undefined && (
+      {workoutDetails !== null && (
         <Section
-          title="Workout Notes"
+          title="Workout Details"
           actions={
-            notes?.length > 0 && (
+            workoutDetails?.length > 0 && (
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => setNotes(undefined)}
+                onClick={() => setWorkoutDetails(null)}
               >
-                - Notes
+                - Details
               </Button>
             )
           }
@@ -386,9 +396,9 @@ export const StartWorkoutPage = () => {
           <Input
             autoFocus
             className="w-full"
-            defaultValue={notes}
-            onBlur={handleBlurNotes}
-            ref={notesRef}
+            defaultValue={workoutDetails}
+            onBlur={handleBlurDetails}
+            ref={detailsRef}
           />
         </Section>
       )}

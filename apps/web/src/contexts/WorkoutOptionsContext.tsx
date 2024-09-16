@@ -8,9 +8,9 @@ export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
   intervalTimer: 0,
   isOneHanded: true,
   movements: [''],
-  notes: '',
   repScheme: [5],
   restTimer: 0,
+  workoutDetails: null,
 };
 
 export const WorkoutOptionsContext = createContext<

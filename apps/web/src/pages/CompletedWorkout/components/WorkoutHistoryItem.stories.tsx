@@ -16,9 +16,9 @@ export default {
       duration: 10,
       id: 123,
       movements: ['Front Squat'],
-      notes: '',
       repScheme: [5],
       rpe: 'ideal',
+      workoutDetails: '',
     },
   } as WorkoutHistoryItemProps,
   decorators: [
@@ -42,9 +42,9 @@ export const Bodyweight = {
       duration: 10,
       id: 456,
       movements: ['Pull-Ups'],
-      notes: '',
       repScheme: [5],
       rpe: 'ideal',
+      workoutDetails: '',
     },
   } as WorkoutHistoryItemProps,
 };

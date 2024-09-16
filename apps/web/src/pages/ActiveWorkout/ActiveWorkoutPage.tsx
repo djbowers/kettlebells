@@ -28,9 +28,9 @@ export const ActiveWorkoutPage = ({
       intervalTimer,
       isOneHanded,
       movements,
-      notes,
       repScheme,
       restTimer,
+      workoutDetails,
     },
   ] = useWorkoutOptions();
 
@@ -312,7 +312,7 @@ export const ActiveWorkoutPage = ({
         currentRound={currentRound}
         currentMovement={currentMovement}
         isOneHanded={isOneHanded}
-        notes={notes}
+        workoutDetails={workoutDetails}
         rightBell={rightBell}
         leftBell={leftBell}
         repScheme={repScheme}

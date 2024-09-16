@@ -14,7 +14,7 @@ describe('workout history page', () => {
     await screen.findAllByText('Clean and Press', { exact: false });
   });
 
-  test('renders additional notes', async () => {
+  test('renders workout details', async () => {
     await screen.findAllByText('The Giant', { exact: false });
   });
 

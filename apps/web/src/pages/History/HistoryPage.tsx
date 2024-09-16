@@ -49,8 +49,10 @@ const WorkoutLogItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
         {workoutLog.movements.map((movement, i) => (
           <div key={i}>{movement}</div>
         ))}
-        {workoutLog.notes && (
-          <div className="text-muted-foreground">{workoutLog.notes}</div>
+        {workoutLog.workoutDetails && (
+          <div className="text-muted-foreground">
+            {workoutLog.workoutDetails}
+          </div>
         )}
       </div>
       <div className="flex grow items-center justify-end gap-1">

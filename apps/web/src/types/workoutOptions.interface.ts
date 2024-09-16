@@ -2,9 +2,9 @@ export interface WorkoutOptions {
   bells: [number, number]; // kg
   duration: number; // minutes
   intervalTimer: number; // seconds
-  isOneHanded: boolean; // only applies to single kettlebell movements
+  isOneHanded: boolean | null; // only applies to single kettlebell movements
   movements: string[];
-  notes: string;
   repScheme: number[];
   restTimer: number; // seconds
+  workoutDetails: string | null;
 }
