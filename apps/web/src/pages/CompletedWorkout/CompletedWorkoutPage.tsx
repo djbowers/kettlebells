@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelectRPE, useUpdateWorkoutNotes, useWorkoutLog } from '~/api';
 import { Loading, Page } from '~/components';
 import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
+import { Textarea } from '~/components/ui/textarea';
 import { useWorkoutOptions } from '~/contexts';
 import { WorkoutLog } from '~/types';
 
@@ -23,7 +23,7 @@ export const CompletedWorkoutPage = () => {
   const { mutate: selectRPE } = useSelectRPE(id);
   const { mutate: updateWorkoutNotes } = useUpdateWorkoutNotes(id);
 
-  const notesRef = useRef<HTMLInputElement>(null);
+  const notesRef = useRef<HTMLTextAreaElement>(null);
 
   if (isLoading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
@@ -87,7 +87,7 @@ export const CompletedWorkoutPage = () => {
             )
           }
         >
-          <Input
+          <Textarea
             aria-label="Workout Notes"
             autoFocus
             className="w-full"
