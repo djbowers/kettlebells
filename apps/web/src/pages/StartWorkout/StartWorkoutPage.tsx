@@ -5,8 +5,9 @@ import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
-import { WorkoutOptions } from '~/types';
+import { WorkoutGoalUnits, WorkoutOptions } from '~/types';
 
 import {
   ModifyCountButtons,
@@ -30,9 +31,9 @@ export const StartWorkoutPage = () => {
   const [workoutGoal, setWorkoutGoal] = useState<number>(
     workoutOptions.workoutGoal,
   );
-  const [workoutGoalUnits, setWorkoutGoalUnits] = useState<
-    'minutes' | 'rounds'
-  >(workoutOptions.workoutGoalUnits);
+  const [workoutGoalUnits, setWorkoutGoalUnits] = useState<WorkoutGoalUnits>(
+    workoutOptions.workoutGoalUnits,
+  );
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
@@ -151,7 +152,7 @@ export const StartWorkoutPage = () => {
       restTimer,
       workoutDetails,
       workoutGoal,
-      workoutGoalUnits: 'minutes',
+      workoutGoalUnits,
     };
     updateWorkoutOptions(workoutOptions);
     navigate('active');
@@ -278,11 +279,30 @@ export const StartWorkoutPage = () => {
         )}
       </Section>
 
-      <Section title="Timer">
+      <Section
+        title="Goal"
+        actions={
+          <Tabs
+            value={workoutGoalUnits}
+            onValueChange={(value) =>
+              setWorkoutGoalUnits(value as WorkoutGoalUnits)
+            }
+          >
+            <TabsList>
+              <TabsTrigger size="sm" value="minutes">
+                Duration
+              </TabsTrigger>
+              <TabsTrigger size="sm" value="rounds">
+                Rounds
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        }
+      >
         <ModifyCountButtons
           onClickMinus={handleDecrementTimer}
           onClickPlus={handleIncrementTimer}
-          text="min"
+          text={workoutGoalUnits}
           value={workoutGoal > 0 ? workoutGoal.toString() : <>&infin;</>}
         />
       </Section>

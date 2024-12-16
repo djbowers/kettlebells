@@ -144,4 +144,23 @@ describe('start workout page', () => {
       movements: ['Two-Handed Swing'],
     });
   });
+
+  test('can change the workout goal to "rounds"', async () => {
+    const workoutGoalUnits = screen.getByRole('tab', { name: 'Rounds' });
+    await userEvent.click(workoutGoalUnits);
+
+    const movementInput = screen.getByLabelText('Movement Input');
+    await userEvent.type(movementInput, 'Clean and Press');
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    expect(startButton).toBeEnabled();
+    await userEvent.click(startButton);
+
+    expect(startWorkout).toHaveBeenCalledTimes(1);
+    expect(startWorkout).toHaveBeenCalledWith({
+      ...DEFAULT_WORKOUT_OPTIONS,
+      workoutGoalUnits: 'rounds',
+      movements: ['Clean and Press'],
+    });
+  });
 });
