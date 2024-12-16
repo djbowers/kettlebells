@@ -4,13 +4,14 @@ import { WorkoutOptions } from '~/types';
 
 export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
   bells: [16, 0],
-  duration: 10,
   intervalTimer: 0,
   isOneHanded: true,
   movements: [''],
   repScheme: [5],
   restTimer: 0,
   workoutDetails: null,
+  workoutGoal: 10,
+  workoutGoalUnits: 'minutes',
 };
 
 export const WorkoutOptionsContext = createContext<

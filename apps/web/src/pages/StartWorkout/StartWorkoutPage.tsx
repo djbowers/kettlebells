@@ -27,7 +27,12 @@ export const StartWorkoutPage = () => {
   const [workoutOptions, updateWorkoutOptions] = useWorkoutOptions();
 
   const [bells, setBells] = useState<[number, number]>(workoutOptions.bells);
-  const [duration, setDuration] = useState<number>(workoutOptions.duration);
+  const [workoutGoal, setWorkoutGoal] = useState<number>(
+    workoutOptions.workoutGoal,
+  );
+  const [workoutGoalUnits, setWorkoutGoalUnits] = useState<
+    'minutes' | 'rounds'
+  >(workoutOptions.workoutGoalUnits);
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
@@ -67,10 +72,10 @@ export const StartWorkoutPage = () => {
     movementsRef.current[movements.length - 1]?.focus();
   };
   const handleIncrementTimer = () => {
-    setDuration((prev) => prev + DURATION_INCREMENT);
+    setWorkoutGoal((prev) => prev + DURATION_INCREMENT);
   };
   const handleDecrementTimer = () => {
-    setDuration((prev) => {
+    setWorkoutGoal((prev) => {
       if (prev <= DURATION_INCREMENT) return prev;
       else return prev - DURATION_INCREMENT;
     });
@@ -139,13 +144,14 @@ export const StartWorkoutPage = () => {
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
       bells,
-      duration,
       intervalTimer,
       isOneHanded,
       movements,
       repScheme,
       restTimer,
       workoutDetails,
+      workoutGoal,
+      workoutGoalUnits: 'minutes',
     };
     updateWorkoutOptions(workoutOptions);
     navigate('active');
@@ -277,7 +283,7 @@ export const StartWorkoutPage = () => {
           onClickMinus={handleDecrementTimer}
           onClickPlus={handleIncrementTimer}
           text="min"
-          value={duration > 0 ? duration.toString() : <>&infin;</>}
+          value={workoutGoal > 0 ? workoutGoal.toString() : <>&infin;</>}
         />
       </Section>
 

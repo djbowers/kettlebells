@@ -48,13 +48,14 @@ const logWorkout = async ({
 }) => {
   const {
     bells,
-    duration,
     intervalTimer,
     isOneHanded,
     movements,
     repScheme,
     restTimer,
     workoutDetails,
+    workoutGoal,
+    workoutGoalUnits,
   } = workoutOptions;
 
   const { error, data: workoutLogs } = await supabase
@@ -66,13 +67,14 @@ const logWorkout = async ({
       completed_rungs: completedRungs,
       interval_timer: intervalTimer,
       is_one_handed: isOneHanded,
-      minutes: duration,
       movements,
       rep_scheme: repScheme,
       rest_timer: restTimer,
       started_at: startedAt.toISOString(),
       user_id: userId,
       workout_details: workoutDetails,
+      workout_goal: workoutGoal,
+      workout_goal_units: workoutGoalUnits,
     })
     .select('id');
 

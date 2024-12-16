@@ -43,13 +43,14 @@ export const CompletedWorkoutPage = () => {
   const handleClickRepeat = () => {
     updateWorkoutOptions({
       bells: [completedWorkout.bells[0], completedWorkout.bells[1]],
-      duration: completedWorkout.duration,
       intervalTimer: completedWorkout.intervalTimer,
       isOneHanded: completedWorkout.isOneHanded,
       movements: completedWorkout.movements,
       repScheme: completedWorkout.repScheme,
       restTimer: completedWorkout.restTimer,
       workoutDetails: completedWorkout.workoutDetails,
+      workoutGoal: completedWorkout.workoutGoal,
+      workoutGoalUnits: completedWorkout.workoutGoalUnits,
     });
     navigate('/');
   };

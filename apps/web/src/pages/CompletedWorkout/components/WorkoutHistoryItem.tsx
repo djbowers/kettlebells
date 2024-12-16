@@ -22,7 +22,8 @@ export const WorkoutHistoryItem = ({
     completedReps,
     completedRounds,
     date,
-    duration,
+    workoutGoal,
+    workoutGoalUnits,
     intervalTimer,
     isOneHanded,
     movements,
@@ -48,7 +49,9 @@ export const WorkoutHistoryItem = ({
       <CardContent>
         <CardDescription>Timers</CardDescription>
         <div className="flex justify-between gap-1">
-          <div>⏱️ {duration} min</div>
+          <div>
+            ⏱️ {workoutGoal} {workoutGoalUnits}
+          </div>
           {intervalTimer > 0 && <div>⏰ {intervalTimer} second intervals</div>}
           {restTimer > 0 && <div>😴 {restTimer} second rest</div>}
         </div>

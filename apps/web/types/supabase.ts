@@ -53,7 +53,6 @@ export interface Database {
           id: number
           interval_timer: number
           is_one_handed: boolean | null
-          minutes: number
           movements: string[]
           rep_scheme: number[]
           rest_timer: number
@@ -62,6 +61,8 @@ export interface Database {
           unit: string | null
           user_id: string
           workout_details: string | null
+          workout_goal: number
+          workout_goal_units: Database["public"]["Enums"]["workout_goal_units"]
           workout_notes: string | null
         }
         Insert: {
@@ -73,7 +74,6 @@ export interface Database {
           id?: number
           interval_timer?: number
           is_one_handed?: boolean | null
-          minutes: number
           movements: string[]
           rep_scheme?: number[]
           rest_timer?: number
@@ -82,6 +82,8 @@ export interface Database {
           unit?: string | null
           user_id: string
           workout_details?: string | null
+          workout_goal: number
+          workout_goal_units?: Database["public"]["Enums"]["workout_goal_units"]
           workout_notes?: string | null
         }
         Update: {
@@ -93,7 +95,6 @@ export interface Database {
           id?: number
           interval_timer?: number
           is_one_handed?: boolean | null
-          minutes?: number
           movements?: string[]
           rep_scheme?: number[]
           rest_timer?: number
@@ -102,6 +103,8 @@ export interface Database {
           unit?: string | null
           user_id?: string
           workout_details?: string | null
+          workout_goal?: number
+          workout_goal_units?: Database["public"]["Enums"]["workout_goal_units"]
           workout_notes?: string | null
         }
         Relationships: [
@@ -122,6 +125,7 @@ export interface Database {
     }
     Enums: {
       RPE: "noEffort" | "easy" | "ideal" | "hard" | "maxEffort"
+      workout_goal_units: "minutes" | "rounds"
     }
     CompositeTypes: {
       [_ in never]: never

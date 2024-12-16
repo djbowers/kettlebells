@@ -24,13 +24,14 @@ export const ActiveWorkoutPage = ({
   const [
     {
       bells,
-      duration,
       intervalTimer,
       isOneHanded,
       movements,
       repScheme,
       restTimer,
       workoutDetails,
+      workoutGoal,
+      workoutGoalUnits,
     },
   ] = useWorkoutOptions();
 
@@ -51,7 +52,7 @@ export const ActiveWorkoutPage = ({
       paused: workoutTimerPaused,
       play: startWorkoutTimer,
     },
-  ] = useTimer(duration, { defaultPaused });
+  ] = useTimer(workoutGoal, { defaultPaused });
 
   const [
     formattedIntervalRemaining,
@@ -93,7 +94,7 @@ export const ActiveWorkoutPage = ({
   const [isCountdownActive, setIsCountdownActive] = useState<boolean>(false);
 
   // Overview
-  const totalMilliseconds = duration * 60000;
+  const totalMilliseconds = workoutGoal * 60000;
   const completedPercentage =
     ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
 
@@ -291,10 +292,12 @@ export const ActiveWorkoutPage = ({
         <ProgressBar
           completedPercentage={completedPercentage}
           text="remaining"
-          timeRemaining={duration > 0 ? formattedTimeRemaining : <>&infin;</>}
+          timeRemaining={
+            workoutGoal > 0 ? formattedTimeRemaining : <>&infin;</>
+          }
         />
 
-        {duration > 0 && (
+        {workoutGoal > 0 && (
           <div>
             <Button
               disabled={workoutTimerPaused}

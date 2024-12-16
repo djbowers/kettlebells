@@ -1,11 +1,11 @@
 import { RpeOptions } from './rpe.type';
+import { WorkoutGoalUnits } from './workoutGoalUnits.type';
 
 export interface WorkoutLog {
   bells: number[];
   completedReps: number;
   completedRounds: number;
   date: Date;
-  duration: number;
   id: number;
   intervalTimer: number;
   isOneHanded: boolean | null;
@@ -14,5 +14,7 @@ export interface WorkoutLog {
   restTimer: number;
   rpe: RpeOptions | null;
   workoutDetails: string | null;
+  workoutGoal: number;
+  workoutGoalUnits: WorkoutGoalUnits;
   workoutNotes: string | null;
 }
