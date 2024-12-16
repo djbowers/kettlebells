@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from '~/components/ui/card';
 
-interface Props {
+interface CompletedSectionProps {
   completedReps: number;
   isBodyweight: boolean;
   workoutVolume: number;
@@ -16,7 +16,7 @@ export const CompletedSection = ({
   completedReps,
   isBodyweight,
   workoutVolume,
-}: Props) => {
+}: CompletedSectionProps) => {
   return (
     <Card
       className="bg-accent border-transparent"

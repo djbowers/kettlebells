@@ -9,18 +9,23 @@ import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
 import { useTimer } from '~/hooks';
 
-import { CompletedSection, CurrentMovement, ProgressBar } from './components';
+import {
+  ActiveWorkoutControls,
+  CompletedSection,
+  CurrentMovement,
+  ProgressBar,
+} from './components';
 import { useRequestWakeLock } from './hooks';
 
-interface Props {
-  startedAt?: Date;
+interface ActiveWorkoutPageProps {
   defaultPaused?: boolean;
+  startedAt?: Date;
 }
 
 export const ActiveWorkoutPage = ({
-  startedAt = new Date(),
   defaultPaused = true,
-}: Props) => {
+  startedAt = new Date(),
+}: ActiveWorkoutPageProps) => {
   const [
     {
       bells,
@@ -88,7 +93,7 @@ export const ActiveWorkoutPage = ({
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
 
-  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false);
+  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false); // for unilateral movements and mixed bells
   const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
   const [isRestActive, setIsRestActive] = useState<boolean>(false);
   const [isCountdownActive, setIsCountdownActive] = useState<boolean>(false);
@@ -279,13 +284,6 @@ export const ActiveWorkoutPage = ({
     [countdownRemainingMilliseconds],
   );
 
-  const showIntervalProgressBar =
-    intervalTimer > 0 && !isRestActive && !workoutTimerPaused;
-  const showRestProgressBar = isRestActive && !workoutTimerPaused;
-  const showContinueButton =
-    intervalTimer === 0 && !isRestActive && !workoutTimerPaused;
-  const showStartButton = !isCountdownActive && workoutTimerPaused;
-
   return (
     <Page>
       <div className="flex w-full items-center gap-1">
@@ -323,51 +321,21 @@ export const ActiveWorkoutPage = ({
         restRemaining={isRestActive}
       />
 
-      {showIntervalProgressBar && (
-        <ProgressBar
-          color="success"
-          completedPercentage={intervalCompletedPercentage}
-          size="large"
-          text="interval"
-          timeRemaining={parseFloat(formattedIntervalRemaining).toFixed(1)}
-        />
-      )}
-
-      {showRestProgressBar && (
-        <ProgressBar
-          color="warning"
-          completedPercentage={restCompletedPercentage}
-          size="large"
-          text="rest"
-          timeRemaining={parseFloat(formattedRestRemaining).toFixed(1)}
-        />
-      )}
-
-      {isCountdownActive && (
-        <div className="flex items-center justify-center">
-          <div className="flex h-6 w-6 items-center justify-center font-mono text-5xl font-medium">
-            {parseFloat(formattedCountdownRemaining).toFixed(1)}
-          </div>
-        </div>
-      )}
-
-      {showStartButton && (
-        <Button onClick={handleClickStart} size="lg">
-          <PlayIcon className="h-3 w-3" />
-        </Button>
-      )}
-
-      {showContinueButton && (
-        <Button
-          className={clsx('grow', { 'animate-wiggle': isEffectActive })}
-          disabled={workoutTimerPaused}
-          onAnimationEnd={() => setIsEffectActive(false)}
-          onClick={handleClickContinue}
-          size="lg"
-        >
-          <PlusIcon className="mr-1 h-2.5 w-2.5 stroke-2" /> Continue
-        </Button>
-      )}
+      <ActiveWorkoutControls
+        formattedCountdownRemaining={formattedCountdownRemaining}
+        formattedIntervalRemaining={formattedIntervalRemaining}
+        formattedRestRemaining={formattedRestRemaining}
+        handleClickContinue={handleClickContinue}
+        handleClickStart={handleClickStart}
+        intervalCompletedPercentage={intervalCompletedPercentage}
+        intervalTimer={intervalTimer}
+        isCountdownActive={isCountdownActive}
+        isEffectActive={isEffectActive}
+        isRestActive={isRestActive}
+        restCompletedPercentage={restCompletedPercentage}
+        setIsEffectActive={setIsEffectActive}
+        workoutTimerPaused={workoutTimerPaused}
+      />
 
       <CompletedSection
         isBodyweight={isBodyweight}
