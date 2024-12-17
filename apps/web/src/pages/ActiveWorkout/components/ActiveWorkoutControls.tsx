@@ -60,8 +60,8 @@ export const ActiveWorkoutControls = ({
         color="warning"
         completedPercentage={restCompletedPercentage}
         size="large"
-        text="rest"
-        timeRemaining={parseFloat(formattedRestRemaining).toFixed(1)}
+        description="rest"
+        value={parseFloat(formattedRestRemaining).toFixed(1)}
       />
     );
   }
@@ -72,8 +72,8 @@ export const ActiveWorkoutControls = ({
         color="success"
         completedPercentage={intervalCompletedPercentage}
         size="large"
-        text="interval"
-        timeRemaining={parseFloat(formattedIntervalRemaining).toFixed(1)}
+        description="interval"
+        value={parseFloat(formattedIntervalRemaining).toFixed(1)}
       />
     );
   }

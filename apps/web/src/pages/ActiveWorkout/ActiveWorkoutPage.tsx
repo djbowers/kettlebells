@@ -13,7 +13,7 @@ import {
   ActiveWorkoutControls,
   CompletedSection,
   CurrentMovement,
-  ProgressBar,
+  WorkoutProgress,
 } from './components';
 import { useRequestWakeLock } from './hooks';
 
@@ -57,7 +57,10 @@ export const ActiveWorkoutPage = ({
       paused: workoutTimerPaused,
       play: startWorkoutTimer,
     },
-  ] = useTimer(workoutGoal, { defaultPaused });
+  ] = useTimer(workoutGoal, {
+    defaultPaused,
+    disabled: workoutGoalUnits !== 'minutes',
+  });
 
   const [
     formattedIntervalRemaining,
@@ -97,11 +100,6 @@ export const ActiveWorkoutPage = ({
   const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
   const [isRestActive, setIsRestActive] = useState<boolean>(false);
   const [isCountdownActive, setIsCountdownActive] = useState<boolean>(false);
-
-  // Overview
-  const totalMilliseconds = workoutGoal * 60000;
-  const completedPercentage =
-    ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
 
   // Movements
   const lastMovementIndex = movements.length - 1;
@@ -286,28 +284,15 @@ export const ActiveWorkoutPage = ({
 
   return (
     <Page>
-      <div className="flex w-full items-center gap-1">
-        <ProgressBar
-          completedPercentage={completedPercentage}
-          text="remaining"
-          timeRemaining={
-            workoutGoal > 0 ? formattedTimeRemaining : <>&infin;</>
-          }
-        />
-
-        {workoutGoal > 0 && (
-          <div>
-            <Button
-              disabled={workoutTimerPaused}
-              onClick={handleClickPause}
-              size="icon"
-              variant="secondary"
-            >
-              <PauseIcon className="h-3 w-3" />
-            </Button>
-          </div>
-        )}
-      </div>
+      <WorkoutProgress
+        completedRounds={completedRounds}
+        formattedTimeRemaining={formattedTimeRemaining}
+        handleClickPause={handleClickPause}
+        remainingMilliseconds={remainingMilliseconds}
+        workoutGoal={workoutGoal}
+        workoutGoalUnits={workoutGoalUnits}
+        workoutTimerPaused={workoutTimerPaused}
+      />
 
       <CurrentMovement
         currentRound={currentRound}

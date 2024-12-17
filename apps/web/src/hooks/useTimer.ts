@@ -4,11 +4,18 @@ import { useCallback, useEffect, useState } from 'react';
 const DEFAULT_PAUSED = false;
 const TIME_FORMAT = 'm:ss';
 
+interface UseTimerOptions {
+  defaultPaused?: boolean;
+  timeFormat?: string;
+  disabled?: boolean;
+}
+
 export const useTimer = (
   /** Time to start counting down from in minutes */
   initialTimer: number,
-  options: { defaultPaused?: boolean; timeFormat?: string } = {
+  options: UseTimerOptions = {
     defaultPaused: DEFAULT_PAUSED,
+    disabled: false,
     timeFormat: TIME_FORMAT,
   },
 ) => {
@@ -20,13 +27,13 @@ export const useTimer = (
   );
 
   useEffect(() => {
-    if (paused || initialTimer === 0) return;
+    if (options?.disabled || paused || initialTimer === 0) return;
 
     const timer = setInterval(() => {
       setMilliseconds((s) => s - 100);
     }, 100);
     return () => clearInterval(timer);
-  }, [paused]);
+  }, [paused, options?.disabled]);
 
   const reset = useCallback(
     (timer: number = initialTimer) => setMilliseconds(timer * 60000),

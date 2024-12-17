@@ -1,21 +1,21 @@
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 
-interface Props {
+interface ProgressBarProps {
   color?: 'success' | 'warning';
   completedPercentage: number;
+  description?: string;
   size?: 'default' | 'large';
-  text?: string;
-  timeRemaining: ReactNode;
+  value?: string;
 }
 
 export const ProgressBar = ({
   color = 'success',
   completedPercentage,
+  description,
   size = 'default',
-  text,
-  timeRemaining,
-}: Props) => {
+  value,
+}: ProgressBarProps) => {
   return (
     <div
       className={clsx(
@@ -47,11 +47,11 @@ export const ProgressBar = ({
           },
         )}
       >
-        {timeRemaining}
+        {value ?? <>&infin;</>}
       </div>
-      {text && (
+      {description && (
         <span className="text-muted-foreground absolute right-0 top-1/2 mr-2 -translate-y-1/2 text-sm uppercase">
-          {text}
+          {description}
         </span>
       )}
     </div>
