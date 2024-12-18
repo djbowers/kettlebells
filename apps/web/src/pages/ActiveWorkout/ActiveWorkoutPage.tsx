@@ -7,7 +7,7 @@ import { useLogWorkout } from '~/api';
 import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
-import { useTimer } from '~/hooks';
+import { useCountdownTimer } from '~/hooks';
 
 import {
   ActiveWorkoutControls,
@@ -57,7 +57,7 @@ export const ActiveWorkoutPage = ({
       paused: workoutTimerPaused,
       play: startWorkoutTimer,
     },
-  ] = useTimer(workoutGoal, {
+  ] = useCountdownTimer(workoutGoal, {
     defaultPaused,
     disabled: workoutGoalUnits !== 'minutes',
   });
@@ -70,7 +70,10 @@ export const ActiveWorkoutPage = ({
       play: startIntervalTimer,
       reset: resetIntervalTimer,
     },
-  ] = useTimer(intervalTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
+  ] = useCountdownTimer(intervalTimer / 60, {
+    defaultPaused: true,
+    timeFormat: 'ss.S',
+  });
 
   const [
     formattedRestRemaining,
@@ -80,7 +83,10 @@ export const ActiveWorkoutPage = ({
       play: startRestTimer,
       reset: resetRestTimer,
     },
-  ] = useTimer(restTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
+  ] = useCountdownTimer(restTimer / 60, {
+    defaultPaused: true,
+    timeFormat: 'ss.S',
+  });
 
   const [
     formattedCountdownRemaining,
@@ -90,7 +96,7 @@ export const ActiveWorkoutPage = ({
       play: startCountdownTimer,
       reset: resetCountdownTimer,
     },
-  ] = useTimer(3 / 60, { defaultPaused: true, timeFormat: 's.S' });
+  ] = useCountdownTimer(3 / 60, { defaultPaused: true, timeFormat: 's.S' });
 
   const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);

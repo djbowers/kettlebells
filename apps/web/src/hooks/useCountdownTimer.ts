@@ -4,16 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 const DEFAULT_PAUSED = false;
 const TIME_FORMAT = 'm:ss';
 
-interface UseTimerOptions {
+interface CountdownTimerOptions {
   defaultPaused?: boolean;
-  timeFormat?: string;
   disabled?: boolean;
+  timeFormat?: string;
 }
 
-export const useTimer = (
+export const useCountdownTimer = (
   /** Time to start counting down from in minutes */
   initialTimer: number,
-  options: UseTimerOptions = {
+  options: CountdownTimerOptions = {
     defaultPaused: DEFAULT_PAUSED,
     disabled: false,
     timeFormat: TIME_FORMAT,
