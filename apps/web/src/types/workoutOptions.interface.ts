@@ -1,4 +1,4 @@
-import { WorkoutGoalUnits } from "./workoutGoalUnits.type";
+import { WorkoutGoalUnits } from './workoutGoalUnits.type';
 
 export interface WorkoutOptions {
   bells: [number, number]; // kg
@@ -7,6 +7,7 @@ export interface WorkoutOptions {
   movements: string[];
   repScheme: number[];
   restTimer: number; // seconds
+  startedAt?: Date;
   workoutDetails: string | null;
   workoutGoal: number; // minutes or rounds
   workoutGoalUnits: WorkoutGoalUnits;

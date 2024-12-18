@@ -77,7 +77,7 @@ export const StartWorkoutPage = () => {
   };
   const handleDecrementTimer = () => {
     setWorkoutGoal((prev) => {
-      if (prev <= DURATION_INCREMENT) return prev;
+      if (prev === 0) return prev;
       else return prev - DURATION_INCREMENT;
     });
   };
@@ -150,6 +150,7 @@ export const StartWorkoutPage = () => {
       movements,
       repScheme,
       restTimer,
+      startedAt: new Date(),
       workoutDetails,
       workoutGoal,
       workoutGoalUnits,

@@ -23,28 +23,31 @@ export const WorkoutProgress = ({
   workoutGoalUnits,
   workoutTimerPaused,
 }: WorkoutProgressProps) => {
-  let progressBarValue: string | undefined;
   let completedPercentage: number = 0;
+  let progressBarDescription: string | undefined;
+  let progressBarValue: string | undefined;
 
-  if (workoutGoalUnits === 'minutes' && workoutGoal > 0) {
+  if (workoutGoalUnits === 'minutes') {
     progressBarValue = formattedTimeRemaining;
     const totalMilliseconds = workoutGoal * 60000;
     completedPercentage =
       ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
+    progressBarDescription = 'remaining';
   }
 
   if (workoutGoalUnits === 'rounds') {
-    progressBarValue = (workoutGoal - completedRounds).toString();
+    progressBarValue = `${workoutGoal - completedRounds}`;
     completedPercentage =
       (1 - (workoutGoal - completedRounds) / workoutGoal) * 100;
+    progressBarDescription = 'rounds';
   }
 
   return (
     <div className="flex w-full items-center gap-1">
       <ProgressBar
-        completedPercentage={completedPercentage}
-        description="remaining"
-        value={progressBarValue}
+        completedPercentage={workoutGoal > 0 ? completedPercentage : 0}
+        description={workoutGoal > 0 ? progressBarDescription : undefined}
+        value={workoutGoal > 0 ? progressBarValue : undefined}
       />
 
       {workoutGoalUnits === 'minutes' && workoutGoal > 0 && (

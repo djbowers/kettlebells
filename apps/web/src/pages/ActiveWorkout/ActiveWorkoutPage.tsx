@@ -1,30 +1,25 @@
-import { PauseIcon, PlayIcon, PlusIcon } from '@radix-ui/react-icons';
-import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogWorkout } from '~/api';
 import { Page } from '~/components';
-import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
 import { useCountdownTimer } from '~/hooks';
 
 import {
   ActiveWorkoutControls,
-  CompletedSection,
   CurrentMovement,
   WorkoutProgress,
+  WorkoutSummary,
 } from './components';
 import { useRequestWakeLock } from './hooks';
 
 interface ActiveWorkoutPageProps {
   defaultPaused?: boolean;
-  startedAt?: Date;
 }
 
 export const ActiveWorkoutPage = ({
   defaultPaused = true,
-  startedAt = new Date(),
 }: ActiveWorkoutPageProps) => {
   const [
     {
@@ -34,6 +29,7 @@ export const ActiveWorkoutPage = ({
       movements,
       repScheme,
       restTimer,
+      startedAt,
       workoutDetails,
       workoutGoal,
       workoutGoalUnits,
@@ -44,7 +40,7 @@ export const ActiveWorkoutPage = ({
     mutate: logWorkout,
     data: workoutLogId,
     isLoading: logWorkoutLoading,
-  } = useLogWorkout(startedAt);
+  } = useLogWorkout();
 
   const navigate = useNavigate();
   const requestWakeLock = useRequestWakeLock();
@@ -58,7 +54,7 @@ export const ActiveWorkoutPage = ({
       play: startWorkoutTimer,
     },
   ] = useCountdownTimer(workoutGoal, {
-    defaultPaused,
+    defaultPaused: workoutGoal === 0 ? false : defaultPaused,
     disabled: workoutGoalUnits !== 'minutes',
   });
 
@@ -312,35 +308,34 @@ export const ActiveWorkoutPage = ({
         restRemaining={isRestActive}
       />
 
-      <ActiveWorkoutControls
-        formattedCountdownRemaining={formattedCountdownRemaining}
-        formattedIntervalRemaining={formattedIntervalRemaining}
-        formattedRestRemaining={formattedRestRemaining}
-        handleClickContinue={handleClickContinue}
-        handleClickStart={handleClickStart}
-        intervalCompletedPercentage={intervalCompletedPercentage}
-        intervalTimer={intervalTimer}
-        isCountdownActive={isCountdownActive}
-        isEffectActive={isEffectActive}
-        isRestActive={isRestActive}
-        restCompletedPercentage={restCompletedPercentage}
-        setIsEffectActive={setIsEffectActive}
-        workoutTimerPaused={workoutTimerPaused}
-      />
+      <div className="flex h-5 items-center justify-center">
+        <ActiveWorkoutControls
+          formattedCountdownRemaining={formattedCountdownRemaining}
+          formattedIntervalRemaining={formattedIntervalRemaining}
+          formattedRestRemaining={formattedRestRemaining}
+          handleClickContinue={handleClickContinue}
+          handleClickStart={handleClickStart}
+          intervalCompletedPercentage={intervalCompletedPercentage}
+          intervalTimer={intervalTimer}
+          isCountdownActive={isCountdownActive}
+          isEffectActive={isEffectActive}
+          isRestActive={isRestActive}
+          restCompletedPercentage={restCompletedPercentage}
+          setIsEffectActive={setIsEffectActive}
+          workoutTimerPaused={workoutTimerPaused}
+        />
+      </div>
 
-      <CompletedSection
-        isBodyweight={isBodyweight}
+      <WorkoutSummary
         completedReps={completedReps}
+        completedRounds={completedRounds}
+        handleClickFinish={handleClickFinish}
+        isBodyweight={isBodyweight}
+        startedAt={startedAt}
+        workoutGoal={workoutGoal}
+        workoutGoalUnits={workoutGoalUnits}
         workoutVolume={workoutVolume}
       />
-
-      <Button
-        disabled={logWorkoutLoading}
-        variant="outline"
-        onClick={handleClickFinish}
-      >
-        Finish workout
-      </Button>
     </Page>
   );
 };

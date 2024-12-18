@@ -5,7 +5,7 @@ import { WorkoutOptions } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
-export const useLogWorkout = (startedAt: Date) => {
+export const useLogWorkout = () => {
   const [workoutOptions] = useWorkoutOptions();
   const { user } = useSession();
 
@@ -23,7 +23,6 @@ export const useLogWorkout = (startedAt: Date) => {
         completedReps,
         completedRounds,
         completedRungs,
-        startedAt,
         userId: user.id,
         workoutOptions,
       });
@@ -35,14 +34,12 @@ const logWorkout = async ({
   completedReps,
   completedRounds,
   completedRungs,
-  startedAt,
   userId,
   workoutOptions,
 }: {
   completedReps: number;
   completedRounds: number;
   completedRungs: number;
-  startedAt: Date;
   userId: string;
   workoutOptions: WorkoutOptions;
 }) => {
@@ -53,6 +50,7 @@ const logWorkout = async ({
     movements,
     repScheme,
     restTimer,
+    startedAt,
     workoutDetails,
     workoutGoal,
     workoutGoalUnits,

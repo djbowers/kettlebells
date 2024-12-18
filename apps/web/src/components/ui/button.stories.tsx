@@ -15,9 +15,9 @@ export const Default = {
 
 const variants: ButtonProps['variant'][] = [
   'default',
+  'secondary',
   'destructive',
   'outline',
-  'secondary',
   'ghost',
   'link',
 ];
