@@ -5,7 +5,13 @@ import { WorkoutOptions } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
-export const useLogWorkout = (startedAt: Date) => {
+interface LogWorkoutInput {
+  completedReps: number;
+  completedRounds: number;
+  completedRungs: number;
+}
+
+export const useLogWorkout = () => {
   const [workoutOptions] = useWorkoutOptions();
   const { user } = useSession();
 
@@ -14,20 +20,14 @@ export const useLogWorkout = (startedAt: Date) => {
       completedReps,
       completedRounds,
       completedRungs,
-    }: {
-      completedReps: number;
-      completedRounds: number;
-      completedRungs: number;
-    }) => {
-      return logWorkout({
+    }: LogWorkoutInput) =>
+      logWorkout({
         completedReps,
         completedRounds,
         completedRungs,
-        startedAt,
         userId: user.id,
         workoutOptions,
-      });
-    },
+      }),
   });
 };
 
@@ -35,44 +35,46 @@ const logWorkout = async ({
   completedReps,
   completedRounds,
   completedRungs,
-  startedAt,
   userId,
   workoutOptions,
 }: {
   completedReps: number;
   completedRounds: number;
   completedRungs: number;
-  startedAt: Date;
   userId: string;
   workoutOptions: WorkoutOptions;
 }) => {
   const {
     bells,
-    duration,
     intervalTimer,
     isOneHanded,
     movements,
     repScheme,
     restTimer,
+    startedAt,
     workoutDetails,
+    workoutGoal,
+    workoutGoalUnits,
   } = workoutOptions;
 
   const { error, data: workoutLogs } = await supabase
     .from('workout_logs')
     .insert({
       bells,
+      completed_at: new Date().toISOString(),
       completed_reps: completedReps,
       completed_rounds: completedRounds,
       completed_rungs: completedRungs,
       interval_timer: intervalTimer,
       is_one_handed: isOneHanded,
-      minutes: duration,
       movements,
       rep_scheme: repScheme,
       rest_timer: restTimer,
-      started_at: startedAt.toISOString(),
+      started_at: (startedAt ?? new Date()).toISOString(),
       user_id: userId,
       workout_details: workoutDetails,
+      workout_goal: workoutGoal,
+      workout_goal_units: workoutGoalUnits,
     })
     .select('id');
 

@@ -43,13 +43,14 @@ export const CompletedWorkoutPage = () => {
   const handleClickRepeat = () => {
     updateWorkoutOptions({
       bells: [completedWorkout.bells[0], completedWorkout.bells[1]],
-      duration: completedWorkout.duration,
       intervalTimer: completedWorkout.intervalTimer,
       isOneHanded: completedWorkout.isOneHanded,
       movements: completedWorkout.movements,
       repScheme: completedWorkout.repScheme,
       restTimer: completedWorkout.restTimer,
       workoutDetails: completedWorkout.workoutDetails,
+      workoutGoal: completedWorkout.workoutGoal,
+      workoutGoalUnits: completedWorkout.workoutGoalUnits,
     });
     navigate('/');
   };
@@ -71,7 +72,21 @@ export const CompletedWorkoutPage = () => {
         </div>
       }
     >
-      <WorkoutHistoryItem completedWorkout={completedWorkout} />
+      <WorkoutHistoryItem
+        bells={completedWorkout.bells}
+        completedAt={completedWorkout.completedAt}
+        completedReps={completedWorkout.completedReps}
+        completedRounds={completedWorkout.completedRounds}
+        intervalTimer={completedWorkout.intervalTimer}
+        isOneHanded={completedWorkout.isOneHanded}
+        movements={completedWorkout.movements}
+        repScheme={completedWorkout.repScheme}
+        restTimer={completedWorkout.restTimer}
+        startedAt={completedWorkout.startedAt}
+        workoutDetails={completedWorkout.workoutDetails}
+        workoutGoal={completedWorkout.workoutGoal}
+        workoutGoalUnits={completedWorkout.workoutGoalUnits}
+      />
       <RPESelector
         onSelectRPE={handleSelectRPE}
         rpeValue={completedWorkout.rpe}
@@ -89,7 +104,6 @@ export const CompletedWorkoutPage = () => {
         >
           <Textarea
             aria-label="Workout Notes"
-            autoFocus
             className="w-full"
             defaultValue={completedWorkout.workoutNotes}
             onBlur={handleBlurNotes}
@@ -99,8 +113,4 @@ export const CompletedWorkoutPage = () => {
       )}
     </Page>
   );
-};
-
-export const getDisplayDate = (dateISOString: string) => {
-  return DateTime.fromISO(dateISOString).toFormat('cccc, LLL dd y, t');
 };

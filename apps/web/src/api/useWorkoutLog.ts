@@ -26,10 +26,9 @@ const fetchWorkoutLog = async (id: string): Promise<WorkoutLog> => {
 
   return {
     bells: workoutLog.bells,
+    completedAt: new Date(workoutLog.completed_at),
     completedReps: workoutLog.completed_reps,
     completedRounds: workoutLog.completed_rounds,
-    date: new Date(workoutLog.started_at),
-    duration: workoutLog.minutes,
     id: workoutLog.id,
     intervalTimer: workoutLog.interval_timer,
     isOneHanded: workoutLog.is_one_handed,
@@ -37,7 +36,10 @@ const fetchWorkoutLog = async (id: string): Promise<WorkoutLog> => {
     repScheme: workoutLog.rep_scheme,
     restTimer: workoutLog.rest_timer,
     rpe: workoutLog.rpe,
+    startedAt: new Date(workoutLog.started_at),
     workoutDetails: workoutLog.workout_details,
+    workoutGoal: workoutLog.workout_goal,
+    workoutGoalUnits: workoutLog.workout_goal_units,
     workoutNotes: workoutLog.workout_notes,
   };
 };

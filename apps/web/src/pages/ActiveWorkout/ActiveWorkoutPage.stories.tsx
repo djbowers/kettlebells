@@ -160,3 +160,13 @@ export const IntervalRestTimer: StoryObj = {
     },
   },
 };
+
+export const WorkoutGoalRounds: StoryObj = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 10,
+      workoutGoalUnits: 'rounds',
+      bells: [20, 20],
+    },
+  },
+};

@@ -8,6 +8,9 @@ import * as stories from './StartWorkoutPage.stories';
 
 const { Default } = composeStories(stories);
 
+const startedAt = new Date();
+vi.setSystemTime(startedAt);
+
 describe('start workout page', () => {
   let startWorkout;
 
@@ -35,6 +38,7 @@ describe('start workout page', () => {
     expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Clean and Press'],
+      startedAt,
     });
   });
 
@@ -63,6 +67,7 @@ describe('start workout page', () => {
     expect(startWorkout).toHaveBeenCalledWith({
       ...DEFAULT_WORKOUT_OPTIONS,
       movements: ['Clean and Press', 'Front Squat'],
+      startedAt,
     });
   });
 
@@ -91,6 +96,7 @@ describe('start workout page', () => {
       bells: [20, 24],
       isOneHanded: null,
       movements: ['Clean and Press'],
+      startedAt,
     });
   });
 
@@ -117,6 +123,7 @@ describe('start workout page', () => {
       bells: [0, 0],
       isOneHanded: null,
       movements: ['Pull-Ups'],
+      startedAt,
     });
   });
 
@@ -142,6 +149,27 @@ describe('start workout page', () => {
       bells: [20, 0],
       isOneHanded: false,
       movements: ['Two-Handed Swing'],
+      startedAt,
+    });
+  });
+
+  test('can change the workout goal to "rounds"', async () => {
+    const workoutGoalUnits = screen.getByRole('tab', { name: 'Rounds' });
+    await userEvent.click(workoutGoalUnits);
+
+    const movementInput = screen.getByLabelText('Movement Input');
+    await userEvent.type(movementInput, 'Clean and Press');
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    expect(startButton).toBeEnabled();
+    await userEvent.click(startButton);
+
+    expect(startWorkout).toHaveBeenCalledTimes(1);
+    expect(startWorkout).toHaveBeenCalledWith({
+      ...DEFAULT_WORKOUT_OPTIONS,
+      workoutGoalUnits: 'rounds',
+      movements: ['Clean and Press'],
+      startedAt,
     });
   });
 });

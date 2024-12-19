@@ -5,8 +5,9 @@ import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
-import { WorkoutOptions } from '~/types';
+import { WorkoutGoalUnits, WorkoutOptions } from '~/types';
 
 import {
   ModifyCountButtons,
@@ -27,7 +28,12 @@ export const StartWorkoutPage = () => {
   const [workoutOptions, updateWorkoutOptions] = useWorkoutOptions();
 
   const [bells, setBells] = useState<[number, number]>(workoutOptions.bells);
-  const [duration, setDuration] = useState<number>(workoutOptions.duration);
+  const [workoutGoal, setWorkoutGoal] = useState<number>(
+    workoutOptions.workoutGoal,
+  );
+  const [workoutGoalUnits, setWorkoutGoalUnits] = useState<WorkoutGoalUnits>(
+    workoutOptions.workoutGoalUnits,
+  );
   const [movements, setMovements] = useState<string[]>(
     workoutOptions.movements,
   );
@@ -67,11 +73,11 @@ export const StartWorkoutPage = () => {
     movementsRef.current[movements.length - 1]?.focus();
   };
   const handleIncrementTimer = () => {
-    setDuration((prev) => prev + DURATION_INCREMENT);
+    setWorkoutGoal((prev) => prev + DURATION_INCREMENT);
   };
   const handleDecrementTimer = () => {
-    setDuration((prev) => {
-      if (prev <= DURATION_INCREMENT) return prev;
+    setWorkoutGoal((prev) => {
+      if (prev === 0) return prev;
       else return prev - DURATION_INCREMENT;
     });
   };
@@ -139,13 +145,15 @@ export const StartWorkoutPage = () => {
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
       bells,
-      duration,
       intervalTimer,
       isOneHanded,
       movements,
       repScheme,
       restTimer,
+      startedAt: new Date(),
       workoutDetails,
+      workoutGoal,
+      workoutGoalUnits,
     };
     updateWorkoutOptions(workoutOptions);
     navigate('active');
@@ -272,12 +280,31 @@ export const StartWorkoutPage = () => {
         )}
       </Section>
 
-      <Section title="Timer">
+      <Section
+        title="Goal"
+        actions={
+          <Tabs
+            value={workoutGoalUnits}
+            onValueChange={(value) =>
+              setWorkoutGoalUnits(value as WorkoutGoalUnits)
+            }
+          >
+            <TabsList>
+              <TabsTrigger size="sm" value="minutes">
+                Duration
+              </TabsTrigger>
+              <TabsTrigger size="sm" value="rounds">
+                Rounds
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        }
+      >
         <ModifyCountButtons
           onClickMinus={handleDecrementTimer}
           onClickPlus={handleIncrementTimer}
-          text="min"
-          value={duration > 0 ? duration.toString() : <>&infin;</>}
+          text={workoutGoalUnits}
+          value={workoutGoal > 0 ? workoutGoal.toString() : <>&infin;</>}
         />
       </Section>
 

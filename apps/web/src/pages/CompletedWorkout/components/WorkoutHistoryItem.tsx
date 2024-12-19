@@ -1,37 +1,57 @@
+import { DateTime, Duration } from 'luxon';
+
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
-import { WorkoutLog } from '~/types';
+import { Separator } from '~/components/ui/separator';
 
-import { getDisplayDate } from '../CompletedWorkoutPage';
-import { getBellWeightsDisplayValue, getRepSchemeDisplayValue } from '../utils';
+import {
+  getBellWeightsDisplayValue,
+  getDisplayDate,
+  getDuration,
+  getRepSchemeDisplayValue,
+  getTimeRange,
+} from '../utils';
 
 export interface WorkoutHistoryItemProps {
-  completedWorkout: WorkoutLog;
+  bells: number[];
+  completedAt: Date;
+  completedReps: number;
+  completedRounds: number;
+  intervalTimer: number;
+  isOneHanded: boolean | null;
+  movements: string[];
+  repScheme: number[];
+  restTimer: number;
+  startedAt: Date;
+  workoutDetails: string | null;
+  workoutGoal: number;
+  workoutGoalUnits: string;
 }
 
 export const WorkoutHistoryItem = ({
-  completedWorkout,
+  bells,
+  completedAt,
+  completedReps,
+  completedRounds,
+  intervalTimer,
+  isOneHanded,
+  movements,
+  repScheme,
+  restTimer,
+  startedAt,
+  workoutDetails,
+  workoutGoal,
+  workoutGoalUnits,
 }: WorkoutHistoryItemProps) => {
-  const {
-    bells,
-    completedReps,
-    completedRounds,
-    date,
-    duration,
-    intervalTimer,
-    isOneHanded,
-    movements,
-    repScheme,
-    restTimer,
-    workoutDetails,
-  } = completedWorkout;
-
-  const displayDate = getDisplayDate(date.toISOString());
+  const displayDate = getDisplayDate(completedAt);
+  const duration = getDuration(startedAt, completedAt);
+  const timeRange = getTimeRange(startedAt, completedAt);
 
   const workoutLoad = bells.reduce((total, bell) => total + bell, 0);
   const workoutVolume = completedReps * workoutLoad;
@@ -42,28 +62,14 @@ export const WorkoutHistoryItem = ({
   return (
     <Card data-testid="workout-history-item">
       <CardHeader>
-        <CardTitle>{displayDate}</CardTitle>
+        <CardTitle className="flex items-baseline justify-between gap-1">
+          {displayDate}
+          <CardDescription className="text-xs">{timeRange}</CardDescription>
+        </CardTitle>
+        {workoutDetails && (
+          <CardDescription className="italic">{workoutDetails}</CardDescription>
+        )}
       </CardHeader>
-
-      <CardContent>
-        <CardDescription>Timers</CardDescription>
-        <div className="flex justify-between gap-1">
-          <div>⏱️ {duration} min</div>
-          {intervalTimer > 0 && <div>⏰ {intervalTimer} second intervals</div>}
-          {restTimer > 0 && <div>😴 {restTimer} second rest</div>}
-        </div>
-      </CardContent>
-
-      <CardContent>
-        <CardDescription>Rep Scheme</CardDescription>
-        <div className="flex justify-between gap-1">
-          <div>🔂 {repSchemeDisplayValue} reps</div>
-          {workoutLoad > 0 && <div>🏋️ {bellsDisplayValue} kg</div>}
-          {isOneHanded !== null && (
-            <div>🤛 {isOneHanded ? 'One-handed' : 'Two-handed'}</div>
-          )}
-        </div>
-      </CardContent>
 
       <CardContent>
         <CardDescription>Movements</CardDescription>
@@ -72,21 +78,70 @@ export const WorkoutHistoryItem = ({
         ))}
       </CardContent>
 
-      {workoutDetails && (
-        <CardContent>
-          <CardDescription>Workout Details</CardDescription>
-          {workoutDetails}
-        </CardContent>
-      )}
-
-      <CardContent>
-        <CardDescription>Completed</CardDescription>
-        <div className="flex justify-between gap-1">
-          <div>🔁 {completedRounds} rounds</div>
-          <div>💪 {completedReps} reps</div>
-          {workoutVolume > 0 && <div>🏆 {workoutVolume} kg</div>}
+      <CardContent className="grid grid-cols-2 gap-1">
+        <div>
+          <CardDescription id="rep-scheme">Rep Scheme</CardDescription>
+          <div aria-labelledby="rep-scheme">{repSchemeDisplayValue} reps</div>
+        </div>
+        <div className="text-right">
+          <CardDescription id="weights">Weights</CardDescription>
+          <div aria-labelledby="weights">
+            {workoutLoad > 0 ? `${bellsDisplayValue} kg` : 'Bodyweight'}{' '}
+            {isOneHanded !== null && (isOneHanded ? '(1h)' : '(2h)')}
+          </div>
         </div>
       </CardContent>
+
+      <CardContent className="grid grid-cols-3 gap-1">
+        <div>
+          <CardDescription id="goal">Goal</CardDescription>
+          <div aria-labelledby="goal">
+            {workoutGoal}
+            {workoutGoalUnits === 'minutes' ? 'm' : ` ${workoutGoalUnits}`}
+          </div>
+        </div>
+        <div className="text-center">
+          <CardDescription id="intervals">Intervals</CardDescription>
+          <div aria-labelledby="intervals">
+            {intervalTimer > 0 ? `${intervalTimer}s` : 'None'}
+          </div>
+        </div>
+        <div className="text-right">
+          <CardDescription id="rest">Rest</CardDescription>
+          <div aria-labelledby="rest">
+            {restTimer > 0 ? `${restTimer}s` : 'None'}
+          </div>
+        </div>
+      </CardContent>
+
+      <CardContent>
+        <Separator />
+      </CardContent>
+
+      <CardContent>
+        <CardTitle>Workout Summary</CardTitle>
+      </CardContent>
+
+      <CardFooter className="grid grid-cols-4 gap-1">
+        <div>
+          <CardDescription id="elapsed">Elapsed</CardDescription>
+          <div aria-labelledby="elapsed">{duration}</div>
+        </div>
+        <div className="text-center">
+          <CardDescription id="rounds">Rounds</CardDescription>
+          <div aria-labelledby="rounds">{completedRounds} rounds</div>
+        </div>
+        <div className="text-center">
+          <CardDescription id="reps">Reps</CardDescription>
+          <div aria-labelledby="reps">{completedReps} reps</div>
+        </div>
+        <div className="text-right">
+          <CardDescription id="volume">Volume</CardDescription>
+          <div aria-labelledby="volume">
+            {workoutVolume > 0 ? `${workoutVolume} kg` : 'N/A'}
+          </div>
+        </div>
+      </CardFooter>
     </Card>
   );
 };

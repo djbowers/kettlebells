@@ -15,8 +15,8 @@ export const ModifyCountButtons = ({
   value: ReactNode;
 }) => {
   return (
-    <div className="flex items-center justify-center gap-5">
-      <div className="flex items-center">
+    <div className="grid grid-cols-3">
+      <div className="flex items-center justify-end">
         <Button size="icon" onClick={onClickMinus}>
           <MinusIcon className="h-2.5 w-2.5" />
         </Button>
@@ -25,7 +25,7 @@ export const ModifyCountButtons = ({
         <div className="text-lg font-semibold">{value}</div>
         <div className="text-sm">{text}</div>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center justify-start">
         <Button size="icon" onClick={onClickPlus}>
           <PlusIcon className="h-2.5 w-2.5" />
         </Button>

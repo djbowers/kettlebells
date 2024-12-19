@@ -1,36 +1,38 @@
-import { PauseIcon, PlayIcon, PlusIcon } from '@radix-ui/react-icons';
-import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogWorkout } from '~/api';
 import { Page } from '~/components';
-import { Button } from '~/components/ui/button';
 import { useWorkoutOptions } from '~/contexts';
-import { useTimer } from '~/hooks';
+import { useCountdownTimer } from '~/hooks';
 
-import { CompletedSection, CurrentMovement, ProgressBar } from './components';
+import {
+  ActiveWorkoutControls,
+  CurrentMovement,
+  WorkoutProgress,
+  WorkoutSummary,
+} from './components';
 import { useRequestWakeLock } from './hooks';
 
-interface Props {
-  startedAt?: Date;
+interface ActiveWorkoutPageProps {
   defaultPaused?: boolean;
 }
 
 export const ActiveWorkoutPage = ({
-  startedAt = new Date(),
   defaultPaused = true,
-}: Props) => {
+}: ActiveWorkoutPageProps) => {
   const [
     {
       bells,
-      duration,
       intervalTimer,
       isOneHanded,
       movements,
       repScheme,
       restTimer,
+      startedAt,
       workoutDetails,
+      workoutGoal,
+      workoutGoalUnits,
     },
   ] = useWorkoutOptions();
 
@@ -38,7 +40,7 @@ export const ActiveWorkoutPage = ({
     mutate: logWorkout,
     data: workoutLogId,
     isLoading: logWorkoutLoading,
-  } = useLogWorkout(startedAt);
+  } = useLogWorkout();
 
   const navigate = useNavigate();
   const requestWakeLock = useRequestWakeLock();
@@ -51,7 +53,11 @@ export const ActiveWorkoutPage = ({
       paused: workoutTimerPaused,
       play: startWorkoutTimer,
     },
-  ] = useTimer(duration, { defaultPaused });
+  ] = useCountdownTimer(workoutGoal, {
+    defaultPaused:
+      workoutGoalUnits === 'minutes' && workoutGoal > 0 && defaultPaused,
+    disabled: workoutGoalUnits !== 'minutes',
+  });
 
   const [
     formattedIntervalRemaining,
@@ -61,7 +67,10 @@ export const ActiveWorkoutPage = ({
       play: startIntervalTimer,
       reset: resetIntervalTimer,
     },
-  ] = useTimer(intervalTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
+  ] = useCountdownTimer(intervalTimer / 60, {
+    defaultPaused: true,
+    timeFormat: 'ss.S',
+  });
 
   const [
     formattedRestRemaining,
@@ -71,7 +80,10 @@ export const ActiveWorkoutPage = ({
       play: startRestTimer,
       reset: resetRestTimer,
     },
-  ] = useTimer(restTimer / 60, { defaultPaused: true, timeFormat: 'ss.S' });
+  ] = useCountdownTimer(restTimer / 60, {
+    defaultPaused: true,
+    timeFormat: 'ss.S',
+  });
 
   const [
     formattedCountdownRemaining,
@@ -81,21 +93,16 @@ export const ActiveWorkoutPage = ({
       play: startCountdownTimer,
       reset: resetCountdownTimer,
     },
-  ] = useTimer(3 / 60, { defaultPaused: true, timeFormat: 's.S' });
+  ] = useCountdownTimer(3 / 60, { defaultPaused: true, timeFormat: 's.S' });
 
   const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
 
-  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false);
+  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false); // for unilateral movements and mixed bells
   const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
   const [isRestActive, setIsRestActive] = useState<boolean>(false);
   const [isCountdownActive, setIsCountdownActive] = useState<boolean>(false);
-
-  // Overview
-  const totalMilliseconds = duration * 60000;
-  const completedPercentage =
-    ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
 
   // Movements
   const lastMovementIndex = movements.length - 1;
@@ -111,6 +118,16 @@ export const ActiveWorkoutPage = ({
   const isMixedBells =
     isDoubleBells && primaryBellWeight !== secondaryBellWeight;
 
+  const leftBell = useMemo(() => {
+    if (primaryBellSide === 'left') return primaryBellWeight;
+    else return isSingleBell ? null : secondaryBellWeight;
+  }, [primaryBellSide, isSingleBell]);
+
+  const rightBell = useMemo(() => {
+    if (primaryBellSide === 'right') return primaryBellWeight;
+    else return isSingleBell ? null : secondaryBellWeight;
+  }, [primaryBellSide, isSingleBell]);
+
   // Volume
   const totalWeight = bells.reduce((total, bell) => total + bell, 0);
   const isBodyweight = totalWeight === 0;
@@ -124,16 +141,6 @@ export const ActiveWorkoutPage = ({
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
   const currentRound = completedRounds + 1;
   const shouldMirrorReps = (isSingleBell && isOneHanded) || isMixedBells;
-
-  const leftBell = useMemo(() => {
-    if (primaryBellSide === 'left') return primaryBellWeight;
-    else return isSingleBell ? null : secondaryBellWeight;
-  }, [primaryBellSide, isSingleBell]);
-
-  const rightBell = useMemo(() => {
-    if (primaryBellSide === 'right') return primaryBellWeight;
-    else return isSingleBell ? null : secondaryBellWeight;
-  }, [primaryBellSide, isSingleBell]);
 
   // Interval Timer
   const totalIntervalMilliseconds = intervalTimer * 1000;
@@ -149,6 +156,7 @@ export const ActiveWorkoutPage = ({
       totalRestMilliseconds) *
     100;
 
+  // Helper Functions
   const incrementReps = () => {
     setCompletedReps((prev) => prev + repScheme[rungIndex]);
   };
@@ -217,6 +225,15 @@ export const ActiveWorkoutPage = ({
     if (isRestActive) startRestTimer();
   };
 
+  const finishWorkout = () => {
+    logWorkout({
+      completedReps,
+      completedRounds,
+      completedRungs,
+    });
+  };
+
+  // Event Handlers
   const handleClickContinue = () => {
     setIsEffectActive(true);
     continueWorkout();
@@ -234,12 +251,18 @@ export const ActiveWorkoutPage = ({
   };
 
   const handleClickFinish = () => {
-    logWorkout({
-      completedReps,
-      completedRounds,
-      completedRungs,
-    });
+    finishWorkout();
   };
+
+  useEffect(
+    function handleGoalReached() {
+      if (workoutGoalUnits === 'rounds' && completedRounds >= workoutGoal)
+        finishWorkout();
+      if (workoutGoalUnits === 'minutes' && remainingMilliseconds === 0)
+        finishWorkout();
+    },
+    [completedRounds, remainingMilliseconds],
+  );
 
   useEffect(
     function handleFinishInterval() {
@@ -278,35 +301,17 @@ export const ActiveWorkoutPage = ({
     [countdownRemainingMilliseconds],
   );
 
-  const showIntervalProgressBar =
-    intervalTimer > 0 && !isRestActive && !workoutTimerPaused;
-  const showRestProgressBar = isRestActive && !workoutTimerPaused;
-  const showContinueButton =
-    intervalTimer === 0 && !isRestActive && !workoutTimerPaused;
-  const showStartButton = !isCountdownActive && workoutTimerPaused;
-
   return (
     <Page>
-      <div className="flex w-full items-center gap-1">
-        <ProgressBar
-          completedPercentage={completedPercentage}
-          text="remaining"
-          timeRemaining={duration > 0 ? formattedTimeRemaining : <>&infin;</>}
-        />
-
-        {duration > 0 && (
-          <div>
-            <Button
-              disabled={workoutTimerPaused}
-              onClick={handleClickPause}
-              size="icon"
-              variant="secondary"
-            >
-              <PauseIcon className="h-3 w-3" />
-            </Button>
-          </div>
-        )}
-      </div>
+      <WorkoutProgress
+        completedRounds={completedRounds}
+        formattedTimeRemaining={formattedTimeRemaining}
+        handleClickPause={handleClickPause}
+        remainingMilliseconds={remainingMilliseconds}
+        workoutGoal={workoutGoal}
+        workoutGoalUnits={workoutGoalUnits}
+        workoutTimerPaused={workoutTimerPaused}
+      />
 
       <CurrentMovement
         currentRound={currentRound}
@@ -320,65 +325,35 @@ export const ActiveWorkoutPage = ({
         restRemaining={isRestActive}
       />
 
-      {showIntervalProgressBar && (
-        <ProgressBar
-          color="success"
-          completedPercentage={intervalCompletedPercentage}
-          size="large"
-          text="interval"
-          timeRemaining={parseFloat(formattedIntervalRemaining).toFixed(1)}
+      <div className="flex h-5 items-center justify-center">
+        <ActiveWorkoutControls
+          formattedCountdownRemaining={formattedCountdownRemaining}
+          formattedIntervalRemaining={formattedIntervalRemaining}
+          formattedRestRemaining={formattedRestRemaining}
+          handleClickContinue={handleClickContinue}
+          handleClickStart={handleClickStart}
+          intervalCompletedPercentage={intervalCompletedPercentage}
+          intervalTimer={intervalTimer}
+          isCountdownActive={isCountdownActive}
+          isEffectActive={isEffectActive}
+          isRestActive={isRestActive}
+          restCompletedPercentage={restCompletedPercentage}
+          setIsEffectActive={setIsEffectActive}
+          workoutTimerPaused={workoutTimerPaused}
         />
-      )}
+      </div>
 
-      {showRestProgressBar && (
-        <ProgressBar
-          color="warning"
-          completedPercentage={restCompletedPercentage}
-          size="large"
-          text="rest"
-          timeRemaining={parseFloat(formattedRestRemaining).toFixed(1)}
-        />
-      )}
-
-      {isCountdownActive && (
-        <div className="flex items-center justify-center">
-          <div className="flex h-6 w-6 items-center justify-center font-mono text-5xl font-medium">
-            {parseFloat(formattedCountdownRemaining).toFixed(1)}
-          </div>
-        </div>
-      )}
-
-      {showStartButton && (
-        <Button onClick={handleClickStart} size="lg">
-          <PlayIcon className="h-3 w-3" />
-        </Button>
-      )}
-
-      {showContinueButton && (
-        <Button
-          className={clsx('grow', { 'animate-wiggle': isEffectActive })}
-          disabled={workoutTimerPaused}
-          onAnimationEnd={() => setIsEffectActive(false)}
-          onClick={handleClickContinue}
-          size="lg"
-        >
-          <PlusIcon className="mr-1 h-2.5 w-2.5 stroke-2" /> Continue
-        </Button>
-      )}
-
-      <CompletedSection
-        isBodyweight={isBodyweight}
+      <WorkoutSummary
         completedReps={completedReps}
+        completedRounds={completedRounds}
+        onClickFinish={handleClickFinish}
+        isBodyweight={isBodyweight}
+        logWorkoutLoading={logWorkoutLoading}
+        startedAt={startedAt ?? new Date()}
+        workoutGoal={workoutGoal}
+        workoutGoalUnits={workoutGoalUnits}
         workoutVolume={workoutVolume}
       />
-
-      <Button
-        disabled={logWorkoutLoading}
-        variant="outline"
-        onClick={handleClickFinish}
-      >
-        Finish workout
-      </Button>
     </Page>
   );
 };
