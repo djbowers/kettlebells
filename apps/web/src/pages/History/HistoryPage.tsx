@@ -132,12 +132,14 @@ const groupByDate = (workoutLogs: WorkoutLog[] = []): WorkoutDay[] => {
   const groupedByDate: { [dateKey: string]: WorkoutLog[] } = {};
 
   workoutLogs.forEach((log) => {
-    const dateKey = log.date.toDateString();
+    const dateKey = log.startedAt.toDateString();
     if (!groupedByDate[dateKey]) {
       groupedByDate[dateKey] = [];
     }
     groupedByDate[dateKey].push(log);
-    groupedByDate[dateKey].sort((a, b) => a.date.getTime() - b.date.getTime());
+    groupedByDate[dateKey].sort(
+      (a, b) => a.startedAt.getTime() - b.startedAt.getTime(),
+    );
   });
 
   return Object.entries(groupedByDate)

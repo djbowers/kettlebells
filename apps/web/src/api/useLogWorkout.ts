@@ -60,6 +60,7 @@ const logWorkout = async ({
     .from('workout_logs')
     .insert({
       bells,
+      completed_at: new Date().toISOString(),
       completed_reps: completedReps,
       completed_rounds: completedRounds,
       completed_rungs: completedRungs,
@@ -68,7 +69,7 @@ const logWorkout = async ({
       movements,
       rep_scheme: repScheme,
       rest_timer: restTimer,
-      started_at: startedAt.toISOString(),
+      started_at: (startedAt ?? new Date()).toISOString(),
       user_id: userId,
       workout_details: workoutDetails,
       workout_goal: workoutGoal,

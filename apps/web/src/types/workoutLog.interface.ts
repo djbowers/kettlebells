@@ -3,9 +3,9 @@ import { WorkoutGoalUnits } from './workoutGoalUnits.type';
 
 export interface WorkoutLog {
   bells: number[];
+  completedAt: Date;
   completedReps: number;
   completedRounds: number;
-  date: Date;
   id: number;
   intervalTimer: number;
   isOneHanded: boolean | null;
@@ -13,6 +13,7 @@ export interface WorkoutLog {
   repScheme: number[];
   restTimer: number;
   rpe: RpeOptions | null;
+  startedAt: Date;
   workoutDetails: string | null;
   workoutGoal: number;
   workoutGoalUnits: WorkoutGoalUnits;

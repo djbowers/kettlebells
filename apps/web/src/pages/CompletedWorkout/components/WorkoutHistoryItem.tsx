@@ -1,3 +1,5 @@
+import { DateTime, Duration } from 'luxon';
+
 import {
   Card,
   CardContent,
@@ -5,34 +7,44 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
-import { WorkoutLog } from '~/types';
 
-import { getDisplayDate } from '../CompletedWorkoutPage';
 import { getBellWeightsDisplayValue, getRepSchemeDisplayValue } from '../utils';
 
 export interface WorkoutHistoryItemProps {
-  completedWorkout: WorkoutLog;
+  bells: number[];
+  completedAt: Date;
+  completedReps: number;
+  completedRounds: number;
+  intervalTimer: number;
+  isOneHanded: boolean | null;
+  movements: string[];
+  repScheme: number[];
+  restTimer: number;
+  startedAt: Date;
+  workoutDetails: string | null;
+  workoutGoal: number;
+  workoutGoalUnits: string;
 }
 
 export const WorkoutHistoryItem = ({
-  completedWorkout,
+  bells,
+  completedAt,
+  completedReps,
+  completedRounds,
+  intervalTimer,
+  isOneHanded,
+  movements,
+  repScheme,
+  restTimer,
+  startedAt,
+  workoutDetails,
+  workoutGoal,
+  workoutGoalUnits,
 }: WorkoutHistoryItemProps) => {
-  const {
-    bells,
-    completedReps,
-    completedRounds,
-    date,
-    workoutGoal,
-    workoutGoalUnits,
-    intervalTimer,
-    isOneHanded,
-    movements,
-    repScheme,
-    restTimer,
-    workoutDetails,
-  } = completedWorkout;
-
-  const displayDate = getDisplayDate(date.toISOString());
+  const displayDate = getDisplayDate(completedAt.toISOString());
+  const duration = Duration.fromMillis(
+    completedAt.getTime() - startedAt.getTime(),
+  ).toFormat("h'h' m'm'");
 
   const workoutLoad = bells.reduce((total, bell) => total + bell, 0);
   const workoutVolume = completedReps * workoutLoad;
@@ -43,14 +55,16 @@ export const WorkoutHistoryItem = ({
   return (
     <Card data-testid="workout-history-item">
       <CardHeader>
-        <CardTitle>{displayDate}</CardTitle>
+        <CardTitle>
+          {displayDate} ({duration})
+        </CardTitle>
       </CardHeader>
 
       <CardContent>
-        <CardDescription>Timers</CardDescription>
+        <CardDescription>Workout Goal</CardDescription>
         <div className="flex justify-between gap-1">
           <div>
-            ⏱️ {workoutGoal} {workoutGoalUnits}
+            🎯 {workoutGoal} {workoutGoalUnits}
           </div>
           {intervalTimer > 0 && <div>⏰ {intervalTimer} second intervals</div>}
           {restTimer > 0 && <div>😴 {restTimer} second rest</div>}
@@ -92,4 +106,10 @@ export const WorkoutHistoryItem = ({
       </CardContent>
     </Card>
   );
+};
+
+export const getDisplayDate = (dateISOString: string) => {
+  const date = DateTime.fromISO(dateISOString);
+  const isCurrentYear = date.year === DateTime.now().year;
+  return date.toFormat(isCurrentYear ? 'cccc, LLL dd' : 'cccc, LLL dd y');
 };
