@@ -7,8 +7,9 @@ const meta = {
   args: {
     completedReps: 15,
     completedRounds: 3,
-    handleClickFinish: () => {},
     isBodyweight: false,
+    logWorkoutLoading: false,
+    onClickFinish: () => {},
     startedAt: new Date(),
     workoutGoal: 30,
     workoutGoalUnits: 'minutes',

@@ -54,7 +54,8 @@ export const ActiveWorkoutPage = ({
       play: startWorkoutTimer,
     },
   ] = useCountdownTimer(workoutGoal, {
-    defaultPaused: workoutGoal === 0 ? false : defaultPaused,
+    defaultPaused:
+      workoutGoalUnits === 'minutes' && workoutGoal > 0 && defaultPaused,
     disabled: workoutGoalUnits !== 'minutes',
   });
 
@@ -117,6 +118,16 @@ export const ActiveWorkoutPage = ({
   const isMixedBells =
     isDoubleBells && primaryBellWeight !== secondaryBellWeight;
 
+  const leftBell = useMemo(() => {
+    if (primaryBellSide === 'left') return primaryBellWeight;
+    else return isSingleBell ? null : secondaryBellWeight;
+  }, [primaryBellSide, isSingleBell]);
+
+  const rightBell = useMemo(() => {
+    if (primaryBellSide === 'right') return primaryBellWeight;
+    else return isSingleBell ? null : secondaryBellWeight;
+  }, [primaryBellSide, isSingleBell]);
+
   // Volume
   const totalWeight = bells.reduce((total, bell) => total + bell, 0);
   const isBodyweight = totalWeight === 0;
@@ -130,16 +141,6 @@ export const ActiveWorkoutPage = ({
   const completedRounds = Math.floor(completedRungs / rungsPerRound);
   const currentRound = completedRounds + 1;
   const shouldMirrorReps = (isSingleBell && isOneHanded) || isMixedBells;
-
-  const leftBell = useMemo(() => {
-    if (primaryBellSide === 'left') return primaryBellWeight;
-    else return isSingleBell ? null : secondaryBellWeight;
-  }, [primaryBellSide, isSingleBell]);
-
-  const rightBell = useMemo(() => {
-    if (primaryBellSide === 'right') return primaryBellWeight;
-    else return isSingleBell ? null : secondaryBellWeight;
-  }, [primaryBellSide, isSingleBell]);
 
   // Interval Timer
   const totalIntervalMilliseconds = intervalTimer * 1000;
@@ -155,6 +156,7 @@ export const ActiveWorkoutPage = ({
       totalRestMilliseconds) *
     100;
 
+  // Helper Functions
   const incrementReps = () => {
     setCompletedReps((prev) => prev + repScheme[rungIndex]);
   };
@@ -223,6 +225,15 @@ export const ActiveWorkoutPage = ({
     if (isRestActive) startRestTimer();
   };
 
+  const finishWorkout = () => {
+    logWorkout({
+      completedReps,
+      completedRounds,
+      completedRungs,
+    });
+  };
+
+  // Event Handlers
   const handleClickContinue = () => {
     setIsEffectActive(true);
     continueWorkout();
@@ -240,12 +251,18 @@ export const ActiveWorkoutPage = ({
   };
 
   const handleClickFinish = () => {
-    logWorkout({
-      completedReps,
-      completedRounds,
-      completedRungs,
-    });
+    finishWorkout();
   };
+
+  useEffect(
+    function handleGoalReached() {
+      if (workoutGoalUnits === 'rounds' && completedRounds >= workoutGoal)
+        finishWorkout();
+      if (workoutGoalUnits === 'minutes' && remainingMilliseconds === 0)
+        finishWorkout();
+    },
+    [completedRounds, remainingMilliseconds],
+  );
 
   useEffect(
     function handleFinishInterval() {
@@ -329,9 +346,10 @@ export const ActiveWorkoutPage = ({
       <WorkoutSummary
         completedReps={completedReps}
         completedRounds={completedRounds}
-        handleClickFinish={handleClickFinish}
+        onClickFinish={handleClickFinish}
         isBodyweight={isBodyweight}
-        startedAt={startedAt}
+        logWorkoutLoading={logWorkoutLoading}
+        startedAt={startedAt ?? new Date()}
         workoutGoal={workoutGoal}
         workoutGoalUnits={workoutGoalUnits}
         workoutVolume={workoutVolume}

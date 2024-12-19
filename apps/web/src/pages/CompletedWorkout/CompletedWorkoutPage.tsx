@@ -104,7 +104,6 @@ export const CompletedWorkoutPage = () => {
         >
           <Textarea
             aria-label="Workout Notes"
-            autoFocus
             className="w-full"
             defaultValue={completedWorkout.workoutNotes}
             onBlur={handleBlurNotes}

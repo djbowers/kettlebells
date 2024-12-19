@@ -166,6 +166,7 @@ export const WorkoutGoalRounds: StoryObj = {
     workoutOptions: {
       workoutGoal: 10,
       workoutGoalUnits: 'rounds',
+      bells: [20, 20],
     },
   },
 };

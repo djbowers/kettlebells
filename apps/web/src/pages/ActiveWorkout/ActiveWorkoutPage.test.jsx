@@ -1,6 +1,9 @@
 import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
+
+import { useLogWorkout } from '~/api';
 
 import * as stories from './ActiveWorkoutPage.stories';
 
@@ -13,7 +16,58 @@ const {
   RepLadders,
   SingleBellOneHanded,
   SingleBellTwoHanded,
+  WorkoutGoalRounds,
 } = composeStories(stories);
+
+describe('finishing a workout', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('can finish workout early by clicking finish button', async () => {
+    render(<DoubleBells />);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    // Should call logWorkout mutation
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: expect.any(Number),
+      completedRounds: expect.any(Number),
+      completedRungs: expect.any(Number),
+    });
+  });
+
+  test('automatically finishes when reaching workout goal', async () => {
+    const { workoutOptions } = WorkoutGoalRounds.parameters;
+    render(<WorkoutGoalRounds />);
+
+    // Complete all rounds
+    for (let i = 0; i < workoutOptions.workoutGoal; i++) {
+      await clickContinue();
+    }
+
+    // Should call logWorkout mutation
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: expect.any(Number),
+      completedRounds: expect.any(Number),
+      completedRungs: expect.any(Number),
+    });
+  });
+});
 
 describe('active workout page (double bells)', () => {
   const { workoutOptions } = DoubleBells.parameters;

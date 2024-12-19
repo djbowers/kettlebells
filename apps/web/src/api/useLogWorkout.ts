@@ -5,6 +5,12 @@ import { WorkoutOptions } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
+interface LogWorkoutInput {
+  completedReps: number;
+  completedRounds: number;
+  completedRungs: number;
+}
+
 export const useLogWorkout = () => {
   const [workoutOptions] = useWorkoutOptions();
   const { user } = useSession();
@@ -14,19 +20,14 @@ export const useLogWorkout = () => {
       completedReps,
       completedRounds,
       completedRungs,
-    }: {
-      completedReps: number;
-      completedRounds: number;
-      completedRungs: number;
-    }) => {
-      return logWorkout({
+    }: LogWorkoutInput) =>
+      logWorkout({
         completedReps,
         completedRounds,
         completedRungs,
         userId: user.id,
         workoutOptions,
-      });
-    },
+      }),
   });
 };
 

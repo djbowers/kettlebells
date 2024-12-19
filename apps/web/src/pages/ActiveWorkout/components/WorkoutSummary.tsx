@@ -17,10 +17,10 @@ const TIME_FORMAT = 'm:ss';
 interface WorkoutSummaryProps {
   completedReps: number;
   completedRounds: number;
-  handleClickFinish: () => void;
   isBodyweight: boolean;
-  logWorkoutLoading?: boolean;
-  startedAt?: Date;
+  logWorkoutLoading: boolean;
+  onClickFinish: () => void;
+  startedAt: Date;
   workoutGoal: number;
   workoutGoalUnits: WorkoutGoalUnits;
   workoutVolume: number;
@@ -29,10 +29,10 @@ interface WorkoutSummaryProps {
 export const WorkoutSummary = ({
   completedReps,
   completedRounds,
-  handleClickFinish,
-  isBodyweight = false,
-  logWorkoutLoading = false,
-  startedAt = new Date(),
+  isBodyweight,
+  logWorkoutLoading,
+  onClickFinish,
+  startedAt,
   workoutGoal,
   workoutGoalUnits,
   workoutVolume,
@@ -76,7 +76,7 @@ export const WorkoutSummary = ({
         <Button
           disabled={logWorkoutLoading}
           variant="ghost"
-          onClick={handleClickFinish}
+          onClick={onClickFinish}
           className="w-full"
         >
           Finish workout

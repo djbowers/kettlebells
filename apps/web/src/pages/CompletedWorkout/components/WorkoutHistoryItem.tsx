@@ -96,7 +96,8 @@ export const WorkoutHistoryItem = ({
         <div>
           <CardDescription id="goal">Goal</CardDescription>
           <div aria-labelledby="goal">
-            {workoutGoal} {workoutGoalUnits}
+            {workoutGoal}
+            {workoutGoalUnits === 'minutes' ? 'm' : ` ${workoutGoalUnits}`}
           </div>
         </div>
         <div className="text-center">
