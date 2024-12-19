@@ -1,4 +1,4 @@
-import { PlayIcon, PlusIcon } from '@radix-ui/react-icons';
+import { PlayIcon, PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 
 import { Button } from '~/components/ui/button';
