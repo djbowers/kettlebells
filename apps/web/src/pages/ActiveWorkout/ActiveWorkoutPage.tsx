@@ -255,13 +255,20 @@ export const ActiveWorkoutPage = ({
   };
 
   useEffect(
-    function handleGoalReached() {
-      if (workoutGoalUnits === 'rounds' && completedRounds >= workoutGoal)
-        finishWorkout();
-      if (workoutGoalUnits === 'minutes' && remainingMilliseconds === 0)
-        finishWorkout();
+    function handleRoundsGoalReached() {
+      if (workoutGoalUnits !== 'rounds') return;
+      if (completedRounds >= workoutGoal) finishWorkout();
     },
-    [completedRounds, remainingMilliseconds],
+    [completedRounds],
+  );
+
+  useEffect(
+    function handleMinutesGoalReached() {
+      if (workoutGoalUnits !== 'minutes') return;
+      // small delay for all rounds to be counted from interval timer
+      if (remainingMilliseconds <= -500) finishWorkout();
+    },
+    [remainingMilliseconds],
   );
 
   useEffect(
