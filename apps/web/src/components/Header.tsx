@@ -38,12 +38,17 @@ export const Header = () => {
   }
 
   return (
-    <div className="bg-background border-border flex items-center border-b p-1 shadow">
+    <div className="bg-background border-border flex items-center justify-between border-b p-1 shadow">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex gap-1">
-              <h1 className="text-lg font-medium">🚀 BellSkill</h1>
+            <NavigationMenuTrigger className="flex items-center gap-1">
+              <img
+                src="/favicon.svg"
+                alt="BellSkill Logo"
+                className="h-2.5 w-2.5"
+              />
+              <h1 className="text-lg font-medium">BellSkill</h1>
               <Badge>Beta</Badge>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -89,6 +94,7 @@ export const Header = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+
       <Button variant="ghost" size="icon" onClick={handleClickLightDarkMode}>
         <SunIcon />
       </Button>
