@@ -227,7 +227,16 @@ export const ActiveWorkoutPage = ({
     if (isRestActive) startRestTimer();
   };
 
+  const pauseWorkout = () => {
+    pauseWorkoutTimer();
+    pauseIntervalTimer();
+    if (isRestActive) pauseRestTimer();
+  };
+
   const finishWorkout = () => {
+    if (logWorkoutLoading) return;
+
+    pauseWorkout();
     logWorkout({
       completedReps,
       completedRounds,
@@ -246,19 +255,13 @@ export const ActiveWorkoutPage = ({
     setIsCountdownActive(true);
   };
 
-  const handleClickPause = () => {
-    pauseWorkoutTimer();
-    pauseIntervalTimer();
-    if (isRestActive) pauseRestTimer();
-  };
+  const handleClickPause = () => pauseWorkout();
 
-  const handleClickFinish = () => {
-    finishWorkout();
-  };
+  const handleClickFinish = () => finishWorkout();
 
   useEffect(
     function handleRoundsGoalReached() {
-      if (workoutGoalUnits !== 'rounds') return;
+      if (workoutGoalUnits !== 'rounds' || logWorkoutLoading) return;
       if (completedRounds >= workoutGoal) finishWorkout();
     },
     [completedRounds],
@@ -266,7 +269,7 @@ export const ActiveWorkoutPage = ({
 
   useEffect(
     function handleMinutesGoalReached() {
-      if (workoutGoalUnits !== 'minutes') return;
+      if (workoutGoalUnits !== 'minutes' || logWorkoutLoading) return;
       // small delay for all rounds to be counted from interval timer
       if (remainingMilliseconds <= -500) finishWorkout();
     },
