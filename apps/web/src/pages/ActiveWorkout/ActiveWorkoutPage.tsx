@@ -55,7 +55,9 @@ export const ActiveWorkoutPage = ({
     },
   ] = useCountdownTimer(workoutGoal, {
     defaultPaused:
-      workoutGoalUnits === 'minutes' && workoutGoal > 0 && defaultPaused,
+      defaultPaused &&
+      ((workoutGoalUnits === 'minutes' && workoutGoal > 0) ||
+        intervalTimer > 0),
     disabled: workoutGoalUnits !== 'minutes',
   });
 
@@ -68,7 +70,7 @@ export const ActiveWorkoutPage = ({
       reset: resetIntervalTimer,
     },
   ] = useCountdownTimer(intervalTimer / 60, {
-    defaultPaused: true,
+    defaultPaused: defaultPaused && intervalTimer > 0,
     timeFormat: 'ss.S',
   });
 
