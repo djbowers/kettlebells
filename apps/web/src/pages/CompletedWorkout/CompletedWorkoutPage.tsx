@@ -1,8 +1,13 @@
-import { DateTime } from 'luxon';
-import { useRef } from 'react';
+import { ArrowRightIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useSelectRPE, useUpdateWorkoutNotes, useWorkoutLog } from '~/api';
+import {
+  useDeleteWorkoutLog,
+  useSelectRPE,
+  useUpdateWorkoutNotes,
+  useWorkoutLog,
+} from '~/api';
 import { Loading, Page } from '~/components';
 import { Button } from '~/components/ui/button';
 import { Textarea } from '~/components/ui/textarea';
@@ -20,17 +25,23 @@ export const CompletedWorkoutPage = () => {
   const [, updateWorkoutOptions] = useWorkoutOptions();
 
   const { data: completedWorkout, isLoading } = useWorkoutLog(id);
+  const { mutate: deleteWorkoutLog, data: deletedWorkoutLogId } =
+    useDeleteWorkoutLog(id);
   const { mutate: selectRPE } = useSelectRPE(id);
   const { mutate: updateWorkoutNotes } = useUpdateWorkoutNotes(id);
 
   const notesRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    if (deletedWorkoutLogId) navigate('/history');
+  }, [deletedWorkoutLogId]);
+
   if (isLoading) return <Loading />;
   if (!completedWorkout) return <>Not Found</>;
 
-  const handleClickContinue = () => {
-    navigate('/history');
-  };
+  const handleClickContinue = () => navigate('/history');
+
+  const handleClickDelete = () => deleteWorkoutLog();
 
   const handleSelectRPE = (selectedRPE: WorkoutLog['rpe']) =>
     selectRPE(selectedRPE);
@@ -59,16 +70,31 @@ export const CompletedWorkoutPage = () => {
     <Page
       title="Workout Log"
       actions={
-        <div className="flex gap-1">
-          <Button variant="ghost" onClick={handleClickRepeat}>
-            Repeat
-          </Button>
-          <Button onClick={handleClickContinue}>Continue</Button>
-          {completedWorkout.workoutNotes === null && (
-            <Button variant="ghost" onClick={handleAddNotes}>
-              Add Notes
+        <div className="flex flex-col items-center gap-1">
+          <div className="grid grid-cols-3 gap-1">
+            <Button variant="ghost" onClick={handleClickRepeat}>
+              Repeat
             </Button>
-          )}
+            <Button
+              onClick={handleClickContinue}
+              className="flex items-center gap-0.5"
+            >
+              Continue
+              <ArrowRightIcon className="h-2 w-2" />
+            </Button>
+            {completedWorkout.workoutNotes === null && (
+              <Button variant="ghost" onClick={handleAddNotes}>
+                Add Notes
+              </Button>
+            )}
+          </div>
+          <Button
+            variant="ghost"
+            className="flex items-center gap-0.5 text-red-500"
+            onClick={handleClickDelete}
+          >
+            Delete <TrashIcon className="h-2.5 w-2.5" />
+          </Button>
         </div>
       }
     >
