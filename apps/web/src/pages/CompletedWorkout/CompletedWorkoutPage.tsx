@@ -10,6 +10,15 @@ import {
 } from '~/api';
 import { Loading, Page } from '~/components';
 import { Button } from '~/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui/dialog';
 import { Textarea } from '~/components/ui/textarea';
 import { useWorkoutOptions } from '~/contexts';
 import { WorkoutLog } from '~/types';
@@ -25,8 +34,11 @@ export const CompletedWorkoutPage = () => {
   const [, updateWorkoutOptions] = useWorkoutOptions();
 
   const { data: completedWorkout, isLoading } = useWorkoutLog(id);
-  const { mutate: deleteWorkoutLog, data: deletedWorkoutLogId } =
-    useDeleteWorkoutLog(id);
+  const {
+    mutate: deleteWorkoutLog,
+    data: deletedWorkoutLogId,
+    isLoading: isDeletingWorkoutLog,
+  } = useDeleteWorkoutLog(id);
   const { mutate: selectRPE } = useSelectRPE(id);
   const { mutate: updateWorkoutNotes } = useUpdateWorkoutNotes(id);
 
@@ -67,76 +79,102 @@ export const CompletedWorkoutPage = () => {
   };
 
   return (
-    <Page
-      title="Workout Log"
-      actions={
-        <div className="flex flex-col items-center gap-1">
-          <div className="grid grid-cols-3 gap-1">
-            <Button variant="ghost" onClick={handleClickRepeat}>
-              Repeat
-            </Button>
-            <Button
-              onClick={handleClickContinue}
-              className="flex items-center gap-0.5"
-            >
-              Continue
-              <ArrowRightIcon className="h-2 w-2" />
-            </Button>
-            {completedWorkout.workoutNotes === null && (
-              <Button variant="ghost" onClick={handleAddNotes}>
-                Add Notes
+    <Dialog>
+      <Page
+        title="Workout Log"
+        actions={
+          <div className="flex flex-col items-center gap-1">
+            <div className="grid grid-cols-3 gap-1">
+              <Button variant="ghost" onClick={handleClickRepeat}>
+                Repeat
               </Button>
-            )}
+              <Button
+                onClick={handleClickContinue}
+                className="flex items-center gap-0.5"
+              >
+                Continue
+                <ArrowRightIcon className="h-2 w-2" />
+              </Button>
+              {completedWorkout.workoutNotes === null && (
+                <Button variant="ghost" onClick={handleAddNotes}>
+                  Add Notes
+                </Button>
+              )}
+            </div>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-0.5 text-red-500"
+              >
+                Delete <TrashIcon className="h-2.5 w-2.5" />
+              </Button>
+            </DialogTrigger>
           </div>
-          <Button
-            variant="ghost"
-            className="flex items-center gap-0.5 text-red-500"
-            onClick={handleClickDelete}
+        }
+      >
+        <WorkoutHistoryItem
+          bells={completedWorkout.bells}
+          completedAt={completedWorkout.completedAt}
+          completedReps={completedWorkout.completedReps}
+          completedRounds={completedWorkout.completedRounds}
+          intervalTimer={completedWorkout.intervalTimer}
+          isOneHanded={completedWorkout.isOneHanded}
+          movements={completedWorkout.movements}
+          repScheme={completedWorkout.repScheme}
+          restTimer={completedWorkout.restTimer}
+          startedAt={completedWorkout.startedAt}
+          workoutDetails={completedWorkout.workoutDetails}
+          workoutGoal={completedWorkout.workoutGoal}
+          workoutGoalUnits={completedWorkout.workoutGoalUnits}
+        />
+        <RPESelector
+          onSelectRPE={handleSelectRPE}
+          rpeValue={completedWorkout.rpe}
+        />
+        {completedWorkout.workoutNotes !== null && (
+          <Section
+            title="Workout Notes"
+            actions={
+              completedWorkout.workoutNotes?.length > 0 && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleClearNotes}
+                >
+                  Clear Notes
+                </Button>
+              )
+            }
           >
-            Delete <TrashIcon className="h-2.5 w-2.5" />
+            <Textarea
+              aria-label="Workout Notes"
+              className="w-full"
+              defaultValue={completedWorkout.workoutNotes}
+              onBlur={handleBlurNotes}
+              ref={notesRef}
+            />
+          </Section>
+        )}
+      </Page>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete this
+            workout log.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            onClick={handleClickDelete}
+            variant="destructive"
+            loading={isDeletingWorkoutLog}
+          >
+            Delete
           </Button>
-        </div>
-      }
-    >
-      <WorkoutHistoryItem
-        bells={completedWorkout.bells}
-        completedAt={completedWorkout.completedAt}
-        completedReps={completedWorkout.completedReps}
-        completedRounds={completedWorkout.completedRounds}
-        intervalTimer={completedWorkout.intervalTimer}
-        isOneHanded={completedWorkout.isOneHanded}
-        movements={completedWorkout.movements}
-        repScheme={completedWorkout.repScheme}
-        restTimer={completedWorkout.restTimer}
-        startedAt={completedWorkout.startedAt}
-        workoutDetails={completedWorkout.workoutDetails}
-        workoutGoal={completedWorkout.workoutGoal}
-        workoutGoalUnits={completedWorkout.workoutGoalUnits}
-      />
-      <RPESelector
-        onSelectRPE={handleSelectRPE}
-        rpeValue={completedWorkout.rpe}
-      />
-      {completedWorkout.workoutNotes !== null && (
-        <Section
-          title="Workout Notes"
-          actions={
-            completedWorkout.workoutNotes?.length > 0 && (
-              <Button variant="secondary" size="sm" onClick={handleClearNotes}>
-                Clear Notes
-              </Button>
-            )
-          }
-        >
-          <Textarea
-            aria-label="Workout Notes"
-            className="w-full"
-            defaultValue={completedWorkout.workoutNotes}
-            onBlur={handleBlurNotes}
-            ref={notesRef}
-          />
-        </Section>
-      )}
-    </Page>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
