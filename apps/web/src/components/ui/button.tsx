@@ -57,13 +57,32 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const Comp = asChild ? Slot : 'button';
+    const loadingColor = () => {
+      switch (variant) {
+        case 'default':
+          return 'fill-primary/80';
+        case 'destructive':
+          return 'fill-destructive/80';
+        case 'outline':
+          return 'fill-accent-foreground/80';
+        case 'secondary':
+          return 'fill-secondary-foreground/80';
+        case 'ghost':
+          return 'fill-muted-foreground/80';
+        case 'link':
+          return 'fill-primary/80';
+        default:
+          return 'fill-primary-foreground/80';
+      }
+    };
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       >
-        {loading ? <Loading /> : children}
+        {loading ? <Loading color={loadingColor()} /> : children}
       </Comp>
     );
   },

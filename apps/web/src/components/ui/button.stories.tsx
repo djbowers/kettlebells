@@ -38,8 +38,14 @@ export const AllButtons = () => (
   </div>
 );
 
-export const Loading = {
-  args: {
-    loading: true,
-  },
-};
+export const Loading = () => (
+  <div className="flex gap-2">
+    {variants.map((variant) => (
+      <div key={variant} className="flex flex-col gap-1">
+        <Button key={variant} variant={variant} loading={true}>
+          Click me!
+        </Button>
+      </div>
+    ))}
+  </div>
+);
