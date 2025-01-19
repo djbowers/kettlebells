@@ -23,7 +23,7 @@ import { Textarea } from '~/components/ui/textarea';
 import { useWorkoutOptions } from '~/contexts';
 import { WorkoutLog } from '~/types';
 
-import { Section } from '../StartWorkout/components';
+import { Section } from '../StartWorkoutPage/components';
 import { RPESelector, WorkoutHistoryItem } from './components';
 
 export const CompletedWorkoutPage = () => {

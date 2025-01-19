@@ -7,7 +7,7 @@ import { Loading, Page } from '~/components';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { WorkoutLog } from '~/types';
 
-import { RpeBadge } from '../CompletedWorkout/components';
+import { RpeBadge } from '../CompletedWorkoutPage/components';
 
 export const HistoryPage = () => {
   const { data: workoutLogs, isLoading } = useWorkoutLogs();
