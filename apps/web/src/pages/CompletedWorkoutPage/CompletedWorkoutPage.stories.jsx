@@ -30,4 +30,4 @@ export default {
   ],
 };
 
-export const Normal = {};
+export const Default = {};

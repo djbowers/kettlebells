@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react';
 
 import * as stories from './HistoryPage.stories';
 
-const { Normal } = composeStories(stories);
+const { Default } = composeStories(stories);
 
 describe('workout history page', () => {
   beforeEach(() => {
-    render(<Normal />);
+    render(<Default />);
   });
 
   test('renders name of movement', async () => {

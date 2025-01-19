@@ -6,7 +6,7 @@ import { useDeleteWorkoutLog } from '~/api';
 
 import * as stories from './CompletedWorkoutPage.stories';
 
-const { Normal } = composeStories(stories);
+const { Default } = composeStories(stories);
 
 describe('completed workout page', () => {
   vi.mock('~/api', async (importOriginal) => {
@@ -29,13 +29,13 @@ describe('completed workout page', () => {
   afterEach(() => vi.clearAllMocks());
 
   test('renders the completed workout history item', async () => {
-    render(<Normal />);
+    render(<Default />);
 
     await screen.findByTestId('workout-history-item');
   });
 
   test('clicking on an RPE value updates the selected value', async () => {
-    render(<Normal />);
+    render(<Default />);
 
     const idealOption = await screen.findByRole('radio', { name: 'Ideal' });
     const hardOption = screen.getByRole('radio', { name: 'Hard' });
@@ -50,7 +50,7 @@ describe('completed workout page', () => {
   });
 
   test('users can enter post-workout notes', async () => {
-    render(<Normal />);
+    render(<Default />);
 
     await userEvent.click(
       await screen.findByRole('button', { name: 'Add Notes' }),
@@ -76,7 +76,7 @@ describe('completed workout page', () => {
   });
 
   test('users can delete a workout log', async () => {
-    render(<Normal />);
+    render(<Default />);
 
     await userEvent.click(
       await screen.findByRole('button', { name: 'Delete' }),

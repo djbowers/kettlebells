@@ -4,4 +4,4 @@ export default {
   component: Signup,
 };
 
-export const Normal = {};
+export const Default = {};
