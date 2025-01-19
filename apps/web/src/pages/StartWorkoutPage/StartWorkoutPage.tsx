@@ -1,154 +1,201 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Page } from '~/components';
 import { Button } from '~/components/ui/button';
+import { Card } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
-import { DEFAULT_WORKOUT_OPTIONS, useWorkoutOptions } from '~/contexts';
-import { WorkoutGoalUnits, WorkoutOptions } from '~/types';
+import { DEFAULT_MOVEMENT_OPTIONS, useWorkoutOptions } from '~/contexts';
+import {
+  MovementLog,
+  MovementOptions,
+  WeightUnit,
+  WorkoutGoalUnits,
+  WorkoutOptions,
+} from '~/types';
 
 import {
   ModifyCountButtons,
   ModifyWorkoutButtons,
-  MovementInput,
-  RepSchemePicker,
   Section,
 } from './components';
 
-const DURATION_INCREMENT = 1; // minutes
-const INTERVAL_TIMER_INCREMENT = 5; // seconds
-const DEFAULT_INTERVAL_TIMER = 30; // seconds
-const REST_TIMER_INCREMENT = 5; // seconds
-const DEFAULT_REST_TIMER = 30; // seconds
+const DEFAULT_INTERVAL_TIMER: number = 30; // seconds
+const DEFAULT_REST_TIMER: number = 30; // seconds
+const DEFAULT_WEIGHT_UNIT: WeightUnit =
+  DEFAULT_MOVEMENT_OPTIONS.weightOneUnit ?? 'kilograms';
+const DEFAULT_WEIGHT_VALUE: number =
+  DEFAULT_MOVEMENT_OPTIONS.weightOneValue ?? 16;
+
+const INCREMENT_DURATION: number = 1; // minutes
+const INCREMENT_INTERVAL_TIMER: number = 5; // seconds
+const INCREMENT_REST_TIMER: number = 5; // seconds
 
 export const StartWorkoutPage = () => {
   const navigate = useNavigate();
   const [workoutOptions, updateWorkoutOptions] = useWorkoutOptions();
 
-  const [bells, setBells] = useState<[number, number]>(workoutOptions.bells);
   const [workoutGoal, setWorkoutGoal] = useState<number>(
     workoutOptions.workoutGoal,
   );
   const [workoutGoalUnits, setWorkoutGoalUnits] = useState<WorkoutGoalUnits>(
     workoutOptions.workoutGoalUnits,
   );
-  const [movements, setMovements] = useState<string[]>(
+  const [movements, setMovements] = useState<MovementOptions[]>(
     workoutOptions.movements,
   );
   const [workoutDetails, setWorkoutDetails] = useState<string | null>(
     workoutOptions.workoutDetails,
   );
-  const [repScheme, setRepScheme] = useState<number[]>(
-    workoutOptions.repScheme,
-  );
   const [intervalTimer, setIntervalTimer] = useState<number>(
     workoutOptions.intervalTimer,
   );
   const [restTimer, setRestTimer] = useState<number>(workoutOptions.restTimer);
-  const [isOneHanded, setIsOneHanded] = useState<boolean | null>(
-    workoutOptions.isOneHanded,
-  );
 
-  const movementsRef = useRef<Array<HTMLInputElement | null>>([]);
-  const primaryBellRef = useRef<HTMLInputElement>(null);
-  const secondBellRef = useRef<HTMLInputElement>(null);
   const detailsRef = useRef<HTMLInputElement>(null);
 
-  const handleClickRemoveMovement = () => {
-    if (movements.length > 1) {
-      setMovements((prev) => {
-        const movements = [...prev];
-        movements.pop();
-        return movements;
-      });
-    }
-    movementsRef.current[movements.length - 2]?.focus();
-  };
-  const handleClickAddMovement = () => {
-    setMovements((prev) =>
-      prev[prev.length - 1] === '' ? prev : [...prev, ''],
-    );
-    movementsRef.current[movements.length - 1]?.focus();
-  };
-  const handleIncrementTimer = () => {
-    setWorkoutGoal((prev) => prev + DURATION_INCREMENT);
-  };
-  const handleDecrementTimer = () => {
-    setWorkoutGoal((prev) => {
-      if (prev === 0) return prev;
-      else return prev - DURATION_INCREMENT;
-    });
-  };
-  const handleBlurPrimaryBellInput = () => {
-    setBells((prev) => [Number(primaryBellRef.current?.value), prev[1]]);
-  };
-  const handleBlurSecondBellInput = () => {
-    setBells((prev) => [prev[0], Number(secondBellRef.current?.value)]);
-  };
-  const handleClickAddBell = () => {
-    setBells((prev) => {
-      const primaryBell = prev[0];
-      if (primaryBell === 0) return DEFAULT_WORKOUT_OPTIONS.bells;
-      else return [primaryBell, primaryBell];
-    });
-  };
-  const handleClickRemoveBell = () => {
-    setBells((prev) => [prev[0], 0]);
-  };
-  const handleClickBodyweightOnly = () => {
-    setBells([0, 0]);
-  };
-  const handleToggleHands = () => {
-    setIsOneHanded((prev) => !prev);
-  };
-  const handleClickMinusRung = () => {
-    if (repScheme.length > 1)
-      setRepScheme((prev) => {
-        const rungs = [...prev];
-        rungs.pop();
-        return rungs;
-      });
-  };
-  const handleClickPlusRung = () => {
-    setRepScheme((prev) => {
-      const last = prev[prev.length - 1];
-      const rungs = [...prev, last];
-      return rungs;
-    });
-  };
-  const handleDecrementInterval = () => {
+  const handleIncrementGoalValue = () =>
+    setWorkoutGoal((prev) => prev + INCREMENT_DURATION);
+
+  const handleDecrementGoalValue = () =>
+    setWorkoutGoal((prev) => (prev === 0 ? prev : prev - INCREMENT_DURATION));
+
+  const handleDecrementInterval = () =>
     setIntervalTimer((prev) =>
-      prev > 0 ? prev - INTERVAL_TIMER_INCREMENT : 0,
+      prev > 0 ? prev - INCREMENT_INTERVAL_TIMER : 0,
     );
-  };
-  const handleIncrementInterval = () => {
+
+  const handleIncrementInterval = () =>
     setIntervalTimer((prev) =>
-      prev > 0 ? prev + INTERVAL_TIMER_INCREMENT : DEFAULT_INTERVAL_TIMER,
+      prev > 0 ? prev + INCREMENT_INTERVAL_TIMER : DEFAULT_INTERVAL_TIMER,
     );
-  };
-  const handleDecrementRest = () => {
-    setRestTimer((prev) => (prev > 0 ? prev - REST_TIMER_INCREMENT : 0));
-  };
-  const handleIncrementRest = () => {
+
+  const handleDecrementRest = () =>
+    setRestTimer((prev) => (prev > 0 ? prev - INCREMENT_REST_TIMER : 0));
+
+  const handleIncrementRest = () =>
     setRestTimer((prev) =>
-      prev > 0 ? prev + REST_TIMER_INCREMENT : DEFAULT_REST_TIMER,
+      prev > 0 ? prev + INCREMENT_REST_TIMER : DEFAULT_REST_TIMER,
+    );
+
+  const handleAddDetails = () => setWorkoutDetails('');
+
+  const handleBlurDetails = () =>
+    setWorkoutDetails(() => detailsRef.current?.value || null);
+
+  const handleChangeMovementName = (index: number, value: string) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index ? { ...movement, movementName: value } : movement,
+      ),
+    );
+
+  const handleClickRemoveMovement = (index: number) =>
+    setMovements((prev) => prev.filter((_, i) => i !== index));
+
+  const handleClickAddMovement = () =>
+    setMovements((prev) => [...prev, DEFAULT_MOVEMENT_OPTIONS]);
+
+  const handleChangeWeightTab = (index: number, value: string) => {
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index
+          ? {
+              ...movement,
+              weightOneValue:
+                value === 'none'
+                  ? null
+                  : movement.weightOneValue || DEFAULT_WEIGHT_VALUE,
+              weightOneUnit: value === 'none' ? null : DEFAULT_WEIGHT_UNIT,
+              weightTwoValue:
+                value === 'double'
+                  ? movement.weightTwoValue || DEFAULT_WEIGHT_VALUE
+                  : value === '1h'
+                  ? 0
+                  : null,
+              weightTwoUnit: value === 'double' ? DEFAULT_WEIGHT_UNIT : null,
+            }
+          : movement,
+      ),
     );
   };
-  const handleAddDetails = () => {
-    setWorkoutDetails('');
-  };
-  const handleBlurDetails = () => {
-    setWorkoutDetails(() => detailsRef.current?.value || null);
-  };
+
+  const handleChangeWeightOneValue = (index: number, value: number) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index
+          ? {
+              ...movement,
+              weightOneValue: Math.max(1, value),
+            }
+          : movement,
+      ),
+    );
+
+  const handleChangeWeightTwoValue = (index: number, value: number) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index
+          ? {
+              ...movement,
+              weightTwoValue: Math.max(1, value),
+            }
+          : movement,
+      ),
+    );
+
+  const handleChangeRepScheme = (
+    movementIndex: number,
+    rungIndex: number,
+    value: number,
+  ) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === movementIndex
+          ? {
+              ...movement,
+              repScheme: movement.repScheme.map((rung, j) =>
+                j === rungIndex ? Math.max(1, rung + value) : rung,
+              ),
+            }
+          : movement,
+      ),
+    );
+
+  const handleClickMinusRung = (index: number) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index
+          ? {
+              ...movement,
+              repScheme: movement.repScheme.slice(0, -1),
+            }
+          : movement,
+      ),
+    );
+
+  const handleClickPlusRung = (index: number) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index
+          ? {
+              ...movement,
+              repScheme: [
+                ...movement.repScheme,
+                movement.repScheme.length > 0
+                  ? movement.repScheme[movement.repScheme.length - 1]
+                  : 1,
+              ],
+            }
+          : movement,
+      ),
+    );
+
   const handleClickStart = () => {
     const workoutOptions: WorkoutOptions = {
-      bells,
       intervalTimer,
-      isOneHanded,
       movements,
-      repScheme,
       restTimer,
       startedAt: new Date(),
       workoutDetails,
@@ -159,20 +206,9 @@ export const StartWorkoutPage = () => {
     navigate('active');
   };
 
-  const primaryBell = bells[0];
-  const secondBell = bells[1];
-
-  useEffect(
-    function handleUpdateIsOneHanded() {
-      if (primaryBell === 0 && secondBell === 0) setIsOneHanded(null);
-      if (primaryBell > 0 && secondBell > 0) setIsOneHanded(null);
-      if (primaryBell > 0 && secondBell === 0 && isOneHanded === null)
-        setIsOneHanded(DEFAULT_WORKOUT_OPTIONS.isOneHanded);
-    },
-    [bells],
-  );
-
-  const startDisabled = movements[movements.length - 1] === '';
+  const startDisabled =
+    movements.length === 0 ||
+    movements.some((movement) => movement.movementName.length === 0);
 
   return (
     <Page
@@ -187,248 +223,301 @@ export const StartWorkoutPage = () => {
         </Button>
       }
     >
-      <Section
-        title="Movement(s)"
-        actions={
-          <ModifyWorkoutButtons
-            count={movements.length}
-            label="Movement"
-            onClickMinus={handleClickRemoveMovement}
-            onClickPlus={handleClickAddMovement}
-          />
-        }
-      >
-        {movements.map((movement, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <MovementInput
-              index={index}
-              value={movement}
-              onChange={setMovements}
-              ref={(el) => (movementsRef.current[index] = el)}
-            />
-          </div>
-        ))}
-      </Section>
-
-      <Section
-        title="Weights"
-        actions={
-          <div className="flex items-center gap-1">
-            {primaryBell > 0 && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleClickBodyweightOnly}
-              >
-                Bodyweight only
-              </Button>
-            )}
-
-            <ModifyWorkoutButtons
-              count={secondBell > 0 ? 2 : 1}
-              label="Bell"
-              limit={2}
-              onClickMinus={handleClickRemoveBell}
-              onClickPlus={handleClickAddBell}
-            />
-          </div>
-        }
-      >
-        {primaryBell > 0 && (
-          <div className="flex items-center justify-center gap-2">
-            {secondBell === 0 && (
-              <Button variant="secondary" onClick={handleToggleHands}>
-                {isOneHanded ? '1H' : '2H'}
-              </Button>
-            )}
-
-            <div className="flex flex-col gap-1">
-              {secondBell > 0 && <Label>Left</Label>}
-              <span className="flex items-center gap-1">
-                <Input
-                  aria-label="Bell Input"
-                  className="max-w-[100px]"
-                  defaultValue={primaryBell}
-                  min={0}
-                  onBlur={handleBlurPrimaryBellInput}
-                  ref={primaryBellRef}
-                  type="number"
-                />
-                <span>kg</span>
-              </span>
-            </div>
-
-            {secondBell > 0 && (
-              <div className="flex flex-col gap-1">
-                <Label>Right</Label>
-                <span className="flex items-center gap-1">
-                  <Input
-                    aria-label="Bell Input"
-                    className="max-w-[100px]"
-                    defaultValue={secondBell}
-                    disabled={!primaryBell}
-                    min={0}
-                    onBlur={handleBlurSecondBellInput}
-                    ref={secondBellRef}
-                    type="number"
-                  />
-                  <span>kg</span>
-                </span>
-              </div>
-            )}
-          </div>
-        )}
-      </Section>
-
-      <Section
-        title="Goal"
-        actions={
-          <Tabs
-            value={workoutGoalUnits}
-            onValueChange={(value) =>
-              setWorkoutGoalUnits(value as WorkoutGoalUnits)
-            }
-          >
-            <TabsList>
-              <TabsTrigger size="sm" value="minutes">
-                Duration
-              </TabsTrigger>
-              <TabsTrigger size="sm" value="rounds">
-                Rounds
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        }
-      >
-        <ModifyCountButtons
-          onClickMinus={handleDecrementTimer}
-          onClickPlus={handleIncrementTimer}
-          text={workoutGoalUnits}
-          value={workoutGoal > 0 ? workoutGoal.toString() : <>&infin;</>}
-        />
-      </Section>
-
-      <Section
-        title="Rep Scheme"
-        actions={
-          <ModifyWorkoutButtons
-            count={repScheme.length}
-            label="Rung"
-            onClickMinus={handleClickMinusRung}
-            onClickPlus={handleClickPlusRung}
-          />
-        }
-      >
-        {repScheme.map((_, index) => (
-          <RepSchemePicker
-            key={index}
-            value={repScheme}
-            onChange={setRepScheme}
-            index={index}
-          />
-        ))}
-      </Section>
-
-      <div className="grid grid-cols-3 gap-2">
-        {intervalTimer === 0 ? (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleIncrementInterval}
-          >
-            + Interval
-          </Button>
-        ) : (
-          <div />
-        )}
-        {restTimer === 0 ? (
-          <Button variant="secondary" size="sm" onClick={handleIncrementRest}>
-            + Rest
-          </Button>
-        ) : (
-          <div />
-        )}
-        {workoutDetails === null ? (
-          <Button variant="secondary" size="sm" onClick={handleAddDetails}>
-            + Details
-          </Button>
-        ) : (
-          <div />
-        )}
-      </div>
-
-      {intervalTimer > 0 && (
+      <Card>
         <Section
-          title="Interval Timer"
+          title="Goal"
           actions={
-            intervalTimer !== 0 && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setIntervalTimer(0)}
-              >
-                - Interval
-              </Button>
-            )
+            <Tabs
+              value={workoutGoalUnits}
+              onValueChange={(value) =>
+                setWorkoutGoalUnits(value as WorkoutGoalUnits)
+              }
+            >
+              <TabsList>
+                <TabsTrigger size="sm" value="minutes">
+                  Duration
+                </TabsTrigger>
+                <TabsTrigger size="sm" value="rounds">
+                  Rounds
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           }
         >
           <ModifyCountButtons
-            onClickMinus={handleDecrementInterval}
-            onClickPlus={handleIncrementInterval}
-            text="sec"
-            value={intervalTimer.toString()}
+            onClickMinus={handleDecrementGoalValue}
+            onClickPlus={handleIncrementGoalValue}
+            onChange={setWorkoutGoal}
+            text={workoutGoalUnits}
+            value={workoutGoal}
           />
         </Section>
-      )}
+      </Card>
 
-      {restTimer > 0 && (
-        <Section
-          title="Rest Timer"
-          actions={
-            restTimer !== 0 && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setRestTimer(0)}
-              >
-                - Rest
-              </Button>
-            )
-          }
-        >
-          <ModifyCountButtons
-            onClickMinus={handleDecrementRest}
-            onClickPlus={handleIncrementRest}
-            text="sec"
-            value={restTimer.toString()}
-          />
-        </Section>
+      {(workoutDetails === null || intervalTimer === 0 || restTimer === 0) && (
+        <div className="flex gap-2">
+          {workoutDetails === null && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleAddDetails}
+              className="grow"
+            >
+              + Details
+            </Button>
+          )}
+          {intervalTimer === 0 && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleIncrementInterval}
+              className="grow"
+            >
+              + Interval
+            </Button>
+          )}
+          {restTimer === 0 && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleIncrementRest}
+              className="grow"
+            >
+              + Rest
+            </Button>
+          )}
+        </div>
       )}
 
       {workoutDetails !== null && (
-        <Section
-          title="Workout Details"
-          actions={
-            workoutDetails?.length > 0 && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setWorkoutDetails(null)}
-              >
-                - Details
-              </Button>
-            )
-          }
-        >
-          <Input
-            autoFocus
-            className="w-full"
-            defaultValue={workoutDetails}
-            onBlur={handleBlurDetails}
-            ref={detailsRef}
-          />
-        </Section>
+        <Card>
+          <Section
+            title="Workout Details"
+            actions={
+              workoutDetails?.length > 0 && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setWorkoutDetails(null)}
+                >
+                  - Details
+                </Button>
+              )
+            }
+          >
+            <Input
+              autoFocus
+              className="w-full"
+              defaultValue={workoutDetails}
+              onBlur={handleBlurDetails}
+              ref={detailsRef}
+            />
+          </Section>
+        </Card>
       )}
+
+      {intervalTimer > 0 && (
+        <Card>
+          <Section
+            title="Interval Timer"
+            actions={
+              intervalTimer !== 0 && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setIntervalTimer(0)}
+                >
+                  - Interval
+                </Button>
+              )
+            }
+          >
+            <ModifyCountButtons
+              onClickMinus={handleDecrementInterval}
+              onClickPlus={handleIncrementInterval}
+              text="sec"
+              value={intervalTimer}
+              onChange={setIntervalTimer}
+            />
+          </Section>
+        </Card>
+      )}
+
+      {restTimer > 0 && (
+        <Card>
+          <Section
+            title="Rest Timer"
+            actions={
+              restTimer !== 0 && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setRestTimer(0)}
+                >
+                  - Rest
+                </Button>
+              )
+            }
+          >
+            <ModifyCountButtons
+              onClickMinus={handleDecrementRest}
+              onClickPlus={handleIncrementRest}
+              text="sec"
+              value={restTimer}
+              onChange={setRestTimer}
+            />
+          </Section>
+        </Card>
+      )}
+
+      {movements.map((movement, index) => {
+        const weightTabValue =
+          movement.weightOneValue === null
+            ? 'none'
+            : movement.weightTwoValue === null
+            ? '2h'
+            : movement.weightTwoValue === 0
+            ? '1h'
+            : 'double';
+
+        return (
+          <Card key={index}>
+            <Section
+              title={`Movement #${index + 1}`}
+              actions={
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleClickRemoveMovement(index)}
+                >
+                  - Movement
+                </Button>
+              }
+            >
+              <Input
+                autoFocus
+                aria-label="Movement Input"
+                value={movement.movementName}
+                onChange={(e) =>
+                  handleChangeMovementName(index, e.target.value)
+                }
+                className="w-full"
+                id="movement"
+              />
+            </Section>
+            <Section
+              title="Weights"
+              actions={
+                <Tabs
+                  value={weightTabValue}
+                  onValueChange={(value) => handleChangeWeightTab(index, value)}
+                >
+                  <TabsList>
+                    <TabsTrigger size="sm" value="none">
+                      None
+                    </TabsTrigger>
+                    <TabsTrigger size="sm" value="2h">
+                      2H
+                    </TabsTrigger>
+                    <TabsTrigger size="sm" value="1h">
+                      1H
+                    </TabsTrigger>
+                    <TabsTrigger size="sm" value="double">
+                      Double
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              }
+            >
+              {movement.weightOneValue !== null && (
+                <ModifyCountButtons
+                  onClickMinus={() =>
+                    handleChangeWeightOneValue(
+                      index,
+                      movement.weightOneValue! - 1,
+                    )
+                  }
+                  onClickPlus={() =>
+                    handleChangeWeightOneValue(
+                      index,
+                      movement.weightOneValue! + 1,
+                    )
+                  }
+                  text={
+                    movement.weightOneUnit === 'kilograms'
+                      ? 'kg'
+                      : movement.weightOneUnit === 'pounds'
+                      ? 'lbs'
+                      : ''
+                  }
+                  value={movement.weightOneValue}
+                  onChange={(value) =>
+                    handleChangeWeightOneValue(index, value!)
+                  }
+                />
+              )}
+              {movement.weightTwoValue !== null &&
+                movement.weightTwoValue > 0 && (
+                  <ModifyCountButtons
+                    onClickMinus={() =>
+                      handleChangeWeightTwoValue(
+                        index,
+                        movement.weightTwoValue! - 1,
+                      )
+                    }
+                    onClickPlus={() =>
+                      handleChangeWeightTwoValue(
+                        index,
+                        movement.weightTwoValue! + 1,
+                      )
+                    }
+                    text={
+                      movement.weightTwoUnit === 'kilograms'
+                        ? 'kg'
+                        : movement.weightTwoUnit === 'pounds'
+                        ? 'lbs'
+                        : ''
+                    }
+                    value={movement.weightTwoValue}
+                    onChange={(value) =>
+                      handleChangeWeightTwoValue(index, value)
+                    }
+                  />
+                )}
+            </Section>
+            <Section
+              title="Rep Scheme"
+              actions={
+                <ModifyWorkoutButtons
+                  count={movement.repScheme.length}
+                  label="Rung"
+                  onClickMinus={() => handleClickMinusRung(index)}
+                  onClickPlus={() => handleClickPlusRung(index)}
+                />
+              }
+            >
+              {movement.repScheme.map((_, rungIndex) => (
+                <ModifyCountButtons
+                  key={rungIndex}
+                  value={movement.repScheme[rungIndex]}
+                  onChange={(value) =>
+                    handleChangeRepScheme(index, rungIndex, value)
+                  }
+                  onClickMinus={() =>
+                    handleChangeRepScheme(index, rungIndex, -1)
+                  }
+                  onClickPlus={() => handleChangeRepScheme(index, rungIndex, 1)}
+                  text="reps"
+                />
+              ))}
+            </Section>
+          </Card>
+        );
+      })}
+
+      <Button variant="secondary" onClick={handleClickAddMovement}>
+        + Movement
+      </Button>
     </Page>
   );
 };

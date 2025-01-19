@@ -1,11 +1,9 @@
+import { MovementOptions } from './movement-options.interface';
 import { WorkoutGoalUnits } from './workout-goal-units.type';
 
 export interface WorkoutOptions {
-  bells: [number, number]; // kg
   intervalTimer: number; // seconds
-  isOneHanded: boolean | null; // only applies to single kettlebell movements
-  movements: string[];
-  repScheme: number[];
+  movements: MovementOptions[];
   restTimer: number; // seconds
   startedAt?: Date;
   workoutDetails: string | null;

@@ -1,13 +1,19 @@
 import { createContext, useContext, useState } from 'react';
 
-import { WorkoutOptions } from '~/types';
+import { MovementOptions, WorkoutOptions } from '~/types';
+
+export const DEFAULT_MOVEMENT_OPTIONS: MovementOptions = {
+  movementName: '',
+  repScheme: [5],
+  weightOneUnit: 'kilograms',
+  weightOneValue: 16,
+  weightTwoUnit: null,
+  weightTwoValue: null,
+};
 
 export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
-  bells: [16, 0],
   intervalTimer: 0,
-  isOneHanded: true,
-  movements: [''],
-  repScheme: [5],
+  movements: [],
   restTimer: 0,
   workoutDetails: null,
   workoutGoal: 10,

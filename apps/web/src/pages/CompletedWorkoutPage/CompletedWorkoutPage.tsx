@@ -10,6 +10,7 @@ import {
 } from '~/api';
 import { Loading, Page } from '~/components';
 import { Button } from '~/components/ui/button';
+import { Card } from '~/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -65,11 +66,8 @@ export const CompletedWorkoutPage = () => {
 
   const handleClickRepeat = () => {
     updateWorkoutOptions({
-      bells: [completedWorkout.bells[0], completedWorkout.bells[1]],
       intervalTimer: completedWorkout.intervalTimer,
-      isOneHanded: completedWorkout.isOneHanded,
-      movements: completedWorkout.movements,
-      repScheme: completedWorkout.repScheme,
+      movements: [], // todo: add movements
       restTimer: completedWorkout.restTimer,
       workoutDetails: completedWorkout.workoutDetails,
       workoutGoal: completedWorkout.workoutGoal,
@@ -132,28 +130,30 @@ export const CompletedWorkoutPage = () => {
           rpeValue={completedWorkout.rpe}
         />
         {completedWorkout.workoutNotes !== null && (
-          <Section
-            title="Workout Notes"
-            actions={
-              completedWorkout.workoutNotes?.length > 0 && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={handleClearNotes}
-                >
-                  Clear Notes
-                </Button>
-              )
-            }
-          >
-            <Textarea
-              aria-label="Workout Notes"
-              className="w-full"
-              defaultValue={completedWorkout.workoutNotes}
-              onBlur={handleBlurNotes}
-              ref={notesRef}
-            />
-          </Section>
+          <Card>
+            <Section
+              title="Workout Notes"
+              actions={
+                completedWorkout.workoutNotes?.length > 0 && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleClearNotes}
+                  >
+                    Clear Notes
+                  </Button>
+                )
+              }
+            >
+              <Textarea
+                aria-label="Workout Notes"
+                className="w-full"
+                defaultValue={completedWorkout.workoutNotes}
+                onBlur={handleBlurNotes}
+                ref={notesRef}
+              />
+            </Section>
+          </Card>
         )}
       </Page>
 
