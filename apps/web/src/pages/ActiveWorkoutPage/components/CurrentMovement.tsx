@@ -7,15 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
+import { MovementOptions } from '~/types';
 
 interface Props {
-  currentMovement: string;
+  currentMovement: MovementOptions;
   currentRound: number;
   isOneHanded: boolean | null;
-  leftBell: number | null;
+  leftWeightValue: number | null;
   repScheme: number[];
   restRemaining: boolean;
-  rightBell: number | null;
+  rightWeightValue: number | null;
   rungIndex: number;
   workoutDetails: string | null;
 }
@@ -24,14 +25,14 @@ export const CurrentMovement = ({
   currentMovement,
   currentRound,
   isOneHanded,
-  leftBell,
+  leftWeightValue,
   repScheme,
   restRemaining,
-  rightBell,
+  rightWeightValue,
   rungIndex,
   workoutDetails,
 }: Props) => {
-  const isThreeColumn = isOneHanded || rightBell;
+  const isThreeColumn = isOneHanded || rightWeightValue;
 
   return (
     <Card>
@@ -52,7 +53,9 @@ export const CurrentMovement = ({
           </CardTitle>
 
           <div className="flex grow flex-col justify-center gap-1">
-            <div className="text-2xl font-medium">{currentMovement}</div>
+            <div className="text-2xl font-medium">
+              {currentMovement.movementName}
+            </div>
             <div className="text-muted-foreground font-medium">
               {workoutDetails}
             </div>
@@ -68,7 +71,9 @@ export const CurrentMovement = ({
               isThreeColumn ? 'grid-cols-3' : 'grid-cols-2',
             )}
           >
-            <CardDescription>{isThreeColumn ? 'Left' : 'Bell'}</CardDescription>
+            <CardDescription>
+              {isThreeColumn ? 'Left' : 'Weight'}
+            </CardDescription>
             <CardDescription>Reps</CardDescription>
             {isThreeColumn && <CardDescription>Right</CardDescription>}
           </div>
@@ -79,15 +84,15 @@ export const CurrentMovement = ({
               isThreeColumn ? 'grid-cols-3' : 'grid-cols-2',
             )}
           >
-            {leftBell && !restRemaining ? (
+            {leftWeightValue && !restRemaining ? (
               <div className="flex items-end justify-center gap-1">
-                <div className="text-3xl" data-testid="left-bell">
-                  {leftBell}
+                <div className="text-3xl" data-testid="left-weight">
+                  {leftWeightValue}
                 </div>
                 <div className="text-muted-foreground text-lg">kg</div>
               </div>
             ) : (
-              <div data-testid="left-bell" />
+              <div data-testid="left-weight" />
             )}
 
             <div
@@ -97,15 +102,15 @@ export const CurrentMovement = ({
               {restRemaining ? <span className="h-5" /> : repScheme[rungIndex]}
             </div>
 
-            {rightBell && !restRemaining ? (
+            {rightWeightValue && !restRemaining ? (
               <div className="flex items-end justify-center gap-1">
-                <div className="text-3xl" data-testid="right-bell">
-                  {rightBell}
+                <div className="text-3xl" data-testid="right-weight">
+                  {rightWeightValue}
                 </div>
                 <div className="text-muted-foreground text-lg">kg</div>
               </div>
             ) : (
-              <div data-testid="right-bell" />
+              <div data-testid="right-weight" />
             )}
           </div>
         </div>

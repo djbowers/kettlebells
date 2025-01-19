@@ -23,11 +23,8 @@ export const ActiveWorkoutPage = ({
 }: ActiveWorkoutPageProps) => {
   const [
     {
-      bells,
       intervalTimer,
-      isOneHanded,
       movements,
-      repScheme,
       restTimer,
       startedAt,
       workoutDetails,
@@ -98,10 +95,14 @@ export const ActiveWorkoutPage = ({
   ] = useCountdownTimer(3 / 60, { defaultPaused: true, timeFormat: 's.S' });
 
   const [currentMovementIndex, setCurrentMovementIndex] = useState<number>(0);
-  const [completedRungs, setCompletedRungs] = useState<number>(0);
+  const [currentMovementRungIndex, setCurrentMovementRungIndex] =
+    useState<number>(0);
   const [completedReps, setCompletedReps] = useState<number>(0);
+  const [completedRounds, setCompletedRounds] = useState<number>(0);
+  const [completedRungs, setCompletedRungs] = useState<number>(0);
+  const [workoutVolume, setWorkoutVolume] = useState<number>(0);
 
-  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false); // for unilateral movements and mixed bells
+  const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false); // for one-handed movements and mixed weights
   const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
   const [isRestActive, setIsRestActive] = useState<boolean>(false);
   const [isCountdownActive, setIsCountdownActive] = useState<boolean>(false);
@@ -111,38 +112,55 @@ export const ActiveWorkoutPage = ({
   const isLastMovement = currentMovementIndex === lastMovementIndex;
   const currentMovement = movements[currentMovementIndex];
 
-  // Bells
-  const primaryBellSide = isMirrorSet ? 'right' : 'left'; // todo: make primary bell side configurable
-  const primaryBellWeight = bells[0];
-  const secondaryBellWeight = bells[1];
-  const isSingleBell = primaryBellWeight > 0 && secondaryBellWeight === 0;
-  const isDoubleBells = primaryBellWeight > 0 && secondaryBellWeight > 0;
-  const isMixedBells =
-    isDoubleBells && primaryBellWeight !== secondaryBellWeight;
+  // Weights
+  const primaryWeightSide = isMirrorSet ? 'right' : 'left'; // todo: make primary weight side configurable
 
-  const leftBell = useMemo(() => {
-    if (primaryBellSide === 'left') return primaryBellWeight;
-    else return isSingleBell ? null : secondaryBellWeight;
-  }, [primaryBellSide, isSingleBell]);
+  const primaryWeightValue = currentMovement.weightOneValue;
+  const secondaryWeightValue = currentMovement.weightTwoValue;
 
-  const rightBell = useMemo(() => {
-    if (primaryBellSide === 'right') return primaryBellWeight;
-    else return isSingleBell ? null : secondaryBellWeight;
-  }, [primaryBellSide, isSingleBell]);
+  const currentTotalWeight =
+    (primaryWeightValue ?? 0) + (secondaryWeightValue ?? 0);
 
-  // Volume
-  const totalWeight = bells.reduce((total, bell) => total + bell, 0);
-  const isBodyweight = totalWeight === 0;
-  const workoutVolume = completedReps * totalWeight;
+  const isBodyweight =
+    primaryWeightValue === null && secondaryWeightValue === null;
+
+  const isOneHanded =
+    primaryWeightValue !== null &&
+    primaryWeightValue > 0 &&
+    secondaryWeightValue === 0;
+
+  const isDoubleWeights =
+    primaryWeightValue !== null &&
+    primaryWeightValue > 0 &&
+    secondaryWeightValue !== null &&
+    secondaryWeightValue > 0;
+
+  const isMixedWeights =
+    isDoubleWeights && primaryWeightValue !== secondaryWeightValue;
+
+  const leftWeightValue =
+    primaryWeightSide === 'left'
+      ? primaryWeightValue
+      : isOneHanded
+      ? null
+      : secondaryWeightValue;
+
+  const rightWeightValue =
+    primaryWeightSide === 'right'
+      ? primaryWeightValue
+      : isOneHanded
+      ? null
+      : secondaryWeightValue;
 
   // Rungs
-  const rungsPerRound = repScheme.length;
-  const rungIndex = completedRungs % rungsPerRound;
+  const currentMovementRungs = currentMovement.repScheme.length;
+  const isLastRung = currentMovementRungIndex === currentMovementRungs - 1;
+  const currentRungVolume =
+    currentTotalWeight * currentMovement.repScheme[currentMovementRungIndex];
 
   // Rounds
-  const completedRounds = Math.floor(completedRungs / rungsPerRound);
   const currentRound = completedRounds + 1;
-  const shouldMirrorReps = (isSingleBell && isOneHanded) || isMixedBells;
+  const shouldMirrorReps = isOneHanded || isMixedWeights;
 
   // Interval Timer
   const totalIntervalMilliseconds = intervalTimer * 1000;
@@ -159,18 +177,32 @@ export const ActiveWorkoutPage = ({
     100;
 
   // Helper Functions
-  const incrementReps = () => {
-    setCompletedReps((prev) => prev + repScheme[rungIndex]);
-  };
+  const incrementReps = () =>
+    setCompletedReps(
+      (prev) => prev + currentMovement.repScheme[currentMovementRungIndex],
+    );
 
-  const incrementRungs = () => {
-    setCompletedRungs((prev) => prev + 1);
+  const incrementRungs = () => setCompletedRungs((prev) => prev + 1);
+
+  const incrementRounds = () => setCompletedRounds((prev) => prev + 1);
+
+  const incrementVolume = () =>
+    setWorkoutVolume((prev) => prev + currentRungVolume);
+
+  const goToNextRung = () => {
+    incrementRungs();
+    if (isLastRung) {
+      incrementRounds();
+      setCurrentMovementRungIndex(0);
+    } else {
+      setCurrentMovementRungIndex((prev) => prev + 1);
+    }
   };
 
   const goToNextMovement = () => {
     if (isLastMovement) {
       setCurrentMovementIndex(0);
-      incrementRungs();
+      goToNextRung();
     } else {
       setCurrentMovementIndex((prev) => prev + 1);
     }
@@ -214,6 +246,7 @@ export const ActiveWorkoutPage = ({
   const continueWorkout = () => {
     requestWakeLock();
     incrementReps();
+    incrementVolume();
     goToNextSet();
     if (restTimer > 0) startRest();
   };
@@ -294,7 +327,7 @@ export const ActiveWorkoutPage = ({
 
   useEffect(
     function handlePageRefresh() {
-      if (movements[0] === '') navigate('/'); // todo: handle page refresh with local storage
+      if (movements[0].movementName === '') navigate('/'); // todo: handle page refresh with local storage
     },
     [movements],
   );
@@ -330,10 +363,10 @@ export const ActiveWorkoutPage = ({
         currentMovement={currentMovement}
         isOneHanded={isOneHanded}
         workoutDetails={workoutDetails}
-        rightBell={rightBell}
-        leftBell={leftBell}
-        repScheme={repScheme}
-        rungIndex={rungIndex}
+        rightWeightValue={rightWeightValue}
+        leftWeightValue={leftWeightValue}
+        repScheme={currentMovement.repScheme}
+        rungIndex={currentMovementRungIndex}
         restRemaining={isRestActive}
       />
 

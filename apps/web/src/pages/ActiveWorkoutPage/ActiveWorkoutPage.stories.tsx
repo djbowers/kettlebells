@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import {
+  DEFAULT_MOVEMENT_OPTIONS,
   DEFAULT_WORKOUT_OPTIONS,
   SessionProvider,
   WorkoutOptionsContext,
@@ -13,11 +14,13 @@ import { ActiveWorkoutPage } from './ActiveWorkoutPage';
 
 const defaultWorkoutOptions: WorkoutOptions = {
   ...DEFAULT_WORKOUT_OPTIONS,
-  movements: ['Single Arm Clean & Press'],
+  movements: [
+    { ...DEFAULT_MOVEMENT_OPTIONS, movementName: 'Single Arm Clean & Press' },
+  ],
   workoutDetails: 'Example Workout Details',
 };
 
-export default {
+const meta = {
   component: ActiveWorkoutPage,
   args: {
     defaultPaused: false,
@@ -26,7 +29,10 @@ export default {
     (Story, { parameters }) => (
       <WorkoutOptionsContext.Provider
         value={[
-          { ...defaultWorkoutOptions, ...parameters.workoutOptions },
+          {
+            ...defaultWorkoutOptions,
+            ...parameters.workoutOptions,
+          },
           () => {},
         ]}
       >
@@ -63,80 +69,173 @@ export default {
       </QueryClientProvider>
     ),
   ],
-} as Meta;
+} satisfies Meta<typeof ActiveWorkoutPage>;
 
-export const DoubleBells: StoryObj = {
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const DoubleWeights: Story = {
   parameters: {
     workoutOptions: {
-      movements: ['Single Arm Front Squat'],
-      bells: [20, 20],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Double Front Squat',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 20,
+          weightTwoUnits: 'kilograms',
+        },
+      ],
     },
   },
 };
 
-export const SingleBellOneHanded: StoryObj = {
+export const OneHanded: Story = {
   parameters: {
     workoutOptions: {
-      bells: [20, 0],
-      isOneHanded: true,
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Single Arm Front Squat',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 0,
+          weightTwoUnits: null,
+        },
+      ],
     },
   },
 };
 
-export const SingleBellTwoHanded: StoryObj = {
+export const TwoHanded: Story = {
   parameters: {
     workoutOptions: {
-      bells: [20, 0],
-      isOneHanded: false,
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnits: null,
+        },
+      ],
     },
   },
 };
 
-export const RepLadders: StoryObj = {
+export const RepLadders: Story = {
   parameters: {
     workoutOptions: {
-      repScheme: [1, 2, 3],
-      bells: [0, 0],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Push-Ups',
+          repScheme: [1, 2, 3],
+          weightOneValue: null,
+          weightOneUnits: null,
+          weightTwoValue: null,
+          weightTwoUnits: null,
+        },
+      ],
     },
   },
 };
 
-export const MixedBells: StoryObj = {
+export const MixedWeights: Story = {
   parameters: {
     workoutOptions: {
-      bells: [20, 16],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Clean and Press',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 16,
+          weightTwoUnits: 'kilograms',
+        },
+      ],
     },
   },
 };
 
-export const MultipleMovements: StoryObj = {
+export const MultipleMovements: Story = {
   parameters: {
     workoutOptions: {
-      movements: ['Clean and Press', 'Front Squat'],
-      bells: [16, 16],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Clean and Press',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 20,
+          weightTwoUnits: 'kilograms',
+        },
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Front Squat',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 20,
+          weightTwoUnits: 'kilograms',
+        },
+      ],
     },
   },
 };
 
-export const MultipleMovementsAndMixedBells: StoryObj = {
+export const MultipleMovementsAndMixedWeights: Story = {
   parameters: {
     workoutOptions: {
-      movements: ['Clean and Press', 'Front Squat'],
-      bells: [20, 16],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Clean and Press',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 16,
+          weightTwoUnits: 'kilograms',
+        },
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Front Squat',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 16,
+          weightTwoUnits: 'kilograms',
+        },
+      ],
     },
   },
 };
 
-export const BodyweightMovements: StoryObj = {
+export const BodyweightMovements: Story = {
   parameters: {
     workoutOptions: {
-      movements: ['Push-Ups', 'Pull-Ups'],
-      bells: [0, 0],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Push-Ups',
+          weightOneValue: null,
+          weightOneUnits: null,
+          weightTwoValue: null,
+          weightTwoUnits: null,
+        },
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Pull-Ups',
+          weightOneValue: null,
+          weightOneUnits: null,
+          weightTwoValue: null,
+          weightTwoUnits: null,
+        },
+      ],
     },
   },
 };
 
-export const IntervalTimer: StoryObj = {
+export const IntervalTimer: Story = {
   parameters: {
     workoutOptions: {
       intervalTimer: 30,
@@ -144,7 +243,7 @@ export const IntervalTimer: StoryObj = {
   },
 };
 
-export const RestTimer: StoryObj = {
+export const RestTimer: Story = {
   parameters: {
     workoutOptions: {
       restTimer: 30,
@@ -152,7 +251,7 @@ export const RestTimer: StoryObj = {
   },
 };
 
-export const IntervalRestTimer: StoryObj = {
+export const IntervalRestTimer: Story = {
   parameters: {
     workoutOptions: {
       intervalTimer: 5,
@@ -161,12 +260,21 @@ export const IntervalRestTimer: StoryObj = {
   },
 };
 
-export const WorkoutGoalRounds: StoryObj = {
+export const WorkoutGoalRounds: Story = {
   parameters: {
     workoutOptions: {
       workoutGoal: 10,
       workoutGoalUnits: 'rounds',
-      bells: [20, 20],
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Clean and Press',
+          weightOneValue: 20,
+          weightOneUnits: 'kilograms',
+          weightTwoValue: 20,
+          weightTwoUnits: 'kilograms',
+        },
+      ],
     },
   },
 };

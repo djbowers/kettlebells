@@ -9,13 +9,13 @@ import * as stories from './ActiveWorkoutPage.stories';
 
 const {
   BodyweightMovements,
-  DoubleBells,
-  MixedBells,
+  DoubleWeights,
+  MixedWeights,
   MultipleMovements,
-  MultipleMovementsAndMixedBells,
+  MultipleMovementsAndMixedWeights,
+  OneHanded,
   RepLadders,
-  SingleBellOneHanded,
-  SingleBellTwoHanded,
+  TwoHanded,
   WorkoutGoalRounds,
 } = composeStories(stories);
 
@@ -37,7 +37,7 @@ describe('finishing a workout', () => {
   afterEach(() => vi.clearAllMocks());
 
   test('can finish workout early by clicking finish button', async () => {
-    render(<DoubleBells />);
+    render(<DoubleWeights />);
 
     await userEvent.click(
       screen.getByRole('button', { name: /finish workout/i }),
@@ -69,96 +69,97 @@ describe('finishing a workout', () => {
   });
 });
 
-describe('active workout page (double bells)', () => {
-  const { workoutOptions } = DoubleBells.parameters;
+describe('active workout page (double weights)', () => {
+  const { workoutOptions } = DoubleWeights.parameters;
 
   beforeEach(() => {
-    render(<DoubleBells />);
+    render(<DoubleWeights />);
   });
 
   test('renders the movement name', () => {
-    screen.getByText(workoutOptions.movements[0]);
+    screen.getByText(workoutOptions.movements[0].movementName);
   });
 
   test('displays left and right weights', () => {
-    const { bells } = workoutOptions;
+    const { movements } = workoutOptions;
+    const movement = movements[0];
 
-    const leftBell = screen.getByTestId('left-bell');
-    const rightBell = screen.getByTestId('right-bell');
+    const leftWeight = screen.getByTestId('left-weight');
+    const rightWeight = screen.getByTestId('right-weight');
 
-    expect(leftBell).toHaveTextContent(bells[0]);
-    expect(rightBell).toHaveTextContent(bells[1]);
+    expect(leftWeight).toHaveTextContent(movement.weightOneValue);
+    expect(rightWeight).toHaveTextContent(movement.weightTwoValue);
   });
 });
 
-describe('active workout page (single bell, one-handed)', () => {
-  const { workoutOptions } = SingleBellOneHanded.parameters;
+describe('active workout page (one-handed)', () => {
+  const { workoutOptions } = OneHanded.parameters;
 
   beforeEach(() => {
-    render(<SingleBellOneHanded />);
+    render(<OneHanded />);
   });
 
-  test('alternates single bell between right and left side for each rung', async () => {
-    const { bells } = workoutOptions;
-    const bell = bells[0];
+  test('alternates single weight between right and left side for each rung', async () => {
+    const { movements } = workoutOptions;
+    const weightValue = movements[0].weightOneValue;
 
-    const leftBell = screen.getByTestId('left-bell');
-    const rightBell = screen.getByTestId('right-bell');
+    const leftWeight = screen.getByTestId('left-weight');
+    const rightWeight = screen.getByTestId('right-weight');
     const round = screen.getByTestId('current-round');
 
-    expect(leftBell).toHaveTextContent(bell);
-    expect(rightBell).not.toHaveTextContent();
+    expect(leftWeight).toHaveTextContent(weightValue);
+    expect(rightWeight).not.toHaveTextContent();
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(leftBell).not.toHaveTextContent();
-    expect(rightBell).toHaveTextContent(bell);
+    expect(leftWeight).not.toHaveTextContent();
+    expect(rightWeight).toHaveTextContent(weightValue);
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(leftBell).toHaveTextContent(bell);
-    expect(rightBell).not.toHaveTextContent();
+    expect(leftWeight).toHaveTextContent(weightValue);
+    expect(rightWeight).not.toHaveTextContent();
     expect(round).toHaveTextContent('2');
 
     await clickContinue();
 
-    expect(leftBell).not.toHaveTextContent();
-    expect(rightBell).toHaveTextContent(bell);
+    expect(leftWeight).not.toHaveTextContent();
+    expect(rightWeight).toHaveTextContent(weightValue);
     expect(round).toHaveTextContent('2');
   });
 });
 
-describe('active workout page (single bell, two-handed)', () => {
-  const { workoutOptions } = SingleBellTwoHanded.parameters;
+describe('active workout page (two-handed)', () => {
+  const { workoutOptions } = TwoHanded.parameters;
 
   beforeEach(() => {
-    render(<SingleBellTwoHanded />);
+    render(<TwoHanded />);
   });
 
-  test('single bell weight is fixed on left side for two-handed workouts', async () => {
-    const { bells } = workoutOptions;
-    const bell = bells[0];
+  test('single weight is fixed on left side for two-handed workouts', async () => {
+    const { movements } = workoutOptions;
+    const weightValue = movements[0].weightOneValue;
 
-    const leftBell = screen.getByTestId('left-bell');
-    const rightBell = screen.getByTestId('right-bell');
+    const leftWeight = screen.getByTestId('left-weight');
+    const rightWeight = screen.getByTestId('right-weight');
     const round = screen.getByTestId('current-round');
 
-    expect(leftBell).toHaveTextContent(bell);
-    expect(rightBell).not.toHaveTextContent();
+    expect(leftWeight).toHaveTextContent(weightValue);
+    expect(rightWeight).not.toHaveTextContent();
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(leftBell).toHaveTextContent(bell);
-    expect(rightBell).not.toHaveTextContent();
+    expect(leftWeight).toHaveTextContent(weightValue);
+    expect(rightWeight).not.toHaveTextContent();
     expect(round).toHaveTextContent('2');
 
     await clickContinue();
 
-    expect(leftBell).toHaveTextContent(bell);
-    expect(rightBell).not.toHaveTextContent();
+    expect(leftWeight).toHaveTextContent(weightValue);
+    expect(rightWeight).not.toHaveTextContent();
     expect(round).toHaveTextContent('3');
   });
 });
@@ -171,7 +172,8 @@ describe('active workout page (rep ladders)', () => {
   });
 
   test('renders rep ladders correctly', async () => {
-    const { repScheme } = workoutOptions;
+    const { movements } = workoutOptions;
+    const repScheme = movements[0].repScheme;
 
     const currentReps = screen.getByTestId('current-reps');
     expect(currentReps).toHaveTextContent(repScheme[0]);
@@ -199,35 +201,35 @@ describe('active workout page (rep ladders)', () => {
   });
 });
 
-describe('active workout page (mixed bells)', () => {
-  const { workoutOptions } = MixedBells.parameters;
+describe('active workout page (mixed weights)', () => {
+  const { workoutOptions } = MixedWeights.parameters;
 
   beforeEach(() => {
-    render(<MixedBells />);
+    render(<MixedWeights />);
   });
 
   test('alternates weights between left and right hands for each rung', async () => {
-    const { bells } = workoutOptions;
-    const primaryBell = bells[0];
-    const secondBell = bells[1];
+    const { movements } = workoutOptions;
+    const primaryWeightValue = movements[0].weightOneValue;
+    const secondaryWeightValue = movements[0].weightTwoValue;
 
-    const leftBell = screen.getByTestId('left-bell');
-    const rightBell = screen.getByTestId('right-bell');
+    const leftWeight = screen.getByTestId('left-weight');
+    const rightWeight = screen.getByTestId('right-weight');
     const round = screen.getByTestId('current-round');
 
-    expect(leftBell).toHaveTextContent(primaryBell);
-    expect(rightBell).toHaveTextContent(secondBell);
+    expect(leftWeight).toHaveTextContent(primaryWeightValue);
+    expect(rightWeight).toHaveTextContent(secondaryWeightValue);
 
     await clickContinue();
 
-    expect(leftBell).toHaveTextContent(secondBell);
-    expect(rightBell).toHaveTextContent(primaryBell);
+    expect(leftWeight).toHaveTextContent(secondaryWeightValue);
+    expect(rightWeight).toHaveTextContent(primaryWeightValue);
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(leftBell).toHaveTextContent(primaryBell);
-    expect(rightBell).toHaveTextContent(secondBell);
+    expect(leftWeight).toHaveTextContent(primaryWeightValue);
+    expect(rightWeight).toHaveTextContent(secondaryWeightValue);
     expect(round).toHaveTextContent('2');
   });
 });
@@ -240,61 +242,65 @@ describe('active workout page (multiple movements)', () => {
   });
 
   test('alternates between movements', async () => {
-    const currentMovement = screen.getByText(workoutOptions.movements[0]);
+    const currentMovement = screen.getByText(
+      workoutOptions.movements[0].movementName,
+    );
 
     await clickContinue();
 
-    expect(currentMovement).toHaveTextContent(workoutOptions.movements[1]);
+    expect(currentMovement).toHaveTextContent(
+      workoutOptions.movements[1].movementName,
+    );
   });
 });
 
-describe('active workout page (multiple movements and mixed bells)', () => {
-  const { workoutOptions } = MultipleMovementsAndMixedBells.parameters;
+describe('active workout page (multiple movements and mixed weights)', () => {
+  const { workoutOptions } = MultipleMovementsAndMixedWeights.parameters;
 
   beforeEach(() => {
-    render(<MultipleMovementsAndMixedBells />);
+    render(<MultipleMovementsAndMixedWeights />);
   });
 
-  test('switches between mixed bells, then movements, then reps', async () => {
-    const { bells, movements } = workoutOptions;
-    const primaryBell = bells[0];
-    const secondBell = bells[1];
+  test('switches between mixed weights, then movements, then reps', async () => {
+    const { movements } = workoutOptions;
+    const primaryWeightValue = movements[0].weightOneValue;
+    const secondaryWeightValue = movements[0].weightTwoValue;
 
-    const currentMovement = screen.getByText(movements[0]);
-    const leftBell = screen.getByTestId('left-bell');
-    const rightBell = screen.getByTestId('right-bell');
+    const currentMovement = screen.getByText(movements[0].movementName);
+    const leftWeight = screen.getByTestId('left-weight');
+    const rightWeight = screen.getByTestId('right-weight');
     const round = screen.getByTestId('current-round');
     expect(round).toHaveTextContent('1');
 
-    expect(leftBell).toHaveTextContent(primaryBell);
-    expect(rightBell).toHaveTextContent(secondBell);
+    expect(leftWeight).toHaveTextContent(primaryWeightValue);
+    expect(rightWeight).toHaveTextContent(secondaryWeightValue);
 
     await clickContinue();
 
-    expect(currentMovement).toHaveTextContent(movements[0]);
-    expect(leftBell).toHaveTextContent(secondBell);
-    expect(rightBell).toHaveTextContent(primaryBell);
+    expect(currentMovement).toHaveTextContent(movements[0].movementName);
+    expect(leftWeight).toHaveTextContent(secondaryWeightValue);
+    expect(rightWeight).toHaveTextContent(primaryWeightValue);
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(currentMovement).toHaveTextContent(movements[1]);
-    expect(leftBell).toHaveTextContent(primaryBell);
-    expect(rightBell).toHaveTextContent(secondBell);
+    expect(currentMovement).toHaveTextContent(movements[1].movementName);
+    expect(leftWeight).toHaveTextContent(primaryWeightValue);
+    expect(rightWeight).toHaveTextContent(secondaryWeightValue);
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(currentMovement).toHaveTextContent(movements[1]);
-    expect(leftBell).toHaveTextContent(secondBell);
-    expect(rightBell).toHaveTextContent(primaryBell);
+    expect(currentMovement).toHaveTextContent(movements[1].movementName);
+    expect(leftWeight).toHaveTextContent(secondaryWeightValue);
+    expect(rightWeight).toHaveTextContent(primaryWeightValue);
     expect(round).toHaveTextContent('1');
 
     await clickContinue();
 
-    expect(currentMovement).toHaveTextContent(movements[0]);
-    expect(leftBell).toHaveTextContent(primaryBell);
-    expect(rightBell).toHaveTextContent(secondBell);
+    expect(currentMovement).toHaveTextContent(movements[0].movementName);
+    expect(leftWeight).toHaveTextContent(primaryWeightValue);
+    expect(rightWeight).toHaveTextContent(secondaryWeightValue);
     expect(round).toHaveTextContent('2');
   });
 });
@@ -307,11 +313,15 @@ describe('active workout page (bodyweight movements)', () => {
   });
 
   test('alternates between movements', async () => {
-    const currentMovement = screen.getByText(workoutOptions.movements[0]);
+    const currentMovement = screen.getByText(
+      workoutOptions.movements[0].movementName,
+    );
 
     await clickContinue();
 
-    expect(currentMovement).toHaveTextContent(workoutOptions.movements[1]);
+    expect(currentMovement).toHaveTextContent(
+      workoutOptions.movements[1].movementName,
+    );
   });
 });
 

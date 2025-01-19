@@ -45,11 +45,8 @@ const logWorkout = async ({
   workoutOptions: WorkoutOptions;
 }) => {
   const {
-    bells,
     intervalTimer,
-    isOneHanded,
     movements,
-    repScheme,
     restTimer,
     startedAt,
     workoutDetails,
@@ -60,15 +57,12 @@ const logWorkout = async ({
   const { error, data: workoutLogs } = await supabase
     .from('workout_logs')
     .insert({
-      bells,
       completed_at: new Date().toISOString(),
       completed_reps: completedReps,
       completed_rounds: completedRounds,
       completed_rungs: completedRungs,
       interval_timer: intervalTimer,
-      is_one_handed: isOneHanded,
-      movements,
-      rep_scheme: repScheme,
+      movements: movements.map((movement) => movement.movementName),
       rest_timer: restTimer,
       started_at: (startedAt ?? new Date()).toISOString(),
       user_id: userId,
@@ -83,5 +77,27 @@ const logWorkout = async ({
     throw error;
   }
 
-  return workoutLogs[0].id;
+  const workoutLogId = workoutLogs[0].id;
+
+  const { error: movementLogError } = await supabase
+    .from('movement_logs')
+    .insert(
+      movements.map((movement) => ({
+        movement_name: movement.movementName,
+        rep_scheme: movement.repScheme,
+        weight_one_unit: movement.weightOneUnit,
+        weight_one_value: movement.weightOneValue,
+        weight_two_unit: movement.weightTwoUnit,
+        weight_two_value: movement.weightTwoValue,
+        user_id: userId,
+        workout_log_id: workoutLogId,
+      })),
+    );
+
+  if (movementLogError) {
+    console.error(movementLogError);
+    throw movementLogError;
+  }
+
+  return workoutLogId;
 };
