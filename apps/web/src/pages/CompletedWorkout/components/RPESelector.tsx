@@ -2,8 +2,7 @@ import { RadioGroup } from '@headlessui/react';
 import clsx from 'clsx';
 
 import { Badge } from '~/components/ui/badge';
-import { WorkoutLog } from '~/types';
-import { RpeOptions } from '~/types/rpe.type';
+import { RpeOptions, WorkoutLog } from '~/types';
 
 export interface RPESelectorProps {
   onSelectRPE: (selectedRPE: WorkoutLog['rpe']) => void;

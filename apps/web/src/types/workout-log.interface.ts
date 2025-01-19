@@ -1,5 +1,5 @@
-import { RpeOptions } from './rpe.type';
-import { WorkoutGoalUnits } from './workoutGoalUnits.type';
+import { RpeOptions } from './rpe-options.type';
+import { WorkoutGoalUnits } from './workout-goal-units.type';
 
 export interface WorkoutLog {
   bells: number[];

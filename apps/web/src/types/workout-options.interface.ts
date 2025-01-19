@@ -1,4 +1,4 @@
-import { WorkoutGoalUnits } from './workoutGoalUnits.type';
+import { WorkoutGoalUnits } from './workout-goal-units.type';
 
 export interface WorkoutOptions {
   bells: [number, number]; // kg
