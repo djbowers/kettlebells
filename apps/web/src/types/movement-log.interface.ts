@@ -4,8 +4,8 @@ export interface MovementLog {
   id: number;
   movementName: string;
   repScheme: number[];
-  weightOneUnit: WeightUnit;
-  weightOneValue: number;
-  weightTwoUnit: WeightUnit;
-  weightTwoValue: number;
+  weightOneUnit: WeightUnit | null;
+  weightOneValue: number | null;
+  weightTwoUnit: WeightUnit | null;
+  weightTwoValue: number | null;
 }
