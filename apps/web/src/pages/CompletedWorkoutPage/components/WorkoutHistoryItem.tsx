@@ -25,6 +25,7 @@ export interface WorkoutHistoryItemProps {
   completedReps: number;
   completedRounds: number;
   completedRungs: number;
+  completedVolume: number;
   intervalTimer: number;
   movementLogs: MovementLog[];
   movementLogsLoading: boolean;
@@ -40,6 +41,7 @@ export const WorkoutHistoryItem = ({
   completedReps,
   completedRounds,
   completedRungs,
+  completedVolume,
   intervalTimer,
   movementLogs,
   movementLogsLoading,
@@ -149,12 +151,12 @@ export const WorkoutHistoryItem = ({
           <CardDescription id="reps">Reps</CardDescription>
           <div aria-labelledby="reps">{completedReps}</div>
         </div>
-        {/* <div className="grow text-right">
+        <div className="grow text-right">
           <CardDescription id="volume">Volume</CardDescription>
           <div aria-labelledby="volume">
-            {workoutVolume > 0 ? `${workoutVolume} kg` : 'N/A'}
+            {completedVolume > 0 ? `${completedVolume} kg` : 'N/A'}
           </div>
-        </div> */}
+        </div>
       </CardFooter>
     </Card>
   );

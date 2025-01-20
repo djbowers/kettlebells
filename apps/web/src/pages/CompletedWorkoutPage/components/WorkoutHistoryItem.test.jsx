@@ -77,8 +77,8 @@ describe('workout summary', () => {
     expect(screen.getByLabelText('Reps')).toHaveTextContent('50');
   });
 
-  test.skip('displays volume completed in the workout', async () => {
+  test('displays volume completed in the workout', async () => {
     render(<Default />);
-    expect(screen.getByLabelText('Volume')).toHaveTextContent('800 kg');
+    expect(screen.getByLabelText('Volume')).toHaveTextContent('1000 kg');
   });
 });
