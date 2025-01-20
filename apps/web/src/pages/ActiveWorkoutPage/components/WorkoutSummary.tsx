@@ -17,25 +17,25 @@ const TIME_FORMAT = 'm:ss';
 interface WorkoutSummaryProps {
   completedReps: number;
   completedRounds: number;
-  isBodyweight: boolean;
+  completedRungs: number;
+  completedVolume: number;
   logWorkoutLoading: boolean;
   onClickFinish: () => void;
   startedAt: Date;
   workoutGoal: number;
   workoutGoalUnits: WorkoutGoalUnits;
-  workoutVolume: number;
 }
 
 export const WorkoutSummary = ({
   completedReps,
   completedRounds,
-  isBodyweight,
+  completedRungs,
+  completedVolume,
   logWorkoutLoading,
   onClickFinish,
   startedAt,
   workoutGoal,
   workoutGoalUnits,
-  workoutVolume,
 }: WorkoutSummaryProps) => {
   const [formattedElapsed, setFormattedElapsed] = useState(() =>
     getFormattedElapsed(startedAt),
@@ -66,10 +66,9 @@ export const WorkoutSummary = ({
       <CardContent className="flex items-center justify-between gap-2">
         <CompletedItem label="Elapsed" value={formattedElapsed} />
         <CompletedItem label="Rounds" value={completedRounds} />
+        <CompletedItem label="Rungs" value={completedRungs} />
         <CompletedItem label="Reps" value={completedReps} />
-        {!isBodyweight && (
-          <CompletedItem label="Volume" value={workoutVolume} />
-        )}
+        <CompletedItem label="Volume" value={completedVolume} />
       </CardContent>
 
       <CardFooter className="flex items-center justify-center">

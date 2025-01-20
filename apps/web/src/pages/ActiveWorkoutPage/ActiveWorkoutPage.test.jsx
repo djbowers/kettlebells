@@ -48,6 +48,7 @@ describe('finishing a workout', () => {
       completedReps: expect.any(Number),
       completedRounds: expect.any(Number),
       completedRungs: expect.any(Number),
+      completedVolume: expect.any(Number),
     });
   });
 
@@ -65,6 +66,7 @@ describe('finishing a workout', () => {
       completedReps: expect.any(Number),
       completedRounds: expect.any(Number),
       completedRungs: expect.any(Number),
+      completedVolume: expect.any(Number),
     });
   });
 });

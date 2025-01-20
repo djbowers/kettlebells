@@ -100,7 +100,7 @@ export const ActiveWorkoutPage = ({
   const [completedReps, setCompletedReps] = useState<number>(0);
   const [completedRounds, setCompletedRounds] = useState<number>(0);
   const [completedRungs, setCompletedRungs] = useState<number>(0);
-  const [workoutVolume, setWorkoutVolume] = useState<number>(0);
+  const [completedVolume, setCompletedVolume] = useState<number>(0);
 
   const [isMirrorSet, setIsMirrorSet] = useState<boolean>(false); // for one-handed movements and mixed weights
   const [isEffectActive, setIsEffectActive] = useState<boolean>(false);
@@ -187,7 +187,7 @@ export const ActiveWorkoutPage = ({
   const incrementRounds = () => setCompletedRounds((prev) => prev + 1);
 
   const incrementVolume = () =>
-    setWorkoutVolume((prev) => prev + currentRungVolume);
+    setCompletedVolume((prev) => prev + currentRungVolume);
 
   const goToNextRung = () => {
     incrementRungs();
@@ -274,6 +274,7 @@ export const ActiveWorkoutPage = ({
       completedReps,
       completedRounds,
       completedRungs,
+      completedVolume,
     });
   };
 
@@ -391,13 +392,13 @@ export const ActiveWorkoutPage = ({
       <WorkoutSummary
         completedReps={completedReps}
         completedRounds={completedRounds}
-        onClickFinish={handleClickFinish}
-        isBodyweight={isBodyweight}
+        completedRungs={completedRungs}
+        completedVolume={completedVolume}
         logWorkoutLoading={logWorkoutLoading}
+        onClickFinish={handleClickFinish}
         startedAt={startedAt ?? new Date()}
         workoutGoal={workoutGoal}
         workoutGoalUnits={workoutGoalUnits}
-        workoutVolume={workoutVolume}
       />
     </Page>
   );

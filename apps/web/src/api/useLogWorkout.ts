@@ -9,6 +9,7 @@ interface LogWorkoutInput {
   completedReps: number;
   completedRounds: number;
   completedRungs: number;
+  completedVolume: number;
 }
 
 export const useLogWorkout = () => {
@@ -20,11 +21,13 @@ export const useLogWorkout = () => {
       completedReps,
       completedRounds,
       completedRungs,
+      completedVolume,
     }: LogWorkoutInput) =>
       logWorkout({
         completedReps,
         completedRounds,
         completedRungs,
+        completedVolume,
         userId: user.id,
         workoutOptions,
       }),
@@ -35,12 +38,14 @@ const logWorkout = async ({
   completedReps,
   completedRounds,
   completedRungs,
+  completedVolume,
   userId,
   workoutOptions,
 }: {
   completedReps: number;
   completedRounds: number;
   completedRungs: number;
+  completedVolume: number;
   userId: string;
   workoutOptions: WorkoutOptions;
 }) => {
@@ -61,6 +66,7 @@ const logWorkout = async ({
       completed_reps: completedReps,
       completed_rounds: completedRounds,
       completed_rungs: completedRungs,
+      completed_volume: completedVolume,
       interval_timer: intervalTimer,
       movements: movements.map((movement) => movement.movementName),
       rest_timer: restTimer,
