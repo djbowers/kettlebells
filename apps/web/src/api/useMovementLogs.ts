@@ -5,14 +5,17 @@ import { MovementLog } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
-export const useMovementLogs = () => {
-  return useQuery(QUERIES.MOVEMENT_LOGS, fetchMovementLogs);
+export const useMovementLogs = (workoutLogId: string) => {
+  return useQuery(QUERIES.MOVEMENT_LOGS, () => fetchMovementLogs(workoutLogId));
 };
 
-const fetchMovementLogs = async (): Promise<MovementLog[]> => {
+const fetchMovementLogs = async (
+  workoutLogId: string,
+): Promise<MovementLog[]> => {
   const { data: movementLogs, error } = await supabase
     .from('movement_logs')
-    .select(`*`);
+    .select(`*`)
+    .eq('workout_log_id', workoutLogId);
 
   if (error) {
     console.error(error);

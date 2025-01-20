@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   useDeleteWorkoutLog,
+  useMovementLogs,
   useSelectRPE,
   useUpdateWorkoutNotes,
   useWorkoutLog,
@@ -34,7 +35,10 @@ export const CompletedWorkoutPage = () => {
 
   const [, updateWorkoutOptions] = useWorkoutOptions();
 
-  const { data: completedWorkout, isLoading } = useWorkoutLog(id);
+  const { data: workoutLog, isLoading: workoutLogLoading } = useWorkoutLog(id);
+  const { data: movementLogs = [], isLoading: movementLogsLoading } =
+    useMovementLogs(id);
+
   const {
     mutate: deleteWorkoutLog,
     data: deletedWorkoutLogId,
@@ -49,8 +53,8 @@ export const CompletedWorkoutPage = () => {
     if (deletedWorkoutLogId) navigate('/history');
   }, [deletedWorkoutLogId]);
 
-  if (isLoading) return <Loading />;
-  if (!completedWorkout) return <>Not Found</>;
+  if (workoutLogLoading) return <Loading />;
+  if (!workoutLog) return <>Not Found</>;
 
   const handleClickContinue = () => navigate('/history');
 
@@ -66,12 +70,19 @@ export const CompletedWorkoutPage = () => {
 
   const handleClickRepeat = () => {
     updateWorkoutOptions({
-      intervalTimer: completedWorkout.intervalTimer,
-      movements: [], // todo: add movements
-      restTimer: completedWorkout.restTimer,
-      workoutDetails: completedWorkout.workoutDetails,
-      workoutGoal: completedWorkout.workoutGoal,
-      workoutGoalUnits: completedWorkout.workoutGoalUnits,
+      intervalTimer: workoutLog.intervalTimer,
+      movements: movementLogs.map((movementLog) => ({
+        movementName: movementLog.movementName,
+        repScheme: movementLog.repScheme,
+        weightOneUnit: movementLog.weightOneUnit,
+        weightOneValue: movementLog.weightOneValue,
+        weightTwoUnit: movementLog.weightTwoUnit,
+        weightTwoValue: movementLog.weightTwoValue,
+      })),
+      restTimer: workoutLog.restTimer,
+      workoutDetails: workoutLog.workoutDetails,
+      workoutGoal: workoutLog.workoutGoal,
+      workoutGoalUnits: workoutLog.workoutGoalUnits,
     });
     navigate('/');
   };
@@ -93,7 +104,7 @@ export const CompletedWorkoutPage = () => {
                 Continue
                 <ArrowRightIcon className="h-2 w-2" />
               </Button>
-              {completedWorkout.workoutNotes === null && (
+              {workoutLog.workoutNotes === null && (
                 <Button variant="ghost" onClick={handleAddNotes}>
                   Add Notes
                 </Button>
@@ -111,30 +122,28 @@ export const CompletedWorkoutPage = () => {
         }
       >
         <WorkoutHistoryItem
-          bells={completedWorkout.bells}
-          completedAt={completedWorkout.completedAt}
-          completedReps={completedWorkout.completedReps}
-          completedRounds={completedWorkout.completedRounds}
-          intervalTimer={completedWorkout.intervalTimer}
-          isOneHanded={completedWorkout.isOneHanded}
-          movements={completedWorkout.movements}
-          repScheme={completedWorkout.repScheme}
-          restTimer={completedWorkout.restTimer}
-          startedAt={completedWorkout.startedAt}
-          workoutDetails={completedWorkout.workoutDetails}
-          workoutGoal={completedWorkout.workoutGoal}
-          workoutGoalUnits={completedWorkout.workoutGoalUnits}
+          completedAt={workoutLog.completedAt}
+          completedReps={workoutLog.completedReps}
+          completedRounds={workoutLog.completedRounds}
+          completedRungs={workoutLog.completedRungs}
+          intervalTimer={workoutLog.intervalTimer}
+          movementLogs={movementLogs}
+          movementLogsLoading={movementLogsLoading}
+          restTimer={workoutLog.restTimer}
+          startedAt={workoutLog.startedAt}
+          workoutDetails={workoutLog.workoutDetails}
+          workoutGoal={workoutLog.workoutGoal}
+          workoutGoalUnits={workoutLog.workoutGoalUnits}
         />
-        <RPESelector
-          onSelectRPE={handleSelectRPE}
-          rpeValue={completedWorkout.rpe}
-        />
-        {completedWorkout.workoutNotes !== null && (
+
+        <RPESelector onSelectRPE={handleSelectRPE} rpeValue={workoutLog.rpe} />
+
+        {workoutLog.workoutNotes !== null && (
           <Card>
             <Section
               title="Workout Notes"
               actions={
-                completedWorkout.workoutNotes?.length > 0 && (
+                workoutLog.workoutNotes?.length > 0 && (
                   <Button
                     variant="secondary"
                     size="sm"
@@ -148,7 +157,7 @@ export const CompletedWorkoutPage = () => {
               <Textarea
                 aria-label="Workout Notes"
                 className="w-full"
-                defaultValue={completedWorkout.workoutNotes}
+                defaultValue={workoutLog.workoutNotes}
                 onBlur={handleBlurNotes}
                 ref={notesRef}
               />

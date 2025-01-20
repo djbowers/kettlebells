@@ -1,5 +1,6 @@
 import { DateTime, Duration } from 'luxon';
 
+import { Loading } from '~/components';
 import {
   Card,
   CardContent,
@@ -9,24 +10,24 @@ import {
   CardTitle,
 } from '~/components/ui/card';
 import { Separator } from '~/components/ui/separator';
+import { MovementLog } from '~/types';
 
 import {
-  getBellWeightsDisplayValue,
   getDisplayDate,
   getDuration,
   getRepSchemeDisplayValue,
   getTimeRange,
+  getWeightsDisplayValue,
 } from '../utils';
 
 export interface WorkoutHistoryItemProps {
-  bells: number[];
   completedAt: Date;
   completedReps: number;
   completedRounds: number;
+  completedRungs: number;
   intervalTimer: number;
-  isOneHanded: boolean | null;
-  movements: string[];
-  repScheme: number[];
+  movementLogs: MovementLog[];
+  movementLogsLoading: boolean;
   restTimer: number;
   startedAt: Date;
   workoutDetails: string | null;
@@ -35,14 +36,13 @@ export interface WorkoutHistoryItemProps {
 }
 
 export const WorkoutHistoryItem = ({
-  bells,
   completedAt,
   completedReps,
   completedRounds,
+  completedRungs,
   intervalTimer,
-  isOneHanded,
-  movements,
-  repScheme,
+  movementLogs,
+  movementLogsLoading,
   restTimer,
   startedAt,
   workoutDetails,
@@ -52,12 +52,6 @@ export const WorkoutHistoryItem = ({
   const displayDate = getDisplayDate(completedAt);
   const duration = getDuration(startedAt, completedAt);
   const timeRange = getTimeRange(startedAt, completedAt);
-
-  const workoutLoad = bells.reduce((total, bell) => total + bell, 0);
-  const workoutVolume = completedReps * workoutLoad;
-
-  const repSchemeDisplayValue = getRepSchemeDisplayValue(repScheme, bells);
-  const bellsDisplayValue = getBellWeightsDisplayValue(bells);
 
   return (
     <Card data-testid="workout-history-item">
@@ -71,48 +65,64 @@ export const WorkoutHistoryItem = ({
         )}
       </CardHeader>
 
-      <CardContent>
-        <CardDescription>Movements</CardDescription>
-        {movements.map((movement) => (
-          <div key={movement}>{movement}</div>
-        ))}
-      </CardContent>
-
-      <CardContent className="grid grid-cols-2 gap-1">
-        <div>
-          <CardDescription id="rep-scheme">Rep Scheme</CardDescription>
-          <div aria-labelledby="rep-scheme">{repSchemeDisplayValue} reps</div>
-        </div>
-        <div className="text-right">
-          <CardDescription id="weights">Weights</CardDescription>
-          <div aria-labelledby="weights">
-            {workoutLoad > 0 ? `${bellsDisplayValue} kg` : 'Bodyweight'}{' '}
-            {isOneHanded !== null && (isOneHanded ? '(1h)' : '(2h)')}
-          </div>
-        </div>
-      </CardContent>
-
-      <CardContent className="grid grid-cols-3 gap-1">
-        <div>
+      <CardContent className="flex gap-2">
+        <div className="grow">
           <CardDescription id="goal">Goal</CardDescription>
           <div aria-labelledby="goal">
             {workoutGoal}
             {workoutGoalUnits === 'minutes' ? 'm' : ` ${workoutGoalUnits}`}
           </div>
         </div>
-        <div className="text-center">
+        <div className="grow text-right">
           <CardDescription id="intervals">Intervals</CardDescription>
           <div aria-labelledby="intervals">
             {intervalTimer > 0 ? `${intervalTimer}s` : 'None'}
           </div>
         </div>
-        <div className="text-right">
+        <div className="grow text-right">
           <CardDescription id="rest">Rest</CardDescription>
           <div aria-labelledby="rest">
             {restTimer > 0 ? `${restTimer}s` : 'None'}
           </div>
         </div>
       </CardContent>
+
+      {movementLogsLoading ? (
+        <div className="flex justify-center p-3">
+          <Loading />
+        </div>
+      ) : (
+        movementLogs.map((movement, index) => (
+          <CardContent key={movement.id}>
+            <div className="flex gap-2">
+              <div className="grow">
+                <CardDescription>Movement #{index + 1}</CardDescription>
+                <div>{movement.movementName}</div>
+              </div>
+              <div className="grow text-right">
+                <CardDescription id="weights">Weights</CardDescription>
+                <div aria-labelledby="weights">
+                  {getWeightsDisplayValue(
+                    movement.weightOneValue,
+                    movement.weightOneUnit,
+                    movement.weightTwoValue,
+                    movement.weightTwoUnit,
+                  )}
+                </div>
+              </div>
+              <div className="grow text-right">
+                <CardDescription id="rep-scheme">Rep Scheme</CardDescription>
+                <div aria-labelledby="rep-scheme">
+                  {getRepSchemeDisplayValue(movement.repScheme, [
+                    movement.weightOneValue,
+                    movement.weightTwoValue,
+                  ])}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        ))
+      )}
 
       <CardContent>
         <Separator />
@@ -122,25 +132,29 @@ export const WorkoutHistoryItem = ({
         <CardTitle>Workout Summary</CardTitle>
       </CardContent>
 
-      <CardFooter className="grid grid-cols-4 gap-1">
-        <div>
+      <CardFooter className="flex gap-2">
+        <div className="grow">
           <CardDescription id="elapsed">Elapsed</CardDescription>
           <div aria-labelledby="elapsed">{duration}</div>
         </div>
-        <div className="text-center">
+        <div className="grow text-right">
           <CardDescription id="rounds">Rounds</CardDescription>
-          <div aria-labelledby="rounds">{completedRounds} rounds</div>
+          <div aria-labelledby="rounds">{completedRounds}</div>
         </div>
-        <div className="text-center">
+        <div className="grow text-right">
+          <CardDescription id="rungs">Rungs</CardDescription>
+          <div aria-labelledby="rungs">{completedRungs}</div>
+        </div>
+        <div className="grow text-right">
           <CardDescription id="reps">Reps</CardDescription>
-          <div aria-labelledby="reps">{completedReps} reps</div>
+          <div aria-labelledby="reps">{completedReps}</div>
         </div>
-        <div className="text-right">
+        {/* <div className="grow text-right">
           <CardDescription id="volume">Volume</CardDescription>
           <div aria-labelledby="volume">
             {workoutVolume > 0 ? `${workoutVolume} kg` : 'N/A'}
           </div>
-        </div>
+        </div> */}
       </CardFooter>
     </Card>
   );

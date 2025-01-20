@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { WorkoutOptionsContext } from '~/contexts';
+import { workoutLogs } from '~/mocks/data';
 
 import { CompletedWorkoutPage } from './CompletedWorkoutPage';
 
@@ -9,7 +10,7 @@ export default {
   component: CompletedWorkoutPage,
   decorators: [
     (Story) => (
-      <MemoryRouter initialEntries={['/history/66']}>
+      <MemoryRouter initialEntries={[`/history/${workoutLogs[0].id}`]}>
         <Routes>
           <Route path="/history/:id" element={<Story />} />
         </Routes>

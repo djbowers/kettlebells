@@ -1,19 +1,29 @@
 import {
-  getBellWeightsDisplayValue,
   getRepSchemeDisplayValue,
+  getWeightsDisplayValue,
 } from './displayValues';
 
-describe('getBellWeightsDisplayValue', () => {
-  test('returns single bell weight as string', () => {
-    expect(getBellWeightsDisplayValue([24, 0])).toBe('24');
+describe('weights display value', () => {
+  test('returns one-handed weight as string', () => {
+    expect(getWeightsDisplayValue(24, 'kilograms', 0, 'kilograms')).toBe(
+      '24 kg (1h)',
+    );
+  });
+
+  test('returns two-handed weight as string', () => {
+    expect(getWeightsDisplayValue(24, 'kilograms', null, null)).toBe(
+      '24 kg (2h)',
+    );
   });
 
   test('returns two bell weights separated by slash', () => {
-    expect(getBellWeightsDisplayValue([24, 16])).toBe('24 / 16');
+    expect(getWeightsDisplayValue(24, 'kilograms', 16, 'kilograms')).toBe(
+      '24 kg, 16 kg',
+    );
   });
 
-  test('handles zero weights', () => {
-    expect(getBellWeightsDisplayValue([0, 0])).toBe('0');
+  test('returns bw when both weights are null', () => {
+    expect(getWeightsDisplayValue(null, null, null, null)).toBe('bw');
   });
 });
 
