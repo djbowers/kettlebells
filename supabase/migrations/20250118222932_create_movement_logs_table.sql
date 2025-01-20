@@ -10,13 +10,15 @@ create table "public"."movement_logs" (
     "weight_one_value" smallint,
     "weight_two_value" smallint,
     "weight_one_unit" weight_unit,
-    "weight_two_unit" weight_unit,
+    "weight_two_unit" weight_unit
 );
 
 
 alter table "public"."movement_logs" enable row level security;
 
 alter table "public"."workout_logs" alter column "workout_details" drop default;
+
+alter table "public"."workout_logs" add column "completed_volume" smallint;
 
 CREATE UNIQUE INDEX movement_logs_pkey ON public.movement_logs USING btree (id);
 
