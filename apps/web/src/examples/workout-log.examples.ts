@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 import { RpeOptions, WorkoutGoalUnits } from '~/types';
 
 import { Database } from '../../types/supabase';
@@ -13,8 +11,10 @@ export class ExampleWorkoutLog implements WorkoutLog {
   completed_reps: number;
   completed_rounds: number;
   completed_rungs: number;
+  completed_volume: number | null;
   id: number;
   interval_timer: number;
+  movements: string[];
   rest_timer: number;
   rpe: RpeOptions | null;
   started_at: string;
@@ -26,14 +26,12 @@ export class ExampleWorkoutLog implements WorkoutLog {
 
   bells: number[];
   is_one_handed: boolean | null;
-  movements: string[];
   rep_scheme: number[];
   unit: string | null;
 
   constructor({
     bells = [],
     is_one_handed = null,
-    movements = [],
     rep_scheme = [],
     unit = null,
 
@@ -41,7 +39,9 @@ export class ExampleWorkoutLog implements WorkoutLog {
     completed_reps = 0,
     completed_rounds = 0,
     completed_rungs = 0,
+    completed_volume = 0,
     interval_timer = 0,
+    movements = [],
     rest_timer = 0,
     rpe = 'ideal',
     started_at = new Date().toISOString(),
@@ -53,7 +53,6 @@ export class ExampleWorkoutLog implements WorkoutLog {
   }: Partial<WorkoutLog>) {
     this.bells = bells;
     this.is_one_handed = is_one_handed;
-    this.movements = movements;
     this.rep_scheme = rep_scheme;
     this.unit = unit;
 
@@ -61,8 +60,10 @@ export class ExampleWorkoutLog implements WorkoutLog {
     this.completed_reps = completed_reps;
     this.completed_rounds = completed_rounds;
     this.completed_rungs = completed_rungs;
+    this.completed_volume = completed_volume;
     this.id = id;
     this.interval_timer = interval_timer;
+    this.movements = movements;
     this.rest_timer = rest_timer;
     this.rpe = rpe;
     this.started_at = started_at;

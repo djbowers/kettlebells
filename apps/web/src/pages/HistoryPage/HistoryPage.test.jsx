@@ -19,7 +19,7 @@ describe('workout history page', () => {
   });
 
   test('renders workout volume', async () => {
-    await screen.findByText('1764 kg');
+    await screen.findByText('1000 kg');
   });
 
   test('renders workout date', async () => {

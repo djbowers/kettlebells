@@ -102,6 +102,7 @@ export interface Database {
           completed_reps: number
           completed_rounds: number
           completed_rungs: number
+          completed_volume: number | null
           id: number
           interval_timer: number
           is_one_handed: boolean | null
@@ -123,6 +124,7 @@ export interface Database {
           completed_reps: number
           completed_rounds: number
           completed_rungs: number
+          completed_volume?: number | null
           id?: number
           interval_timer?: number
           is_one_handed?: boolean | null
@@ -144,6 +146,7 @@ export interface Database {
           completed_reps?: number
           completed_rounds?: number
           completed_rungs?: number
+          completed_volume?: number | null
           id?: number
           interval_timer?: number
           is_one_handed?: boolean | null

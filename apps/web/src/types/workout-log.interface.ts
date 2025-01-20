@@ -6,8 +6,10 @@ export interface WorkoutLog {
   completedReps: number;
   completedRounds: number;
   completedRungs: number;
+  completedVolume: number | null;
   id: number;
   intervalTimer: number;
+  movements: string[];
   restTimer: number;
   rpe: RpeOptions | null;
   startedAt: Date;

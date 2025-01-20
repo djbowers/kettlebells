@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useWorkoutLogs } from '~/api';
@@ -34,7 +33,7 @@ export const HistoryPage = () => {
 
 const WorkoutLogItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
   const workoutDetailsPath = '/history/' + workoutLog.id;
-  const workoutVolume = getWorkoutVolume(workoutLog);
+  const workoutVolume = workoutLog.completedVolume ?? 0;
   const displayText =
     workoutVolume > 0
       ? `${workoutVolume.toFixed(0)} kg`
@@ -94,7 +93,7 @@ const WorkoutWeekGroup = ({
   workoutDays.forEach(({ workoutLogs }) => {
     let dayVolume = 0;
     workoutLogs.forEach((workoutLog) => {
-      dayVolume += getWorkoutVolume(workoutLog);
+      dayVolume += workoutLog.completedVolume ?? 0;
     });
     weekVolume += dayVolume;
   });
@@ -170,10 +169,4 @@ const groupByWeek = (workoutDays: WorkoutDay[]): WorkoutWeek[] => {
       weekNumber: Number(weekKey.split('-W')[1]),
       workoutDays,
     }));
-};
-
-const getWorkoutVolume = (workoutLog: WorkoutLog): number => {
-  const totalWeight = workoutLog.bells.reduce((total, bell) => total + bell, 0);
-  const workoutVolume = workoutLog.completedReps * totalWeight;
-  return workoutVolume;
 };
