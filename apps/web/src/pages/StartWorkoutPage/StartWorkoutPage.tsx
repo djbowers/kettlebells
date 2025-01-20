@@ -206,9 +206,16 @@ export const StartWorkoutPage = () => {
     navigate('active');
   };
 
+  const isDifferentRepSchemes =
+    movements.length > 1 &&
+    movements.some(
+      (movement) => movement.repScheme.length !== movements[0].repScheme.length,
+    );
+
   const startDisabled =
     movements.length === 0 ||
-    movements.some((movement) => movement.movementName.length === 0);
+    movements.some((movement) => movement.movementName.length === 0) ||
+    isDifferentRepSchemes;
 
   return (
     <Page
@@ -528,6 +535,12 @@ export const StartWorkoutPage = () => {
       <Button variant="secondary" onClick={handleClickAddMovement}>
         + Movement
       </Button>
+
+      {isDifferentRepSchemes && (
+        <div className="text-sm text-red-500">
+          Rep schemes must contain the same number of rungs for each movement.
+        </div>
+      )}
     </Page>
   );
 };
