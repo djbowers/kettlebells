@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERIES } from '~/types';
+import { QUERIES } from '~/constants';
 
 import { supabase } from '../supabaseClient';
 

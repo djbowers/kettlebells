@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERIES, WorkoutLog } from '~/types';
+import { QUERIES } from '~/constants';
+import { WorkoutLog } from '~/types';
 
 import { supabase } from '../supabaseClient';
 

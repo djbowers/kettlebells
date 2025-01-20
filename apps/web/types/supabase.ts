@@ -9,6 +9,58 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      movement_logs: {
+        Row: {
+          created_at: string | null
+          id: number
+          movement_name: string
+          rep_scheme: number[]
+          user_id: string
+          weight_one_unit: Database["public"]["Enums"]["weight_unit"] | null
+          weight_one_value: number | null
+          weight_two_unit: Database["public"]["Enums"]["weight_unit"] | null
+          weight_two_value: number | null
+          workout_log_id: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          movement_name: string
+          rep_scheme?: number[]
+          user_id: string
+          weight_one_unit?: Database["public"]["Enums"]["weight_unit"] | null
+          weight_one_value?: number | null
+          weight_two_unit?: Database["public"]["Enums"]["weight_unit"] | null
+          weight_two_value?: number | null
+          workout_log_id: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          movement_name?: string
+          rep_scheme?: number[]
+          user_id?: string
+          weight_one_unit?: Database["public"]["Enums"]["weight_unit"] | null
+          weight_one_value?: number | null
+          weight_two_unit?: Database["public"]["Enums"]["weight_unit"] | null
+          weight_two_value?: number | null
+          workout_log_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movement_logs_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movement_logs_workout_log_id_fkey"
+            columns: ["workout_log_id"]
+            referencedRelation: "workout_logs"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -50,6 +102,7 @@ export interface Database {
           completed_reps: number
           completed_rounds: number
           completed_rungs: number
+          completed_volume: number | null
           id: number
           interval_timer: number
           is_one_handed: boolean | null
@@ -71,6 +124,7 @@ export interface Database {
           completed_reps: number
           completed_rounds: number
           completed_rungs: number
+          completed_volume?: number | null
           id?: number
           interval_timer?: number
           is_one_handed?: boolean | null
@@ -92,6 +146,7 @@ export interface Database {
           completed_reps?: number
           completed_rounds?: number
           completed_rungs?: number
+          completed_volume?: number | null
           id?: number
           interval_timer?: number
           is_one_handed?: boolean | null
@@ -125,6 +180,7 @@ export interface Database {
     }
     Enums: {
       RPE: "noEffort" | "easy" | "ideal" | "hard" | "maxEffort"
+      weight_unit: "kilograms" | "pounds"
       workout_goal_units: "minutes" | "rounds"
     }
     CompositeTypes: {
