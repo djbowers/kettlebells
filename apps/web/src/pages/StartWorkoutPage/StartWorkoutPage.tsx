@@ -156,7 +156,7 @@ export const StartWorkoutPage = () => {
           ? {
               ...movement,
               repScheme: movement.repScheme.map((rung, j) =>
-                j === rungIndex ? Math.max(1, rung + value) : rung,
+                j === rungIndex ? Math.max(1, value) : rung,
               ),
             }
           : movement,
@@ -504,9 +504,19 @@ export const StartWorkoutPage = () => {
                     handleChangeRepScheme(index, rungIndex, value)
                   }
                   onClickMinus={() =>
-                    handleChangeRepScheme(index, rungIndex, -1)
+                    handleChangeRepScheme(
+                      index,
+                      rungIndex,
+                      movement.repScheme[rungIndex] - 1,
+                    )
                   }
-                  onClickPlus={() => handleChangeRepScheme(index, rungIndex, 1)}
+                  onClickPlus={() =>
+                    handleChangeRepScheme(
+                      index,
+                      rungIndex,
+                      movement.repScheme[rungIndex] + 1,
+                    )
+                  }
                   text="reps"
                 />
               ))}
