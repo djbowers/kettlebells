@@ -84,7 +84,7 @@ describe('finishing a workout', () => {
       completedReps: 5,
       completedRounds: 1,
       completedRungs: 1,
-      completedVolume: 165,
+      completedVolume: 34,
     });
   });
 });

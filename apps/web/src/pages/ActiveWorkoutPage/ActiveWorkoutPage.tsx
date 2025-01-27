@@ -14,7 +14,7 @@ import {
 } from './components';
 import { useRequestWakeLock } from './hooks';
 
-const KG_TO_LB = 2.20462;
+const LB_TO_KG = 0.453592;
 
 interface ActiveWorkoutPageProps {
   defaultPaused?: boolean;
@@ -125,10 +125,10 @@ export const ActiveWorkoutPage = ({
 
   const currentTotalWeight =
     (primaryWeightUnit === 'pounds'
-      ? (primaryWeightValue ?? 0) * KG_TO_LB
+      ? (primaryWeightValue ?? 0) * LB_TO_KG
       : primaryWeightValue ?? 0) +
     (secondaryWeightUnit === 'pounds'
-      ? (secondaryWeightValue ?? 0) * KG_TO_LB
+      ? (secondaryWeightValue ?? 0) * LB_TO_KG
       : secondaryWeightValue ?? 0);
 
   const isOneHanded =
