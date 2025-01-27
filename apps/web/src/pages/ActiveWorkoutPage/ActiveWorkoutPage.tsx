@@ -14,6 +14,8 @@ import {
 } from './components';
 import { useRequestWakeLock } from './hooks';
 
+const KG_TO_LB = 2.20462;
+
 interface ActiveWorkoutPageProps {
   defaultPaused?: boolean;
 }
@@ -115,14 +117,19 @@ export const ActiveWorkoutPage = ({
   // Weights
   const primaryWeightSide = isMirrorSet ? 'right' : 'left'; // todo: make primary weight side configurable
 
+  const primaryWeightUnit = currentMovement.weightOneUnit;
+  const secondaryWeightUnit = currentMovement.weightTwoUnit;
+
   const primaryWeightValue = currentMovement.weightOneValue;
   const secondaryWeightValue = currentMovement.weightTwoValue;
 
   const currentTotalWeight =
-    (primaryWeightValue ?? 0) + (secondaryWeightValue ?? 0);
-
-  const isBodyweight =
-    primaryWeightValue === null && secondaryWeightValue === null;
+    (primaryWeightUnit === 'pounds'
+      ? (primaryWeightValue ?? 0) * KG_TO_LB
+      : primaryWeightValue ?? 0) +
+    (secondaryWeightUnit === 'pounds'
+      ? (secondaryWeightValue ?? 0) * KG_TO_LB
+      : secondaryWeightValue ?? 0);
 
   const isOneHanded =
     primaryWeightValue !== null &&
@@ -138,12 +145,18 @@ export const ActiveWorkoutPage = ({
   const isMixedWeights =
     isDoubleWeights && primaryWeightValue !== secondaryWeightValue;
 
+  const leftWeightUnit =
+    primaryWeightSide === 'left' ? primaryWeightUnit : secondaryWeightUnit;
+
   const leftWeightValue =
     primaryWeightSide === 'left'
       ? primaryWeightValue
       : isOneHanded
       ? null
       : secondaryWeightValue;
+
+  const rightWeightUnit =
+    primaryWeightSide === 'right' ? primaryWeightUnit : secondaryWeightUnit;
 
   const rightWeightValue =
     primaryWeightSide === 'right'
@@ -274,7 +287,7 @@ export const ActiveWorkoutPage = ({
       completedReps,
       completedRounds,
       completedRungs,
-      completedVolume,
+      completedVolume: Math.round(completedVolume),
     });
   };
 
@@ -360,15 +373,17 @@ export const ActiveWorkoutPage = ({
       />
 
       <CurrentMovement
-        currentRound={currentRound}
         currentMovement={currentMovement}
+        currentRound={currentRound}
         isOneHanded={isOneHanded}
-        workoutDetails={workoutDetails}
-        rightWeightValue={rightWeightValue}
+        leftWeightUnit={leftWeightUnit}
         leftWeightValue={leftWeightValue}
         repScheme={currentMovement.repScheme}
-        rungIndex={currentMovementRungIndex}
         restRemaining={isRestActive}
+        rightWeightUnit={rightWeightUnit}
+        rightWeightValue={rightWeightValue}
+        rungIndex={currentMovementRungIndex}
+        workoutDetails={workoutDetails}
       />
 
       <div className="flex h-5 items-center justify-center">

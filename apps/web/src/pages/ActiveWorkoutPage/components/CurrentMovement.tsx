@@ -7,15 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
-import { MovementOptions } from '~/types';
+import { MovementOptions, WeightUnit } from '~/types';
+import { getWeightUnitLabel } from '~/utils';
 
-interface Props {
+interface CurrentMovementProps {
   currentMovement: MovementOptions;
   currentRound: number;
   isOneHanded: boolean | null;
+  leftWeightUnit: WeightUnit | null;
   leftWeightValue: number | null;
   repScheme: number[];
   restRemaining: boolean;
+  rightWeightUnit: WeightUnit | null;
   rightWeightValue: number | null;
   rungIndex: number;
   workoutDetails: string | null;
@@ -25,13 +28,15 @@ export const CurrentMovement = ({
   currentMovement,
   currentRound,
   isOneHanded,
+  leftWeightUnit,
   leftWeightValue,
   repScheme,
   restRemaining,
+  rightWeightUnit,
   rightWeightValue,
   rungIndex,
   workoutDetails,
-}: Props) => {
+}: CurrentMovementProps) => {
   const isThreeColumn = isOneHanded || rightWeightValue;
 
   return (
@@ -87,9 +92,11 @@ export const CurrentMovement = ({
             {leftWeightValue && !restRemaining ? (
               <div className="flex items-end justify-center gap-1">
                 <div className="text-3xl" data-testid="left-weight">
-                  {leftWeightValue}
+                  {Math.round(leftWeightValue)}
                 </div>
-                <div className="text-muted-foreground text-lg">kg</div>
+                <div className="text-muted-foreground text-lg">
+                  {getWeightUnitLabel(leftWeightUnit)}
+                </div>
               </div>
             ) : (
               <div data-testid="left-weight" />
@@ -105,9 +112,11 @@ export const CurrentMovement = ({
             {rightWeightValue && !restRemaining ? (
               <div className="flex items-end justify-center gap-1">
                 <div className="text-3xl" data-testid="right-weight">
-                  {rightWeightValue}
+                  {Math.round(rightWeightValue)}
                 </div>
-                <div className="text-muted-foreground text-lg">kg</div>
+                <div className="text-muted-foreground text-lg">
+                  {getWeightUnitLabel(rightWeightUnit)}
+                </div>
               </div>
             ) : (
               <div data-testid="right-weight" />

@@ -17,6 +17,7 @@ const {
   RepLadders,
   TwoHanded,
   WorkoutGoalRounds,
+  WeightUnitsPounds,
 } = composeStories(stories);
 
 describe('finishing a workout', () => {
@@ -67,6 +68,23 @@ describe('finishing a workout', () => {
       completedRounds: expect.any(Number),
       completedRungs: expect.any(Number),
       completedVolume: expect.any(Number),
+    });
+  });
+
+  test('logs correct volume when using pounds as weight units', async () => {
+    render(<WeightUnitsPounds />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 165,
     });
   });
 });

@@ -1,3 +1,6 @@
+import { WeightUnit } from '~/types';
+import { getWeightUnitLabel } from '~/utils';
+
 export const getWeightsDisplayValue = (
   weightOneValue: number | null,
   weightOneUnit: string | null,
@@ -6,22 +9,10 @@ export const getWeightsDisplayValue = (
 ) => {
   if (weightOneValue === null && weightTwoValue === null) return 'bw';
   const weightOne = weightOneValue
-    ? `${weightOneValue} ${
-        weightOneUnit === 'kilograms'
-          ? 'kg'
-          : weightOneUnit === 'pounds'
-          ? 'lb'
-          : ''
-      }`
+    ? `${weightOneValue} ${getWeightUnitLabel(weightOneUnit as WeightUnit)}`
     : '';
   const weightTwo = weightTwoValue
-    ? `${weightTwoValue} ${
-        weightTwoUnit === 'kilograms'
-          ? 'kg'
-          : weightTwoUnit === 'pounds'
-          ? 'lb'
-          : ''
-      }`
+    ? `${weightTwoValue} ${getWeightUnitLabel(weightTwoUnit as WeightUnit)}`
     : '';
   const hands =
     weightTwoValue === null ? '(2h)' : weightTwoValue === 0 ? '(1h)' : '';

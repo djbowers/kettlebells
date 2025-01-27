@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
@@ -64,11 +65,15 @@ export const WorkoutSummary = ({
       </CardHeader>
 
       <CardContent className="flex items-center justify-between gap-2">
-        <CompletedItem label="Elapsed" value={formattedElapsed} />
+        <CompletedItem label="Elapsed" value={formattedElapsed} align="left" />
         <CompletedItem label="Rounds" value={completedRounds} />
         <CompletedItem label="Rungs" value={completedRungs} />
         <CompletedItem label="Reps" value={completedReps} />
-        <CompletedItem label="Volume" value={completedVolume} />
+        <CompletedItem
+          label="Volume"
+          value={Math.round(completedVolume)}
+          unit="kg"
+        />
       </CardContent>
 
       <CardFooter className="flex items-center justify-center">
@@ -88,13 +93,27 @@ export const WorkoutSummary = ({
 const CompletedItem = ({
   label,
   value,
+  align = 'right',
+  unit,
 }: {
   label: string;
   value: string | number;
+  align?: 'left' | 'center' | 'right';
+  unit?: string;
 }) => (
-  <div className="flex flex-col items-center justify-center gap-0.5">
+  <div
+    className={clsx(
+      'flex flex-col justify-center gap-0.5',
+      align === 'left' && 'items-start',
+      align === 'center' && 'items-center',
+      align === 'right' && 'items-end',
+    )}
+  >
     <div className="text-muted-foreground text-sm">{label}</div>
-    <div className="text-lg font-semibold">{value}</div>
+    <div className="text-lg font-semibold">
+      {value}{' '}
+      <span className="text-muted-foreground text-sm font-medium">{unit}</span>
+    </div>
   </div>
 );
 

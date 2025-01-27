@@ -13,6 +13,7 @@ import {
   WorkoutGoalUnits,
   WorkoutOptions,
 } from '~/types';
+import { getWeightUnitLabel } from '~/utils';
 
 import {
   ModifyCountButtons,
@@ -561,10 +562,4 @@ export const StartWorkoutPage = () => {
       )}
     </Page>
   );
-};
-
-const getWeightUnitLabel = (unit: WeightUnit | null) => {
-  if (unit === 'kilograms') return 'kg';
-  if (unit === 'pounds') return 'lb';
-  return '';
 };

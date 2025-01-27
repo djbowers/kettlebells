@@ -10,6 +10,10 @@ describe('weights display value', () => {
     );
   });
 
+  test('returns one-handed weight as string with pounds', () => {
+    expect(getWeightsDisplayValue(24, 'pounds', 0, null)).toBe('24 lb (1h)');
+  });
+
   test('returns two-handed weight as string', () => {
     expect(getWeightsDisplayValue(24, 'kilograms', null, null)).toBe(
       '24 kg (2h)',
