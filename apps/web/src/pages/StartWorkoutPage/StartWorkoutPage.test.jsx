@@ -30,7 +30,6 @@ describe('start workout page', () => {
     const workoutGoalUnits = screen.getByRole('tab', { name: 'Rounds' });
     await userEvent.click(workoutGoalUnits);
 
-    await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
     const movementInput = screen.getByLabelText('Movement Input');
     await userEvent.type(movementInput, 'Clean and Press');
 
@@ -53,7 +52,6 @@ describe('start workout page', () => {
   });
 
   test('entering a movement name enables start button', async () => {
-    await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
     const movementInput = screen.getByLabelText('Movement Input');
     await userEvent.type(movementInput, 'Clean and Press');
 
@@ -76,14 +74,12 @@ describe('start workout page', () => {
 
   test('can add new movements', async () => {
     await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
-    await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
 
     const movementInputs = screen.getAllByLabelText('Movement Input');
     expect(movementInputs).toHaveLength(2);
   });
 
   test('can remove movements', async () => {
-    await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
     await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
 
     const removeButtons = screen.getAllByRole('button', { name: '- Movement' });
@@ -94,7 +90,6 @@ describe('start workout page', () => {
   });
 
   test('can change movement name', async () => {
-    await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
     const movementInput = screen.getByLabelText('Movement Input');
     await userEvent.type(movementInput, 'Clean and Press');
 
@@ -102,10 +97,6 @@ describe('start workout page', () => {
   });
 
   describe('Weights', () => {
-    beforeEach(async () => {
-      await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
-    });
-
     test('can select "none" for bodyweight movements', async () => {
       await userEvent.click(screen.getByRole('tab', { name: 'None' }));
       await userEvent.type(screen.getByLabelText('Movement Input'), 'Pushups');
@@ -193,7 +184,6 @@ describe('start workout page', () => {
 
   describe('Rep Scheme', () => {
     beforeEach(async () => {
-      await userEvent.click(screen.getByRole('button', { name: '+ Movement' }));
       await userEvent.type(
         screen.getByLabelText('Movement Input'),
         'Test Movement',

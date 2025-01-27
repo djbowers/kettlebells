@@ -13,7 +13,7 @@ export const DEFAULT_MOVEMENT_OPTIONS: MovementOptions = {
 
 export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
   intervalTimer: 0,
-  movements: [],
+  movements: [{ ...DEFAULT_MOVEMENT_OPTIONS }],
   restTimer: 0,
   workoutDetails: null,
   workoutGoal: 10,
