@@ -8,7 +8,6 @@ import { Input } from '~/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { DEFAULT_MOVEMENT_OPTIONS, useWorkoutOptions } from '~/contexts';
 import {
-  MovementLog,
   MovementOptions,
   WeightUnit,
   WorkoutGoalUnits,
