@@ -18,6 +18,7 @@ import {
   ModifyCountButtons,
   ModifyWorkoutButtons,
   Section,
+  WeightUnitTabs,
 } from './components';
 
 const DEFAULT_INTERVAL_TIMER: number = 30; // seconds
@@ -132,6 +133,13 @@ export const StartWorkoutPage = () => {
       ),
     );
 
+  const handleChangeWeightOneUnit = (index: number, value: WeightUnit) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index ? { ...movement, weightOneUnit: value } : movement,
+      ),
+    );
+
   const handleChangeWeightTwoValue = (index: number, value: number) =>
     setMovements((prev) =>
       prev.map((movement, i) =>
@@ -141,6 +149,13 @@ export const StartWorkoutPage = () => {
               weightTwoValue: Math.max(1, value),
             }
           : movement,
+      ),
+    );
+
+  const handleChangeWeightTwoUnit = (index: number, value: WeightUnit) =>
+    setMovements((prev) =>
+      prev.map((movement, i) =>
+        i === index ? { ...movement, weightTwoUnit: value } : movement,
       ),
     );
 
@@ -254,7 +269,7 @@ export const StartWorkoutPage = () => {
             onClickMinus={handleDecrementGoalValue}
             onClickPlus={handleIncrementGoalValue}
             onChange={setWorkoutGoal}
-            text={workoutGoalUnits}
+            unit={workoutGoalUnits}
             value={workoutGoal}
           />
         </Section>
@@ -341,7 +356,7 @@ export const StartWorkoutPage = () => {
             <ModifyCountButtons
               onClickMinus={handleDecrementInterval}
               onClickPlus={handleIncrementInterval}
-              text="sec"
+              unit="sec"
               value={intervalTimer}
               onChange={setIntervalTimer}
             />
@@ -368,7 +383,7 @@ export const StartWorkoutPage = () => {
             <ModifyCountButtons
               onClickMinus={handleDecrementRest}
               onClickPlus={handleIncrementRest}
-              text="sec"
+              unit="sec"
               value={restTimer}
               onChange={setRestTimer}
             />
@@ -449,12 +464,14 @@ export const StartWorkoutPage = () => {
                       movement.weightOneValue! + 1,
                     )
                   }
-                  text={
-                    movement.weightOneUnit === 'kilograms'
-                      ? 'kg'
-                      : movement.weightOneUnit === 'pounds'
-                      ? 'lbs'
-                      : ''
+                  unit={getWeightUnitLabel(movement.weightOneUnit)}
+                  unitTabs={
+                    <WeightUnitTabs
+                      value={movement.weightOneUnit}
+                      onChange={(value) =>
+                        handleChangeWeightOneUnit(index, value)
+                      }
+                    />
                   }
                   value={movement.weightOneValue}
                   onChange={(value) =>
@@ -477,12 +494,14 @@ export const StartWorkoutPage = () => {
                         movement.weightTwoValue! + 1,
                       )
                     }
-                    text={
-                      movement.weightTwoUnit === 'kilograms'
-                        ? 'kg'
-                        : movement.weightTwoUnit === 'pounds'
-                        ? 'lbs'
-                        : ''
+                    unit={getWeightUnitLabel(movement.weightTwoUnit)}
+                    unitTabs={
+                      <WeightUnitTabs
+                        value={movement.weightTwoUnit}
+                        onChange={(value) =>
+                          handleChangeWeightTwoUnit(index, value)
+                        }
+                      />
                     }
                     value={movement.weightTwoValue}
                     onChange={(value) =>
@@ -523,7 +542,7 @@ export const StartWorkoutPage = () => {
                       movement.repScheme[rungIndex] + 1,
                     )
                   }
-                  text="reps"
+                  unit="reps"
                 />
               ))}
             </Section>
@@ -542,4 +561,10 @@ export const StartWorkoutPage = () => {
       )}
     </Page>
   );
+};
+
+const getWeightUnitLabel = (unit: WeightUnit | null) => {
+  if (unit === 'kilograms') return 'kg';
+  if (unit === 'pounds') return 'lb';
+  return '';
 };

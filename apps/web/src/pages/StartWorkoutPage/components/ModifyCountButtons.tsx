@@ -1,4 +1,5 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { ReactNode } from 'react';
 
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
@@ -7,7 +8,8 @@ interface ModifyCountButtonsProps {
   onChange: (value: number) => void;
   onClickMinus: () => void;
   onClickPlus: () => void;
-  text: string;
+  unit: string;
+  unitTabs?: ReactNode;
   value: number;
 }
 
@@ -15,7 +17,8 @@ export const ModifyCountButtons = ({
   onChange,
   onClickMinus,
   onClickPlus,
-  text,
+  unit,
+  unitTabs,
   value,
 }: ModifyCountButtonsProps) => {
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -24,7 +27,7 @@ export const ModifyCountButtons = ({
   return (
     <div className="grid grid-cols-3 gap-5">
       <div className="flex items-center justify-end">
-        <Button size="icon" onClick={onClickMinus} aria-label={`- ${text}`}>
+        <Button size="icon" onClick={onClickMinus} aria-label={`- ${unit}`}>
           <MinusIcon className="h-2.5 w-2.5" />
         </Button>
       </div>
@@ -35,10 +38,12 @@ export const ModifyCountButtons = ({
           className="text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           type="number"
         />
-        <div className="text-foreground text-center text-sm">{text}</div>
+        {unitTabs ?? (
+          <div className="text-foreground text-center text-sm">{unit}</div>
+        )}
       </div>
       <div className="flex items-center justify-start">
-        <Button size="icon" onClick={onClickPlus} aria-label={`+ ${text}`}>
+        <Button size="icon" onClick={onClickPlus} aria-label={`+ ${unit}`}>
           <PlusIcon className="h-2.5 w-2.5" />
         </Button>
       </div>

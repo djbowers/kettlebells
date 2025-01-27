@@ -180,6 +180,29 @@ describe('start workout page', () => {
         startedAt,
       });
     });
+
+    test('can change weight unit', async () => {
+      await userEvent.click(screen.getByRole('tab', { name: 'lb' }));
+      await userEvent.click(screen.getByLabelText('- lb'));
+      await userEvent.type(
+        screen.getByLabelText('Movement Input'),
+        '1H Club Mill',
+      );
+      await userEvent.click(screen.getByRole('button', { name: /Start/i }));
+
+      expect(startWorkout).toHaveBeenCalledWith({
+        ...DEFAULT_WORKOUT_OPTIONS,
+        movements: [
+          {
+            ...DEFAULT_MOVEMENT_OPTIONS,
+            movementName: '1H Club Mill',
+            weightOneValue: 15,
+            weightOneUnit: 'pounds',
+          },
+        ],
+        startedAt,
+      });
+    });
   });
 
   describe('Rep Scheme', () => {
