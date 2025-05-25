@@ -1,9 +1,0 @@
-{
-  "name": "tailwind-config",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "main": "./tailwind.config.js",
-  "module": "./tailwind.config.js",
-  "typings": "./tailwind.config.js"
-}
