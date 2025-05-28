@@ -14,19 +14,19 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
     <RadioGroup
       value={rpeValue}
       onChange={onSelectRPE}
-      className="bg-accent text-accent-foreground flex flex-col gap-2 rounded-xl p-2"
+      className="flex flex-col gap-2 bg-accent p-2 text-accent-foreground"
     >
-      <RadioGroup.Label className="text-muted-foreground text-sm font-medium">
+      <RadioGroup.Label className="text-sm font-medium text-muted-foreground">
         Exertion Rating
       </RadioGroup.Label>
 
       <RadioGroup.Description as="div" className="flex flex-col gap-1">
-        <div className="text-foreground text-center text-sm font-medium">
+        <div className="text-center text-sm font-medium text-foreground">
           How difficult was your workout?
         </div>
 
         {rpeValue && (
-          <div className="text-foreground text-center text-sm">
+          <div className="text-center text-sm text-foreground">
             {RPE_CONFIG[rpeValue].description} <RpeBadge rpeValue={rpeValue} />
           </div>
         )}
@@ -53,15 +53,15 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
         <div className="flex flex-col items-center justify-center gap-1">
           <div
             className={clsx(
-              'h-2.5 w-2.5 rounded-full hover:cursor-pointer hover:ring',
+              'h-2.5 w-2.5 hover:cursor-pointer hover:ring',
               RPE_CONFIG[rpeValue].bgColor,
               RPE_CONFIG[rpeValue].ringColor,
-              'ring-offset-accent ring-offset-4',
+              'ring-offset-4 ring-offset-accent',
               { ring: checked },
             )}
           />
           <div
-            className={clsx('rounded-xl text-center text-sm font-medium', {
+            className={clsx('text-center text-sm font-medium', {
               'text-foreground': checked,
               'text-muted-foreground': !checked,
             })}
@@ -80,7 +80,7 @@ export const RpeBadge = ({ rpeValue }: { rpeValue: RpeOptions }) => {
       variant="outline"
       className={clsx(
         RPE_CONFIG[rpeValue].bgColor,
-        'text-background border-transparent',
+        'border-transparent text-background',
       )}
     >
       {RPE_CONFIG[rpeValue].text}

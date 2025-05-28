@@ -41,7 +41,7 @@ const WorkoutLogItem = ({ workoutLog }: { workoutLog: WorkoutLog }) => {
 
   return (
     <Link
-      className="hover:bg-accent hover:text-accent-foreground flex justify-between rounded-xl px-2 py-1 hover:cursor-pointer"
+      className="flex justify-between px-2 py-1 hover:cursor-pointer hover:bg-accent hover:text-accent-foreground"
       to={workoutDetailsPath}
     >
       <div>

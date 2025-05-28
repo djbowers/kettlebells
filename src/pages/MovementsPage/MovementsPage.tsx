@@ -21,7 +21,7 @@ export const MovementsPage = () => {
   }
 
   return (
-    <Page title="Movements">
+    <Page title="Movements" width="full">
       <Table>
         <TableHeader>
           <TableRow>

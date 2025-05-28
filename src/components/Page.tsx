@@ -1,14 +1,27 @@
+import clsx from 'clsx';
 import { ReactNode } from 'react';
 
-interface Props {
+interface PageProps {
+  actions?: ReactNode;
   children: ReactNode;
   title?: ReactNode;
-  actions?: ReactNode;
+  width?: 'default' | 'full';
 }
 
-export const Page = ({ children, title = null, actions = null }: Props) => {
+export const Page = ({
+  actions = null,
+  children,
+  title = null,
+  width = 'default',
+}: PageProps) => {
   return (
-    <div className="mx-auto my-2 flex max-w-md flex-col gap-2 rounded-xl px-3 pb-2 pt-1 sm:shadow-lg">
+    <div
+      className={clsx('mx-auto my-2 flex flex-col gap-2 bg-card p-3', {
+        // width
+        'max-w-md': width === 'default',
+        'max-w-4xl': width === 'full',
+      })}
+    >
       {title && <div className="text-xl font-semibold">{title}</div>}
       {children}
       {actions && <div className="flex justify-center">{actions}</div>}

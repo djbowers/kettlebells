@@ -46,7 +46,7 @@ export const CurrentMovement = ({
           <CardTitle>
             <div className="flex h-full flex-col items-center justify-center gap-0.5">
               Round
-              <div className="bg-accent text-accent-foreground relative h-4 w-4 rounded-full">
+              <div className="relative h-4 w-4 bg-accent text-accent-foreground">
                 <div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold"
                   data-testid="current-round"
@@ -61,7 +61,7 @@ export const CurrentMovement = ({
             <div className="text-2xl font-medium">
               {currentMovement.movementName}
             </div>
-            <div className="text-muted-foreground font-medium">
+            <div className="font-medium text-muted-foreground">
               {workoutDetails}
             </div>
           </div>
@@ -94,7 +94,7 @@ export const CurrentMovement = ({
                 <div className="text-3xl" data-testid="left-weight">
                   {Math.round(leftWeightValue)}
                 </div>
-                <div className="text-muted-foreground text-lg">
+                <div className="text-lg text-muted-foreground">
                   {getWeightUnitLabel(leftWeightUnit)}
                 </div>
               </div>
@@ -114,7 +114,7 @@ export const CurrentMovement = ({
                 <div className="text-3xl" data-testid="right-weight">
                   {Math.round(rightWeightValue)}
                 </div>
-                <div className="text-muted-foreground text-lg">
+                <div className="text-lg text-muted-foreground">
                   {getWeightUnitLabel(rightWeightUnit)}
                 </div>
               </div>
