@@ -1,43 +1,120 @@
-import { useMovements } from '~/api';
-import { Loading, Page } from '~/components';
-import { Card, CardHeader, CardTitle } from '~/components/ui/card';
+import { ColumnDef } from '@tanstack/react-table';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '~/components/ui/table';
+  NumberParam,
+  StringParam,
+  useQueryParams,
+  withDefault,
+} from 'use-query-params';
+
+import { useMovements } from '~/api';
+import { Page } from '~/components';
+import { DataTable } from '~/components/ui/data-table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select';
+import { Movement, MuscleGroup } from '~/types';
 
 export const MovementsPage = () => {
-  const { data: movements = [], isLoading } = useMovements({
-    page: 1,
-    limit: 50,
+  const [queryParams, setQueryParams] = useQueryParams({
+    page: withDefault(NumberParam, 1),
+    muscleGroup: withDefault(StringParam, 'All'),
   });
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  const page = queryParams.page ?? 1;
+  const muscleGroup = queryParams.muscleGroup ?? 'All';
+
+  const { data, isLoading } = useMovements({
+    page,
+    limit: PAGE_SIZE,
+    where: {
+      muscleGroup:
+        muscleGroup === 'All' ? undefined : (muscleGroup as MuscleGroup),
+    },
+  });
+
+  const movements = data?.movements ?? [];
+  const rowCount = data?.count ?? 0;
+  const hasNextPage = data?.hasNextPage ?? false;
+  const hasPreviousPage = data?.hasPreviousPage ?? false;
+
+  const handleNextPage = () => setQueryParams({ page: page + 1 });
+  const handlePreviousPage = () => setQueryParams({ page: page - 1 });
+  const handleFirstPage = () => setQueryParams({ page: 1 });
+  const handleLastPage = () =>
+    setQueryParams({ page: Math.ceil(rowCount / PAGE_SIZE) });
+  const handleMuscleGroupChange = (value: string) => {
+    setQueryParams({ muscleGroup: value, page: 1 });
+  };
 
   return (
     <Page title="Movements" width="full">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Movement</TableHead>
-            <TableHead>Difficulty</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {movements.map((movement) => (
-            <TableRow key={movement.id}>
-              <TableCell>{movement.movementName}</TableCell>
-              <TableCell>{movement.difficultyLevel}</TableCell>
-            </TableRow>
+      <Select value={muscleGroup} onValueChange={handleMuscleGroupChange}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Select muscle group" />
+        </SelectTrigger>
+        <SelectContent>
+          {MUSCLE_GROUPS.map((group) => (
+            <SelectItem key={group} value={group}>
+              {group}
+            </SelectItem>
           ))}
-        </TableBody>
-      </Table>
+        </SelectContent>
+      </Select>
+
+      <DataTable
+        columns={COLUMNS}
+        currentPage={page}
+        data={movements}
+        hasNextPage={hasNextPage}
+        hasPreviousPage={hasPreviousPage}
+        isLoading={isLoading}
+        onClickFirstPage={handleFirstPage}
+        onClickLastPage={handleLastPage}
+        onClickNextPage={handleNextPage}
+        onClickPreviousPage={handlePreviousPage}
+        pageSize={PAGE_SIZE}
+        rowCount={rowCount}
+      />
     </Page>
   );
 };
+
+const COLUMNS: ColumnDef<Movement>[] = [
+  {
+    header: 'Movement',
+    accessorKey: 'movementName',
+  },
+  {
+    header: 'Target Muscle Group',
+    accessorKey: 'targetMuscleGroup',
+  },
+  {
+    header: 'Difficulty',
+    accessorKey: 'difficultyLevel',
+  },
+];
+
+const PAGE_SIZE = 25;
+
+const MUSCLE_GROUPS: (MuscleGroup | 'All')[] = [
+  'All',
+  'Abdominals',
+  'Abductors',
+  'Adductors',
+  'Back',
+  'Calves',
+  'Chest',
+  'Forearms',
+  'Glutes',
+  'Hamstrings',
+  'Hip Flexors',
+  'Quadriceps',
+  'Shins',
+  'Shoulders',
+  'Trapezius',
+  'Triceps',
+];

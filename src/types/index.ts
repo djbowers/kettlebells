@@ -1,6 +1,7 @@
 export * from './movement-log.interface';
 export * from './movement-options.interface';
 export * from './movement.interface';
+export * from './muscle-group.type';
 export * from './rpe-options.type';
 export * from './weight-unit.type';
 export * from './workout-goal-units.type';
