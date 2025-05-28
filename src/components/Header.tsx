@@ -38,9 +38,9 @@ export const Header = () => {
   }
 
   return (
-    <NavigationMenu>
+    <NavigationMenu className="grid grid-cols-1 sm:grid-cols-3">
       <NavigationMenuList>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="mr-auto">
           <NavigationMenuTrigger className="flex items-center gap-1">
             <img
               src="/favicon.svg"
@@ -51,29 +51,25 @@ export const Header = () => {
             <Badge>Beta</Badge>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <div className="p-1">
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <NavLink to="/account">Account</NavLink>
-              </NavigationMenuLink>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <span onClick={handleClickCommunity}>Discord Community</span>
-              </NavigationMenuLink>
-            </div>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <NavLink to="/account">Account</NavLink>
+            </NavigationMenuLink>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <span onClick={handleClickCommunity}>Discord Community</span>
+            </NavigationMenuLink>
             <Separator />
-            <div className="p-1">
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <span onClick={handleSignOut}>Sign Out</span>
-              </NavigationMenuLink>
-            </div>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <span onClick={handleSignOut}>Sign Out</span>
+            </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -86,7 +82,7 @@ export const Header = () => {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <NavLink to="/movements">Movements</NavLink>
+            <NavLink to="/movements">Explore</NavLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
@@ -96,7 +92,12 @@ export const Header = () => {
         </NavigationMenuItem>
       </NavigationMenuList>
 
-      <Button variant="ghost" size="icon" onClick={handleClickLightDarkMode}>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handleClickLightDarkMode}
+        className="ml-auto"
+      >
         <SunIcon />
       </Button>
     </NavigationMenu>
