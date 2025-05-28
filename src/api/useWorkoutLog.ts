@@ -13,7 +13,7 @@ const fetchWorkoutLog = async (id: string): Promise<WorkoutLog> => {
   const { data: workoutLog, error } = await supabase
     .from('workout_logs')
     .select(`*`)
-    .eq('id', id)
+    .eq('id', parseInt(id))
     .maybeSingle();
 
   if (error) {

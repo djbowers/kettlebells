@@ -15,7 +15,7 @@ const fetchMovementLogs = async (
   const { data: movementLogs, error } = await supabase
     .from('movement_logs')
     .select(`*`)
-    .eq('workout_log_id', workoutLogId);
+    .eq('workout_log_id', parseInt(workoutLogId));
 
   if (error) {
     console.error(error);
