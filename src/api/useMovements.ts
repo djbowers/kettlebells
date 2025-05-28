@@ -5,14 +5,28 @@ import { Movement } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
-export const useMovements = () => {
-  return useQuery(QUERIES.MOVEMENTS, fetchMovements);
+interface UseMovementsOptions {
+  page?: number;
+  limit?: number;
+}
+
+export const useMovements = (options: UseMovementsOptions = {}) => {
+  const { page = 1, limit = 25 } = options;
+  
+  return useQuery(
+    [QUERIES.MOVEMENTS, page, limit],
+    () => fetchMovements(page, limit)
+  );
 };
 
-const fetchMovements = async (): Promise<Movement[]> => {
+const fetchMovements = async (page: number, limit: number): Promise<Movement[]> => {
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
   const { data: movements, error } = await supabase
     .from('movements')
-    .select(`*`);
+    .select(`*`)
+    .range(from, to);
 
   if (error) {
     console.error(error);
@@ -20,6 +34,7 @@ const fetchMovements = async (): Promise<Movement[]> => {
   }
 
   return movements.map((movement) => ({
+    id: movement['id'],
     bodyRegion: movement['Body Region'],
     combinationExercises: movement['Combination Exercises'],
     continuousOrAlternatingArms: movement['Continuous or Alternating Arms'],

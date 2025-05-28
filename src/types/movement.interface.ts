@@ -1,6 +1,7 @@
 import { Supabase } from './supabase';
 
 export interface Movement {
+  id: string;
   bodyRegion: Supabase['public']['Enums']['Body Region'] | null;
   combinationExercises: Supabase['public']['Enums']['Combination Exercises'] | null;
   continuousOrAlternatingArms: Supabase['public']['Enums']['Continuous or Alternating'] | null;
