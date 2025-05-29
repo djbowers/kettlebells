@@ -1,3 +1,4 @@
+export * from './equipment.type';
 export * from './movement-log.interface';
 export * from './movement-options.interface';
 export * from './movement.interface';

@@ -1,13 +1,14 @@
 import { useQuery } from 'react-query';
 
 import { QUERIES } from '~/constants';
-import { Movement, MuscleGroup } from '~/types';
+import { Equipment, Movement, MuscleGroup } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
 interface MovementFilters {
-  muscleGroup?: MuscleGroup;
+  equipment?: Equipment;
   movementName?: string;
+  muscleGroup?: MuscleGroup;
 }
 
 interface UseMovementsOptions {
@@ -39,14 +40,17 @@ const fetchMovements = async ({
   const to = from + limit - 1;
 
   let query = supabase.from('movements').select('*', { count: 'exact' });
-
   query = query.order(orderBy, { ascending: order === 'ASC' });
 
-  if (where?.muscleGroup)
-    query = query.eq('Target Muscle Group', where.muscleGroup);
-
-  if (where?.movementName)
+  if (where?.equipment) {
+    query = query.eq('Primary Equipment', where.equipment);
+  }
+  if (where?.movementName) {
     query = query.ilike('Movement', `%${where.movementName}%`);
+  }
+  if (where?.muscleGroup) {
+    query = query.eq('Target Muscle Group', where.muscleGroup);
+  }
 
   // First get the total count
   const { count, error: countError } = await query;
