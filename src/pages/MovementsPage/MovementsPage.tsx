@@ -78,13 +78,13 @@ export const MovementsPage = () => {
   const handleClickLastPage = () => {
     setQueryParams({ page: Math.ceil(rowCount / PAGE_SIZE) });
   };
-  const handleFilterByMuscleGroup = (value: string) => {
+  const handleFilterByMuscleGroup = (value: string | undefined) => {
     setQueryParams({ muscleGroup: value, page: undefined });
   };
-  const handleFilterByEquipment = (value: string) => {
+  const handleFilterByEquipment = (value: string | undefined) => {
     setQueryParams({ equipment: value, page: undefined });
   };
-  const handleFilterByDifficulty = (value: string) => {
+  const handleFilterByDifficulty = (value: string | undefined) => {
     setQueryParams({ difficultyLevel: value, page: undefined });
   };
   const handleSearch = useCallback(
@@ -131,7 +131,7 @@ export const MovementsPage = () => {
           value={queryParams.muscleGroup || ''}
           onValueChange={handleFilterByMuscleGroup}
           showReset={!!queryParams.muscleGroup}
-          onReset={() => handleFilterByMuscleGroup('')}
+          onReset={() => handleFilterByMuscleGroup(undefined)}
         >
           <SelectTrigger>
             <SelectValue placeholder="Muscle Group" />
@@ -149,7 +149,7 @@ export const MovementsPage = () => {
           value={queryParams.equipment || ''}
           onValueChange={handleFilterByEquipment}
           showReset={!!queryParams.equipment}
-          onReset={() => handleFilterByEquipment('')}
+          onReset={() => handleFilterByEquipment(undefined)}
         >
           <SelectTrigger>
             <SelectValue placeholder="Equipment" />
@@ -167,7 +167,7 @@ export const MovementsPage = () => {
           value={queryParams.difficultyLevel || ''}
           onValueChange={handleFilterByDifficulty}
           showReset={!!queryParams.difficultyLevel}
-          onReset={() => handleFilterByDifficulty('')}
+          onReset={() => handleFilterByDifficulty(undefined)}
         >
           <SelectTrigger>
             <SelectValue placeholder="Difficulty" />
