@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
 
 import { QUERIES } from '~/constants';
-import { Equipment, Movement, MuscleGroup } from '~/types';
+import { DifficultyLevel, Equipment, Movement, MuscleGroup } from '~/types';
 
 import { supabase } from '../supabaseClient';
 
 interface MovementFilters {
+  difficultyLevel?: DifficultyLevel;
   equipment?: Equipment;
   movementName?: string;
   muscleGroup?: MuscleGroup;
@@ -42,6 +43,9 @@ const fetchMovements = async ({
   let query = supabase.from('movements').select('*', { count: 'exact' });
   query = query.order(orderBy, { ascending: order === 'ASC' });
 
+  if (where?.difficultyLevel) {
+    query = query.eq('Difficulty Level', where.difficultyLevel);
+  }
   if (where?.equipment) {
     query = query.eq('Primary Equipment', where.equipment);
   }

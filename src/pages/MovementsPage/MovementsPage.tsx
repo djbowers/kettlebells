@@ -20,13 +20,14 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 import { useDebouncedCallback } from '~/hooks/useDebouncedCallback';
-import { Equipment, Movement, MuscleGroup } from '~/types';
+import { DifficultyLevel, Equipment, Movement, MuscleGroup } from '~/types';
 
 export const MovementsPage = () => {
   const [queryParams, setQueryParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     muscleGroup: withDefault(StringParam, 'All'),
     equipment: withDefault(StringParam, 'All'),
+    difficultyLevel: withDefault(StringParam, 'All'),
     orderBy: withDefault(StringParam, 'Movement'),
     order: withDefault(StringParam, 'ASC'),
     search: withDefault(StringParam, ''),
@@ -44,6 +45,10 @@ export const MovementsPage = () => {
     order: queryParams.order as 'ASC' | 'DESC',
     orderBy: queryParams.orderBy,
     where: {
+      difficultyLevel:
+        queryParams.difficultyLevel === 'All'
+          ? undefined
+          : (queryParams.difficultyLevel as DifficultyLevel),
       equipment:
         queryParams.equipment === 'All'
           ? undefined
@@ -79,6 +84,9 @@ export const MovementsPage = () => {
   const handleFilterByEquipment = (value: string) => {
     setQueryParams({ equipment: value, page: 1 });
   };
+  const handleFilterByDifficulty = (value: string) => {
+    setQueryParams({ difficultyLevel: value, page: 1 });
+  };
   const handleSearch = useCallback(
     (value: string) => {
       setSearchInput(value);
@@ -86,7 +94,6 @@ export const MovementsPage = () => {
     },
     [debouncedSetSearch],
   );
-
   const handleSort = (columnId: string) => {
     setQueryParams({
       orderBy: columnId,
@@ -100,52 +107,74 @@ export const MovementsPage = () => {
 
   return (
     <Page title="Movements" width="full">
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-2 flex flex-col gap-2">
         <Input
           className="w-[250px]"
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search movements..."
           value={searchInput}
         />
-        <div className="flex items-center gap-2">
-          <Label htmlFor="muscle-group" size="small">
-            Muscle Group
-          </Label>
-          <Select
-            value={queryParams.muscleGroup}
-            onValueChange={handleFilterByMuscleGroup}
-          >
-            <SelectTrigger id="muscle-group" className="w-[180px]">
-              <SelectValue placeholder="Select muscle group" />
-            </SelectTrigger>
-            <SelectContent>
-              {MUSCLE_GROUPS.map((group) => (
-                <SelectItem key={group} value={group}>
-                  {group}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center gap-2">
-          <Label htmlFor="equipment" size="small">
-            Equipment
-          </Label>
-          <Select
-            value={queryParams.equipment}
-            onValueChange={handleFilterByEquipment}
-          >
-            <SelectTrigger id="equipment" className="w-[180px]">
-              <SelectValue placeholder="Select equipment" />
-            </SelectTrigger>
-            <SelectContent>
-              {EQUIPMENT_TYPES.map((equipment) => (
-                <SelectItem key={equipment} value={equipment}>
-                  {equipment}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="muscle-group" size="small">
+              Muscle Group
+            </Label>
+            <Select
+              value={queryParams.muscleGroup}
+              onValueChange={handleFilterByMuscleGroup}
+            >
+              <SelectTrigger id="muscle-group" className="w-[180px]">
+                <SelectValue placeholder="Select muscle group" />
+              </SelectTrigger>
+              <SelectContent>
+                {MUSCLE_GROUPS.map((group) => (
+                  <SelectItem key={group} value={group}>
+                    {group}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="equipment" size="small">
+              Equipment
+            </Label>
+            <Select
+              value={queryParams.equipment}
+              onValueChange={handleFilterByEquipment}
+            >
+              <SelectTrigger id="equipment" className="w-[180px]">
+                <SelectValue placeholder="Select equipment" />
+              </SelectTrigger>
+              <SelectContent>
+                {EQUIPMENT_TYPES.map((equipment) => (
+                  <SelectItem key={equipment} value={equipment}>
+                    {equipment}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="difficulty" size="small">
+              Difficulty
+            </Label>
+            <Select
+              value={queryParams.difficultyLevel}
+              onValueChange={handleFilterByDifficulty}
+            >
+              <SelectTrigger id="difficulty" className="w-[180px]">
+                <SelectValue placeholder="Select difficulty" />
+              </SelectTrigger>
+              <SelectContent>
+                {DIFFICULTY_LEVELS.map((level) => (
+                  <SelectItem key={level} value={level}>
+                    {level}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
@@ -182,6 +211,11 @@ const COLUMNS: ColumnDef<Movement>[] = [
     id: 'Target Muscle Group',
   },
   {
+    header: 'Equipment',
+    accessorKey: 'primaryEquipment',
+    id: 'Primary Equipment',
+  },
+  {
     header: 'Difficulty',
     accessorKey: 'difficultyLevel',
     id: 'Difficulty Level',
@@ -207,6 +241,18 @@ const MUSCLE_GROUPS: (MuscleGroup | 'All')[] = [
   'Shoulders',
   'Trapezius',
   'Triceps',
+];
+
+const DIFFICULTY_LEVELS: (DifficultyLevel | 'All')[] = [
+  'All',
+  'Novice',
+  'Beginner',
+  'Intermediate',
+  'Advanced',
+  'Expert',
+  'Master',
+  'Grand Master',
+  'Legendary',
 ];
 
 const EQUIPMENT_TYPES: (Equipment | 'All')[] = [
