@@ -7,6 +7,7 @@ import { supabase } from '../supabaseClient';
 
 interface MovementFilters {
   muscleGroup?: MuscleGroup;
+  movementName?: string;
 }
 
 interface UseMovementsOptions {
@@ -43,6 +44,9 @@ const fetchMovements = async ({
 
   if (where?.muscleGroup)
     query = query.eq('Target Muscle Group', where.muscleGroup);
+
+  if (where?.movementName)
+    query = query.ilike('Movement', `%${where.movementName}%`);
 
   // First get the total count
   const { count, error: countError } = await query;

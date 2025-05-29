@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { useCallback, useEffect, useState } from 'react';
 import {
   NumberParam,
   StringParam,
@@ -9,6 +10,7 @@ import {
 import { useMovements } from '~/api';
 import { Page } from '~/components';
 import { DataTable } from '~/components/ui/data-table';
+import { Input } from '~/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -16,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/select';
+import { useDebouncedCallback } from '~/hooks/useDebouncedCallback';
 import { Movement, MuscleGroup } from '~/types';
 
 export const MovementsPage = () => {
@@ -24,6 +27,13 @@ export const MovementsPage = () => {
     muscleGroup: withDefault(StringParam, 'All'),
     orderBy: withDefault(StringParam, 'Movement'),
     order: withDefault(StringParam, 'ASC'),
+    search: withDefault(StringParam, ''),
+  });
+
+  const [searchInput, setSearchInput] = useState(queryParams.search);
+
+  const debouncedSetSearch = useDebouncedCallback((value: string) => {
+    setQueryParams({ search: value, page: 1 });
   });
 
   const { data, isLoading } = useMovements({
@@ -36,6 +46,7 @@ export const MovementsPage = () => {
         queryParams.muscleGroup === 'All'
           ? undefined
           : (queryParams.muscleGroup as MuscleGroup),
+      movementName: queryParams.search,
     },
   });
 
@@ -59,6 +70,13 @@ export const MovementsPage = () => {
   const handleFilterByMuscleGroup = (value: string) => {
     setQueryParams({ muscleGroup: value, page: 1 });
   };
+  const handleSearch = useCallback(
+    (value: string) => {
+      setSearchInput(value);
+      debouncedSetSearch(value);
+    },
+    [debouncedSetSearch],
+  );
 
   const handleSort = (columnId: string) => {
     setQueryParams({
@@ -73,21 +91,29 @@ export const MovementsPage = () => {
 
   return (
     <Page title="Movements" width="full">
-      <Select
-        value={queryParams.muscleGroup}
-        onValueChange={handleFilterByMuscleGroup}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select muscle group" />
-        </SelectTrigger>
-        <SelectContent>
-          {MUSCLE_GROUPS.map((group) => (
-            <SelectItem key={group} value={group}>
-              {group}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="mb-4 flex gap-4">
+        <Input
+          className="w-[250px]"
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search movements..."
+          value={searchInput}
+        />
+        <Select
+          value={queryParams.muscleGroup}
+          onValueChange={handleFilterByMuscleGroup}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select muscle group" />
+          </SelectTrigger>
+          <SelectContent>
+            {MUSCLE_GROUPS.map((group) => (
+              <SelectItem key={group} value={group}>
+                {group}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <DataTable
         columns={COLUMNS}
