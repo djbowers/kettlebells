@@ -16,11 +16,14 @@ export const Page = ({
 }: PageProps) => {
   return (
     <div
-      className={clsx('mx-auto my-2 flex flex-col gap-2 bg-card p-3', {
-        // width
-        'max-w-md': width === 'default',
-        'max-w-4xl': width === 'full',
-      })}
+      className={clsx(
+        'mx-auto my-2 flex min-w-[390px] flex-col gap-2 bg-card p-3',
+        {
+          // width
+          'max-w-md': width === 'default',
+          'max-w-4xl': width === 'full',
+        },
+      )}
     >
       {title && <div className="text-xl font-semibold">{title}</div>}
       {children}

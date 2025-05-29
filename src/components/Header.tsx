@@ -72,6 +72,15 @@ export const Header = () => {
             </NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        <Button
+          className="ml-auto block sm:hidden"
+          onClick={handleClickLightDarkMode}
+          size="icon"
+          variant="ghost"
+        >
+          <SunIcon />
+        </Button>
       </NavigationMenuList>
 
       <NavigationMenuList>
@@ -93,10 +102,10 @@ export const Header = () => {
       </NavigationMenuList>
 
       <Button
-        variant="ghost"
-        size="icon"
+        className="ml-auto hidden sm:block"
         onClick={handleClickLightDarkMode}
-        className="ml-auto"
+        size="icon"
+        variant="ghost"
       >
         <SunIcon />
       </Button>
