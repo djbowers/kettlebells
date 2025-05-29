@@ -24,7 +24,7 @@ const updateWorkoutLog = async (
   const { error } = await supabase
     .from('workout_logs')
     .update({ rpe: selectedRpe })
-    .eq('id', workoutLogId);
+    .eq('id', parseInt(workoutLogId));
 
   if (error) {
     console.error(error);

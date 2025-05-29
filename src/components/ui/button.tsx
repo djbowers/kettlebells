@@ -7,7 +7,7 @@ import { cn } from '~/lib/utils';
 import { Loading } from '../Loading';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center rounded-md justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -23,9 +23,9 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        sm: 'py-0.5 px-1 text-xs',
-        default: 'py-1 px-2 text-sm',
-        lg: 'py-1.5 px-3 text-xl',
+        sm: 'h-3 px-1 text-xs',
+        default: 'h-4 px-2 text-sm',
+        lg: 'h-5 px-3 text-xl',
         icon: 'h-4 w-4',
       },
     },

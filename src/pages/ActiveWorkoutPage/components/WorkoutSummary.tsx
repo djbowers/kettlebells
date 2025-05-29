@@ -52,7 +52,7 @@ export const WorkoutSummary = ({
 
   return (
     <Card
-      className="bg-accent border-transparent"
+      className="border-transparent bg-accent"
       data-testid="completed-section"
     >
       <CardHeader className="text-center">
@@ -109,10 +109,10 @@ const CompletedItem = ({
       align === 'right' && 'items-end',
     )}
   >
-    <div className="text-muted-foreground text-sm">{label}</div>
+    <div className="text-sm text-muted-foreground">{label}</div>
     <div className="text-lg font-semibold">
       {value}{' '}
-      <span className="text-muted-foreground text-sm font-medium">{unit}</span>
+      <span className="text-sm font-medium text-muted-foreground">{unit}</span>
     </div>
   </div>
 );

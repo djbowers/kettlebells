@@ -18,7 +18,7 @@ const deleteWorkoutLog = async (workoutLogId: string) => {
   const { data: workoutLogs, error } = await supabase
     .from('workout_logs')
     .delete()
-    .eq('id', workoutLogId)
+    .eq('id', parseInt(workoutLogId))
     .select();
 
   if (error) {

@@ -126,10 +126,10 @@ export const ActiveWorkoutPage = ({
   const currentTotalWeight =
     (primaryWeightUnit === 'pounds'
       ? (primaryWeightValue ?? 0) * LB_TO_KG
-      : primaryWeightValue ?? 0) +
+      : (primaryWeightValue ?? 0)) +
     (secondaryWeightUnit === 'pounds'
       ? (secondaryWeightValue ?? 0) * LB_TO_KG
-      : secondaryWeightValue ?? 0);
+      : (secondaryWeightValue ?? 0));
 
   const isOneHanded =
     primaryWeightValue !== null &&
@@ -152,8 +152,8 @@ export const ActiveWorkoutPage = ({
     primaryWeightSide === 'left'
       ? primaryWeightValue
       : isOneHanded
-      ? null
-      : secondaryWeightValue;
+        ? null
+        : secondaryWeightValue;
 
   const rightWeightUnit =
     primaryWeightSide === 'right' ? primaryWeightUnit : secondaryWeightUnit;
@@ -162,8 +162,8 @@ export const ActiveWorkoutPage = ({
     primaryWeightSide === 'right'
       ? primaryWeightValue
       : isOneHanded
-      ? null
-      : secondaryWeightValue;
+        ? null
+        : secondaryWeightValue;
 
   // Rungs
   const currentMovementRungs = currentMovement.repScheme.length;

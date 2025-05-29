@@ -38,66 +38,77 @@ export const Header = () => {
   }
 
   return (
-    <div className="bg-background border-border flex items-center justify-between border-b p-1 shadow">
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex items-center gap-1">
-              <img
-                src="/favicon.svg"
-                alt="BellSkill Logo"
-                className="h-2.5 w-2.5"
-              />
-              <h1 className="text-lg font-medium">BellSkill</h1>
-              <Badge>Beta</Badge>
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <div className="p-1">
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <NavLink to="/">Start Workout</NavLink>
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <NavLink to="/history">Workout History</NavLink>
-                </NavigationMenuLink>
-              </div>
-              <Separator />
-              <div className="p-1">
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <NavLink to="/account">Account</NavLink>
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <span onClick={handleClickCommunity}>Discord Community</span>
-                </NavigationMenuLink>
-              </div>
-              <Separator />
-              <div className="p-1">
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <span onClick={handleSignOut}>Sign Out</span>
-                </NavigationMenuLink>
-              </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+    <NavigationMenu className="grid grid-cols-1 sm:grid-cols-3">
+      <NavigationMenuList>
+        <NavigationMenuItem className="mr-auto">
+          <NavigationMenuTrigger className="flex items-center gap-1">
+            <img
+              src="/favicon.svg"
+              alt="BellSkill Logo"
+              className="h-2.5 w-2.5"
+            />
+            <h1 className="text-lg font-medium">BellSkill</h1>
+            <Badge>Beta</Badge>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <NavLink to="/account">Account</NavLink>
+            </NavigationMenuLink>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <span onClick={handleClickCommunity}>Discord Community</span>
+            </NavigationMenuLink>
+            <Separator />
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <span onClick={handleSignOut}>Sign Out</span>
+            </NavigationMenuLink>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
 
-      <Button variant="ghost" size="icon" onClick={handleClickLightDarkMode}>
+        <Button
+          className="ml-auto block sm:hidden"
+          onClick={handleClickLightDarkMode}
+          size="icon"
+          variant="ghost"
+        >
+          <SunIcon />
+        </Button>
+      </NavigationMenuList>
+
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <NavLink to="/">Start</NavLink>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <NavLink to="/movements">Explore</NavLink>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <NavLink to="/history">History</NavLink>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+
+      <Button
+        className="ml-auto hidden sm:block"
+        onClick={handleClickLightDarkMode}
+        size="icon"
+        variant="ghost"
+      >
         <SunIcon />
       </Button>
-    </div>
+    </NavigationMenu>
   );
 };

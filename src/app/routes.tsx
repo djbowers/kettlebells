@@ -5,6 +5,7 @@ import {
   ActiveWorkoutPage,
   CompletedWorkoutPage,
   HistoryPage,
+  MovementsPage,
   StartWorkoutPage,
 } from '../pages';
 import { Root } from './Root';
@@ -33,6 +34,10 @@ export const routes: RouteObject[] = [
       {
         path: 'history/:id',
         element: <CompletedWorkoutPage />,
+      },
+      {
+        path: 'movements',
+        element: <MovementsPage />,
       },
     ],
   },

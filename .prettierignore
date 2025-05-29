@@ -3,3 +3,4 @@ build
 coverage
 .expo
 storybook.requires.js
+types/supabase.ts
