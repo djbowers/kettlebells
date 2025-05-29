@@ -46,7 +46,7 @@ export const CurrentMovement = ({
           <CardTitle>
             <div className="flex h-full flex-col items-center justify-center gap-0.5">
               Round
-              <div className="relative h-4 w-4 bg-accent text-accent-foreground">
+              <div className="relative h-4 w-4 rounded-md bg-accent text-accent-foreground">
                 <div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold"
                   data-testid="current-round"

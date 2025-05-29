@@ -14,7 +14,7 @@ export const RPESelector = ({ onSelectRPE, rpeValue }: RPESelectorProps) => {
     <RadioGroup
       value={rpeValue}
       onChange={onSelectRPE}
-      className="flex flex-col gap-2 bg-accent p-2 text-accent-foreground"
+      className="flex flex-col gap-2 rounded-md bg-accent p-2 text-accent-foreground"
     >
       <RadioGroup.Label className="text-sm font-medium text-muted-foreground">
         Exertion Rating
@@ -53,7 +53,7 @@ const Option = ({ rpeValue }: { rpeValue: string }) => {
         <div className="flex flex-col items-center justify-center gap-1">
           <div
             className={clsx(
-              'h-2.5 w-2.5 hover:cursor-pointer hover:ring',
+              'h-2.5 w-2.5 rounded-full hover:cursor-pointer hover:ring',
               RPE_CONFIG[rpeValue].bgColor,
               RPE_CONFIG[rpeValue].ringColor,
               'ring-offset-4 ring-offset-accent',

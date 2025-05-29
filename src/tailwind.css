@@ -36,7 +36,7 @@
     --chart-3: 232 65% 40%;
     --chart-4: 172 65% 40%;
     --chart-5: 322 65% 40%;
-    --radius: 0rem;
+    --radius: 0.5rem;
 
     /* custom add-ons */
     --status-warning: 27 96% 61%;

@@ -18,13 +18,16 @@ export const ProgressBar = ({
 }: ProgressBarProps) => {
   return (
     <div
-      className={clsx('relative flex w-full bg-accent text-accent-foreground', {
-        'h-5': size === 'default',
-        'h-6': size === 'large',
-      })}
+      className={clsx(
+        'relative flex w-full rounded-md bg-accent text-accent-foreground',
+        {
+          'h-5': size === 'default',
+          'h-6': size === 'large',
+        },
+      )}
     >
       <div
-        className={clsx({
+        className={clsx('rounded-md', {
           // Color
           'bg-status-success': color === 'success',
           'bg-status-warning': color === 'warning',
