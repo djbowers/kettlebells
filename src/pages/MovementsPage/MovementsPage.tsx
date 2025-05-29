@@ -1,3 +1,4 @@
+import { Cross1Icon, Cross2Icon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
 import { useCallback, useState } from 'react';
 import {
@@ -9,9 +10,9 @@ import {
 
 import { useMovements } from '~/api';
 import { Page } from '~/components';
+import { Button } from '~/components/ui/button';
 import { DataTable } from '~/components/ui/data-table';
 import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -25,18 +26,26 @@ import { DifficultyLevel, Equipment, Movement, MuscleGroup } from '~/types';
 export const MovementsPage = () => {
   const [queryParams, setQueryParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
-    muscleGroup: withDefault(StringParam, 'All'),
-    equipment: withDefault(StringParam, 'All'),
-    difficultyLevel: withDefault(StringParam, 'All'),
+    muscleGroup: withDefault(StringParam, undefined),
+    equipment: withDefault(StringParam, undefined),
+    difficultyLevel: withDefault(StringParam, undefined),
     orderBy: withDefault(StringParam, 'Movement'),
     order: withDefault(StringParam, 'ASC'),
-    search: withDefault(StringParam, ''),
+    search: withDefault(StringParam, undefined),
   });
 
   const [searchInput, setSearchInput] = useState(queryParams.search);
 
+  const hasActiveFilters =
+    queryParams.muscleGroup !== undefined ||
+    queryParams.equipment !== undefined ||
+    queryParams.difficultyLevel !== undefined ||
+    queryParams.search !== undefined ||
+    queryParams.orderBy !== 'Movement' ||
+    queryParams.order !== 'ASC';
+
   const debouncedSetSearch = useDebouncedCallback((value: string) => {
-    setQueryParams({ search: value, page: 1 });
+    setQueryParams({ search: value || undefined, page: undefined });
   });
 
   const { data, isLoading } = useMovements({
@@ -45,19 +54,10 @@ export const MovementsPage = () => {
     order: queryParams.order as 'ASC' | 'DESC',
     orderBy: queryParams.orderBy,
     where: {
-      difficultyLevel:
-        queryParams.difficultyLevel === 'All'
-          ? undefined
-          : (queryParams.difficultyLevel as DifficultyLevel),
-      equipment:
-        queryParams.equipment === 'All'
-          ? undefined
-          : (queryParams.equipment as Equipment),
+      difficultyLevel: queryParams.difficultyLevel as DifficultyLevel,
+      equipment: queryParams.equipment as Equipment,
       movementName: queryParams.search,
-      muscleGroup:
-        queryParams.muscleGroup === 'All'
-          ? undefined
-          : (queryParams.muscleGroup as MuscleGroup),
+      muscleGroup: queryParams.muscleGroup as MuscleGroup,
     },
   });
 
@@ -79,13 +79,13 @@ export const MovementsPage = () => {
     setQueryParams({ page: Math.ceil(rowCount / PAGE_SIZE) });
   };
   const handleFilterByMuscleGroup = (value: string) => {
-    setQueryParams({ muscleGroup: value, page: 1 });
+    setQueryParams({ muscleGroup: value, page: undefined });
   };
   const handleFilterByEquipment = (value: string) => {
-    setQueryParams({ equipment: value, page: 1 });
+    setQueryParams({ equipment: value, page: undefined });
   };
   const handleFilterByDifficulty = (value: string) => {
-    setQueryParams({ difficultyLevel: value, page: 1 });
+    setQueryParams({ difficultyLevel: value, page: undefined });
   };
   const handleSearch = useCallback(
     (value: string) => {
@@ -101,81 +101,91 @@ export const MovementsPage = () => {
         queryParams.orderBy === columnId && queryParams.order === 'ASC'
           ? 'DESC'
           : 'ASC',
-      page: 1,
+      page: undefined,
     });
+  };
+
+  const handleResetFilters = () => {
+    setQueryParams({
+      difficultyLevel: undefined,
+      equipment: undefined,
+      muscleGroup: undefined,
+      order: undefined,
+      orderBy: undefined,
+      page: undefined,
+      search: undefined,
+    });
+    setSearchInput('');
   };
 
   return (
     <Page title="Movements" width="full">
-      <div className="mb-2 flex flex-col gap-2">
+      <div className="mb-2 flex items-center gap-2">
         <Input
-          className="w-[250px]"
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search movements..."
           value={searchInput}
         />
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="muscle-group" size="small">
-              Muscle Group
-            </Label>
-            <Select
-              value={queryParams.muscleGroup}
-              onValueChange={handleFilterByMuscleGroup}
-            >
-              <SelectTrigger id="muscle-group" className="w-[180px]">
-                <SelectValue placeholder="Select muscle group" />
-              </SelectTrigger>
-              <SelectContent>
-                {MUSCLE_GROUPS.map((group) => (
-                  <SelectItem key={group} value={group}>
-                    {group}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="equipment" size="small">
-              Equipment
-            </Label>
-            <Select
-              value={queryParams.equipment}
-              onValueChange={handleFilterByEquipment}
-            >
-              <SelectTrigger id="equipment" className="w-[180px]">
-                <SelectValue placeholder="Select equipment" />
-              </SelectTrigger>
-              <SelectContent>
-                {EQUIPMENT_TYPES.map((equipment) => (
-                  <SelectItem key={equipment} value={equipment}>
-                    {equipment}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="difficulty" size="small">
-              Difficulty
-            </Label>
-            <Select
-              value={queryParams.difficultyLevel}
-              onValueChange={handleFilterByDifficulty}
-            >
-              <SelectTrigger id="difficulty" className="w-[180px]">
-                <SelectValue placeholder="Select difficulty" />
-              </SelectTrigger>
-              <SelectContent>
-                {DIFFICULTY_LEVELS.map((level) => (
-                  <SelectItem key={level} value={level}>
-                    {level}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+
+        <Select
+          value={queryParams.muscleGroup || ''}
+          onValueChange={handleFilterByMuscleGroup}
+          showReset={!!queryParams.muscleGroup}
+          onReset={() => handleFilterByMuscleGroup('')}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Muscle Group" />
+          </SelectTrigger>
+          <SelectContent>
+            {MUSCLE_GROUPS.map((group) => (
+              <SelectItem key={group} value={group}>
+                {group}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
+          value={queryParams.equipment || ''}
+          onValueChange={handleFilterByEquipment}
+          showReset={!!queryParams.equipment}
+          onReset={() => handleFilterByEquipment('')}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Equipment" />
+          </SelectTrigger>
+          <SelectContent>
+            {EQUIPMENT_TYPES.map((equipment) => (
+              <SelectItem key={equipment} value={equipment}>
+                {equipment}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
+          value={queryParams.difficultyLevel || ''}
+          onValueChange={handleFilterByDifficulty}
+          showReset={!!queryParams.difficultyLevel}
+          onReset={() => handleFilterByDifficulty('')}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Difficulty" />
+          </SelectTrigger>
+          <SelectContent>
+            {DIFFICULTY_LEVELS.map((level) => (
+              <SelectItem key={level} value={level}>
+                {level}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {hasActiveFilters && (
+          <Button variant="ghost" onClick={handleResetFilters}>
+            Reset Filters
+          </Button>
+        )}
       </div>
 
       <DataTable
@@ -224,8 +234,7 @@ const COLUMNS: ColumnDef<Movement>[] = [
 
 const PAGE_SIZE = 25;
 
-const MUSCLE_GROUPS: (MuscleGroup | 'All')[] = [
-  'All',
+const MUSCLE_GROUPS: MuscleGroup[] = [
   'Abdominals',
   'Abductors',
   'Adductors',
@@ -243,8 +252,7 @@ const MUSCLE_GROUPS: (MuscleGroup | 'All')[] = [
   'Triceps',
 ];
 
-const DIFFICULTY_LEVELS: (DifficultyLevel | 'All')[] = [
-  'All',
+const DIFFICULTY_LEVELS: DifficultyLevel[] = [
   'Novice',
   'Beginner',
   'Intermediate',
@@ -255,8 +263,7 @@ const DIFFICULTY_LEVELS: (DifficultyLevel | 'All')[] = [
   'Legendary',
 ];
 
-const EQUIPMENT_TYPES: (Equipment | 'All')[] = [
-  'All',
+const EQUIPMENT_TYPES: Equipment[] = [
   'Ab Wheel',
   'Barbell',
   'Battle Ropes',

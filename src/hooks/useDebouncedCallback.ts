@@ -8,13 +8,11 @@ export function useDebouncedCallback<T>(
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (value !== undefined) {
-        callback(value);
-      }
+      if (value !== undefined) callback(value);
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [value, callback, delay]);
+  }, [value]);
 
   return setValue;
 }

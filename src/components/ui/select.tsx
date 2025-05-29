@@ -2,13 +2,34 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  Cross2Icon,
 } from '@radix-ui/react-icons';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
 
 import { cn } from '~/lib/utils';
 
-const Select = SelectPrimitive.Root;
+import { Button } from './button';
+
+const Select = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & {
+    showReset?: boolean;
+    onReset?: () => void;
+  }
+>(({ showReset, onReset, children, ...props }, _) => {
+  return (
+    <div className="flex w-full items-center gap-0.5">
+      <SelectPrimitive.Root {...props}>{children}</SelectPrimitive.Root>
+      {showReset && onReset && (
+        <Button variant="outline" size="icon" onClick={onReset}>
+          <Cross2Icon className="h-2.5 w-2.5" />
+        </Button>
+      )}
+    </div>
+  );
+});
+Select.displayName = SelectPrimitive.Root.displayName;
 
 const SelectGroup = SelectPrimitive.Group;
 
