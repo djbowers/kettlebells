@@ -12,6 +12,8 @@ interface MovementFilters {
 interface UseMovementsOptions {
   page?: number;
   limit?: number;
+  order?: 'ASC' | 'DESC';
+  orderBy?: string;
   where?: MovementFilters;
 }
 
@@ -22,27 +24,25 @@ interface MovementsResponse {
   hasPreviousPage: boolean;
 }
 
-export const useMovements = (options: UseMovementsOptions = {}) => {
-  const { page = 1, limit = 25, where } = options;
+export const useMovements = (options: UseMovementsOptions = {}) =>
+  useQuery([QUERIES.MOVEMENTS, options], () => fetchMovements(options));
 
-  return useQuery([QUERIES.MOVEMENTS, page, limit, where], () =>
-    fetchMovements(page, limit, where),
-  );
-};
-
-const fetchMovements = async (
-  page: number,
-  limit: number,
-  where?: MovementFilters,
-): Promise<MovementsResponse> => {
+const fetchMovements = async ({
+  page = 1,
+  limit = 25,
+  order = 'ASC',
+  orderBy = 'Movement',
+  where,
+}: UseMovementsOptions): Promise<MovementsResponse> => {
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
   let query = supabase.from('movements').select('*', { count: 'exact' });
 
-  if (where?.muscleGroup) {
+  query = query.order(orderBy, { ascending: order === 'ASC' });
+
+  if (where?.muscleGroup)
     query = query.eq('Target Muscle Group', where.muscleGroup);
-  }
 
   // First get the total count
   const { count, error: countError } = await query;

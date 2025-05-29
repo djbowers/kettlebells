@@ -22,17 +22,20 @@ export const MovementsPage = () => {
   const [queryParams, setQueryParams] = useQueryParams({
     page: withDefault(NumberParam, 1),
     muscleGroup: withDefault(StringParam, 'All'),
+    orderBy: withDefault(StringParam, 'Movement'),
+    order: withDefault(StringParam, 'ASC'),
   });
 
-  const page = queryParams.page ?? 1;
-  const muscleGroup = queryParams.muscleGroup ?? 'All';
-
   const { data, isLoading } = useMovements({
-    page,
+    page: queryParams.page,
     limit: PAGE_SIZE,
+    order: queryParams.order as 'ASC' | 'DESC',
+    orderBy: queryParams.orderBy,
     where: {
       muscleGroup:
-        muscleGroup === 'All' ? undefined : (muscleGroup as MuscleGroup),
+        queryParams.muscleGroup === 'All'
+          ? undefined
+          : (queryParams.muscleGroup as MuscleGroup),
     },
   });
 
@@ -41,18 +44,39 @@ export const MovementsPage = () => {
   const hasNextPage = data?.hasNextPage ?? false;
   const hasPreviousPage = data?.hasPreviousPage ?? false;
 
-  const handleNextPage = () => setQueryParams({ page: page + 1 });
-  const handlePreviousPage = () => setQueryParams({ page: page - 1 });
-  const handleFirstPage = () => setQueryParams({ page: 1 });
-  const handleLastPage = () =>
+  const handleClickNextPage = () => {
+    setQueryParams({ page: queryParams.page + 1 });
+  };
+  const handleClickPreviousPage = () => {
+    setQueryParams({ page: queryParams.page - 1 });
+  };
+  const handleClickFirstPage = () => {
+    setQueryParams({ page: 1 });
+  };
+  const handleClickLastPage = () => {
     setQueryParams({ page: Math.ceil(rowCount / PAGE_SIZE) });
-  const handleMuscleGroupChange = (value: string) => {
+  };
+  const handleFilterByMuscleGroup = (value: string) => {
     setQueryParams({ muscleGroup: value, page: 1 });
+  };
+
+  const handleSort = (columnId: string) => {
+    setQueryParams({
+      orderBy: columnId,
+      order:
+        queryParams.orderBy === columnId && queryParams.order === 'ASC'
+          ? 'DESC'
+          : 'ASC',
+      page: 1,
+    });
   };
 
   return (
     <Page title="Movements" width="full">
-      <Select value={muscleGroup} onValueChange={handleMuscleGroupChange}>
+      <Select
+        value={queryParams.muscleGroup}
+        onValueChange={handleFilterByMuscleGroup}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select muscle group" />
         </SelectTrigger>
@@ -67,15 +91,18 @@ export const MovementsPage = () => {
 
       <DataTable
         columns={COLUMNS}
-        currentPage={page}
+        currentPage={queryParams.page}
         data={movements}
         hasNextPage={hasNextPage}
         hasPreviousPage={hasPreviousPage}
         isLoading={isLoading}
-        onClickFirstPage={handleFirstPage}
-        onClickLastPage={handleLastPage}
-        onClickNextPage={handleNextPage}
-        onClickPreviousPage={handlePreviousPage}
+        onClickFirstPage={handleClickFirstPage}
+        onClickLastPage={handleClickLastPage}
+        onClickNextPage={handleClickNextPage}
+        onClickPreviousPage={handleClickPreviousPage}
+        onSort={handleSort}
+        order={queryParams.order as 'ASC' | 'DESC'}
+        orderBy={queryParams.orderBy}
         pageSize={PAGE_SIZE}
         rowCount={rowCount}
       />
@@ -87,14 +114,17 @@ const COLUMNS: ColumnDef<Movement>[] = [
   {
     header: 'Movement',
     accessorKey: 'movementName',
+    id: 'Movement',
   },
   {
     header: 'Target Muscle Group',
     accessorKey: 'targetMuscleGroup',
+    id: 'Target Muscle Group',
   },
   {
     header: 'Difficulty',
     accessorKey: 'difficultyLevel',
+    id: 'Difficulty Level',
   },
 ];
 

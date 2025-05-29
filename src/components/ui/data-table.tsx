@@ -19,32 +19,38 @@ import {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  rowCount: number;
-  pageSize: number;
   currentPage: number;
-  onClickNextPage?: () => void;
-  onClickPreviousPage?: () => void;
-  onClickFirstPage?: () => void;
-  onClickLastPage?: () => void;
+  data: TData[];
   hasNextPage?: boolean;
   hasPreviousPage?: boolean;
   isLoading?: boolean;
+  onClickFirstPage?: () => void;
+  onClickLastPage?: () => void;
+  onClickNextPage?: () => void;
+  onClickPreviousPage?: () => void;
+  onSort?: (columnId: string) => void;
+  order?: 'ASC' | 'DESC';
+  orderBy?: string;
+  pageSize: number;
+  rowCount: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
-  rowCount,
-  pageSize = 10,
   currentPage = 1,
-  onClickNextPage,
-  onClickPreviousPage,
-  onClickFirstPage,
-  onClickLastPage,
+  data,
   hasNextPage,
   hasPreviousPage,
   isLoading = false,
+  onClickFirstPage,
+  onClickLastPage,
+  onClickNextPage,
+  onClickPreviousPage,
+  onSort,
+  order,
+  orderBy,
+  pageSize = 10,
+  rowCount,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -56,6 +62,11 @@ export function DataTable<TData, TValue>({
 
   const totalPages = Math.ceil(rowCount / pageSize);
 
+  const handleHeaderClick = (columnId: string) => {
+    if (!onSort) return;
+    onSort(columnId);
+  };
+
   return (
     <div>
       <Table>
@@ -63,14 +74,29 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
+                const columnId = header.column.id;
+                const isSorted = orderBy === columnId;
+                const sortDirection = isSorted ? order : undefined;
+
                 return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                  <TableHead
+                    key={header.id}
+                    className={onSort ? 'cursor-pointer select-none' : ''}
+                    onClick={() => handleHeaderClick(columnId)}
+                  >
+                    <div className="flex items-center gap-2">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                      {isSorted && (
+                        <span className="text-muted-foreground">
+                          {sortDirection === 'ASC' ? '↑' : '↓'}
+                        </span>
+                      )}
+                    </div>
                   </TableHead>
                 );
               })}
