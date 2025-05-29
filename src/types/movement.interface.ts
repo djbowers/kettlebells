@@ -3,9 +3,15 @@ import { Supabase } from './supabase';
 export interface Movement {
   id: string;
   bodyRegion: Supabase['public']['Enums']['Body Region'] | null;
-  combinationExercises: Supabase['public']['Enums']['Combination Exercises'] | null;
-  continuousOrAlternatingArms: Supabase['public']['Enums']['Continuous or Alternating'] | null;
-  continuousOrAlternatingLegs: Supabase['public']['Enums']['Continuous or Alternating'] | null;
+  combinationExercises:
+    | Supabase['public']['Enums']['Combination Exercises']
+    | null;
+  continuousOrAlternatingArms:
+    | Supabase['public']['Enums']['Continuous or Alternating']
+    | null;
+  continuousOrAlternatingLegs:
+    | Supabase['public']['Enums']['Continuous or Alternating']
+    | null;
   difficultyLevel: Supabase['public']['Enums']['Difficulty Level'] | null;
   footElevation: Supabase['public']['Enums']['Foot Elevation'] | null;
   forceType: Supabase['public']['Enums']['Force Type'] | null;
@@ -23,7 +29,9 @@ export interface Movement {
   planeOfMotion3: Supabase['public']['Enums']['Plane of Motion'] | null;
   posture: Supabase['public']['Enums']['Posture'] | null;
   primaryEquipment: Supabase['public']['Enums']['Equipment'] | null;
-  primaryExerciseClassification: Supabase['public']['Enums']['Exercise Classification'] | null;
+  primaryExerciseClassification:
+    | Supabase['public']['Enums']['Exercise Classification']
+    | null;
   primaryItemCount: number | null;
   primeMoverMuscle: Supabase['public']['Enums']['Muscles'] | null;
   secondaryEquipment: Supabase['public']['Enums']['Equipment'] | null;

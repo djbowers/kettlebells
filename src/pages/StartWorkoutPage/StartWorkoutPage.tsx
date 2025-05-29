@@ -113,8 +113,8 @@ export const StartWorkoutPage = () => {
                 value === 'double'
                   ? movement.weightTwoValue || DEFAULT_WEIGHT_VALUE
                   : value === '1h'
-                  ? 0
-                  : null,
+                    ? 0
+                    : null,
               weightTwoUnit: value === 'double' ? DEFAULT_WEIGHT_UNIT : null,
             }
           : movement,
@@ -397,10 +397,10 @@ export const StartWorkoutPage = () => {
           movement.weightOneValue === null
             ? 'none'
             : movement.weightTwoValue === null
-            ? '2h'
-            : movement.weightTwoValue === 0
-            ? '1h'
-            : 'double';
+              ? '2h'
+              : movement.weightTwoValue === 0
+                ? '1h'
+                : 'double';
 
         return (
           <Card key={index}>

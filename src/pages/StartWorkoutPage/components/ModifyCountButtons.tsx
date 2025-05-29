@@ -39,7 +39,7 @@ export const ModifyCountButtons = ({
           type="number"
         />
         {unitTabs ?? (
-          <div className="text-foreground text-center text-sm">{unit}</div>
+          <div className="text-center text-sm text-foreground">{unit}</div>
         )}
       </div>
       <div className="flex items-center justify-start">

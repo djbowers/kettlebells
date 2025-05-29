@@ -8,7 +8,7 @@ export const Loading = ({ color = 'fill-accent-foreground' }: LoadingProps) => (
   <div role="status">
     <svg
       aria-hidden="true"
-      className={cn('text-accent h-2.5 w-2.5 animate-spin', color)}
+      className={cn('h-2.5 w-2.5 animate-spin text-accent', color)}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
