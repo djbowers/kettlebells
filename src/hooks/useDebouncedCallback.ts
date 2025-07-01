@@ -12,7 +12,7 @@ export function useDebouncedCallback<T>(
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [value, callback, delay]);
 
   return setValue;
 }

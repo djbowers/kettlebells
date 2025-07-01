@@ -22,17 +22,13 @@ export const Header = () => {
   const handleSignOut = () => supabase.auth.signOut();
 
   function handleClickLightDarkMode() {
-    if (localStorage.theme === 'dark' || !('theme' in localStorage)) {
-      //add class=dark in html element
-      document.documentElement.classList.add('dark');
-    } else {
+    if (localStorage.theme === 'dark') {
       //remove class=dark in html element
       document.documentElement.classList.remove('dark');
-    }
-
-    if (localStorage.theme === 'dark') {
       localStorage.theme = 'light';
     } else {
+      //add class=dark in html element
+      document.documentElement.classList.add('dark');
       localStorage.theme = 'dark';
     }
   }

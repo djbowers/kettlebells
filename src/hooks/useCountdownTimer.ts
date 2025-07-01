@@ -27,13 +27,13 @@ export const useCountdownTimer = (
   );
 
   useEffect(() => {
-    if (options?.disabled || paused || initialTimer === 0) return;
+    if (options?.disabled || paused || initialTimer === 0 || milliseconds <= 0) return;
 
     const timer = setInterval(() => {
-      setMilliseconds((s) => s - 100);
+      setMilliseconds((s) => Math.max(0, s - 100));
     }, 100);
     return () => clearInterval(timer);
-  }, [paused, options?.disabled]);
+  }, [paused, options?.disabled, initialTimer, milliseconds]);
 
   const reset = useCallback(
     (timer: number = initialTimer) => setMilliseconds(timer * 60000),
