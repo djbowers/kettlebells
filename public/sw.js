@@ -6,26 +6,38 @@ const urlsToCache = [
   '/static/css/main.css',
   '/manifest.json',
   '/favicon.ico',
-  '/apple-touch-icon.png'
+  '/apple-touch-icon.png',
 ];
 
 // Install event - cache resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches
+      .open(CACHE_NAME)
       .then((cache) => {
         return cache.addAll(urlsToCache);
       })
       .catch((error) => {
         console.log('Cache installation failed:', error);
-      })
+      }),
   );
 });
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
+  // Handle deep links for PWA
+  if (event.request.url.includes('bellskill://')) {
+    event.respondWith(
+      fetch(
+        event.request.url.replace('bellskill://', 'https://localhost:5173/'),
+      ),
+    );
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
+    caches
+      .match(event.request)
       .then((response) => {
         // Return cached version or fetch from network
         return response || fetch(event.request);
@@ -35,7 +47,7 @@ self.addEventListener('fetch', (event) => {
         if (event.request.destination === 'document') {
           return caches.match('/');
         }
-      })
+      }),
   );
 });
 
@@ -48,9 +60,9 @@ self.addEventListener('activate', (event) => {
           if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
-        })
+        }),
       );
-    })
+    }),
   );
 });
 
@@ -72,12 +84,10 @@ self.addEventListener('push', (event) => {
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now(),
-        primaryKey: '2'
-      }
+        primaryKey: '2',
+      },
     };
-    
-    event.waitUntil(
-      self.registration.showNotification(data.title, options)
-    );
+
+    event.waitUntil(self.registration.showNotification(data.title, options));
   }
 });
