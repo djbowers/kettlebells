@@ -27,12 +27,16 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
   // Handle deep links for PWA
   if (event.request.url.includes('bellskill://')) {
-    event.respondWith(
-      fetch(
-        event.request.url.replace('bellskill://', 'https://localhost:5173/'),
-      ),
-    );
-    return;
+    try {
+      const newUrl = event.request.url.replace(
+        'bellskill://',
+        self.location.origin + '/',
+      );
+      event.respondWith(fetch(newUrl));
+      return;
+    } catch (error) {
+      console.error('Error handling deep link:', error);
+    }
   }
 
   event.respondWith(

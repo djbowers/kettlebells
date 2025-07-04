@@ -96,11 +96,17 @@ enabled = true
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "http://localhost:5173"
+site_url = "https://app.bellskill.com"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
+  # Development URLs
   "https://localhost:5173",
   "http://localhost:5173",
+  # Production URLs
+  "https://app.bellskill.com",
+  "https://bellskill.com",
+  "https://www.bellskill.com",
+  # PWA deep linking URLs
   "bellskill://auth",
   "bellskill://auth/callback"
 ]
