@@ -1,0 +1,33 @@
+{
+  "name": "BellSkill App",
+  "short_name": "BellSkill",
+  "description": "A progressive web app for kettlebell training and skill tracking",
+  "start_url": "/?utm_source=pwa&utm_medium=homescreen",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "id": "/",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["fitness", "health", "sports"],
+  "lang": "en",
+  "prefer_related_applications": false
+}

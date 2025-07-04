@@ -2,7 +2,7 @@ import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { Loading } from '~/components';
+import { Loading, PWAInstallPrompt } from '~/components';
 import { WorkoutOptionsProvider } from '~/contexts/WorkoutOptionsContext';
 
 import { SessionProvider } from '../contexts';
@@ -39,6 +39,8 @@ export function App() {
           </WorkoutOptionsProvider>
         </SessionProvider>
       )}
+      
+      <PWAInstallPrompt />
     </>
   );
 }
