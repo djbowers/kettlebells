@@ -1,5 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 
+import { AuthHandler } from '../components/AuthHandler';
 import {
   AccountPage,
   ActiveWorkoutPage,
@@ -11,6 +12,10 @@ import {
 import { Root } from './Root';
 
 export const routes: RouteObject[] = [
+  {
+    path: '/auth',
+    element: <AuthHandler />,
+  },
   {
     path: '/',
     element: <Root />,

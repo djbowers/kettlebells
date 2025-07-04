@@ -12,7 +12,23 @@ export function Signup() {
     event.preventDefault();
 
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({ email });
+
+    // Determine the redirect URL based on the environment
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone ||
+      document.referrer.includes('android-app://');
+
+    const redirectTo = isStandalone
+      ? 'bellskill://auth/callback'
+      : `${window.location.origin}/auth`;
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: redirectTo,
+      },
+    });
 
     if (error?.message) {
       alert(error.message);

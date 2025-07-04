@@ -9,6 +9,12 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "id": "/",
+  "protocol_handlers": [
+    {
+      "protocol": "bellskill",
+      "url": "/auth?%s"
+    }
+  ],
   "icons": [
     {
       "src": "/apple-touch-icon.png",
