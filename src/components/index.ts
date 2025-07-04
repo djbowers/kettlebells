@@ -1,4 +1,4 @@
 export * from './Header';
 export * from './Loading';
-export * from './Page';
 export * from './PWAInstallPrompt';
+export * from './Page';
