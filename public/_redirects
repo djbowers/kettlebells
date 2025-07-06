@@ -1,9 +1,0 @@
-# Exclude assets from SPA routing
-/assets/*  /assets/:splat  200
-/favicon.ico  /favicon.ico  200
-/manifest.json  /manifest.json  200
-/sw.js  /sw.js  200
-/apple-touch-icon.png  /apple-touch-icon.png  200
-
-# SPA routing for everything else
-/*    /index.html   200
