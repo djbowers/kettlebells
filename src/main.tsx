@@ -16,6 +16,28 @@ async function enableMocking() {
   return worker.start();
 }
 
+// Clean up any existing service workers
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister().then(function(boolean) {
+        console.log('Service worker unregistered:', boolean);
+      });
+    }
+  }).catch(function(err) {
+    console.log('Service worker unregistration failed: ', err);
+  });
+
+  // Clear all caches
+  if ('caches' in window) {
+    caches.keys().then(function(cacheNames) {
+      cacheNames.forEach(function(cacheName) {
+        caches.delete(cacheName);
+      });
+    });
+  }
+}
+
 const rootElement = document.getElementById('root');
 
 if (rootElement !== null) {
