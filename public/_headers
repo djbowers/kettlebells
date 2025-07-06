@@ -4,15 +4,17 @@
 
 # Never cache the main HTML file
 /
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
   Pragma: no-cache
   Expires: 0
+  Last-Modified: Thu, 01 Jan 1970 00:00:00 GMT
 
 # Never cache the HTML file even with explicit path
 /index.html
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
   Pragma: no-cache
   Expires: 0
+  Last-Modified: Thu, 01 Jan 1970 00:00:00 GMT
 
 # Cache manifest and other PWA files for a short time
 /manifest.json
