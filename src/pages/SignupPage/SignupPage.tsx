@@ -33,7 +33,7 @@ export function Signup() {
     const { error } = await supabase.auth.verifyOtp({
       email,
       token: otpCode,
-      type: 'email'
+      type: 'email',
     });
 
     if (error?.message) {
@@ -63,7 +63,7 @@ export function Signup() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="safe-area-top safe-area-bottom flex h-screen items-center justify-center">
       <div className="flex w-full max-w-sm flex-col gap-2 p-3">
         <div className="text-center text-lg font-bold text-foreground">
           Sign up or Log in to BellSkill
@@ -81,7 +81,12 @@ export function Signup() {
               className="h-5 text-base"
             />
 
-            <Button type="submit" loading={loading} size="lg" className="w-full">
+            <Button
+              type="submit"
+              loading={loading}
+              size="lg"
+              className="w-full"
+            >
               Continue with Email
             </Button>
           </form>
@@ -90,9 +95,10 @@ export function Signup() {
             <div className="text-center text-sm text-muted-foreground">
               We've sent a login link to <strong>{email}</strong>
             </div>
-            
+
             <div className="text-center text-sm text-muted-foreground">
-              Click the link in your email to sign in, or enter the 6-digit code below
+              Click the link in your email to sign in, or enter the 6-digit code
+              below
             </div>
 
             {showOtpInput && (
@@ -103,7 +109,7 @@ export function Signup() {
                   onComplete={handleOtpVerification}
                   disabled={verifyingOtp}
                 />
-                
+
                 {verifyingOtp && (
                   <div className="text-center text-sm text-muted-foreground">
                     Verifying code...

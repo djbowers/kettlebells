@@ -7,18 +7,21 @@ The BellSkill app has been configured as a Progressive Web App (PWA) with the fo
 ### ✅ What's Been Implemented
 
 1. **Web App Manifest** (`/public/manifest.json`)
+
    - `display: "standalone"` - Hides browser UI when launched from home screen
    - App icons for different sizes
    - Theme colors and background color
    - App name and description
 
 2. **Mobile Meta Tags** (in `index.html`)
+
    - `apple-mobile-web-app-capable` - Enables iOS web app mode
    - `apple-mobile-web-app-status-bar-style` - Controls status bar appearance
    - `mobile-web-app-capable` - Enables Android web app mode
    - `viewport-fit=cover` - Supports devices with notches
 
 3. **PWA Install Prompt Component** (`/src/components/PWAInstallPrompt.tsx`)
+
    - Detects mobile devices
    - Shows reminder to add app to home screen
    - Handles browser install prompt API
@@ -26,6 +29,7 @@ The BellSkill app has been configured as a Progressive Web App (PWA) with the fo
    - Provides platform-specific instructions
 
 4. **Service Worker** (`/public/sw.js`)
+
    - Basic caching for offline functionality
    - Required for PWA install criteria
 
@@ -40,6 +44,7 @@ The BellSkill app has been configured as a Progressive Web App (PWA) with the fo
 ### Desktop Testing
 
 1. **Chrome/Edge**:
+
    - Open Developer Tools (F12)
    - Go to Application tab → Manifest
    - Verify manifest loads correctly
@@ -86,10 +91,14 @@ The app includes CSS that changes based on display mode:
 
 ```css
 /* Only shows in browser mode */
-.browser-only { display: block; }
+.browser-only {
+  display: block;
+}
 
 /* Only shows in standalone mode */
-.standalone-only { display: none; }
+.standalone-only {
+  display: none;
+}
 ```
 
 You can add these classes to elements to test if the detection works.

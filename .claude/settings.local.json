@@ -14,5 +14,8 @@
   },
   "git": {
     "includeClaudeAttribution": false
+  },
+  "editor": {
+    "insertFinalNewline": true
   }
 }
