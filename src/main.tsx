@@ -28,4 +28,3 @@ if (rootElement !== null) {
     </React.StrictMode>,
   );
 }
-
