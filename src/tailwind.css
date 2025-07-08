@@ -133,6 +133,26 @@
   .standalone-only {
     display: block !important;
   }
+
+  /* Disable pinch to zoom and other touch gestures in standalone mode */
+  html,
+  body {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+
+  /* Prevent double-tap zoom on interactive elements */
+  button,
+  input,
+  select,
+  textarea,
+  a,
+  [role='button'],
+  [tabindex] {
+    touch-action: manipulation;
+  }
 }
 
 @media (display-mode: browser) {

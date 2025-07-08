@@ -6,11 +6,15 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      id="viewport-meta"
     />
     <title>BellSkill App</title>
-    
+
     <!-- Cache control meta tags -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
@@ -41,6 +45,47 @@
 
     <!-- Apple touch icon -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Disable pinch to zoom only in standalone mode -->
+    <script>
+      (function () {
+        // Check if app is running in standalone mode
+        const isStandalone =
+          window.matchMedia('(display-mode: standalone)').matches ||
+          (window.navigator && window.navigator.standalone) ||
+          document.referrer.includes('android-app://');
+
+        if (isStandalone) {
+          // Disable pinch to zoom by updating viewport meta tag
+          const viewportMeta = document.getElementById('viewport-meta');
+          if (viewportMeta) {
+            viewportMeta.setAttribute(
+              'content',
+              'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0',
+            );
+          }
+
+          // Additional CSS to prevent zoom gestures in standalone mode only
+          const style = document.createElement('style');
+          style.textContent = `
+            /* Only apply these styles in standalone mode */
+            @media (display-mode: standalone) {
+              html, body {
+                touch-action: manipulation;
+                -webkit-touch-callout: none;
+                -webkit-tap-highlight-color: transparent;
+              }
+              
+              /* Prevent double-tap zoom on interactive elements */
+              button, input, select, textarea, a, [role="button"] {
+                touch-action: manipulation;
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
