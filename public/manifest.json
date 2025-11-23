@@ -1,6 +1,6 @@
 {
-  "name": "BellSkill App",
-  "short_name": "BellSkill",
+  "name": "Cannonbells App",
+  "short_name": "Cannonbells",
   "description": "A progressive web app for kettlebell training and skill tracking",
   "start_url": "/?utm_source=pwa&utm_medium=homescreen",
   "display": "standalone",
