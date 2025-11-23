@@ -17,8 +17,6 @@ import {
 import { Separator } from './ui/separator';
 
 export const Header = () => {
-  const handleClickCommunity = () =>
-    window.open('https://discord.gg/BrBp87mSbA', '_blank');
   const handleSignOut = () => supabase.auth.signOut();
 
   function handleClickLightDarkMode() {
@@ -55,12 +53,6 @@ export const Header = () => {
               className={navigationMenuTriggerStyle()}
             >
               <NavLink to="/account">Account</NavLink>
-            </NavigationMenuLink>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <span onClick={handleClickCommunity}>Discord Community</span>
             </NavigationMenuLink>
             <Separator />
             <NavigationMenuLink
