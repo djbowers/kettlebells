@@ -1,1 +1,1 @@
-export type WorkoutGoalUnits = 'minutes' | 'rounds';
+export type WorkoutGoalUnits = 'minutes' | 'rounds' | 'kilograms';

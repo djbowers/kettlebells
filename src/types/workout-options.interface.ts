@@ -7,6 +7,9 @@ export interface WorkoutOptions {
   restTimer: number; // seconds
   startedAt?: Date;
   workoutDetails: string | null;
-  workoutGoal: number; // minutes or rounds
+  workoutGoal: number; // minutes, rounds, or target volume (kg)
   workoutGoalUnits: WorkoutGoalUnits;
+  previousVolume?: number; // previous completed volume (kg) for volume goal calculations
+  previousMinutes?: number; // actual completed duration in minutes from repeated workout
+  previousRounds?: number; // actual completed rounds from repeated workout
 }

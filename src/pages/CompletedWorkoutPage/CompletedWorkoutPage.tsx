@@ -23,7 +23,7 @@ import {
 } from '~/components/ui/dialog';
 import { Textarea } from '~/components/ui/textarea';
 import { useWorkoutOptions } from '~/contexts';
-import { WorkoutLog } from '~/types';
+import { WorkoutGoalUnits, WorkoutLog } from '~/types';
 
 import { Section } from '../StartWorkoutPage/components';
 import { RPESelector, WorkoutHistoryItem } from './components';
@@ -69,6 +69,20 @@ export const CompletedWorkoutPage = () => {
     updateWorkoutNotes(notesRef.current?.value || null);
 
   const handleClickRepeat = () => {
+    // Calculate actual completed duration in minutes
+    const completedDurationMs =
+      workoutLog.completedAt.getTime() - workoutLog.startedAt.getTime();
+    const completedDurationMinutes = Math.round(completedDurationMs / 60000);
+
+    // Use actual completed values for all unit types
+    const previousMinutes = completedDurationMinutes;
+    const previousRounds = workoutLog.completedRounds ?? 0;
+    const previousVolume = workoutLog.completedVolume ?? 0;
+
+    // Determine workoutGoal and workoutGoalUnits based on original workout
+    let workoutGoal: number = workoutLog.workoutGoal;
+    let workoutGoalUnits: WorkoutGoalUnits = workoutLog.workoutGoalUnits;
+
     updateWorkoutOptions({
       intervalTimer: workoutLog.intervalTimer,
       movements: movementLogs.map((movementLog) => ({
@@ -81,8 +95,11 @@ export const CompletedWorkoutPage = () => {
       })),
       restTimer: workoutLog.restTimer,
       workoutDetails: workoutLog.workoutDetails,
-      workoutGoal: workoutLog.workoutGoal,
-      workoutGoalUnits: workoutLog.workoutGoalUnits,
+      workoutGoal,
+      workoutGoalUnits,
+      previousVolume,
+      previousMinutes,
+      previousRounds,
     });
     navigate('/');
   };

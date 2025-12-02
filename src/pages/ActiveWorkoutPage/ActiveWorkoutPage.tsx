@@ -324,6 +324,14 @@ export const ActiveWorkoutPage = ({
   );
 
   useEffect(
+    function handleKilogramsGoalReached() {
+      if (workoutGoalUnits !== 'kilograms' || logWorkoutLoading) return;
+      if (completedVolume >= workoutGoal) finishWorkout();
+    },
+    [completedVolume],
+  );
+
+  useEffect(
     function handleFinishInterval() {
       if (intervalTimer === 0) return;
       if (intervalRemainingMilliseconds === 0) finishInterval();
@@ -364,6 +372,7 @@ export const ActiveWorkoutPage = ({
     <Page>
       <WorkoutProgress
         completedRounds={completedRounds}
+        completedVolume={completedVolume}
         formattedTimeRemaining={formattedTimeRemaining}
         handleClickPause={handleClickPause}
         remainingMilliseconds={remainingMilliseconds}

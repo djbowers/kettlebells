@@ -18,6 +18,9 @@ export const DEFAULT_WORKOUT_OPTIONS: WorkoutOptions = {
   workoutDetails: null,
   workoutGoal: 10,
   workoutGoalUnits: 'minutes',
+  previousVolume: 1000,
+  previousMinutes: 10,
+  previousRounds: 10,
 };
 
 export const WorkoutOptionsContext = createContext<

@@ -32,6 +32,10 @@ const DEFAULT_WEIGHT_VALUE: number =
 const INCREMENT_DURATION: number = 1; // minutes
 const INCREMENT_INTERVAL_TIMER: number = 5; // seconds
 const INCREMENT_REST_TIMER: number = 5; // seconds
+const INCREMENT_VOLUME: number = 10; // kg
+const DEFAULT_VOLUME: number = 1000; // kg
+const DEFAULT_MINUTES: number = 10; // minutes
+const DEFAULT_ROUNDS: number = 10; // rounds
 
 export const StartWorkoutPage = () => {
   const navigate = useNavigate();
@@ -56,11 +60,34 @@ export const StartWorkoutPage = () => {
 
   const detailsRef = useRef<HTMLInputElement>(null);
 
-  const handleIncrementGoalValue = () =>
-    setWorkoutGoal((prev) => prev + INCREMENT_DURATION);
+  const handleIncrementGoalValue = () => {
+    if (workoutGoalUnits === 'kilograms') {
+      setWorkoutGoal((prev) => prev + INCREMENT_VOLUME);
+    } else {
+      setWorkoutGoal((prev) => prev + INCREMENT_DURATION);
+    }
+  };
 
-  const handleDecrementGoalValue = () =>
-    setWorkoutGoal((prev) => (prev === 0 ? prev : prev - INCREMENT_DURATION));
+  const handleDecrementGoalValue = () => {
+    if (workoutGoalUnits === 'kilograms') {
+      setWorkoutGoal((prev) => Math.max(1, prev - INCREMENT_VOLUME));
+    } else {
+      setWorkoutGoal((prev) => (prev === 0 ? prev : prev - INCREMENT_DURATION));
+    }
+  };
+
+  const handleChangeWorkoutGoalUnits = (value: string) => {
+    const newUnits = value as WorkoutGoalUnits;
+    setWorkoutGoalUnits(newUnits);
+
+    if (newUnits === 'kilograms') {
+      setWorkoutGoal(workoutOptions.previousVolume ?? DEFAULT_VOLUME);
+    } else if (newUnits === 'minutes') {
+      setWorkoutGoal(workoutOptions.previousMinutes ?? DEFAULT_MINUTES);
+    } else if (newUnits === 'rounds') {
+      setWorkoutGoal(workoutOptions.previousRounds ?? DEFAULT_ROUNDS);
+    }
+  };
 
   const handleDecrementInterval = () =>
     setIntervalTimer((prev) =>
@@ -230,7 +257,8 @@ export const StartWorkoutPage = () => {
   const startDisabled =
     movements.length === 0 ||
     movements.some((movement) => movement.movementName.length === 0) ||
-    isDifferentRepSchemes;
+    isDifferentRepSchemes ||
+    workoutGoal <= 0;
 
   return (
     <Page
@@ -251,16 +279,17 @@ export const StartWorkoutPage = () => {
           actions={
             <Tabs
               value={workoutGoalUnits}
-              onValueChange={(value) =>
-                setWorkoutGoalUnits(value as WorkoutGoalUnits)
-              }
+              onValueChange={handleChangeWorkoutGoalUnits}
             >
               <TabsList>
                 <TabsTrigger size="sm" value="minutes">
-                  Duration
+                  Time
                 </TabsTrigger>
                 <TabsTrigger size="sm" value="rounds">
                   Rounds
+                </TabsTrigger>
+                <TabsTrigger size="sm" value="kilograms">
+                  Volume
                 </TabsTrigger>
               </TabsList>
             </Tabs>

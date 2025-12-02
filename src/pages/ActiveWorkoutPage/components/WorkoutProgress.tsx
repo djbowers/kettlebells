@@ -6,6 +6,7 @@ import { ProgressBar } from './ProgressBar';
 
 interface WorkoutProgressProps {
   completedRounds: number;
+  completedVolume: number;
   formattedTimeRemaining: string;
   handleClickPause: () => void;
   remainingMilliseconds: number;
@@ -16,6 +17,7 @@ interface WorkoutProgressProps {
 
 export const WorkoutProgress = ({
   completedRounds,
+  completedVolume,
   formattedTimeRemaining,
   handleClickPause,
   remainingMilliseconds,
@@ -31,15 +33,28 @@ export const WorkoutProgress = ({
     progressBarValue = formattedTimeRemaining;
     const totalMilliseconds = workoutGoal * 60000;
     completedPercentage =
-      ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) * 100;
-    progressBarDescription = 'remaining';
+      workoutGoal > 0
+        ? ((totalMilliseconds - remainingMilliseconds) / totalMilliseconds) *
+          100
+        : 0;
+    progressBarDescription = 'time remaining';
   }
 
   if (workoutGoalUnits === 'rounds') {
     progressBarValue = `${workoutGoal - completedRounds}`;
     completedPercentage =
-      (1 - (workoutGoal - completedRounds) / workoutGoal) * 100;
-    progressBarDescription = 'rounds';
+      workoutGoal > 0 ? (completedRounds / workoutGoal) * 100 : 0;
+    progressBarDescription = 'rounds remaining';
+  }
+
+  if (workoutGoalUnits === 'kilograms') {
+    const remainingVolume = Math.max(0, workoutGoal - completedVolume);
+    const remainingPercentage =
+      workoutGoal > 0 ? (remainingVolume / workoutGoal) * 100 : 0;
+    progressBarValue = `${Math.round(remainingPercentage)}%`;
+    completedPercentage =
+      workoutGoal > 0 ? (completedVolume / workoutGoal) * 100 : 0;
+    progressBarDescription = 'volume remaining';
   }
 
   return (
