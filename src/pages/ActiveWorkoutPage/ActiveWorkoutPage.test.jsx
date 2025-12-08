@@ -31,6 +31,9 @@ const {
   VolumeGoalWithDecimalRoundingUp,
   MinutesGoalHighVolume,
   RoundsGoalHighVolume,
+  ZeroWeightValues,
+  VeryLargeVolumeGoal,
+  DecimalVolumeCalculation,
 } = composeStories(stories);
 
 describe('finishing a workout', () => {
@@ -834,6 +837,139 @@ describe('volume does not trigger completion for non-volume goals', () => {
 
     // Should NOT automatically finish (rounds goal is 10 rounds)
     expect(logWorkout).not.toHaveBeenCalled();
+  });
+});
+
+describe('edge case and boundary tests', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  describe('zero weight values', () => {
+    test('calculates volume as 0 when weights are 0', async () => {
+      render(<ZeroWeightValues />);
+
+      await clickContinue();
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /finish workout/i }),
+      );
+
+      expect(logWorkout).toHaveBeenCalledWith({
+        completedReps: 5,
+        completedRounds: 1,
+        completedRungs: 1,
+        completedVolume: 0,
+      });
+    });
+  });
+
+  describe('very large volume values', () => {
+    test('handles large volume values correctly (10000kg goal)', async () => {
+      render(<VeryLargeVolumeGoal />);
+
+      // Complete multiple sets to accumulate volume
+      await clickContinue(); // 120kg
+      await clickContinue(); // 240kg
+      await clickContinue(); // 360kg
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /finish workout/i }),
+      );
+
+      // Verify large volume is logged correctly
+      expect(logWorkout).toHaveBeenCalledWith({
+        completedReps: 15,
+        completedRounds: 3,
+        completedRungs: 3,
+        completedVolume: 360,
+      });
+    });
+
+    test('calculates percentage correctly with large volume values', async () => {
+      render(<VeryLargeVolumeGoal />);
+
+      // Complete one set: 120kg out of 10000kg goal
+      await clickContinue();
+
+      // Progress should be visible and calculated correctly
+      // 120 / 10000 = 1.2% complete, so 98.8% remaining (rounds to 99%)
+      expect(screen.getByText('99%')).toBeInTheDocument();
+    });
+  });
+
+  describe('decimal volume values', () => {
+    test('rounds decimal volumes appropriately when logged (122.835kg rounds to 123kg)', async () => {
+      render(<DecimalVolumeCalculation />);
+
+      // Complete one set: 24.567kg × 5 reps = 122.835kg
+      await clickContinue();
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /finish workout/i }),
+      );
+
+      // Verify volume is rounded to nearest integer (122.835 rounds to 123)
+      expect(logWorkout).toHaveBeenCalledWith({
+        completedReps: 5,
+        completedRounds: 1,
+        completedRungs: 1,
+        completedVolume: 123,
+      });
+    });
+
+    test('accumulates decimal volumes correctly across multiple rungs', async () => {
+      render(<DecimalVolumeCalculation />);
+
+      // Complete multiple sets
+      await clickContinue(); // 122.835kg
+      await clickContinue(); // 245.67kg
+      await clickContinue(); // 368.505kg
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /finish workout/i }),
+      );
+
+      // Verify accumulated decimal volume is rounded correctly (368.505 rounds to 369)
+      expect(logWorkout).toHaveBeenCalledWith({
+        completedReps: 15,
+        completedRounds: 3,
+        completedRungs: 3,
+        completedVolume: 369,
+      });
+    });
+
+    test('handles decimal rounding edge cases (0.5 rounds up)', async () => {
+      render(<DecimalVolumeCalculation />);
+
+      // Complete two sets: 24.567kg × 5 reps × 2 = 245.67kg
+      await clickContinue();
+      await clickContinue();
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /finish workout/i }),
+      );
+
+      // Verify 245.67 rounds to 246
+      expect(logWorkout).toHaveBeenCalledWith({
+        completedReps: 10,
+        completedRounds: 2,
+        completedRungs: 2,
+        completedVolume: 246,
+      });
+    });
   });
 });
 

@@ -197,4 +197,45 @@ describe('WorkoutProgress - volume goals', () => {
       expect(screen.queryByText(/-\d+%/)).not.toBeInTheDocument();
     });
   });
+
+  describe('very large volume values', () => {
+    test('handles large volume values correctly (10000kg goal)', () => {
+      render(
+        <WorkoutProgress
+          {...defaultProps}
+          completedVolume={1200}
+          workoutGoal={10000}
+        />,
+      );
+
+      // 1200 / 10000 = 12% complete, so 88% remaining
+      expect(screen.getByText('88%')).toBeInTheDocument();
+    });
+
+    test('calculates percentage correctly with large completed volume', () => {
+      render(
+        <WorkoutProgress
+          {...defaultProps}
+          completedVolume={7500}
+          workoutGoal={10000}
+        />,
+      );
+
+      // 7500 / 10000 = 75% complete, so 25% remaining
+      expect(screen.getByText('25%')).toBeInTheDocument();
+    });
+
+    test('handles very large values without overflow', () => {
+      render(
+        <WorkoutProgress
+          {...defaultProps}
+          completedVolume={50000}
+          workoutGoal={100000}
+        />,
+      );
+
+      // 50000 / 100000 = 50% complete, so 50% remaining
+      expect(screen.getByText('50%')).toBeInTheDocument();
+    });
+  });
 });

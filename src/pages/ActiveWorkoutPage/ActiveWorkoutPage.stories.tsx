@@ -539,3 +539,61 @@ export const RoundsGoalHighVolume: Story = {
     },
   },
 };
+
+export const ZeroWeightValues: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Test Movement',
+          repScheme: [5],
+          weightOneValue: 0,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: 0,
+          weightTwoUnit: 'kilograms',
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const VeryLargeVolumeGoal: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 10000,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const DecimalVolumeCalculation: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 500,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24.567,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
