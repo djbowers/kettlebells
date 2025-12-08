@@ -1,10 +1,12 @@
 import { composeStories } from '@storybook/react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 
-import { DEFAULT_MOVEMENT_OPTIONS, DEFAULT_WORKOUT_OPTIONS } from '~/contexts';
+import { DEFAULT_MOVEMENT_OPTIONS, DEFAULT_WORKOUT_OPTIONS, WorkoutOptionsContext } from '~/contexts';
 
 import * as stories from './StartWorkoutPage.stories';
+import { StartWorkoutPage } from './StartWorkoutPage';
 
 const { Default, WithoutPreviousVolume } = composeStories(stories);
 
@@ -435,6 +437,124 @@ describe('start workout page - without previous volume', () => {
       expect.objectContaining({
         workoutGoalUnits: 'kilograms',
         workoutGoal: 1000, // DEFAULT_VOLUME when previousVolume is undefined
+      }),
+    );
+  });
+});
+
+describe('integration tests for previous volume retrieval', () => {
+  test('retrieves previous volume from workout options when available', async () => {
+    const startWorkout = vi.fn();
+    const customWorkoutOptions = {
+      ...DEFAULT_WORKOUT_OPTIONS,
+      previousVolume: 1500, // Custom previous volume
+    };
+
+    render(
+      <MemoryRouter>
+        <WorkoutOptionsContext.Provider value={[customWorkoutOptions, startWorkout]}>
+          <StartWorkoutPage />
+        </WorkoutOptionsContext.Provider>
+      </MemoryRouter>
+    );
+
+    await userEvent.type(
+      screen.getByLabelText('Movement Input'),
+      'Test Movement',
+    );
+
+    const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+    await userEvent.click(volumeTab);
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    await userEvent.click(startButton);
+
+    // Verify that the workout goal is set to the previous volume
+    expect(startWorkout).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workoutGoalUnits: 'kilograms',
+        workoutGoal: 1500, // Should use previousVolume from workout options
+      }),
+    );
+  });
+
+  test('previous volume is available in workout options after completing a volume-based workout', async () => {
+    const startWorkout = vi.fn();
+    const workoutOptionsAfterCompletion = {
+      ...DEFAULT_WORKOUT_OPTIONS,
+      previousVolume: 1200, // Volume from completed workout
+    };
+
+    render(
+      <MemoryRouter>
+        <WorkoutOptionsContext.Provider value={[workoutOptionsAfterCompletion, startWorkout]}>
+          <StartWorkoutPage />
+        </WorkoutOptionsContext.Provider>
+      </MemoryRouter>
+    );
+
+    await userEvent.type(
+      screen.getByLabelText('Movement Input'),
+      'Clean and Press',
+    );
+
+    // Switch to volume goal
+    const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+    await userEvent.click(volumeTab);
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    await userEvent.click(startButton);
+
+    // Verify the previous volume is used as the initial goal
+    expect(startWorkout).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workoutGoalUnits: 'kilograms',
+        workoutGoal: 1200, // Should match the previousVolume
+      }),
+    );
+  });
+
+  test('switches between previous values when changing goal units', async () => {
+    const startWorkout = vi.fn();
+    const workoutOptionsWithAllPrevious = {
+      ...DEFAULT_WORKOUT_OPTIONS,
+      previousVolume: 1500,
+      previousMinutes: 15,
+      previousRounds: 20,
+    };
+
+    render(
+      <MemoryRouter>
+        <WorkoutOptionsContext.Provider value={[workoutOptionsWithAllPrevious, startWorkout]}>
+          <StartWorkoutPage />
+        </WorkoutOptionsContext.Provider>
+      </MemoryRouter>
+    );
+
+    await userEvent.type(
+      screen.getByLabelText('Movement Input'),
+      'Test Movement',
+    );
+
+    // Switch to volume
+    const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+    await userEvent.click(volumeTab);
+
+    // Switch to rounds
+    const roundsTab = screen.getByRole('tab', { name: 'Rounds' });
+    await userEvent.click(roundsTab);
+
+    // Switch back to volume
+    await userEvent.click(volumeTab);
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    await userEvent.click(startButton);
+
+    // Verify that switching back to volume restores the previous volume
+    expect(startWorkout).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workoutGoalUnits: 'kilograms',
+        workoutGoal: 1500, // Should use previousVolume
       }),
     );
   });

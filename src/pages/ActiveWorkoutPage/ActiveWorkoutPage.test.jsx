@@ -102,6 +102,77 @@ describe('finishing a workout', () => {
   });
 });
 
+describe('integration tests for previous volume persistence', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('stores completed volume in workout log when workout is finished', async () => {
+    render(<SingleWeight24Kg />);
+
+    // Complete one set: 24kg × 5 reps = 120kg
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    // Verify completedVolume is included in the logged data
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120,
+    });
+  });
+
+  test('stores completed volume when workout finishes automatically with volume goal', async () => {
+    render(<VolumeGoalExactMatch />);
+
+    // Complete one set: 24kg × 5 reps = 120kg (exactly matches goal)
+    await clickContinue();
+
+    // Should automatically call logWorkout with completedVolume
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120,
+    });
+  });
+
+  test('stores rounded completed volume in workout log', async () => {
+    render(<VolumeGoalWithDecimalRounding />);
+
+    // Complete one set: 24.08kg × 5 reps = 120.4kg
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    // Verify volume is rounded to nearest integer
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120, // 120.4 rounds to 120
+    });
+  });
+});
+
 describe('volume calculation with kilogram weights', () => {
   vi.mock('~/api', () => ({
     useLogWorkout: vi.fn(),
