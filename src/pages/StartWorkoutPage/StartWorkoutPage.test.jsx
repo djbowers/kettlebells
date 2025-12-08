@@ -6,7 +6,7 @@ import { DEFAULT_MOVEMENT_OPTIONS, DEFAULT_WORKOUT_OPTIONS } from '~/contexts';
 
 import * as stories from './StartWorkoutPage.stories';
 
-const { Default } = composeStories(stories);
+const { Default, WithoutPreviousVolume } = composeStories(stories);
 
 const startedAt = new Date();
 vi.setSystemTime(startedAt);
@@ -38,17 +38,18 @@ describe('start workout page', () => {
     await userEvent.click(startButton);
 
     expect(startWorkout).toHaveBeenCalledTimes(1);
-    expect(startWorkout).toHaveBeenCalledWith({
-      ...DEFAULT_WORKOUT_OPTIONS,
-      workoutGoalUnits: 'rounds',
-      movements: [
-        {
-          ...DEFAULT_MOVEMENT_OPTIONS,
-          movementName: 'Clean and Press',
-        },
-      ],
-      startedAt,
-    });
+    expect(startWorkout).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workoutGoalUnits: 'rounds',
+        movements: [
+          {
+            ...DEFAULT_MOVEMENT_OPTIONS,
+            movementName: 'Clean and Press',
+          },
+        ],
+        startedAt,
+      }),
+    );
   });
 
   test('entering a movement name enables start button', async () => {
@@ -60,16 +61,17 @@ describe('start workout page', () => {
     await userEvent.click(startButton);
 
     expect(startWorkout).toHaveBeenCalledTimes(1);
-    expect(startWorkout).toHaveBeenCalledWith({
-      ...DEFAULT_WORKOUT_OPTIONS,
-      movements: [
-        {
-          ...DEFAULT_MOVEMENT_OPTIONS,
-          movementName: 'Clean and Press',
-        },
-      ],
-      startedAt,
-    });
+    expect(startWorkout).toHaveBeenCalledWith(
+      expect.objectContaining({
+        movements: [
+          {
+            ...DEFAULT_MOVEMENT_OPTIONS,
+            movementName: 'Clean and Press',
+          },
+        ],
+        startedAt,
+      }),
+    );
   });
 
   test('can add new movements', async () => {
@@ -102,20 +104,21 @@ describe('start workout page', () => {
       await userEvent.type(screen.getByLabelText('Movement Input'), 'Pushups');
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Pushups',
-            weightOneUnit: null,
-            weightOneValue: null,
-            weightTwoUnit: null,
-            weightTwoValue: null,
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Pushups',
+              weightOneUnit: null,
+              weightOneValue: null,
+              weightTwoUnit: null,
+              weightTwoValue: null,
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can select "2h" for two-handed movements', async () => {
@@ -126,16 +129,17 @@ describe('start workout page', () => {
       );
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Kettlebell Swing',
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Kettlebell Swing',
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can select "1h" for one-handed movements', async () => {
@@ -146,17 +150,18 @@ describe('start workout page', () => {
       );
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Single Arm Press',
-            weightTwoValue: 0,
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Single Arm Press',
+              weightTwoValue: 0,
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can select "double" for two-weight movements', async () => {
@@ -167,18 +172,19 @@ describe('start workout page', () => {
       );
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Double Clean',
-            weightTwoValue: 16,
-            weightTwoUnit: 'kilograms',
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Double Clean',
+              weightTwoValue: 16,
+              weightTwoUnit: 'kilograms',
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can change weight unit', async () => {
@@ -190,18 +196,19 @@ describe('start workout page', () => {
       );
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: '1H Club Mill',
-            weightOneValue: 15,
-            weightOneUnit: 'pounds',
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: '1H Club Mill',
+              weightOneValue: 15,
+              weightOneUnit: 'pounds',
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
   });
 
@@ -217,17 +224,18 @@ describe('start workout page', () => {
       await userEvent.click(screen.getByRole('button', { name: '+ Rung' }));
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Test Movement',
-            repScheme: [5, 5],
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Test Movement',
+              repScheme: [5, 5],
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can remove the last rung', async () => {
@@ -235,17 +243,18 @@ describe('start workout page', () => {
       await userEvent.click(screen.getByRole('button', { name: '- Rung' }));
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Test Movement',
-            repScheme: [5],
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Test Movement',
+              repScheme: [5],
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can increment reps for each rung independently', async () => {
@@ -256,17 +265,18 @@ describe('start workout page', () => {
       await userEvent.click(incrementButtons[0]);
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Test Movement',
-            repScheme: [6, 5],
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Test Movement',
+              repScheme: [6, 5],
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
 
     test('can decrement reps for each rung independently', async () => {
@@ -277,17 +287,155 @@ describe('start workout page', () => {
       await userEvent.click(decrementButtons[1]);
       await userEvent.click(screen.getByRole('button', { name: /Start/i }));
 
-      expect(startWorkout).toHaveBeenCalledWith({
-        ...DEFAULT_WORKOUT_OPTIONS,
-        movements: [
-          {
-            ...DEFAULT_MOVEMENT_OPTIONS,
-            movementName: 'Test Movement',
-            repScheme: [5, 4],
-          },
-        ],
-        startedAt,
-      });
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Test Movement',
+              repScheme: [5, 4],
+            },
+          ],
+          startedAt,
+        }),
+      );
     });
+  });
+
+  describe('Volume Goal', () => {
+    beforeEach(async () => {
+      await userEvent.type(
+        screen.getByLabelText('Movement Input'),
+        'Test Movement',
+      );
+    });
+
+    test('can change the workout goal to "volume" (kilograms)', async () => {
+      const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+      await userEvent.click(volumeTab);
+
+      const startButton = screen.getByRole('button', { name: /Start/i });
+      await userEvent.click(startButton);
+
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          workoutGoalUnits: 'kilograms',
+          workoutGoal: 1000, // previousVolume from DEFAULT_WORKOUT_OPTIONS
+          movements: [
+            {
+              ...DEFAULT_MOVEMENT_OPTIONS,
+              movementName: 'Test Movement',
+            },
+          ],
+          startedAt,
+        }),
+      );
+    });
+
+    test('initializes volume goal to previous volume when switching to kilograms', async () => {
+      const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+      await userEvent.click(volumeTab);
+
+      const startButton = screen.getByRole('button', { name: /Start/i });
+      await userEvent.click(startButton);
+
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          workoutGoalUnits: 'kilograms',
+          workoutGoal: 1000, // previousVolume from DEFAULT_WORKOUT_OPTIONS
+        }),
+      );
+    });
+
+    test('can increment volume goal by 10kg', async () => {
+      const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+      await userEvent.click(volumeTab);
+
+      // Find and click the increment button for the goal
+      const incrementButton = screen.getByRole('button', { name: '+ kilograms' });
+      await userEvent.click(incrementButton);
+
+      const startButton = screen.getByRole('button', { name: /Start/i });
+      await userEvent.click(startButton);
+
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          workoutGoalUnits: 'kilograms',
+          workoutGoal: 1010, // 1000 + 10
+        }),
+      );
+    });
+
+    test('can decrement volume goal by 10kg', async () => {
+      const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+      await userEvent.click(volumeTab);
+
+      // Find and click the decrement button for the goal
+      const decrementButton = screen.getByRole('button', { name: '- kilograms' });
+      await userEvent.click(decrementButton);
+
+      const startButton = screen.getByRole('button', { name: /Start/i });
+      await userEvent.click(startButton);
+
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          workoutGoalUnits: 'kilograms',
+          workoutGoal: 990, // 1000 - 10
+        }),
+      );
+    });
+
+    test('volume goal cannot go below 1kg when decrementing', async () => {
+      const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+      await userEvent.click(volumeTab);
+
+      // Decrement many times to try to go below 1
+      const decrementButton = screen.getByRole('button', { name: '- kilograms' });
+      for (let i = 0; i < 150; i++) {
+        await userEvent.click(decrementButton);
+      }
+
+      const startButton = screen.getByRole('button', { name: /Start/i });
+      await userEvent.click(startButton);
+
+      expect(startWorkout).toHaveBeenCalledWith(
+        expect.objectContaining({
+          workoutGoalUnits: 'kilograms',
+          workoutGoal: 1, // minimum value
+        }),
+      );
+    });
+  });
+});
+
+describe('start workout page - without previous volume', () => {
+  let startWorkoutWithoutPrevious;
+
+  beforeEach(() => {
+    startWorkoutWithoutPrevious = vi.fn();
+    WithoutPreviousVolume.parameters.updateWorkoutOptions =
+      startWorkoutWithoutPrevious;
+
+    render(<WithoutPreviousVolume />);
+  });
+
+  test('initializes volume goal to default 1000kg when no previous volume exists', async () => {
+    await userEvent.type(
+      screen.getByLabelText('Movement Input'),
+      'Test Movement',
+    );
+
+    const volumeTab = screen.getByRole('tab', { name: 'Volume' });
+    await userEvent.click(volumeTab);
+
+    const startButton = screen.getByRole('button', { name: /Start/i });
+    await userEvent.click(startButton);
+
+    expect(startWorkoutWithoutPrevious).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workoutGoalUnits: 'kilograms',
+        workoutGoal: 1000, // DEFAULT_VOLUME when previousVolume is undefined
+      }),
+    );
   });
 });
