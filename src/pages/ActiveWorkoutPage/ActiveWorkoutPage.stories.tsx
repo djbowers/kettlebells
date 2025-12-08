@@ -293,3 +293,307 @@ export const WeightUnitsPounds: Story = {
     },
   },
 };
+
+export const SingleWeight24Kg: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const DoubleWeights16And12Kg: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Double Front Squat',
+          repScheme: [5],
+          weightOneValue: 16,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: 12,
+          weightTwoUnit: 'kilograms',
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const SingleWeight53Lb: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 53,
+          weightOneUnit: 'pounds',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const MixedUnits16KgAnd26_5Lb: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Double Front Squat',
+          repScheme: [5],
+          weightOneValue: 16,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: 26.5,
+          weightTwoUnit: 'pounds',
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const MixedUnits35LbAnd12Kg: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Double Front Squat',
+          repScheme: [5],
+          weightOneValue: 35,
+          weightOneUnit: 'pounds',
+          weightTwoValue: 12,
+          weightTwoUnit: 'kilograms',
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const OneHanded16Kg: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Single Arm Front Squat',
+          repScheme: [5],
+          weightOneValue: 16,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: 0,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const RepLadder16Kg: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [1, 2, 3],
+          weightOneValue: 16,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const VolumeGoalExactMatch: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 120,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const VolumeGoalExceeded: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 100,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const VolumeGoalWithDecimalRounding: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 200,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24.08,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const VolumeGoalWithDecimalRoundingUp: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 200,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24.12,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const MinutesGoalHighVolume: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 10,
+      workoutGoalUnits: 'minutes',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const RoundsGoalHighVolume: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 10,
+      workoutGoalUnits: 'rounds',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const ZeroWeightValues: Story = {
+  parameters: {
+    workoutOptions: {
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Test Movement',
+          repScheme: [5],
+          weightOneValue: 0,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: 0,
+          weightTwoUnit: 'kilograms',
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const VeryLargeVolumeGoal: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 10000,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};
+
+export const DecimalVolumeCalculation: Story = {
+  parameters: {
+    workoutOptions: {
+      workoutGoal: 500,
+      workoutGoalUnits: 'kilograms',
+      movements: [
+        {
+          ...DEFAULT_MOVEMENT_OPTIONS,
+          movementName: 'Goblet Squat',
+          repScheme: [5],
+          weightOneValue: 24.567,
+          weightOneUnit: 'kilograms',
+          weightTwoValue: null,
+          weightTwoUnit: null,
+        },
+      ] satisfies MovementOptions[],
+    },
+  },
+};

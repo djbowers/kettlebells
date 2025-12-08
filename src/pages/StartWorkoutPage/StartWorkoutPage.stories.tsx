@@ -15,7 +15,10 @@ export default {
     ),
     (Story, { parameters }) => (
       <WorkoutOptionsContext.Provider
-        value={[DEFAULT_WORKOUT_OPTIONS, parameters.updateWorkoutOptions]}
+        value={[
+          parameters.workoutOptions || DEFAULT_WORKOUT_OPTIONS,
+          parameters.updateWorkoutOptions,
+        ]}
       >
         <Story />
       </WorkoutOptionsContext.Provider>
@@ -24,3 +27,12 @@ export default {
 } as Meta;
 
 export const Default = {};
+
+export const WithoutPreviousVolume = {
+  parameters: {
+    workoutOptions: {
+      ...DEFAULT_WORKOUT_OPTIONS,
+      previousVolume: undefined,
+    },
+  },
+};

@@ -10,6 +10,13 @@ export default mergeConfig(
       globals: true,
       environment: 'jsdom',
       setupFiles: './config/vitest.setup.ts',
+      // Reduce test output verbosity
+      reporters: ['basic'],
+      logHeapUsage: false,
+      // Silence console logs during tests
+      silent: false,
+      // Only show errors in console
+      onConsoleLog: () => false,
     },
   }),
 );
