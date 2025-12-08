@@ -25,6 +25,12 @@ const {
   MixedUnits35LbAnd12Kg,
   OneHanded16Kg,
   RepLadder16Kg,
+  VolumeGoalExactMatch,
+  VolumeGoalExceeded,
+  VolumeGoalWithDecimalRounding,
+  VolumeGoalWithDecimalRoundingUp,
+  MinutesGoalHighVolume,
+  RoundsGoalHighVolume,
 } = composeStories(stories);
 
 describe('finishing a workout', () => {
@@ -613,6 +619,150 @@ describe('active workout page (bodyweight movements)', () => {
     expect(currentMovement).toHaveTextContent(
       workoutOptions.movements[1].movementName,
     );
+  });
+});
+
+describe('automatic workout completion with volume goals', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('automatically finishes when volume goal is exactly reached', async () => {
+    render(<VolumeGoalExactMatch />);
+
+    // Complete one set: 24kg × 5 reps = 120kg (exactly matches goal)
+    await clickContinue();
+
+    // Should automatically call logWorkout mutation
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120,
+    });
+  });
+
+  test('automatically finishes when volume goal is exceeded', async () => {
+    render(<VolumeGoalExceeded />);
+
+    // Complete one set: 24kg × 5 reps = 120kg (exceeds goal of 100kg)
+    await clickContinue();
+
+    // Should automatically call logWorkout mutation
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120,
+    });
+  });
+});
+
+describe('volume rounding on workout completion', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('rounds volume down when decimal is < 0.5 (120.4kg rounds to 120kg)', async () => {
+    render(<VolumeGoalWithDecimalRounding />);
+
+    // Complete one set: 24.08kg × 5 reps = 120.4kg
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120, // 120.4 rounds down to 120
+    });
+  });
+
+  test('rounds volume up when decimal is >= 0.5 (120.6kg rounds to 121kg)', async () => {
+    render(<VolumeGoalWithDecimalRoundingUp />);
+
+    // Complete one set: 24.12kg × 5 reps = 120.6kg
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 121, // 120.6 rounds up to 121
+    });
+  });
+});
+
+describe('volume does not trigger completion for non-volume goals', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('does not finish workout when reaching high volume with minutes goal', async () => {
+    render(<MinutesGoalHighVolume />);
+
+    // Complete multiple sets to accumulate high volume
+    await clickContinue(); // 120kg
+    await clickContinue(); // 240kg
+    await clickContinue(); // 360kg
+
+    // Should NOT automatically finish (minutes goal is 10 minutes)
+    expect(logWorkout).not.toHaveBeenCalled();
+  });
+
+  test('does not finish workout when reaching high volume with rounds goal', async () => {
+    render(<RoundsGoalHighVolume />);
+
+    // Complete multiple sets to accumulate high volume
+    await clickContinue(); // 120kg, round 1
+    await clickContinue(); // 240kg, round 2
+    await clickContinue(); // 360kg, round 3
+
+    // Should NOT automatically finish (rounds goal is 10 rounds)
+    expect(logWorkout).not.toHaveBeenCalled();
   });
 });
 
