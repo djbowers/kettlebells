@@ -18,6 +18,13 @@ const {
   TwoHanded,
   WorkoutGoalRounds,
   WeightUnitsPounds,
+  SingleWeight24Kg,
+  DoubleWeights16And12Kg,
+  SingleWeight53Lb,
+  MixedUnits16KgAnd26_5Lb,
+  MixedUnits35LbAnd12Kg,
+  OneHanded16Kg,
+  RepLadder16Kg,
 } = composeStories(stories);
 
 describe('finishing a workout', () => {
@@ -85,6 +92,270 @@ describe('finishing a workout', () => {
       completedRounds: 1,
       completedRungs: 1,
       completedVolume: 34,
+    });
+  });
+});
+
+describe('volume calculation with kilogram weights', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('calculates volume correctly for single weight (24kg × 5 reps = 120kg)', async () => {
+    render(<SingleWeight24Kg />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: 120,
+    });
+  });
+
+  test('calculates volume correctly for double weights ((16kg + 12kg) × 5 reps = 140kg)', async () => {
+    render(<DoubleWeights16And12Kg />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 0,
+      completedRungs: 0,
+      completedVolume: 140,
+    });
+  });
+});
+
+describe('volume calculation with pound weights', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('converts pounds to kilograms before calculation (53lb × 5 reps ≈ 120.2kg)', async () => {
+    render(<SingleWeight53Lb />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 1,
+      completedRungs: 1,
+      completedVolume: expect.any(Number),
+    });
+
+    // Verify conversion accuracy: 53lb × 0.453592 × 5 reps ≈ 120.2kg (rounded to 120)
+    const actualVolume = logWorkout.mock.calls[0][0].completedVolume;
+    expect(actualVolume).toBeCloseTo(120, 0);
+  });
+});
+
+describe('volume calculation with mixed weight units', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('converts mixed units independently (16kg + 26.5lb) × 5 reps ≈ 140kg', async () => {
+    render(<MixedUnits16KgAnd26_5Lb />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 0,
+      completedRungs: 0,
+      completedVolume: expect.any(Number),
+    });
+
+    // Verify: (16 + 26.5 × 0.453592) × 5 ≈ 140kg
+    const actualVolume = logWorkout.mock.calls[0][0].completedVolume;
+    expect(actualVolume).toBeCloseTo(140, 0);
+  });
+
+  test('converts mixed units independently (35lb + 12kg) × 5 reps ≈ 139.3kg', async () => {
+    render(<MixedUnits35LbAnd12Kg />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 0,
+      completedRungs: 0,
+      completedVolume: expect.any(Number),
+    });
+
+    // Verify: (35 × 0.453592 + 12) × 5 ≈ 139kg (rounded)
+    const actualVolume = logWorkout.mock.calls[0][0].completedVolume;
+    expect(actualVolume).toBeCloseTo(139, 0);
+  });
+});
+
+describe('volume calculation with one-handed movements', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('uses only primary weight when weightTwoValue === 0 (16kg × 5 reps = 80kg)', async () => {
+    render(<OneHanded16Kg />);
+
+    // Complete first side
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 0,
+      completedRungs: 0,
+      completedVolume: 80,
+    });
+  });
+});
+
+describe('volume calculation with bodyweight movements', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('calculates volume as 0 when both weights are null', async () => {
+    render(<BodyweightMovements />);
+
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 5,
+      completedRounds: 0,
+      completedRungs: 0,
+      completedVolume: 0,
+    });
+  });
+});
+
+describe('volume accumulation across multiple rungs', () => {
+  vi.mock('~/api', () => ({
+    useLogWorkout: vi.fn(),
+  }));
+
+  const logWorkout = vi.fn();
+
+  beforeEach(() =>
+    useLogWorkout.mockReturnValue({
+      mutate: logWorkout,
+      data: null,
+      isLoading: false,
+    }),
+  );
+
+  afterEach(() => vi.clearAllMocks());
+
+  test('accumulates volume correctly across rep ladder [1, 2, 3] with 16kg (total = 96kg)', async () => {
+    render(<RepLadder16Kg />);
+
+    // Complete rung 1 (1 rep × 16kg = 16kg)
+    await clickContinue();
+
+    // Complete rung 2 (2 reps × 16kg = 32kg, total = 48kg)
+    await clickContinue();
+
+    // Complete rung 3 (3 reps × 16kg = 48kg, total = 96kg)
+    await clickContinue();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /finish workout/i }),
+    );
+
+    expect(logWorkout).toHaveBeenCalledWith({
+      completedReps: 6, // 1 + 2 + 3
+      completedRounds: 1,
+      completedRungs: 3,
+      completedVolume: 96, // 16 + 32 + 48
     });
   });
 });
